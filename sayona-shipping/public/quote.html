@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Quote | Sayona Shipping Services</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+        }
+
+        /* navbar */
+        .navbar {
+            background: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        /* container */
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+        }
+
+        /* form card */
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: #dc2626;
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #b91c1c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Sayona Shipping Services</a>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Request Shipping Quote</h2>
+
+            <form action="/submit-quote" method="POST">
+
+                <label>Customer Name</label>
+                <input type="text" name="name" required>
+
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+
+                <label>Origin City</label>
+                <input type="text" name="origin" required>
+
+                <label>Destination City</label>
+                <input type="text" name="destination" required>
+
+                <label>Cargo Type</label>
+                <select name="cargo" required>
+
+                    <option value="">Select cargo type</option>
+
+                    <option>Garments</option>
+                    <option>Textile Raw Materials</option>
+                    <option>Industrial Materials</option>
+                    <option>Consumer Goods</option>
+                    <option>General Cargo</option>
+                    <option>Automotive Parts</option>
+
+                </select>
+
+                <button type="submit">Submit Quote Request</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

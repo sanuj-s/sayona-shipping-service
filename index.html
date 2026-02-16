@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+    rel="stylesheet">
+
+  <title>Sayona Shipping Service | Global Logistics Partner</title>
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <div class="container">
+        <nav>
+          <a href="index.html" class="logo">
+            <img src="/src/assets/logo.png" alt="Sayona Shipping" style="height: 40px;">
+          </a>
+
+          <!-- Desktop Links -->
+          <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="index.html#industries">Industries</a>
+            <a href="index.html#tracking">Tracking</a>
+            <a href="company.html">Company</a>
+            <a href="contact.html">Contact</a>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="nav-actions">
+            <a href="index.html#tracking" class="link-track">Track Shipment</a>
+            <a href="http://localhost:3000/quote.html" class="btn btn-primary">Get Quote</a>
+            <button class="mobile-menu-btn">☰</button>
+          </div>
+
+          <!-- Mobile Menu Overlay -->
+          <div class="mobile-menu">
+            <a href="services.html">Services</a>
+            <a href="#industries">Industries</a>
+            <a href="#tracking">Tracking</a>
+            <a href="company.html">Company</a>
+            <a href="contact.html">Contact</a>
+            <a href="#tracking" class="btn btn-outline" style="width:100%; text-align:center;">Track Shipment</a>
+            <a href="http://localhost:3000/quote.html" class="btn btn-primary"
+              style="width:100%; text-align:center;">Get Quote</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero" class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h2>Global Export & Import Logistics Solutions</h2>
+            <p>We handle all types of cargo with reliable ocean freight, air freight, customs clearance, and warehousing
+              services
+              worldwide.</p>
+
+            <div class="tracking-box">
+              <form action="tracking.html" style="display: flex; gap: 10px; width: 100%;">
+                <input type="text" placeholder="Enter Shipment ID / Bill of Lading Number">
+                <button type="submit" class="btn btn-primary">Track</button>
+              </form>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; align-items: center;">
+              <span style="color: var(--text-secondary); font-size: 0.9rem;">Trusted by 500+ Businesses</span>
+              <span style="color: var(--primary); font-weight: bold;">★ 4.9/5 Rating</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="container" style="display: flex; justify-content: space-around; width: 100%;">
+          <div class="stat-item">
+            <span class="stat-number">10k+</span>
+            <span class="stat-label">Shipments</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">25+</span>
+            <span class="stat-label">Countries</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">30+</span>
+            <span class="stat-label">Years Experience</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">98%</span>
+            <span class="stat-label">On-Time</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="services">
+        <div class="container">
+          <h2 class="section-title">Our Services</h2>
+          <div class="grid-3">
+            <article class="card">
+              <h3>LCL Shipments</h3>
+              <p>Cost-efficient shipping for smaller cargo volumes. Consolidation with other shipments reduces cost
+                while
+                maintaining reliable delivery schedules.</p>
+            </article>
+
+            <article class="card">
+              <h3>FCL Shipments</h3>
+              <p>Dedicated container shipping for large cargo. Maximum security, faster transit, and reduced handling
+                risk.</p>
+            </article>
+
+            <article class="card">
+              <h3>Air Freight Export</h3>
+              <p>Fast international delivery for urgent, high-value, or time-sensitive shipments. Global airline network
+                coverage.</p>
+            </article>
+
+            <article class="card">
+              <h3>Customs Clearance</h3>
+              <p>Complete handling of export/import documentation, duty compliance, HS classification, and customs
+                processing.</p>
+            </article>
+
+            <article class="card">
+              <h3>Warehousing & Storage</h3>
+              <p>Secure cargo storage, inventory management, consolidation, and distribution support before export or
+                after
+                import.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" class="section-alt">
+        <div class="container">
+          <h2 class="section-title">How It Works</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-icon">📦</div>
+              <h3>01. Booking & Consultation</h3>
+              <p>Share shipment details, cargo type, pickup location, and destination. Our team plans the optimal
+                logistics route.</p>
+            </div>
+            <div class="step">
+              <div class="step-icon">📄</div>
+              <h3>02. Documentation & Processing</h3>
+              <p>We manage shipping documents, customs clearance, compliance, and coordinate transport and warehousing.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-icon">🚚</div>
+              <h3>03. Transport & Delivery</h3>
+              <p>Your shipment is transported securely with real-time tracking and delivered safely to its destination.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      </section>
+
+      <section id="tracking-demo" style="background: #f8fafc; padding: 80px 0;">
+        <div class="container">
+          <h2 class="section-title">Live Shipment Tracking</h2>
+          <p style="text-align: center; max-width: 600px; margin: 0 auto 3rem; color: var(--text-secondary);">
+            Stay updated with real-time status of your cargo from booking to final delivery.
+          </p>
+
+          <div class="timeline-container">
+            <div class="timeline-progress-bar">
+              <div class="timeline-progress-fill" style="width: 60%;"></div>
+            </div>
+
+            <div class="timeline-steps">
+              <div class="timeline-step completed">
+                <div class="step-circle">✓</div>
+                <div class="step-content">
+                  <span class="step-title">Booked</span>
+                  <span class="step-date">Oct 12, 10:00 AM</span>
+                </div>
+              </div>
+
+              <div class="timeline-step completed">
+                <div class="step-circle">✓</div>
+                <div class="step-content">
+                  <span class="step-title">Picked Up</span>
+                  <span class="step-date">Oct 13, 02:30 PM</span>
+                </div>
+              </div>
+
+              <div class="timeline-step completed">
+                <div class="step-circle">✓</div>
+                <div class="step-content">
+                  <span class="step-title">In Transit</span>
+                  <span class="step-date">Oct 15, 08:00 AM</span>
+                </div>
+              </div>
+
+              <div class="timeline-step active">
+                <div class="step-circle">●</div>
+                <div class="step-content">
+                  <span class="step-title">Arrived at Port</span>
+                  <span class="step-date">Oct 20, 06:45 AM</span>
+                </div>
+              </div>
+
+              <div class="timeline-step">
+                <div class="step-circle"></div>
+                <div class="step-content">
+                  <span class="step-title">Out for Delivery</span>
+                </div>
+              </div>
+
+              <div class="timeline-step">
+                <div class="step-circle"></div>
+                <div class="step-content">
+                  <span class="step-title">Delivered</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="industries">
+        <div class="container">
+          <h2 class="section-title">Industries Served</h2>
+          <div class="grid-3">
+            <article class="card">
+              <h3>General Cargo</h3>
+              <p>Machinery, equipment, electronics, and commercial goods.</p>
+            </article>
+            <article class="card">
+              <h3>Industrial Materials</h3>
+              <p>Steel, chemicals, construction materials, and raw materials.</p>
+            </article>
+            <article class="card">
+              <h3>Consumer Goods</h3>
+              <p>Retail products, packaged goods, and commercial shipments.</p>
+            </article>
+            <article class="card">
+              <h3>Automotive & Spare Parts</h3>
+              <p>Vehicle components, machinery parts, and heavy equipment.</p>
+            </article>
+            <article class="card">
+              <h3>Medical & Pharmaceutical</h3>
+              <p>Medical devices, healthcare equipment, regulated cargo.</p>
+            </article>
+            <article class="card">
+              <h3>Garments & Textile Raw Materials</h3>
+              <p>Finished garments, fabrics, cotton, yarn, polyester, silk, and textile raw materials.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="company" style="padding: 80px 0; background: white;">
+        <div class="container">
+          <h2 class="section-title">About Us</h2>
+          <p
+            style="font-size: 1.2rem; color: var(--text-secondary); max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.6;">
+            Founded in 2020 and backed by over 30 years of industry experience, the company delivers reliable transport,
+            logistics, and supply chain solutions.
+          </p>
+        </div>
+      </section>
+
+      <section id="quote" class="section-alt">
+        <div class="container" style="max-width: 600px;">
+          <h2 class="section-title">Get a Free Quote</h2>
+          <form id="quote-form">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Product Type">
+            </div>
+            <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <input type="text" class="form-control" placeholder="Origin Country">
+              <input type="text" class="form-control" placeholder="Destination">
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Email Address">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Request Quote</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div>
+            <a href="index.html" style="text-decoration: none;">
+              <img src="/src/assets/logo.png" alt="Sayona Shipping" style="height: 50px; margin-bottom: 1rem;">
+            </a>
+            <p>Global logistics partner providing export and import services including ocean freight, air freight,
+              customs
+              clearance, and warehousing for all types of cargo.</p>
+          </div>
+          <div>
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">LCL Shipping</a></li>
+              <li><a href="services.html">FCL Shipping</a></li>
+              <li><a href="services.html">Air Freight</a></li>
+              <li><a href="services.html">Customs Clearance</a></li>
+              <li><a href="services.html">Warehousing</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#process">Our Process</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
+            <p><a href="mailto:quotes@sayonashipping.com">quotes@sayonashipping.com</a></p>
+            <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
+            <p>Sathish Kumar</p>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024 Sayona Shipping Service. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

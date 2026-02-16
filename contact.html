@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <title>Contact Us/Quote | Sayona Shipping Service</title>
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="container">
+                <nav>
+                    <a href="index.html" class="logo">
+                        <img src="/src/assets/logo.png" alt="Sayona Shipping" style="height: 40px;">
+                    </a>
+
+                    <!-- Desktop Links -->
+                    <div class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="services.html">Services</a>
+                        <a href="index.html#industries">Industries</a>
+                        <a href="index.html#tracking">Tracking</a>
+                        <a href="company.html">Company</a>
+                        <a href="contact.html" class="active" style="color: var(--primary)">Contact</a>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <a href="index.html#tracking" class="link-track">Track Shipment</a>
+                        <a href="http://localhost:3000/quote.html" class="btn btn-primary">Get Quote</a>
+                        <button class="mobile-menu-btn">☰</button>
+                    </div>
+
+                    <!-- Mobile Menu Overlay -->
+                    <div class="mobile-menu">
+                        <a href="services.html">Services</a>
+                        <a href="index.html#industries">Industries</a>
+                        <a href="index.html#tracking">Tracking</a>
+                        <a href="company.html">Company</a>
+                        <a href="contact.html">Contact</a>
+                        <a href="index.html#tracking" class="btn btn-outline"
+                            style="width:100%; text-align:center;">Track Shipment</a>
+                        <a href="http://localhost:3000/quote.html" class="btn btn-primary"
+                            style="width:100%; text-align:center;">Get
+                            Quote</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main style="padding-top: 80px;">
+            <section class="page-header section-alt" style="padding: 4rem 0; text-align: center;">
+                <div class="container">
+                    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Get a Quote</h1>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Tell
+                        us about your shipment and we will provide a competitive rate within 24 hours.</p>
+                </div>
+            </section>
+
+            <section id="contact-form" class="section-alt">
+                <div class="container" style="max-width: 800px;">
+                    <form class="card">
+
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control" placeholder="Your Name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Company</label>
+                                <input type="text" class="form-control" placeholder="Company Name">
+                            </div>
+                        </div>
+
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="email@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-control" placeholder="+1 (555) 000-0000">
+                            </div>
+                        </div>
+
+                        <h3 class="highlight" style="margin: 2rem 0 1rem; font-size: 1.25rem;">Shipment
+                            Details</h3>
+
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Origin Country</label>
+                                <input type="text" class="form-control" placeholder="e.g. India">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Destination Country</label>
+                                <input type="text" class="form-control" placeholder="e.g. USA">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Cargo Type</label>
+                            <select class="form-control" style="appearance: none;">
+                                <option>General Cargo</option>
+                                <option>Industrial Materials</option>
+                                <option>Consumer Goods</option>
+                                <option>Automotive Parts</option>
+                                <option>Medical/Pharmaceutical</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Additional Details</label>
+                            <textarea class="form-control"
+                                placeholder="Volume, weight, special handling requirements..."></textarea>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary" style="min-width: 200px;">Submit
+                                Request</button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+            <section id="contact-info" style="text-align: center;">
+                <div class="container">
+                    <h2 class="section-title">Reach Us</h2>
+                    <div class="grid-3">
+                        <div class="card" style="text-align: center;">
+                            <h4 class="highlight">Email</h4>
+                            <p>quotes@sayonashipping.com</p>
+                            <p>support@sayonashipping.com</p>
+                        </div>
+                        <div class="card" style="text-align: center;">
+                            <h4 class="highlight">Phone</h4>
+                            <p>+91 70107 64306</p>
+                            <p style="font-size: 0.9rem; color: var(--color-text-dim); margin-top: 0.5rem;">Sathish
+                                Kumar</p>
+                            <p>Mon-Sat, 9am - 7pm IST</p>
+                        </div>
+                        <div class="card" style="text-align: center;">
+                            <h4 class="highlight">Headquarters</h4>
+                            <p>123 Logistics Way</p>
+                            <p>Tirupur, Tamil Nadu</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div>
+                        <a href="index.html" style="text-decoration: none;">
+                            <img src="/src/assets/logo.png" alt="Sayona Shipping"
+                                style="height: 50px; margin-bottom: 1rem;">
+                        </a>
+                        <p>Global logistics partner providing export and import services including ocean freight, air
+                            freight, customs clearance, and warehousing for all types of cargo.</p>
+                    </div>
+                    <div>
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="services.html">LCL Shipping</a></li>
+                            <li><a href="services.html">FCL Shipping</a></li>
+                            <li><a href="services.html">Air Freight</a></li>
+                            <li><a href="services.html">Customs Clearance</a></li>
+                            <li><a href="services.html">Warehousing</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="index.html#process">Our Process</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Contact</h4>
+                        <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
+                        <p><a href="mailto:quotes@sayonashipping.com">quotes@sayonashipping.com</a></p>
+                        <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
+                        <p>Sathish Kumar</p>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2024 Sayona Shipping Service. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
