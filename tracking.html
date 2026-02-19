@@ -2,289 +2,139 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shipment Tracking | Sayona Shipping</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7fb;
-            color: #1a1a1a;
-        }
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
 
-        /* NAVBAR */
-        .navbar {
-            background: #ffffff;
-            padding: 15px 40px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
+    <link rel="stylesheet" href="css/style.css">
 
-        .navbar a {
-            text-decoration: none;
-            color: #1a1a1a;
-            font-weight: 600;
-            margin-right: 20px;
-        }
-
-        /* MAIN CONTAINER */
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        /* HEADER CARD */
-        .tracking-header {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 25px;
-        }
-
-        .tracking-header h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .status {
-            margin-top: 10px;
-            font-weight: bold;
-            color: #16a34a;
-        }
-
-        /* INFO GRID */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .info-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .info-card label {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .info-card p {
-            margin: 5px 0 0;
-            font-weight: bold;
-        }
-
-        /* TIMELINE */
-        .timeline {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .timeline h3 {
-            margin-top: 0;
-        }
-
-        .timeline-item {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .timeline-dot {
-            width: 14px;
-            height: 14px;
-            background: #dc2626;
-            border-radius: 50%;
-            margin-right: 15px;
-            margin-top: 5px;
-        }
-
-        .timeline-content {
-            flex: 1;
-        }
-
-        .timeline-content strong {
-            display: block;
-        }
-
-        .timeline-content span {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .completed .timeline-dot {
-            background: #16a34a;
-        }
-
-        /* RESPONSIVE */
-        @media(max-width:768px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>Track Shipment | Sayona Shipping Service</title>
 </head>
 
 <body>
+    <div id="app">
+        <header>
+            <div class="container">
+                <nav>
+                    <a href="index.html" class="logo">
+                        <img src="/src/assets/logo.png" alt="Sayona Shipping" style="height: 40px;">
+                    </a>
 
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="tracking.html">Tracking</a>
-    </div>
+                    <!-- Desktop Links -->
+                    <div class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="services.html">Services</a>
+                        <a href="index.html#industries">Industries</a>
+                        <a href="tracking.html" class="active">Tracking</a>
+                        <a href="company.html">Company</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
 
-    <div class="container">
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <a href="tracking.html" class="link-track">Track Shipment</a>
+                        <a href="contact.html#quote" class="btn btn-primary">Get Quote</a>
+                        <button id="menuBtn" class="mobile-menu-btn">☰</button>
+                    </div>
 
-        <!-- HEADER -->
-        <div class="tracking-header">
-            <h2>Tracking ID: SY123456789</h2>
-            <div class="status">Status: In Transit</div>
-        </div>
-
-        <!-- INFO GRID -->
-        <div class="info-grid">
-
-            <div class="info-card">
-                <label>Current Location</label>
-                <p>Mumbai, India</p>
+                    <!-- Mobile Menu Overlay -->
+                    <div id="nav" class="mobile-menu">
+                        <a href="services.html">Services</a>
+                        <a href="#industries">Industries</a>
+                        <a href="tracking.html">Tracking</a>
+                        <a href="company.html">Company</a>
+                        <a href="contact.html">Contact</a>
+                        <a href="tracking.html" class="btn btn-outline" style="width:100%; text-align:center;">Track
+                            Shipment</a>
+                        <a href="contact.html#quote" class="btn btn-primary" style="width:100%; text-align:center;">Get
+                            Quote</a>
+                    </div>
+                </nav>
             </div>
+        </header>
 
-            <div class="info-card">
-                <label>Destination</label>
-                <p>Chennai, India</p>
-            </div>
-
-            <div class="info-card">
-                <label>Estimated Delivery</label>
-                <p>20 Feb 2026</p>
-            </div>
-
-        </div>
-
-        <!-- TIMELINE -->
-        <div class="timeline">
-
-            <h3>Shipment Timeline</h3>
-
-            <div class="timeline-item completed">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <strong>Shipment Picked Up</strong>
-                    <span>15 Feb 2026 — Bangalore, India</span>
-                </div>
-            </div>
-
-            <div class="timeline-item completed">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <strong>Arrived at Sorting Facility</strong>
-                    <span>16 Feb 2026 — Mumbai, India</span>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <strong>Out for Delivery</strong>
-                    <span>Expected: 20 Feb 2026 — Chennai, India</span>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <strong>Delivered</strong>
-                    <span>Pending</span>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Result Container -->
-    <div id="trackingResult" class="container" style="display: none; padding-bottom: 4rem;">
-        <div class="tracking-box"
-            style="width: 100%; max-width: 800px; margin: 0 auto; flex-direction: column; align-items: flex-start;">
-            <form onsubmit="trackShipment(event)" style="display: flex; gap: 10px; width: 100%; margin-bottom: 1rem;">
-                <input type="text" id="trackingInput" placeholder="Enter Shipment ID / Bill of Lading Number"
-                    value="SY123456789"
-                    style="flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                <button type="submit" class="btn btn-primary"
-                    style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Track</button>
-            </form>
-            <h3 style="margin-bottom: 1rem;">Shipment Status</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; width: 100%;">
-                <div>
-                    <p style="color: var(--text-secondary);">Tracking ID</p>
-                    <p style="font-weight: bold; font-size: 1.1rem;" id="resTrackingId">Loading...</p>
-                </div>
-                <div>
-                    <p style="color: var(--text-secondary);">Current Status</p>
-                    <p style="color: var(--primary); font-weight: bold; font-size: 1.1rem;" id="resStatus">Loading...
+        <main>
+            <section class="page-header section-alt" style="padding: 4rem 0; text-align: center;">
+                <div class="container">
+                    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Track Your Shipment</h1>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+                        Real-time status updates for your cargo worldwide.
                     </p>
                 </div>
-                <div>
-                    <p style="color: var(--text-secondary);">Location</p>
-                    <p style="font-weight: bold;" id="resLocation">Loading...</p>
+            </section>
+
+            <section class="tracking-section" style="padding: 4rem 0; min-height: 60vh;">
+                <div class="container">
+                    <!-- Search Box -->
+                    <div class="tracking-box"
+                        style="margin: 0 auto 3rem auto; max-width: 600px; width: 100%; display: flex; gap: 10px;">
+                        <input type="text" id="trackingInput" class="form-control"
+                            placeholder="Enter Tracking ID (e.g., SYSN123456)" required>
+                        <button id="trackBtn" class="btn btn-primary">Track</button>
+                    </div>
+
+                    <!-- Results -->
+                    <div id="resultBox" style="max-width: 600px; margin: 0 auto;"></div>
                 </div>
-                <div>
-                    <p style="color: var(--text-secondary);">Estimated Delivery</p>
-                    <p style="font-weight: bold;" id="resDelivery">Loading...</p>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div>
+                        <a href="index.html" style="text-decoration: none;">
+                            <img src="/src/assets/logo.png" alt="Sayona Shipping"
+                                style="height: 50px; margin-bottom: 1rem;">
+                        </a>
+                        <p>Global logistics partner providing export and import services including ocean freight, air
+                            freight,
+                            customs
+                            clearance, and warehousing for all types of cargo.</p>
+                    </div>
+                    <div>
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="services.html">LCL Shipping</a></li>
+                            <li><a href="services.html">FCL Shipping</a></li>
+                            <li><a href="services.html">Air Freight</a></li>
+                            <li><a href="services.html">Customs Clearance</a></li>
+                            <li><a href="services.html">Warehousing</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#process">Our Process</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Contact</h4>
+                        <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
+                        <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
+                        <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
+                        <p>Sathish Kumar</p>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
                 </div>
             </div>
-            <div style="margin-top: 2rem; width: 100%; padding-top: 2rem; border-top: 1px solid var(--border);">
-                <p style="color: var(--text-secondary);">Destination: <span id="resDestination"
-                        style="color: var(--text-main); font-weight: 600;">Loading...</span></p>
-            </div>
-        </div>
+        </footer>
     </div>
-
-    <script>
-        async function trackShipment(event) {
-            event.preventDefault();
-            const trackingInput = document.getElementById('trackingInput');
-            const trackingId = trackingInput.value.trim();
-
-            if (!trackingId) {
-                alert("Please enter a tracking ID");
-                return;
-            }
-
-            const resultContainer = document.getElementById('trackingResult');
-
-            try {
-                const response = await fetch(`http://localhost:3000/track/${trackingId}`);
-                const data = await response.json();
-
-                if (data.error) {
-                    alert(data.error);
-                    resultContainer.style.display = 'none';
-                } else {
-                    document.getElementById('resTrackingId').textContent = data.tracking_id;
-                    document.getElementById('resStatus').textContent = data.status;
-                    document.getElementById('resLocation').textContent = data.current_location;
-                    document.getElementById('resDelivery').textContent = data.estimated_delivery;
-                    document.getElementById('resDestination').textContent = data.destination;
-
-                    resultContainer.style.display = 'block';
-                    // scroll to result
-                    resultContainer.scrollIntoView({ behavior: 'smooth' });
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert("Failed to fetch tracking details. Ensure the backend server is running.");
-            }
-        }
-    </script>
-
+    <script src="js/main.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/tracking.js"></script>
 </body>
 
 </html>

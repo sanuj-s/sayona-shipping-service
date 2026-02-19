@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/src/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <title>About Us | Sayona Shipping Service</title>
 </head>
@@ -39,11 +39,11 @@
                     <div class="nav-actions">
                         <a href="index.html#tracking" class="link-track">Track Shipment</a>
                         <a href="index.html#quote" class="btn btn-primary">Get Quote</a>
-                        <button class="mobile-menu-btn">☰</button>
+                        <button id="menuBtn" class="mobile-menu-btn">☰</button>
                     </div>
 
                     <!-- Mobile Menu Overlay -->
-                    <div class="mobile-menu">
+                    <div id="nav" class="mobile-menu">
                         <a href="services.html">Services</a>
                         <a href="index.html#industries">Industries</a>
                         <a href="index.html#tracking">Tracking</a>
@@ -59,6 +59,7 @@
         </header>
 
         <main style="padding-top: 80px;">
+
             <!-- Page Header -->
             <section class="page-header section-alt" style="padding: 4rem 0; text-align: center; background: #f8fafc;">
                 <div class="container">
@@ -250,18 +251,18 @@
                     <div>
                         <h4>Contact</h4>
                         <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
-                        <p><a href="mailto:quotes@sayonashipping.com">quotes@sayonashipping.com</a></p>
+                        <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
                         <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
                         <p>Sathish Kumar</p>
                     </div>
                 </div>
                 <div class="copyright">
-                    <p>&copy; 2024 Sayona Shipping Service. All rights reserved.</p>
+                    <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
                 </div>
             </div>
         </footer>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

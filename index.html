@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/src/assets/logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Google Fonts -->
@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
     rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
 
   <title>Sayona Shipping Service | Global Logistics Partner</title>
 </head>
@@ -26,33 +28,33 @@
 
           <!-- Desktop Links -->
           <div class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="index.html" class="active">Home</a>
             <a href="services.html">Services</a>
             <a href="index.html#industries">Industries</a>
-            <a href="index.html#tracking">Tracking</a>
+            <a href="tracking.html">Tracking</a>
             <a href="company.html">Company</a>
             <a href="contact.html">Contact</a>
           </div>
 
           <!-- Action Buttons -->
           <div class="nav-actions">
-            <a href="index.html#tracking" class="link-track">Track Shipment</a>
-            <a href="http://localhost:3000/quote.html" class="btn btn-primary">Get Quote</a>
-            <button class="mobile-menu-btn">☰</button>
+            <a href="tracking.html" class="link-track">Track Shipment</a>
+            <a href="contact.html#quote" class="btn btn-primary">Get Quote</a>
+            <button id="menuBtn" class="mobile-menu-btn">☰</button>
           </div>
 
           <!-- Mobile Menu Overlay -->
-          <div class="mobile-menu">
+          <div id="nav" class="mobile-menu">
             <a href="services.html">Services</a>
             <a href="#industries">Industries</a>
-            <a href="#tracking">Tracking</a>
+            <a href="tracking.html">Tracking</a>
             <a href="company.html">Company</a>
             <a href="contact.html">Contact</a>
-            <a href="#tracking" class="btn btn-outline" style="width:100%; text-align:center;">Track Shipment</a>
-            <a href="http://localhost:3000/quote.html" class="btn btn-primary"
-              style="width:100%; text-align:center;">Get Quote</a>
+            <a href="tracking.html" class="btn btn-outline" style="width:100%; text-align:center;">Track Shipment</a>
+            <a href="contact.html#quote" class="btn btn-primary" style="width:100%; text-align:center;">Get Quote</a>
           </div>
         </nav>
+
       </div>
     </header>
 
@@ -66,8 +68,8 @@
               worldwide.</p>
 
             <div class="tracking-box">
-              <form action="tracking.html" style="display: flex; gap: 10px; width: 100%;">
-                <input type="text" placeholder="Enter Shipment ID / Bill of Lading Number">
+              <form action="tracking.html" method="GET" style="display: flex; gap: 10px; width: 100%;">
+                <input type="text" name="id" placeholder="Enter Shipment ID / Bill of Lading Number">
                 <button type="submit" class="btn btn-primary">Track</button>
               </form>
             </div>
@@ -277,17 +279,19 @@
       <section id="quote" class="section-alt">
         <div class="container" style="max-width: 600px;">
           <h2 class="section-title">Get a Free Quote</h2>
-          <form id="quote-form">
+          <form id="quote-form" action="contact.html">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Product Type">
+              <input type="text" name="cargo" class="form-control" placeholder="Product Type" required>
             </div>
             <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-              <input type="text" class="form-control" placeholder="Origin Country">
-              <input type="text" class="form-control" placeholder="Destination">
+              <input type="text" name="origin" class="form-control" placeholder="Origin Country" required>
+              <input type="text" name="destination" class="form-control" placeholder="Destination" required>
             </div>
             <div class="form-group">
-              <input type="email" class="form-control" placeholder="Email Address">
+              <input type="email" name="email" class="form-control" placeholder="Email Address" required>
             </div>
+            <!-- Hidden name field since it's required by backend but not in design, or add it? Backend expects name. -->
+            <input type="hidden" name="name" value="Guest User">
             <button type="submit" class="btn btn-primary" style="width: 100%;">Request Quote</button>
           </form>
         </div>
@@ -328,18 +332,18 @@
           <div>
             <h4>Contact</h4>
             <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
-            <p><a href="mailto:quotes@sayonashipping.com">quotes@sayonashipping.com</a></p>
+            <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
             <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
             <p>Sathish Kumar</p>
           </div>
         </div>
         <div class="copyright">
-          <p>&copy; 2024 Sayona Shipping Service. All rights reserved.</p>
+          <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
         </div>
       </div>
     </footer>
   </div>
-  <script type="module" src="/src/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>

@@ -25,3 +25,40 @@ if (mobileBtn && mobileMenu) {
     mobileMenu.classList.toggle('active');
   });
 }
+
+// Quote Form Submission
+const quoteForm = document.getElementById('quote-form');
+if (quoteForm) {
+  quoteForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(quoteForm);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('http://localhost:3000/submit-quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert('Quote request submitted successfully!');
+        quoteForm.reset();
+      } else {
+        alert('Failed to submit quote. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Network error. Please ensure backend server is running.');
+    }
+  });
+}
+
+// Dynamic Year for Footer
+const yearSpan = document.getElementById('year');
+if (yearSpan) {
+  yearSpan.textContent = new Date().getFullYear();
+}

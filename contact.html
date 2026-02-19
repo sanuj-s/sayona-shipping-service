@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Google Fonts -->
@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
         rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
 
     <title>Contact Us/Quote | Sayona Shipping Service</title>
 </head>
@@ -29,36 +31,35 @@
                         <a href="index.html">Home</a>
                         <a href="services.html">Services</a>
                         <a href="index.html#industries">Industries</a>
-                        <a href="index.html#tracking">Tracking</a>
+                        <a href="tracking.html">Tracking</a>
                         <a href="company.html">Company</a>
-                        <a href="contact.html" class="active" style="color: var(--primary)">Contact</a>
+                        <a href="contact.html" class="active">Contact</a>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="nav-actions">
-                        <a href="index.html#tracking" class="link-track">Track Shipment</a>
-                        <a href="http://localhost:3000/quote.html" class="btn btn-primary">Get Quote</a>
-                        <button class="mobile-menu-btn">☰</button>
+                        <a href="tracking.html" class="link-track">Track Shipment</a>
+                        <a href="contact.html#quote" class="btn btn-primary">Get Quote</a>
+                        <button id="menuBtn" class="mobile-menu-btn">☰</button>
                     </div>
 
                     <!-- Mobile Menu Overlay -->
-                    <div class="mobile-menu">
+                    <div id="nav" class="mobile-menu">
                         <a href="services.html">Services</a>
-                        <a href="index.html#industries">Industries</a>
-                        <a href="index.html#tracking">Tracking</a>
+                        <a href="#industries">Industries</a>
+                        <a href="tracking.html">Tracking</a>
                         <a href="company.html">Company</a>
                         <a href="contact.html">Contact</a>
-                        <a href="index.html#tracking" class="btn btn-outline"
-                            style="width:100%; text-align:center;">Track Shipment</a>
-                        <a href="http://localhost:3000/quote.html" class="btn btn-primary"
-                            style="width:100%; text-align:center;">Get
+                        <a href="tracking.html" class="btn btn-outline" style="width:100%; text-align:center;">Track
+                            Shipment</a>
+                        <a href="contact.html#quote" class="btn btn-primary" style="width:100%; text-align:center;">Get
                             Quote</a>
                     </div>
                 </nav>
             </div>
         </header>
 
-        <main style="padding-top: 80px;">
+        <main>
             <section class="page-header section-alt" style="padding: 4rem 0; text-align: center;">
                 <div class="container">
                     <h1 style="font-size: 3rem; margin-bottom: 1rem;">Get a Quote</h1>
@@ -67,15 +68,15 @@
                 </div>
             </section>
 
-            <section id="contact-form" class="section-alt">
+            <section id="contact-form" class="section-alt" style="padding-top: 0;">
                 <div class="container" style="max-width: 800px;">
-                    <form class="card">
+                    <form id="contactForm" class="card">
 
                         <div class="grid-2"
                             style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                             <div class="form-group">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control" placeholder="Your Name">
+                                <input id="name" type="text" class="form-control" placeholder="Your Name" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Company</label>
@@ -87,7 +88,8 @@
                             style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="email@company.com">
+                                <input id="email" type="email" class="form-control" placeholder="email@company.com"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phone</label>
@@ -95,8 +97,7 @@
                             </div>
                         </div>
 
-                        <h3 class="highlight" style="margin: 2rem 0 1rem; font-size: 1.25rem;">Shipment
-                            Details</h3>
+                        <h3 class="highlight" style="margin: 2rem 0 1rem; font-size: 1.25rem;">Shipment Details</h3>
 
                         <div class="grid-2"
                             style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
@@ -123,17 +124,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Additional Details</label>
-                            <textarea class="form-control"
+                            <label class="form-label">Message / Details</label>
+                            <textarea id="message" class="form-control"
                                 placeholder="Volume, weight, special handling requirements..."></textarea>
                         </div>
 
                         <div style="text-align: center; margin-top: 2rem;">
-                            <button type="submit" class="btn btn-primary" style="min-width: 200px;">Submit
-                                Request</button>
+                            <button type="submit" class="btn btn-primary" style="min-width: 200px;">Send</button>
                         </div>
 
                     </form>
+                    <div id="formMessage"></div>
                 </div>
             </section>
 
@@ -143,8 +144,8 @@
                     <div class="grid-3">
                         <div class="card" style="text-align: center;">
                             <h4 class="highlight">Email</h4>
-                            <p>quotes@sayonashipping.com</p>
-                            <p>support@sayonashipping.com</p>
+                            <p>sayonaexim@gmail.com</p>
+                            <p>sales@sayonashipping.com</p>
                         </div>
                         <div class="card" style="text-align: center;">
                             <h4 class="highlight">Phone</h4>
@@ -155,7 +156,7 @@
                         </div>
                         <div class="card" style="text-align: center;">
                             <h4 class="highlight">Headquarters</h4>
-                            <p>123 Logistics Way</p>
+                            <p>15, 60 Feet Rd, Kumarananthapuram,</p>
                             <p>Tirupur, Tamil Nadu</p>
                         </div>
                     </div>
@@ -173,7 +174,9 @@
                                 style="height: 50px; margin-bottom: 1rem;">
                         </a>
                         <p>Global logistics partner providing export and import services including ocean freight, air
-                            freight, customs clearance, and warehousing for all types of cargo.</p>
+                            freight,
+                            customs
+                            clearance, and warehousing for all types of cargo.</p>
                     </div>
                     <div>
                         <h4>Services</h4>
@@ -189,7 +192,7 @@
                         <h4>Company</h4>
                         <ul>
                             <li><a href="#">About Us</a></li>
-                            <li><a href="index.html#process">Our Process</a></li>
+                            <li><a href="#process">Our Process</a></li>
                             <li><a href="#">Careers</a></li>
                             <li><a href="#">Privacy Policy</a></li>
                             <li><a href="#">Terms of Service</a></li>
@@ -198,18 +201,19 @@
                     <div>
                         <h4>Contact</h4>
                         <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
-                        <p><a href="mailto:quotes@sayonashipping.com">quotes@sayonashipping.com</a></p>
+                        <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
                         <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
                         <p>Sathish Kumar</p>
                     </div>
                 </div>
                 <div class="copyright">
-                    <p>&copy; 2024 Sayona Shipping Service. All rights reserved.</p>
+                    <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
                 </div>
             </div>
         </footer>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/contact.js"></script>
 </body>
 
 </html>
