@@ -12,26 +12,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
     <title>Track Shipment | Sayona Shipping Service</title>
 </head>
 
 <body>
+    <div id="loader">
+      <div class="spinner"></div>
+    </div>
+    <div id="progress-bar"></div>
+
+    </div>
     <div id="app">
         <header>
             <div class="container">
                 <nav>
                     <a href="index.html" class="logo">
-                        <img src="/src/assets/logo.png" alt="Sayona Shipping" style="height: 40px;">
+                        <img src="/src/assets/logo.png" alt="Sayona Shipping" class="logo-img">
                     </a>
 
                     <!-- Desktop Links -->
                     <div class="nav-links">
                         <a href="index.html">Home</a>
                         <a href="services.html">Services</a>
-                        <a href="index.html#industries">Industries</a>
-                        <a href="tracking.html" class="active">Tracking</a>
+                        <a href="index.html#industries" class="nav-link">Industries</a>
+                        <a href="tracking.html" class="active color-primary">Tracking</a>
                         <a href="company.html">Company</a>
                         <a href="contact.html">Contact</a>
                     </div>
@@ -46,41 +55,38 @@
                     <!-- Mobile Menu Overlay -->
                     <nav id="navMenu">
                         <a href="services.html">Services</a>
-                        <a href="#industries">Industries</a>
+                        <a href="index.html#industries" class="nav-link">Industries</a>
                         <a href="tracking.html">Tracking</a>
                         <a href="company.html">Company</a>
                         <a href="contact.html">Contact</a>
-                        <a href="tracking.html" class="btn btn-outline"
-                            style="width:100%; text-align:center; margin-top:10px;">Track Shipment</a>
-                        <a href="contact.html#quote" class="btn btn-primary"
-                            style="width:100%; text-align:center; margin-top:10px;">Get Quote</a>
+                        <a href="tracking.html" class="btn btn-outline mobile-btn">Track Shipment</a>
+                        <a href="contact.html#quote" class="btn btn-primary mobile-btn">Get Quote</a>
                     </nav>
                 </nav>
             </div>
         </header>
 
-        <main>
-            <section class="page-header section-alt" style="padding: 4rem 0; text-align: center;">
-                <div class="container">
-                    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Track Your Shipment</h1>
-                    <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+        <main class="pt-3">
+            <section class="tracking-hero section-alt">
+                <div class="container text-center">
+                    <h1>Track Your Shipment</h1>
+                    <p>
                         Real-time status updates for your cargo worldwide.
                     </p>
                 </div>
             </section>
 
-            <section class="tracking-section" style="padding: 4rem 0; min-height: 60vh;">
-                <div class="container">
+            <section class="tracking-section">
+                <div class="container container-sm">
                     <!-- Search Box -->
-                    <div class="tracking-box tracking-container"
-                        style="margin: 0 auto 3rem auto; width: 100%; display: flex; gap: 10px;">
+                    <div class="tracking-search-box tracking-container">
                         <input type="text" id="trackingInput" class="form-control"
                             placeholder="Enter Tracking ID (e.g., SYSN123456)" required>
                         <button id="trackBtn" class="btn btn-primary">Track</button>
                     </div>
 
                     <!-- Loading Spinner -->
-                    <div id="loading" class="spinner" style="display:none; margin-bottom: 20px;"></div>
+                    <div id="loading" class="spinner tracking-loading" style="display:none;"></div>
 
                     <!-- Results -->
                     <div id="resultBox" class="tracking-container"></div>
@@ -88,21 +94,18 @@
             </section>
         </main>
 
-        <footer>
+        <footer class="footer">
             <div class="container">
-                <div class="footer-content">
+                <div class="grid">
                     <div>
-                        <a href="index.html" style="text-decoration: none;">
-                            <img src="/src/assets/logo.png" alt="Sayona Shipping"
-                                style="height: 50px; margin-bottom: 1rem;">
+                        <a href="index.html" class="logo">
+                            <img src="/src/assets/logo.png" alt="Sayona Shipping" class="logo-img">
                         </a>
                         <p>Global logistics partner providing export and import services including ocean freight, air
-                            freight,
-                            customs
-                            clearance, and warehousing for all types of cargo.</p>
+                            freight, customs clearance, and warehousing for all types of cargo.</p>
                     </div>
                     <div>
-                        <h4>Services</h4>
+                        <h3>Services</h3>
                         <ul>
                             <li><a href="services.html">LCL Shipping</a></li>
                             <li><a href="services.html">FCL Shipping</a></li>
@@ -112,33 +115,43 @@
                         </ul>
                     </div>
                     <div>
-                        <h4>Company</h4>
+                        <h3>Company</h3>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#process">Our Process</a></li>
+                            <li><a href="company.html">About Us</a></li>
+                            <li><a href="index.html#process">Our Process</a></li>
                             <li><a href="#">Careers</a></li>
                             <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4>Contact</h4>
+                        <h3>Contact</h3>
                         <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
                         <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
                         <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
-                        <p>Sathish Kumar</p>
+                        <div class="social-links mt-1">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
                 </div>
-                <div class="copyright">
+                <div class="copyright text-center mt-3 pt-3 border-top">
                     <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
                 </div>
             </div>
         </footer>
     </div>
-    <script src="js/ui.js"></script>
+    <!-- Scroll Progress Bar -->
+
+<script src="https://unpkg.com/scrollreveal"></script>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/scrollreveal.js"></script>
+    <script src="js/counter.js"></script>
+    <script src="js/progressbar.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/tracking.js"></script>
 </body>
 
 </html>

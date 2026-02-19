@@ -11,27 +11,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
     <title>About Us | Sayona Shipping Service</title>
 </head>
 
 <body>
+    <div id="loader">
+      <div class="spinner"></div>
+    </div>
+    <div id="progress-bar"></div>
+
+    </div>
     <div id="app">
         <header>
             <div class="container">
                 <nav>
                     <a href="index.html" class="logo">
-                        <img src="/src/assets/logo.png" alt="Sayona Shipping" style="height: 40px;">
+                        <img src="/src/assets/logo.png" alt="Sayona Shipping" class="logo-img">
                     </a>
 
                     <!-- Desktop Links -->
                     <div class="nav-links">
                         <a href="index.html">Home</a>
                         <a href="services.html">Services</a>
-                        <a href="index.html#industries">Industries</a>
+                        <a href="index.html#industries" class="nav-link">Industries</a>
                         <a href="index.html#tracking">Tracking</a>
-                        <a href="company.html" class="active" style="color: var(--primary)">Company</a>
+                        <a href="company.html" class="active color-primary">Company</a>
                         <a href="contact.html">Contact</a>
                     </div>
 
@@ -45,40 +54,37 @@
                     <!-- Mobile Menu Overlay -->
                     <nav id="navMenu">
                         <a href="services.html">Services</a>
-                        <a href="index.html#industries">Industries</a>
+                        <a href="index.html#industries" class="nav-link">Industries</a>
                         <a href="index.html#tracking">Tracking</a>
                         <a href="company.html">Company</a>
                         <a href="contact.html">Contact</a>
-                        <a href="index.html#tracking" class="btn btn-outline"
-                            style="width:100%; text-align:center; margin-top:10px;">Track Shipment</a>
-                        <a href="contact.html" class="btn btn-primary"
-                            style="width:100%; text-align:center; margin-top:10px;">Get Quote</a>
+                        <a href="index.html#tracking" class="btn btn-outline mobile-btn">Track Shipment</a>
+                        <a href="contact.html" class="btn btn-primary mobile-btn">Get Quote</a>
                     </nav>
                 </nav>
             </div>
         </header>
 
-        <main style="padding-top: 80px;">
+        <main class="pt-3">
 
             <!-- Page Header -->
-            <section class="page-header section-alt" style="padding: 4rem 0; text-align: center; background: #f8fafc;">
+            <section class="page-header section-alt text-center">
                 <div class="container">
-                    <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--text-main);">About Sayona Shipping
-                    </h1>
-                    <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
+                    <h1 class="color-text-main mb-1" style="font-size: 3rem;">About Sayona Shipping</h1>
+                    <p class="color-text-secondary container-sm text-center"
+                        style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
                         Trusted global logistics partner delivering reliable cargo solutions since 2020.
                     </p>
                 </div>
             </section>
 
             <!-- About Section -->
-            <section id="about" style="padding: 80px 0;">
+            <section id="about">
                 <div class="container">
-                    <div class="grid-2"
-                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                    <div class="grid align-center">
                         <div>
-                            <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">About Company</h2>
-                            <p style="margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-secondary);">
+                            <h2 class="section-title text-left mb-1">About Company</h2>
+                            <p class="about-desc">
                                 Sayona Shipping Services is a professionally managed transport and logistics company
                                 delivering reliable and
                                 efficient cargo solutions across India and international markets. Established in 2020
@@ -87,7 +93,7 @@
                                 dependable logistics
                                 operations and customer-focused service.
                             </p>
-                            <p style="margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-secondary);">
+                            <p class="about-desc">
                                 We specialize in handling a wide range of cargo including general cargo, industrial
                                 materials, garments,
                                 textile raw materials, consumer goods, automotive components, and regulated shipments.
@@ -95,7 +101,7 @@
                                 include domestic transport, freight forwarding, customs clearance, and warehousing
                                 support.
                             </p>
-                            <p style="line-height: 1.8; color: var(--text-secondary);">
+                            <p class="about-desc" style="margin-bottom:0;">
                                 With operational presence in Chennai, Bangalore, Tiruppur, Coimbatore, and Tuticorin,
                                 Sayona Shipping Services
                                 supports manufacturers, exporters, and businesses with secure, timely, and efficient
@@ -105,13 +111,13 @@
                                 delivery performance.
                             </p>
                         </div>
-                        <div style="position: relative;">
+                        <div class="about-img-wrap">
                             <img src="/src/assets/images/ship_large.png" alt="Logistics Operations"
-                                style="width: 100%; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
-                            <div
-                                style="position: absolute; bottom: -30px; left: -30px; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 250px;">
-                                <h3 style="font-size: 3rem; color: var(--primary); margin-bottom: 0.5rem;">30+</h3>
-                                <p style="font-weight: 600; color: var(--text-main);">Years of Industry Experience</p>
+                                class="img-fluid rounded shadow hover-scale" loading="lazy">
+                            <div class="experience-badge bg-white rounded shadow p-2"
+                                style="position: absolute; bottom: -30px; left: -30px; max-width: 250px;">
+                                <h3 class="color-primary mb-1 transform-none" style="font-size: 3rem;">30+</h3>
+                                <p class="color-text-main" style="font-weight: 600;">Years of Industry Experience</p>
                             </div>
                         </div>
                     </div>
@@ -119,35 +125,31 @@
             </section>
 
             <!-- Experience Section -->
-            <section id="experience" style="background: var(--text-main); color: white; padding: 80px 0;">
-                <div class="container">
-                    <h2 class="section-title" style="color: white; text-align: center; margin-bottom: 3rem;">30+ Years
-                        of Industry Experience</h2>
-                    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                        <p style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; margin-bottom: 2rem;">
-                            Our leadership brings over 30 years of hands-on experience in the logistics and transport
-                            industry. This deep expertise enables us to manage complex logistics operations, maintain
-                            strong carrier relationships, and deliver reliable cargo movement across domestic and
-                            international routes.
-                        </p>
-                        <p style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9;">
-                            Since our founding in 2020, Sayona Shipping Services has combined modern logistics practices
-                            with decades of operational knowledge to provide dependable logistics solutions to growing
-                            businesses.
-                        </p>
-                    </div>
+            <section id="experience" class="bg-text-main text-white text-center">
+                <div class="container container-sm text-center">
+                    <h2 class="section-title text-white mb-3">30+ Years of Industry Experience</h2>
+                    <p class="opacity-9 lh-lg mb-2">
+                        Our leadership brings over 30 years of hands-on experience in the logistics and transport
+                        industry. This deep expertise enables us to manage complex logistics operations, maintain
+                        strong carrier relationships, and deliver reliable cargo movement across domestic and
+                        international routes.
+                    </p>
+                    <p class="opacity-9 lh-lg">
+                        Since our founding in 2020, Sayona Shipping Services has combined modern logistics practices
+                        with decades of operational knowledge to provide dependable logistics solutions to growing
+                        businesses.
+                    </p>
                 </div>
             </section>
 
             <!-- Mission & Vision -->
-            <section id="mission-vision" style="padding: 80px 0; background: #f8fafc;">
+            <section id="mission-vision" class="section-alt">
                 <div class="container">
-                    <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                        <div class="card" style="padding: 3rem; background: white; border-radius: 12px; height: 100%;">
-                            <div style="margin-bottom: 1.5rem; font-size: 3rem;">🎯</div>
-                            <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-main);">Our Mission
-                            </h3>
-                            <p style="line-height: 1.7; color: var(--text-secondary);">
+                    <div class="grid">
+                        <div class="card p-3 h-100">
+                            <div class="feature-icon mb-1">🎯</div>
+                            <h3 class="color-text-main mb-1">Our Mission</h3>
+                            <p class="color-text-secondary lh-lg">
                                 To deliver reliable, secure, and efficient logistics solutions that support seamless
                                 cargo movement across
                                 domestic and global supply chains. We are committed to operational excellence, timely
@@ -156,10 +158,10 @@
                                 quality.
                             </p>
                         </div>
-                        <div class="card" style="padding: 3rem; background: white; border-radius: 12px; height: 100%;">
-                            <div style="margin-bottom: 1.5rem; font-size: 3rem;">👁️</div>
-                            <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-main);">Our Vision</h3>
-                            <p style="line-height: 1.7; color: var(--text-secondary);">
+                        <div class="card p-3 h-100">
+                            <div class="feature-icon mb-1">👁️</div>
+                            <h3 class="color-text-main mb-1">Our Vision</h3>
+                            <p class="color-text-secondary lh-lg">
                                 To become a trusted and recognized logistics partner by expanding our logistics network,
                                 strengthening
                                 operational capabilities, and delivering dependable transport and supply chain
@@ -172,40 +174,27 @@
             </section>
 
             <!-- Office Locations -->
-            <section id="locations" style="padding: 80px 0;">
+            <section id="locations">
                 <div class="container">
                     <h2 class="section-title">Our Presence</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="grid">
 
                         <!-- Head Office -->
-                        <div class="card"
-                            style="border: 1px solid var(--border); border-left: 5px solid var(--primary);">
-                            <h3 style="margin-bottom: 0.5rem; color: var(--text-main);">Head Office</h3>
-                            <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">Chennai</p>
-                            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Sayona Shipping Services</p>
-                            <p style="color: var(--text-secondary);">Chennai, Tamil Nadu, India</p>
+                        <div class="card hoffice-card">
+                            <h3 class="color-text-main mb-1">Head Office</h3>
+                            <p class="font-weight-600 mb-1" style="font-size: 1.1rem;">Chennai</p>
+                            <p class="color-text-secondary m-0">Sayona Shipping Services</p>
+                            <p class="color-text-secondary">Chennai, Tamil Nadu, India</p>
                         </div>
 
                         <!-- Branch Offices List -->
-                        <div class="card" style="border: 1px solid var(--border);">
-                            <h3 style="margin-bottom: 1.5rem; color: var(--text-main);">Branch Offices</h3>
-                            <ul style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                <li
-                                    style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary);">
-                                    <span style="color: var(--primary);">📍</span> Bangalore
-                                </li>
-                                <li
-                                    style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary);">
-                                    <span style="color: var(--primary);">📍</span> Tiruppur
-                                </li>
-                                <li
-                                    style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary);">
-                                    <span style="color: var(--primary);">📍</span> Coimbatore
-                                </li>
-                                <li
-                                    style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary);">
-                                    <span style="color: var(--primary);">📍</span> Tuticorin
-                                </li>
+                        <div class="card">
+                            <h3 class="color-text-main mb-1">Branch Offices</h3>
+                            <ul class="branch-list">
+                                <li><span class="color-primary">📍</span> Bangalore</li>
+                                <li><span class="color-primary">📍</span> Tiruppur</li>
+                                <li><span class="color-primary">📍</span> Coimbatore</li>
+                                <li><span class="color-primary">📍</span> Tuticorin</li>
                             </ul>
                         </div>
 
@@ -215,21 +204,18 @@
 
         </main>
 
-        <footer>
+        <footer class="footer">
             <div class="container">
-                <div class="footer-content">
+                <div class="grid">
                     <div>
-                        <a href="index.html" style="text-decoration: none;">
-                            <img src="/src/assets/logo.png" alt="Sayona Shipping"
-                                style="height: 50px; margin-bottom: 1rem;">
+                        <a href="index.html" class="logo">
+                            <img src="/src/assets/logo.png" alt="Sayona Shipping" class="logo-img">
                         </a>
                         <p>Global logistics partner providing export and import services including ocean freight, air
-                            freight,
-                            customs
-                            clearance, and warehousing for all types of cargo.</p>
+                            freight, customs clearance, and warehousing for all types of cargo.</p>
                     </div>
                     <div>
-                        <h4>Services</h4>
+                        <h3>Services</h3>
                         <ul>
                             <li><a href="services.html">LCL Shipping</a></li>
                             <li><a href="services.html">FCL Shipping</a></li>
@@ -239,30 +225,42 @@
                         </ul>
                     </div>
                     <div>
-                        <h4>Company</h4>
+                        <h3>Company</h3>
                         <ul>
                             <li><a href="company.html">About Us</a></li>
                             <li><a href="index.html#process">Our Process</a></li>
                             <li><a href="#">Careers</a></li>
                             <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4>Contact</h4>
+                        <h3>Contact</h3>
                         <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
                         <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
                         <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
-                        <p>Sathish Kumar</p>
+                        <div class="social-links mt-1">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
                 </div>
-                <div class="copyright">
+                <div class="copyright text-center mt-3 pt-3 border-top">
                     <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
                 </div>
             </div>
         </footer>
     </div>
-    <script src="js/ui.js"></script>
+    <!-- Scroll Progress Bar -->
+
+<script src="https://unpkg.com/scrollreveal"></script>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/scrollreveal.js"></script>
+    <script src="js/counter.js"></script>
+    <script src="js/progressbar.js"></script>
     <script src="js/main.js"></script>
 </body>
 
