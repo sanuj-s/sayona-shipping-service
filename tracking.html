@@ -44,17 +44,17 @@
                     </div>
 
                     <!-- Mobile Menu Overlay -->
-                    <div id="nav" class="mobile-menu">
+                    <nav id="navMenu">
                         <a href="services.html">Services</a>
                         <a href="#industries">Industries</a>
                         <a href="tracking.html">Tracking</a>
                         <a href="company.html">Company</a>
                         <a href="contact.html">Contact</a>
-                        <a href="tracking.html" class="btn btn-outline" style="width:100%; text-align:center;">Track
-                            Shipment</a>
-                        <a href="contact.html#quote" class="btn btn-primary" style="width:100%; text-align:center;">Get
-                            Quote</a>
-                    </div>
+                        <a href="tracking.html" class="btn btn-outline"
+                            style="width:100%; text-align:center; margin-top:10px;">Track Shipment</a>
+                        <a href="contact.html#quote" class="btn btn-primary"
+                            style="width:100%; text-align:center; margin-top:10px;">Get Quote</a>
+                    </nav>
                 </nav>
             </div>
         </header>
@@ -72,15 +72,18 @@
             <section class="tracking-section" style="padding: 4rem 0; min-height: 60vh;">
                 <div class="container">
                     <!-- Search Box -->
-                    <div class="tracking-box"
-                        style="margin: 0 auto 3rem auto; max-width: 600px; width: 100%; display: flex; gap: 10px;">
+                    <div class="tracking-box tracking-container"
+                        style="margin: 0 auto 3rem auto; width: 100%; display: flex; gap: 10px;">
                         <input type="text" id="trackingInput" class="form-control"
                             placeholder="Enter Tracking ID (e.g., SYSN123456)" required>
                         <button id="trackBtn" class="btn btn-primary">Track</button>
                     </div>
 
+                    <!-- Loading Spinner -->
+                    <div id="loading" class="spinner" style="display:none; margin-bottom: 20px;"></div>
+
                     <!-- Results -->
-                    <div id="resultBox" style="max-width: 600px; margin: 0 auto;"></div>
+                    <div id="resultBox" class="tracking-container"></div>
                 </div>
             </section>
         </main>
@@ -132,6 +135,7 @@
             </div>
         </footer>
     </div>
+    <script src="js/ui.js"></script>
     <script src="js/main.js"></script>
     <script src="js/data.js"></script>
     <script src="js/tracking.js"></script>

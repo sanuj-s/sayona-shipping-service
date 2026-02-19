@@ -752,3 +752,104 @@ footer .logo span {
     font-weight: 600;
     text-align: center;
 }
+/* --- New UI Improvements --- */
+
+/* Tracking Container */
+.tracking-container{
+    max-width:500px;
+    margin:auto;
+    text-align:center;
+}
+
+/* Tracking Card */
+.tracking-card{
+    border:1px solid #ddd;
+    padding:20px;
+    margin-top:20px;
+    border-radius:8px;
+    background:#fff;
+    text-align: left;
+}
+
+/* Progress Indicator */
+.progress{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+}
+
+.step{
+    padding:5px 10px;
+    border-radius:5px;
+    background:#ddd;
+    font-size: 0.9em;
+}
+
+.step.completed{
+    background:green;
+    color:white;
+}
+
+/* Mobile Nav Menu */
+#navMenu{
+    display:none;
+    background: white;
+    padding: 1rem;
+    position: absolute;
+    top: 72px; /* Header height */
+    left: 0;
+    right: 0;
+    box-shadow: var(--shadow-medium);
+    z-index: 1000;
+}
+
+#navMenu.show{
+    display:block;
+}
+
+#navMenu a {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+#navMenu a:last-child {
+    border-bottom: none;
+}
+
+/* Hero Section Animation */
+.hero{
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+/* Loading Spinner */
+.spinner{
+    border:4px solid #eee;
+    border-top:4px solid var(--primary);
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    animation:spin 1s linear infinite;
+    margin:auto;
+}
+
+@keyframes spin{
+    0%{transform:rotate(0deg)}
+    100%{transform:rotate(360deg)}
+}
+
+/* Scroll Animations */
+.animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+.animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
