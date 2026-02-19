@@ -13,7 +13,7 @@ function initializeScrollReveal() {
         ScrollReveal().reveal('.service-row > div:first-child', { origin: 'left' });
         ScrollReveal().reveal('.service-row > div:last-child', { origin: 'right' });
         ScrollReveal().reveal('.hero-content', { origin: 'bottom', distance: '30px' });
-        ScrollReveal().reveal('.stat-item', { origin: 'bottom', interval: 150 });
+        ScrollReveal().reveal('.stat-card', { origin: 'bottom', interval: 150 });
     }
 
 }

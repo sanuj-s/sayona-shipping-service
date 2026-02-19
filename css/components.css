@@ -7,27 +7,43 @@
   transition: 0.3s;
 }
 
-.navbar.scrolled {
-  background: white;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-}
-
-header {
+.navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  height: 72px;
-  padding: 0;
+  height: 80px;
   background: transparent;
+  transition: all 0.3s ease;
   z-index: 1000;
   display: flex;
   align-items: center;
-  transition: 0.3s;
 }
 
-header.scrolled {
+.navbar .nav-links a,
+.navbar .nav-link,
+.navbar .link-track,
+.navbar .mobile-menu-btn {
+  color: white;
+}
+
+.navbar .logo {
+  filter: brightness(0) invert(1);
+}
+
+.navbar.scrolled {
   background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.navbar.scrolled .nav-links a,
+.navbar.scrolled .nav-link,
+.navbar.scrolled .link-track,
+.navbar.scrolled .mobile-menu-btn {
+  color: #0f172a;
+}
+
+.navbar.scrolled .logo {
+  filter: none;
 }
 
 nav {
@@ -133,10 +149,13 @@ nav {
 
 /* Buttons */
 .btn-primary {
-  background: var(--primary);
+  background: linear-gradient(135deg,
+      #2563EB,
+      #06B6D4);
   color: white;
-  padding: 12px 30px;
-  border-radius: 6px;
+  padding: 14px 36px;
+  font-size: 18px;
+  border-radius: 8px;
   text-decoration: none;
   transition: 0.3s;
   display: inline-block;
@@ -254,6 +273,39 @@ nav {
 }
 
 /* Page Specific UI Components */
+
+/* Service Cards Structure on index.html */
+.service-card {
+  background: var(--bg-surface);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.service-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.service-card h3 {
+  padding: 20px 20px 10px;
+  color: var(--text-main);
+}
+
+.service-card p {
+  padding: 0 20px 20px;
+  color: var(--text-secondary);
+}
+
 .section-alt {
   background: var(--bg-elevated);
 }
@@ -284,25 +336,64 @@ nav {
   margin: 0.5rem 0 0;
 }
 
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+  padding: 20px 0;
+  background-color: transparent;
+}
+
+.navbar.scrolled {
+  background-color: var(--bg-surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+}
+
+.navbar .logo-img {
+  height: 60px;
+  transition: height 0.3s ease;
+}
+
+.navbar.scrolled .logo-img {
+  height: 40px;
+}
+
+.navbar .logo-img.invert-on-scroll {
+  filter: invert(1);
+}
+
+.navbar.scrolled .logo-img.invert-on-scroll {
+  filter: invert(0);
+}
+
 .hero {
-  height: 100vh;
-  background: linear-gradient(135deg, rgba(7, 26, 51, 0.85) 0%, rgba(11, 61, 145, 0.85) 50%, rgba(0, 194, 255, 0.85) 100%), url('/src/assets/images/hero_split.png') center/cover no-repeat;
+  height: calc(100vh - 80px);
+  background: linear-gradient(rgba(7, 26, 51, 0.65),
+      rgba(11, 61, 145, 0.55)),
+    url('/src/assets/images/hero/container-ship.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .hero-content {
+  text-align: center;
   max-width: 800px;
-  position: relative;
-  z-index: 2;
-  margin: 0 auto;
-  text-align: center !important;
+  width: 100%;
   padding: 0 20px;
 }
 
 .hero h1 {
-  font-size: 56px;
+  font-size: 64px;
+  font-weight: 700;
   color: white;
   margin-bottom: 1rem;
   line-height: 1.2;
@@ -310,36 +401,23 @@ nav {
 
 .hero p {
   font-size: 20px;
-  color: white;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2rem;
-  opacity: 0.9;
 }
 
-.stats {
-  display: flex;
-  justify-content: space-around;
-  background: var(--bg-surface);
-  padding: 80px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 0;
+/* Page Headers (Company, Contact) */
+.page-header {
+  padding: 120px 0 80px;
+  background: linear-gradient(rgba(7, 26, 51, 0.9), rgba(11, 61, 145, 0.8)), url('/src/assets/images/banner/company.jpg') center/cover no-repeat;
+  color: white;
 }
 
-.stat-item {
-  text-align: center;
+.page-header h1 {
+  color: white !important;
 }
 
-.stat-number {
-  display: block;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 0.5rem;
-}
-
-.stat-label {
-  color: var(--text-secondary);
-  font-weight: 500;
+.page-header p {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 /* Forms & UI */
@@ -453,6 +531,66 @@ textarea.form-control {
 
 .industries-section .card:hover {
   transform: translateY(-5px);
+}
+
+/* About Section */
+.about-section {
+  padding: 120px 0 50px 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* Stats Section Grid */
+.stats-section {
+  padding: 100px 0;
+  background: var(--background-alt);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.stat-card i {
+  font-size: 28px;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card h2 {
+  font-size: 42px;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  color: var(--text-light);
+  font-size: 16px;
 }
 
 /* Professional Services Block System */

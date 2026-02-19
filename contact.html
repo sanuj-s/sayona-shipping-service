@@ -28,7 +28,7 @@
 
     </div>
     <div id="app">
-        <header>
+        <header class="navbar">
             <div class="container">
                 <nav>
                     <a href="index.html" class="logo">
@@ -67,16 +67,23 @@
         </header>
 
         <main class="pt-3">
-            <section class="contact-hero section-alt">
+            <section class="page-header text-center">
                 <div class="container">
                     <h1>Get a Quote</h1>
                     <p>Tell us about your shipment and we will provide a competitive rate within 24 hours.</p>
                 </div>
             </section>
 
-            <section id="contact-form" class="section-alt" style="padding-top: 0;">
-                <div class="container contact-form-container">
-                    <form id="contactForm" class="card">
+            <section id="contact-form" class="section-alt" style="padding: 100px 0;">
+                <div class="container">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;">
+                        <div class="contact-info-image">
+                            <img src="/src/assets/images/contact/office.jpg" alt="Corporate Logistics Office" style="width: 100%; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); margin-bottom: 30px;">
+                            <h3 class="color-text-main mb-1">Sayona Logistics Center</h3>
+                            <p class="color-text-secondary lh-lg">Visit our headquarters to discuss your complex supply chain needs with our seasoned experts.</p>
+                        </div>
+                        <div class="contact-form-container" style="max-width: 100%;">
+                            <form id="contactForm" class="card">
 
                         <div class="contact-form-grid">
                             <div class="form-group">

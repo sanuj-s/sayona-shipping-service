@@ -64,8 +64,19 @@ img:hover {
 }
 
 .hero {
-  animation: fadeIn 1s ease-in;
+  animation: heroZoom 20s ease-in-out infinite alternate;
 }
+
+@keyframes heroZoom {
+  from {
+    background-size: 100%;
+  }
+
+  to {
+    background-size: 110%;
+  }
+}
+
 
 .hero h1 {
   animation: fadeUp 1s ease;

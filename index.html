@@ -30,7 +30,7 @@
 
   </div>
   <div id="app">
-    <header>
+    <header class="navbar">
       <div class="container">
         <nav>
           <a href="index.html" class="logo">
@@ -71,68 +71,74 @@
     <main>
       <section id="hero" class="hero">
         <div class="hero-content">
-          <h1>Global Shipping Solutions</h1>
-          <p>Fast, secure, and reliable cargo services worldwide</p>
-          <a href="contact.html#quote" class="btn btn-primary">Get Quote</a>
+          <h1>Sayona Shipping Services</h1>
+          <p>Trusted global logistics partner delivering reliable cargo solutions worldwide.</p>
+          <a href="contact.html" class="btn-primary">Get Quote</a>
         </div>
       </section>
 
-      <section class="stats">
-        <div class="container grid">
-          <div class="stat-item">
-            <h2 class="counter stat-number" data-target="500">500</h2>
-            <p class="stat-label">Clients</p>
-          </div>
-          <div class="stat-item">
-            <h2 class="counter stat-number" data-target="10000">10000</h2>
-            <p class="stat-label">Shipments</p>
-          </div>
-          <div class="stat-item">
-            <h2 class="counter stat-number" data-target="25">25</h2>
-            <p class="stat-label">Countries</p>
-          </div>
-          <div class="stat-item">
-            <h2 class="counter stat-number" data-target="30">30</h2>
-            <p class="stat-label">Years Experience</p>
+      <section class="stats-section">
+        <div class="container">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <i class="fas fa-users"></i>
+              <h2 class="counter" data-target="500">0</h2>
+              <p>Clients</p>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-box-open"></i>
+              <h2 class="counter" data-target="10000">0</h2>
+              <p>Shipments</p>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-globe"></i>
+              <h2 class="counter" data-target="25">0</h2>
+              <p>Countries</p>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-calendar-alt"></i>
+              <h2 class="counter" data-target="30">0</h2>
+              <p>Years Experience</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="services" class="animate">
+      <section id="services">
         <div class="container">
           <h2 class="section-title">Our Services</h2>
           <div class="grid">
-            <article class="card">
-              <i class="fas fa-ship fa-2x color-primary mb-1"></i>
+            <article class="service-card">
+              <img src="/src/assets/images/services/lcl-consolidation.jpg" alt="LCL consolidation">
               <h3>LCL Shipments</h3>
               <p>Cost-efficient shipping for smaller cargo volumes. Consolidation with other shipments reduces cost
                 while
                 maintaining reliable delivery schedules.</p>
             </article>
 
-            <article class="card">
-              <i class="fas fa-boxes fa-2x color-primary mb-1"></i>
+            <article class="service-card">
+              <img src="/src/assets/images/services/fcl-container-ship.jpg" alt="FCL container shipping">
               <h3>FCL Shipments</h3>
               <p>Dedicated container shipping for large cargo. Maximum security, faster transit, and reduced handling
                 risk.</p>
             </article>
 
-            <article class="card">
-              <i class="fas fa-plane-departure fa-2x color-primary mb-1"></i>
+            <article class="service-card">
+              <img src="/src/assets/images/services/air.jpg" alt="Air Freight">
               <h3>Air Freight Export</h3>
               <p>Fast international delivery for urgent, high-value, or time-sensitive shipments. Global airline network
                 coverage.</p>
             </article>
 
-            <article class="card">
-              <i class="fas fa-file-contract fa-2x color-primary mb-1"></i>
+            <article class="service-card">
+              <img src="/src/assets/images/services/customs-clearance.jpg" alt="Customs clearance inspection">
               <h3>Customs Clearance</h3>
               <p>Complete handling of export/import documentation, duty compliance, HS classification, and customs
                 processing.</p>
             </article>
 
-            <article class="card">
-              <i class="fas fa-warehouse fa-2x color-primary mb-1"></i>
+            <article class="service-card">
+              <img src="/src/assets/images/about/warehouse.jpg" alt="Warehousing">
               <h3>Warehousing & Storage</h3>
               <p>Secure cargo storage, inventory management, consolidation, and distribution support before export or
                 after
@@ -142,7 +148,7 @@
         </div>
       </section>
 
-      <section id="process" class="section-alt animate">
+      <section id="process" class="section-alt">
         <div class="container">
           <h2 class="section-title">How It Works</h2>
           <div class="steps">
@@ -233,7 +239,7 @@
         </div>
       </section>
 
-      <section id="industries" class="industries-section animate">
+      <section id="industries" class="industries-section">
         <div class="container">
 
           <h2 class="section-title">Industries We Serve</h2>

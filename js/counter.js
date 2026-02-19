@@ -4,26 +4,34 @@ function initializeCounter() {
 
     counters.forEach(counter => {
 
+        const target = Number(counter.getAttribute("data-target"));
+
         let count = 0;
-        const target = +counter.innerText;
 
-        function update() {
+        const update = () => {
 
-            count += target / 100;
+            const increment = target / 100;
 
             if (count < target) {
 
-                counter.innerText = Math.floor(count);
+                count += increment;
+                counter.innerText = Math.ceil(count);
+
                 requestAnimationFrame(update);
 
-            }
-            else
-                counter.innerText = target;
+            } else {
 
-        }
+                counter.innerText = target + "+";
+
+            }
+
+        };
 
         update();
 
     });
 
 }
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeCounter);

@@ -2,7 +2,7 @@ function initializeNavbar() {
 
     window.addEventListener("scroll", function () {
 
-        const navbar = document.querySelector("header"); // Using header as navbar
+        const navbar = document.querySelector(".navbar"); // Using header as navbar
 
         if (navbar) {
             if (window.scrollY > 50)
