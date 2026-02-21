@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Sayona Client Portal</title>
+    <link rel="icon" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/portal.css">
+</head>
+
+<body>
+    <div class="portal-layout">
+
+        <!-- Sidebar -->
+        <aside class="portal-sidebar">
+            <div class="sidebar-brand">
+                <h2>🚢 Sayona Shipping</h2>
+                <span>Client Portal</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
+                <a href="shipments.html"><i class="fas fa-box"></i> My Shipments</a>
+                <a href="track.html"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="/"><i class="fas fa-globe"></i> Back to Website</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="sidebarAvatar">U</div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebarUserName">User</div>
+                        <div class="user-email" id="sidebarUserEmail">user@email.com</div>
+                    </div>
+                    <button class="btn-logout" id="logoutBtn" title="Logout"><i
+                            class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="portal-main">
+            <div class="portal-topbar">
+                <div>
+                    <h1>Welcome back, <span id="welcomeName">User</span></h1>
+                    <div class="breadcrumb">Client Portal / Dashboard</div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row" id="statsRow">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fas fa-box"></i></div>
+                    <div class="stat-value" id="totalShipments">—</div>
+                    <div class="stat-label">Total Shipments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon yellow"><i class="fas fa-truck"></i></div>
+                    <div class="stat-value" id="inTransit">—</div>
+                    <div class="stat-label">In Transit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value" id="delivered">—</div>
+                    <div class="stat-label">Delivered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon cyan"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value" id="pending">—</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
+
+            <!-- Recent Shipments -->
+            <div class="glass-panel">
+                <h2><i class="fas fa-history"></i> Recent Shipments</h2>
+                <div id="recentShipments">
+                    <table class="portal-table">
+                        <thead>
+                            <tr>
+                                <th>Tracking #</th>
+                                <th>Origin</th>
+                                <th>Destination</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shipmentsBody">
+                            <tr>
+                                <td colspan="5" style="text-align:center; color: var(--cp-text-muted); padding:40px;">
+                                    Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quick Track -->
+            <div class="glass-panel">
+                <h2><i class="fas fa-search"></i> Quick Track</h2>
+                <div class="track-search">
+                    <input type="text" id="quickTrackInput" placeholder="Enter tracking number (e.g., SAY-2026-00001)">
+                    <button id="quickTrackBtn"><i class="fas fa-search"></i> Track</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/portal.js"></script>
+    <script>
+        if (!requireAuth()) throw new Error('Not authenticated');
+        initSidebar();
+
+        const user = PortalAPI.getUser();
+        document.getElementById('welcomeName').textContent = user?.name?.split(' ')[0] || 'User';
+
+        // Load shipments
+        async function loadDashboard() {
+            try {
+                const shipments = await PortalAPI.getShipments();
+                const total = shipments.length;
+                const transit = shipments.filter(s => s.status?.toLowerCase().includes('transit')).length;
+                const delivered = shipments.filter(s => s.status?.toLowerCase() === 'delivered').length;
+                const pending = shipments.filter(s => s.status?.toLowerCase() === 'pending' || s.status?.toLowerCase() === 'picked up').length;
+
+                document.getElementById('totalShipments').textContent = total;
+                document.getElementById('inTransit').textContent = transit;
+                document.getElementById('delivered').textContent = delivered;
+                document.getElementById('pending').textContent = pending;
+
+                const tbody = document.getElementById('shipmentsBody');
+                if (shipments.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><i class="fas fa-box-open"></i><p>No shipments yet</p></div></td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = shipments.slice(0, 5).map(s => `
+                    <tr>
+                        <td><a href="track.html?id=${s.trackingNumber}" class="tracking-link">${s.trackingNumber}</a></td>
+                        <td>${s.origin || '—'}</td>
+                        <td>${s.destination || '—'}</td>
+                        <td>${statusBadge(s.status)}</td>
+                        <td style="color:var(--cp-text-muted)">${formatDate(s.createdAt)}</td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                document.getElementById('shipmentsBody').innerHTML =
+                    `<tr><td colspan="5" style="text-align:center; color:#fca5a5;">${err.message}</td></tr>`;
+            }
+        }
+
+        // Quick track
+        document.getElementById('quickTrackBtn').addEventListener('click', () => {
+            const id = document.getElementById('quickTrackInput').value.trim();
+            if (id) window.location.href = `track.html?id=${id}`;
+        });
+        document.getElementById('quickTrackInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('quickTrackBtn').click();
+        });
+
+        loadDashboard();
+    </script>
+</body>
+
+</html>

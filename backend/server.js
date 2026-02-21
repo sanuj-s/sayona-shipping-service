@@ -43,6 +43,9 @@ app.use('/api', apiLimiter);
 // Serve admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
 
+// Serve client portal
+app.use('/client', express.static(path.join(__dirname, '..', 'client')));
+
 // Serve images and assets from public/
 app.use(express.static(path.join(__dirname, '..', 'public')));
 

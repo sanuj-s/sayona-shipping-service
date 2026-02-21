@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Cargo — Sayona Client Portal</title>
+    <link rel="icon" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/portal.css">
+</head>
+
+<body>
+    <div class="portal-layout">
+        <aside class="portal-sidebar">
+            <div class="sidebar-brand">
+                <h2>🚢 Sayona Shipping</h2><span>Client Portal</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
+                <a href="shipments.html"><i class="fas fa-box"></i> My Shipments</a>
+                <a href="track.html"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="/"><i class="fas fa-globe"></i> Back to Website</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="sidebarAvatar">U</div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebarUserName">User</div>
+                        <div class="user-email" id="sidebarUserEmail">user@email.com</div>
+                    </div>
+                    <button class="btn-logout" id="logoutBtn" title="Logout"><i
+                            class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="portal-main">
+            <div class="portal-topbar">
+                <div>
+                    <h1>Track Cargo</h1>
+                    <div class="breadcrumb">Client Portal / Track</div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h2><i class="fas fa-search"></i> Enter Tracking Number</h2>
+                <div class="track-search">
+                    <input type="text" id="trackInput" placeholder="e.g., SAY-2026-00001">
+                    <button id="trackBtn"><i class="fas fa-search"></i> Track</button>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div id="trackResult" style="display:none;">
+                <div class="glass-panel">
+                    <h2><i class="fas fa-info-circle"></i> Shipment Details</h2>
+                    <div class="shipment-detail" id="shipmentDetails"></div>
+                </div>
+
+                <div class="glass-panel">
+                    <h2><i class="fas fa-route"></i> Tracking Timeline</h2>
+                    <div class="tracking-timeline" id="trackingTimeline"></div>
+                </div>
+            </div>
+
+            <div id="trackError" style="display:none;" class="glass-panel">
+                <div class="empty-state">
+                    <i class="fas fa-search"></i>
+                    <p id="trackErrorMsg">Shipment not found</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/portal.js"></script>
+    <script>
+        if (!requireAuth()) throw new Error('Not authenticated');
+        initSidebar();
+
+        async function trackShipment(id) {
+            document.getElementById('trackResult').style.display = 'none';
+            document.getElementById('trackError').style.display = 'none';
+
+            if (!id) return;
+
+            try {
+                const data = await PortalAPI.getTracking(id);
+                const s = data.shipment;
+
+                document.getElementById('shipmentDetails').innerHTML = `
+                    <div class="detail-item">
+                        <label>Tracking Number</label>
+                        <span style="font-family: monospace; color: var(--cp-primary); font-weight:600;">${s.trackingNumber}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Status</label>
+                        <span>${statusBadge(s.status)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Sender</label>
+                        <span>${s.senderName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Receiver</label>
+                        <span>${s.receiverName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Current Location</label>
+                        <span><i class="fas fa-map-pin" style="color:var(--cp-accent)"></i> ${s.currentLocation}</span>
+                    </div>
+                `;
+
+                const timeline = document.getElementById('trackingTimeline');
+                if (data.history && data.history.length > 0) {
+                    timeline.innerHTML = data.history.map(ev => `
+                        <div class="timeline-event">
+                            <div class="timeline-dot"></div>
+                            <div class="event-status">${ev.status}</div>
+                            <div class="event-location"><i class="fas fa-map-marker-alt"></i> ${ev.location}</div>
+                            <div class="event-time">${formatDate(ev.timestamp)}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    timeline.innerHTML = '<p style="color:var(--cp-text-muted)">No tracking events yet.</p>';
+                }
+
+                document.getElementById('trackResult').style.display = 'block';
+            } catch (err) {
+                document.getElementById('trackErrorMsg').textContent = err.message;
+                document.getElementById('trackError').style.display = 'block';
+            }
+        }
+
+        document.getElementById('trackBtn').addEventListener('click', () => {
+            trackShipment(document.getElementById('trackInput').value.trim());
+        });
+        document.getElementById('trackInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('trackBtn').click();
+        });
+
+        // Auto-track from URL param
+        const urlId = new URLSearchParams(window.location.search).get('id');
+        if (urlId) {
+            document.getElementById('trackInput').value = urlId;
+            trackShipment(urlId);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile — Sayona Client Portal</title>
+    <link rel="icon" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/portal.css">
+</head>
+
+<body>
+    <div class="portal-layout">
+        <aside class="portal-sidebar">
+            <div class="sidebar-brand">
+                <h2>🚢 Sayona Shipping</h2><span>Client Portal</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
+                <a href="shipments.html"><i class="fas fa-box"></i> My Shipments</a>
+                <a href="track.html"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="/"><i class="fas fa-globe"></i> Back to Website</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="sidebarAvatar">U</div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebarUserName">User</div>
+                        <div class="user-email" id="sidebarUserEmail">user@email.com</div>
+                    </div>
+                    <button class="btn-logout" id="logoutBtn" title="Logout"><i
+                            class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="portal-main">
+            <div class="portal-topbar">
+                <div>
+                    <h1>My Profile</h1>
+                    <div class="breadcrumb">Client Portal / Profile</div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div style="display:flex; align-items:center; gap:24px; margin-bottom:28px;">
+                    <div class="profile-avatar" id="profileAvatar">U</div>
+                    <div>
+                        <h2 style="margin:0" id="profileName">Loading...</h2>
+                        <p style="color:var(--cp-text-muted); margin-top:4px;" id="profileRole">—</p>
+                    </div>
+                </div>
+
+                <div class="profile-grid" id="profileGrid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pName">—
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pEmail">—
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pPhone">—
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;"
+                            id="pCompany">—</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pRole">—
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Member Since</label>
+                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pSince">—
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h2><i class="fas fa-shield-alt"></i> Account Security</h2>
+                <p style="color:var(--cp-text-secondary); margin-bottom:16px;">
+                    To change your password or update sensitive account details, please contact our support team.
+                </p>
+                <a href="/contact.html" class="btn-portal" style="width:auto; display:inline-block; padding:12px 28px;">
+                    <i class="fas fa-headset"></i> Contact Support
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/portal.js"></script>
+    <script>
+        if (!requireAuth()) throw new Error('Not authenticated');
+        initSidebar();
+
+        async function loadProfile() {
+            try {
+                const user = await PortalAPI.getProfile();
+                document.getElementById('profileAvatar').textContent = user.name?.charAt(0).toUpperCase() || 'U';
+                document.getElementById('profileName').textContent = user.name || '—';
+                document.getElementById('profileRole').textContent = (user.role || 'Employee').charAt(0).toUpperCase() + (user.role || 'employee').slice(1);
+
+                document.getElementById('pName').textContent = user.name || '—';
+                document.getElementById('pEmail').textContent = user.email || '—';
+                document.getElementById('pPhone').textContent = user.phone || 'Not set';
+                document.getElementById('pCompany').textContent = user.company || 'Not set';
+                document.getElementById('pRole').textContent = (user.role || 'employee').charAt(0).toUpperCase() + (user.role || 'employee').slice(1);
+                document.getElementById('pSince').textContent = user.created_at ? formatDate(user.created_at) : '—';
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        loadProfile();
+    </script>
+</body>
+
+</html>

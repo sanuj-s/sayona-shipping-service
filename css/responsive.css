@@ -68,7 +68,14 @@
   }
 
   .logo-img {
-    height: 36px;
+    height: 50px;
+    background: none;
+  }
+
+  .logo img {
+    height: 50px;
+    max-width: 180px;
+    background: transparent;
   }
 }
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser } = require('../controllers/authController');
+const { registerUser, loginUser, getMe } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 const { authLimiter } = require('../middleware/rateLimiter');
 
@@ -11,13 +11,6 @@ router.post('/register', registerUser);
 router.post('/login', authLimiter, loginUser);
 
 // @route   GET /api/auth/me (get current user profile)
-router.get('/me', protect, async (req, res) => {
-    res.json({
-        id: req.user.id,
-        name: req.user.name,
-        email: req.user.email,
-        role: req.user.role,
-    });
-});
+router.get('/me', protect, getMe);
 
 module.exports = router;

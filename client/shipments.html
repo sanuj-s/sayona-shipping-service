@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Shipments — Sayona Client Portal</title>
+    <link rel="icon" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/portal.css">
+</head>
+
+<body>
+    <div class="portal-layout">
+        <aside class="portal-sidebar">
+            <div class="sidebar-brand">
+                <h2>🚢 Sayona Shipping</h2><span>Client Portal</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
+                <a href="shipments.html"><i class="fas fa-box"></i> My Shipments</a>
+                <a href="track.html"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                <a href="/"><i class="fas fa-globe"></i> Back to Website</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="sidebarAvatar">U</div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebarUserName">User</div>
+                        <div class="user-email" id="sidebarUserEmail">user@email.com</div>
+                    </div>
+                    <button class="btn-logout" id="logoutBtn" title="Logout"><i
+                            class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="portal-main">
+            <div class="portal-topbar">
+                <div>
+                    <h1>My Shipments</h1>
+                    <div class="breadcrumb">Client Portal / Shipments</div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h2><i class="fas fa-box"></i> All Shipments</h2>
+                <table class="portal-table">
+                    <thead>
+                        <tr>
+                            <th>Tracking #</th>
+                            <th>Sender</th>
+                            <th>Receiver</th>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shipmentsBody">
+                        <tr>
+                            <td colspan="7" style="text-align:center; color: var(--cp-text-muted); padding:40px;">
+                                Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/portal.js"></script>
+    <script>
+        if (!requireAuth()) throw new Error('Not authenticated');
+        initSidebar();
+
+        async function loadShipments() {
+            try {
+                const shipments = await PortalAPI.getShipments();
+                const tbody = document.getElementById('shipmentsBody');
+
+                if (shipments.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-box-open"></i><p>No shipments found</p></div></td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = shipments.map(s => `
+                    <tr>
+                        <td><a href="track.html?id=${s.trackingNumber}" class="tracking-link">${s.trackingNumber}</a></td>
+                        <td>${s.senderName || '—'}</td>
+                        <td>${s.receiverName || '—'}</td>
+                        <td>${s.origin || '—'}</td>
+                        <td>${s.destination || '—'}</td>
+                        <td>${statusBadge(s.status)}</td>
+                        <td style="color:var(--cp-text-muted)">${formatDate(s.createdAt)}</td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                document.getElementById('shipmentsBody').innerHTML =
+                    `<tr><td colspan="7" style="text-align:center; color:#fca5a5;">${err.message}</td></tr>`;
+            }
+        }
+
+        loadShipments();
+    </script>
+</body>
+
+</html>
