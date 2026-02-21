@@ -44,7 +44,15 @@ const initDB = async () => {
         console.log('Database Tables initialized successfully');
     } catch (error) {
         console.error('Error initializing database tables:', error.message);
+    } finally {
+        if (require.main === module) {
+            pool.end();
+        }
     }
 };
+
+if (require.main === module) {
+    initDB();
+}
 
 module.exports = initDB;

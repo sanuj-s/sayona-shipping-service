@@ -4,7 +4,7 @@ This is the Node.js Express backend for the Sayona Shipping Service. It handles 
 
 ## Requirements
 - Node.js (v14 or higher)
-- MongoDB running locally or a MongoDB Atlas URI
+- PostgreSQL running locally or a remote URI
 
 ## Setup & Running
 
@@ -17,16 +17,25 @@ This is the Node.js Express backend for the Sayona Shipping Service. It handles 
    Create a `.env` file in the root of the `backend` directory (already created locally).
    ```env
    PORT=5000
-   MONGODB_URI=mongodb://127.0.0.1:27017/sayona_shipping
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=apple
+   DB_PASSWORD=
+   DB_NAME=sayona_shipping
    JWT_SECRET=supersecretjwtkey_sayona_shipping_2026
    ```
 
-3. **Start the Server**
+3. **Initialize Database**
    ```bash
-   npm start
+   npm run init-db
    ```
 
-   The backend will connect to MongoDB and start on `http://localhost:5000/api/...`.
+4. **Start the Server**
+   ```bash
+   npm run dev
+   ```
+
+   The backend will connect to PostgreSQL and start on `http://localhost:5000/api/...`.
 
 ## API Endpoints
 
