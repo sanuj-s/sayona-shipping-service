@@ -1,4 +1,8 @@
-const pool = require('../config/db');
+// ─────────────────────────────────────────────
+// Quote Controller — HTTP handlers for quote requests
+// Uses: Quote Model → DB
+// ─────────────────────────────────────────────
+const Quote = require('../models/Quote');
 
 // @desc    Submit quote request
 // @route   POST /api/quote
@@ -15,16 +19,12 @@ const submitQuote = async (req, res) => {
             return res.status(400).json({ message: 'Please provide a valid email' });
         }
 
-        const result = await pool.query(
-            `INSERT INTO quote_requests (name, email, phone, company, origin, destination, cargo_type, weight, message)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, created_at`,
-            [name, email, phone || null, company || null, origin, destination, cargoType || null, weight || null, message || null]
-        );
+        const result = await Quote.create({ name, email, phone, company, origin, destination, cargoType, weight, message });
 
         res.status(201).json({
             success: true,
             message: 'Your quote request has been submitted. Our team will contact you shortly.',
-            id: result.rows[0].id,
+            id: result.id,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -36,10 +36,8 @@ const submitQuote = async (req, res) => {
 // @access  Private (admin)
 const getQuotes = async (req, res) => {
     try {
-        const result = await pool.query(
-            'SELECT * FROM quote_requests ORDER BY created_at DESC'
-        );
-        res.json(result.rows);
+        const quotes = await Quote.findAll();
+        res.json(quotes);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -50,9 +48,7 @@ const getQuotes = async (req, res) => {
 // @access  Private (admin)
 const updateQuoteStatus = async (req, res) => {
     try {
-        const { id } = req.params;
         const { status } = req.body;
-
         if (!status) {
             return res.status(400).json({ message: 'Status is required' });
         }
@@ -62,12 +58,8 @@ const updateQuoteStatus = async (req, res) => {
             return res.status(400).json({ message: `Status must be one of: ${valid.join(', ')}` });
         }
 
-        const result = await pool.query(
-            'UPDATE quote_requests SET status = $1 WHERE id = $2 RETURNING *',
-            [status, id]
-        );
-
-        if (result.rows.length === 0) {
+        const result = await Quote.updateStatus(req.params.id, status);
+        if (!result) {
             return res.status(404).json({ message: 'Quote request not found' });
         }
 

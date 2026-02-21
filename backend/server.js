@@ -43,6 +43,9 @@ app.use('/api', apiLimiter);
 // Serve admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
 
+// Serve images and assets from public/
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 // Serve main website
 app.use(express.static(path.join(__dirname, '..'), {
     extensions: ['html'],

@@ -1,6 +1,12 @@
-const pool = require('../config/db');
+// ─────────────────────────────────────────────
+// Admin Auth Controller — HTTP handlers for admin panel
+// Uses: Admin Model → DB, ShipmentService, User Model
+// ─────────────────────────────────────────────
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Admin = require('../models/Admin');
+const Shipment = require('../models/Shipment');
+const User = require('../models/User');
 
 // Generate JWT for admin
 const generateAdminToken = (id) => {
@@ -20,9 +26,7 @@ const loginAdmin = async (req, res) => {
             return res.status(400).json({ message: 'Please provide email and password' });
         }
 
-        const result = await pool.query('SELECT * FROM admins WHERE email = $1', [email]);
-        const admin = result.rows[0];
-
+        const admin = await Admin.findByEmail(email);
         if (!admin) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
@@ -55,23 +59,11 @@ const getAdminProfile = async (req, res) => {
 // @access  Private (admin)
 const getAnalytics = async (req, res) => {
     try {
-        const totalResult = await pool.query('SELECT COUNT(*) as count FROM shipments');
-        const total = parseInt(totalResult.rows[0].count);
+        const totalShipments = await Shipment.countAll();
+        const statusCounts = await Shipment.countByStatus();
+        const recentRows = await Shipment.findRecent(10);
 
-        const statusResult = await pool.query(
-            "SELECT status, COUNT(*) as count FROM shipments GROUP BY status"
-        );
-
-        const statusCounts = {};
-        statusResult.rows.forEach(row => {
-            statusCounts[row.status] = parseInt(row.count);
-        });
-
-        const recentResult = await pool.query(
-            'SELECT * FROM shipments ORDER BY created_at DESC LIMIT 10'
-        );
-
-        const recentShipments = recentResult.rows.map(row => ({
+        const recentShipments = recentRows.map(row => ({
             id: row.id,
             trackingNumber: row.tracking_id,
             senderName: row.sender_name,
@@ -79,18 +71,13 @@ const getAnalytics = async (req, res) => {
             origin: row.origin,
             destination: row.destination,
             status: row.status,
-            createdAt: row.created_at
+            createdAt: row.created_at,
         }));
 
-        const usersResult = await pool.query('SELECT COUNT(*) as count FROM users');
-        const totalUsers = parseInt(usersResult.rows[0].count);
+        const users = await User.findAll();
+        const totalUsers = users.length;
 
-        res.json({
-            totalShipments: total,
-            statusCounts,
-            recentShipments,
-            totalUsers
-        });
+        res.json({ totalShipments, statusCounts, recentShipments, totalUsers });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -101,18 +88,11 @@ const getAnalytics = async (req, res) => {
 // @access  Private (admin)
 const getUsers = async (req, res) => {
     try {
-        const result = await pool.query(
-            'SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC'
-        );
-        res.json(result.rows);
+        const users = await User.findAll();
+        res.json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-module.exports = {
-    loginAdmin,
-    getAdminProfile,
-    getAnalytics,
-    getUsers,
-};
+module.exports = { loginAdmin, getAdminProfile, getAnalytics, getUsers };

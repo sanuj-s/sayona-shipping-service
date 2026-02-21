@@ -1,57 +1,32 @@
-const pool = require('../config/db');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-// Generate JWT
-const generateToken = (id, role) => {
-    return jwt.sign({ id, role }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
-    });
-};
+// ─────────────────────────────────────────────
+// Auth Controller — HTTP handlers for authentication
+// Uses: AuthService → User Model → DB
+// ─────────────────────────────────────────────
+const AuthService = require('../services/authService');
 
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
+        const { name, email, password, phone, company, role } = req.body;
 
         if (!name || !email || !password) {
             return res.status(400).json({ message: 'Please add all fields' });
         }
 
-        // Check if user exists
-        const userExists = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (userExists.rows.length > 0) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
+        const user = await AuthService.register({ name, email, password, phone, company, role });
 
-        // Hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create user
-        const newUserQuery = `
-            INSERT INTO users (name, email, password, role)
-            VALUES ($1, $2, $3, $4) RETURNING id, name, email, role
-        `;
-        const newUserRole = role || 'employee';
-        const result = await pool.query(newUserQuery, [name, email, hashedPassword, newUserRole]);
-        const user = result.rows[0];
-
-        if (user) {
-            res.status(201).json({
-                _id: user.id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user.id, user.role),
-            });
-        } else {
-            res.status(400).json({ message: 'Invalid user data' });
-        }
+        res.status(201).json({
+            _id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            token: user.token,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).json({ message: error.message });
     }
 };
 
@@ -62,27 +37,23 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Check for user email
-        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        const user = result.rows[0];
-
-        if (user && (await bcrypt.compare(password, user.password))) {
-            res.json({
-                _id: user.id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user.id, user.role),
-            });
-        } else {
-            res.status(401).json({ message: 'Invalid credentials' });
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Please provide email and password' });
         }
+
+        const user = await AuthService.login(email, password);
+
+        res.json({
+            _id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            token: user.token,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).json({ message: error.message });
     }
 };
 
-module.exports = {
-    registerUser,
-    loginUser,
-};
+module.exports = { registerUser, loginUser };

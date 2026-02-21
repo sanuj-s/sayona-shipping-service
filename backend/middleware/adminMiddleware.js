@@ -1,5 +1,9 @@
+// ─────────────────────────────────────────────
+// Admin Middleware — JWT verification for admin routes
+// Uses: Admin Model
+// ─────────────────────────────────────────────
 const jwt = require('jsonwebtoken');
-const pool = require('../config/db');
+const Admin = require('../models/Admin');
 
 const protectAdmin = async (req, res, next) => {
     let token;
@@ -12,18 +16,13 @@ const protectAdmin = async (req, res, next) => {
             token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            // Fetch admin from admins table
-            const result = await pool.query(
-                'SELECT id, name, email FROM admins WHERE id = $1',
-                [decoded.id]
-            );
-
-            if (result.rows.length === 0) {
+            const admin = await Admin.findById(decoded.id);
+            if (!admin) {
                 return res.status(401).json({ message: 'Not authorized, admin not found' });
             }
 
-            req.admin = result.rows[0];
-            next();
+            req.admin = admin;
+            return next();
         } catch (error) {
             console.error('Admin auth error:', error.message);
             return res.status(401).json({ message: 'Not authorized, token failed' });
