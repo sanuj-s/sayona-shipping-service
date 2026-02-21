@@ -272,7 +272,7 @@ nav {
       rgba(248, 250, 252, 0.80) 40%,
       rgba(248, 250, 252, 0.40) 65%,
       rgba(248, 250, 252, 0.00) 100%),
-    url('/src/assets/images/hero_split.png');
+    url('/images/hero_split.png');
   background-size: cover;
   background-position: center;
   border-bottom: 1px solid var(--border);
