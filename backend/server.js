@@ -1,15 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const initDB = require('./init_db');
+const pool = require('./config/db');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const shipmentRoutes = require('./routes/shipmentRoutes');
 const trackingRoutes = require('./routes/trackingRoutes');
 
-// Connect to Database
-connectDB();
+// Connect and Initialize Database
+initDB();
 
 const app = express();
 

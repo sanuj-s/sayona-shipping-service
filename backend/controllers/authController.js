@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const pool = require('../config/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -21,9 +21,8 @@ const registerUser = async (req, res) => {
         }
 
         // Check if user exists
-        const userExists = await User.findOne({ email });
-
-        if (userExists) {
+        const userExists = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (userExists.rows.length > 0) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
@@ -32,12 +31,13 @@ const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create user
-        const user = await User.create({
-            name,
-            email,
-            password: hashedPassword,
-            role: role || 'employee'
-        });
+        const newUserQuery = `
+            INSERT INTO users (name, email, password, role)
+            VALUES ($1, $2, $3, $4) RETURNING id, name, email, role
+        `;
+        const newUserRole = role || 'employee';
+        const result = await pool.query(newUserQuery, [name, email, hashedPassword, newUserRole]);
+        const user = result.rows[0];
 
         if (user) {
             res.status(201).json({
@@ -45,7 +45,7 @@ const registerUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                token: generateToken(user._id, user.role),
+                token: generateToken(user.id, user.role),
             });
         } else {
             res.status(400).json({ message: 'Invalid user data' });
@@ -63,7 +63,8 @@ const loginUser = async (req, res) => {
         const { email, password } = req.body;
 
         // Check for user email
-        const user = await User.findOne({ email });
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        const user = result.rows[0];
 
         if (user && (await bcrypt.compare(password, user.password))) {
             res.json({
@@ -71,7 +72,7 @@ const loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                token: generateToken(user._id, user.role),
+                token: generateToken(user.id, user.role),
             });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
