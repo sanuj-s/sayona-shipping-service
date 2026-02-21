@@ -1,55 +1,145 @@
-# Sayona Shipping Service - Backend
+# Sayona Shipping Service — Backend
 
-This is the Node.js Express backend for the Sayona Shipping Service. It handles authentication, shipment management, and tracking history.
+Production-ready Node.js Express backend for the Sayona Shipping Service. Handles authentication, shipment management, tracking history, contact forms, quote requests, and an admin panel.
 
-## Requirements
-- Node.js (v14 or higher)
-- PostgreSQL running locally or a remote URI
+## Tech Stack
 
-## Setup & Running
+| Layer | Technology |
+|-------|-----------|
+| Runtime | Node.js |
+| Framework | Express 5 |
+| Database | PostgreSQL |
+| Auth | JWT + bcrypt |
+| Security | Helmet, CORS, Rate Limiting, HPP |
 
-1. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+## Quick Start
 
-2. **Environment Variables**
-   Create a `.env` file in the root of the `backend` directory (already created locally).
-   ```env
-   PORT=5000
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_USER=apple
-   DB_PASSWORD=
-   DB_NAME=sayona_shipping
-   JWT_SECRET=supersecretjwtkey_sayona_shipping_2026
-   ```
+```bash
+# 1. Install dependencies
+npm install
 
-3. **Initialize Database**
-   ```bash
-   npm run init-db
-   ```
+# 2. Configure environment
+cp .env.example .env
+# Edit .env with your database credentials
 
-4. **Start the Server**
-   ```bash
-   npm run dev
-   ```
+# 3. Initialize database
+npm run init-db
 
-   The backend will connect to PostgreSQL and start on `http://localhost:5000/api/...`.
+# 4. Seed admin user
+npm run seed-admin
+# Default: admin@sayona.com / admin123
+
+# 5. Start server
+npm run dev
+```
+
+Server starts at `http://localhost:3000`
+Admin panel at `http://localhost:3000/admin/login.html`
 
 ## API Endpoints
 
+### Health
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| GET | `/api/health` | Public | Server health check |
+
 ### Authentication
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user and get token
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| POST | `/api/auth/register` | Public | Register user |
+| POST | `/api/auth/login` | Public | Login user |
+| GET | `/api/auth/me` | Private | Get current user |
 
 ### Shipments
-- `POST /api/shipments` - Create shipment (Private)
-- `GET /api/shipments` - Get all shipments
-- `GET /api/shipments/:trackingNumber` - Get specific shipment
-- `PUT /api/shipments/:trackingNumber` - Update status/location (Private)
-- `DELETE /api/shipments/:trackingNumber` - Delete shipment (Private/Admin)
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| POST | `/api/shipments` | Private | Create shipment |
+| GET | `/api/shipments` | Public | List all shipments |
+| GET | `/api/shipments/:tracking` | Public | Get shipment by tracking |
+| PUT | `/api/shipments/:tracking` | Private | Update shipment |
+| DELETE | `/api/shipments/:tracking` | Admin | Delete shipment |
 
 ### Tracking
-- `GET /api/tracking/:trackingNumber` - Get tracking and history (Public)
-- `POST /api/tracking/update` - Push new tracking update (Private)
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| GET | `/api/tracking/:tracking` | Public | Get tracking history |
+| POST | `/api/tracking/update` | Private | Add tracking event |
+
+### Contact
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| POST | `/api/contact` | Public | Submit contact form |
+
+### Quote
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| POST | `/api/quote` | Public | Submit quote request |
+
+### Admin Panel
+| Method | Route | Access | Description |
+|--------|-------|--------|-------------|
+| POST | `/api/admin/login` | Public | Admin login |
+| GET | `/api/admin/profile` | Admin | Admin profile |
+| GET | `/api/admin/analytics` | Admin | Dashboard stats |
+| GET | `/api/admin/shipments` | Admin | List shipments |
+| POST | `/api/admin/shipments` | Admin | Create shipment |
+| PUT | `/api/admin/shipments/:tracking` | Admin | Update shipment |
+| DELETE | `/api/admin/shipments/:tracking` | Admin | Delete shipment |
+| GET | `/api/admin/tracking/:tracking` | Admin | Tracking history |
+| POST | `/api/admin/tracking` | Admin | Add tracking event |
+| GET | `/api/admin/users` | Admin | List users |
+| GET | `/api/admin/contacts` | Admin | List contact messages |
+| PUT | `/api/admin/contacts/:id/read` | Admin | Mark message read |
+| GET | `/api/admin/quotes` | Admin | List quote requests |
+| PUT | `/api/admin/quotes/:id/status` | Admin | Update quote status |
+
+## Database Tables
+
+- `admins` — Admin panel users
+- `users` — Regular users / employees
+- `shipments` — Shipment records with tracking IDs
+- `tracking` — Tracking event history
+- `contact_messages` — Contact form submissions
+- `quote_requests` — Quote request submissions
+
+## Security Features
+
+- **Helmet** — Security headers (XSS, clickjacking, MIME sniffing)
+- **Rate Limiting** — 100 req/15min API, 10 req/15min auth, 5 req/15min forms
+- **HPP** — HTTP Parameter Pollution protection
+- **CORS** — Configurable origin whitelist
+- **JWT** — Token-based authentication with expiry
+- **bcrypt** — Password hashing with salt
+- **Input validation** — All endpoints validate required fields
+
+## Project Structure
+
+```
+backend/
+├── config/
+│   └── db.js              # PostgreSQL pool config
+├── controllers/
+│   ├── adminAuthController.js
+│   ├── authController.js
+│   ├── contactController.js
+│   ├── quoteController.js
+│   ├── shipmentController.js
+│   └── trackingController.js
+├── middleware/
+│   ├── adminMiddleware.js
+│   ├── authMiddleware.js
+│   ├── errorHandler.js
+│   └── rateLimiter.js
+├── routes/
+│   ├── adminRoutes.js
+│   ├── authRoutes.js
+│   ├── contactRoutes.js
+│   ├── quoteRoutes.js
+│   ├── shipmentRoutes.js
+│   └── trackingRoutes.js
+├── .env.example
+├── init_db.js
+├── seed_admin.js
+├── server.js
+└── package.json
+```

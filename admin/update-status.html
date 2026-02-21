@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Status — Sayona Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>Sayona Shipping</h2>
+                <span>Admin Panel</span>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html">
+                        <span class="nav-icon">📊</span> Dashboard
+                    </a></li>
+                <li><a href="shipments.html">
+                        <span class="nav-icon">📦</span> Shipments
+                    </a></li>
+                <li><a href="create-shipment.html">
+                        <span class="nav-icon">➕</span> Create Shipment
+                    </a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-outline btn-sm">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h1>Shipment: <span id="trackingDisplay" class="tracking-id" style="font-size: inherit;"></span></h1>
+                <div class="topbar-right">
+                    <a href="shipments.html" class="btn btn-outline btn-sm">← Back to Shipments</a>
+                    <span class="admin-badge" id="adminName">Admin</span>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Shipment Details -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div class="card-header">
+                        <h2>Shipment Details</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-grid" id="detailGrid">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <!-- Update Status Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Update Status</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="updateForm">
+                                <div class="form-group">
+                                    <label for="newStatus">New Status</label>
+                                    <select id="newStatus" class="form-control" required>
+                                        <option value="">Select status...</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Picked Up">Picked Up</option>
+                                        <option value="In Transit">In Transit</option>
+                                        <option value="Out for Delivery">Out for Delivery</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newLocation">Location (optional)</label>
+                                    <input type="text" id="newLocation" class="form-control"
+                                        placeholder="Current city or warehouse">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Update Status</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Tracking History Timeline -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Tracking History</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline" id="trackingTimeline">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/update-status.js"></script>
+</body>
+
+</html>

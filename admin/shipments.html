@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipments — Sayona Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>Sayona Shipping</h2>
+                <span>Admin Panel</span>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html">
+                        <span class="nav-icon">📊</span> Dashboard
+                    </a></li>
+                <li><a href="shipments.html" class="active">
+                        <span class="nav-icon">📦</span> Shipments
+                    </a></li>
+                <li><a href="create-shipment.html">
+                        <span class="nav-icon">➕</span> Create Shipment
+                    </a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn btn-outline btn-sm">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h1>Shipments</h1>
+                <div class="topbar-right">
+                    <span id="shipmentCount" style="color: var(--text-muted); font-size: 0.85rem;"></span>
+                    <span class="admin-badge" id="adminName">Admin</span>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <input type="text" id="searchInput" class="form-control"
+                        placeholder="🔍 Search by tracking ID, sender, receiver, route...">
+                    <select id="statusFilter" class="form-control">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                    <a href="create-shipment.html" class="btn btn-primary btn-sm">➕ New Shipment</a>
+                </div>
+
+                <!-- Shipments Table -->
+                <div class="card">
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tracking ID</th>
+                                        <th>Sender</th>
+                                        <th>Receiver</th>
+                                        <th>Route</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="shipmentsBody">
+                                    <tr>
+                                        <td colspan="7">
+                                            <div class="spinner"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal">
+            <h3>🗑 Delete Shipment?</h3>
+            <p>Are you sure you want to delete shipment <strong id="deleteTrackingId"></strong>? This action cannot be
+                undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-outline btn-sm" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn btn-danger btn-sm" onclick="executeDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/shipments.js"></script>
+</body>
+
+</html>
