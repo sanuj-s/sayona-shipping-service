@@ -19,4 +19,4 @@ const trackingHistorySchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('TrackingHistory', trackingHistorySchema);
+module.exports = mongoose.model('Tracking', trackingHistorySchema);

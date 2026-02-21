@@ -1,5 +1,5 @@
 const Shipment = require('../models/Shipment');
-const TrackingHistory = require('../models/TrackingHistory');
+const Tracking = require('../models/Tracking');
 
 // @desc    Create a new shipment
 // @route   POST /api/shipments
@@ -28,7 +28,7 @@ const createShipment = async (req, res) => {
         });
 
         // Create initial tracking history
-        await TrackingHistory.create({
+        await Tracking.create({
             trackingNumber,
             location: currentLocation,
             status: 'Pending',
@@ -91,7 +91,7 @@ const updateShipment = async (req, res) => {
 
         // Create new tracking history entry if location or status is updated
         if (status || currentLocation) {
-            await TrackingHistory.create({
+            await Tracking.create({
                 trackingNumber,
                 location: shipment.currentLocation,
                 status: shipment.status,
@@ -117,7 +117,7 @@ const deleteShipment = async (req, res) => {
         }
 
         await Shipment.deleteOne({ trackingNumber: req.params.trackingNumber });
-        await TrackingHistory.deleteMany({ trackingNumber: req.params.trackingNumber });
+        await Tracking.deleteMany({ trackingNumber: req.params.trackingNumber });
 
         res.status(200).json({ message: 'Shipment removed' });
     } catch (error) {

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (trackBtn) {
-        trackBtn.addEventListener("click", function () {
+        trackBtn.addEventListener("click", async function () {
 
             const trackingId = input.value.trim().toUpperCase();
 
@@ -30,12 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (loading) loading.style.display = "block";
             resultBox.innerHTML = "";
 
-            const shipment = shipments.find(s => s.trackingId === trackingId);
-
-            setTimeout(() => {
+            try {
+                const response = await fetch(`http://localhost:5000/api/tracking/${trackingId}`);
                 if (loading) loading.style.display = "none";
 
-                if (shipment) {
+                if (response.ok) {
+                    const data = await response.json();
+                    const shipment = data.shipment;
 
                     // Generate progress indicator (2. Shipment status progress bar)
                     const steps = ["Booked", "In Transit", "Out for Delivery", "Delivered"];
@@ -55,23 +56,44 @@ document.addEventListener("DOMContentLoaded", function () {
                     resultBox.innerHTML = `
                         <div class="tracking-card">
                             <h3>Status: ${shipment.status}</h3>
-                            <p><strong>Tracking ID:</strong> ${shipment.trackingId}</p>
-                            <p><strong>Origin:</strong> ${shipment.origin}</p>
-                            <p><strong>Destination:</strong> ${shipment.destination}</p>
-                            <p><strong>Date:</strong> ${shipment.date}</p>
+                            <p><strong>Tracking ID:</strong> ${shipment.trackingNumber}</p>
+                            <p><strong>Sender:</strong> ${shipment.senderName || "N/A"}</p>
+                            <p><strong>Receiver:</strong> ${shipment.receiverName || "N/A"}</p>
+                            <p><strong>Current Location:</strong> ${shipment.currentLocation || "N/A"}</p>
                             ${progressHtml}
                         </div>
                     `;
+
+                    if (data.history && data.history.length > 0) {
+                        let historyHtml = '<div class="tracking-history" style="margin-top:20px; text-align:left;"><h4>History</h4><ul style="list-style:none; padding:0;">';
+                        data.history.forEach(record => {
+                            const dateStr = new Date(record.timestamp).toLocaleString();
+                            historyHtml += `<li style="margin-bottom:10px; padding:10px; background:#f9f9f9; border-radius:5px; font-size: 0.9em;">
+                                <strong>${dateStr}</strong><br>
+                                Status: ${record.status}<br>
+                                Location: ${record.location}
+                            </li>`;
+                        });
+                        historyHtml += '</ul></div>';
+                        resultBox.innerHTML += historyHtml;
+                    }
                 } else {
                     // 11. Error handling UI
+                    const errorData = await response.json().catch(() => ({}));
                     resultBox.innerHTML = `
                     <div style="color:red; margin-top:20px; text-align:center;">
-                        Tracking ID not found
+                        ${errorData.message || "Tracking ID not found"}
                     </div>
                     `;
                 }
-
-            }, 1000);
+            } catch (error) {
+                if (loading) loading.style.display = "none";
+                resultBox.innerHTML = `
+                <div style="color:red; margin-top:20px; text-align:center;">
+                    Error connecting to server. Please ensure the backend is running.
+                </div>
+                `;
+            }
 
         });
     }

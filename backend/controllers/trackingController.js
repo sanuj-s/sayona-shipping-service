@@ -1,5 +1,5 @@
 const Shipment = require('../models/Shipment');
-const TrackingHistory = require('../models/TrackingHistory');
+const Tracking = require('../models/Tracking');
 
 // @desc    Get tracking history and shipment info
 // @route   GET /api/tracking/:trackingNumber
@@ -14,7 +14,7 @@ const getTracking = async (req, res) => {
             return res.status(404).json({ message: 'Tracking number not found' });
         }
 
-        const history = await TrackingHistory.find({ trackingNumber }).sort({ timestamp: -1 });
+        const history = await Tracking.find({ trackingNumber }).sort({ timestamp: -1 });
 
         res.status(200).json({
             shipment: {
@@ -51,7 +51,7 @@ const updateTracking = async (req, res) => {
         shipment.currentLocation = location;
         await shipment.save();
 
-        const trackingRecord = await TrackingHistory.create({
+        const trackingRecord = await Tracking.create({
             trackingNumber,
             location,
             status,
