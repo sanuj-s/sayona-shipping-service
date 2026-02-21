@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const receiverName = document.getElementById('receiverName').value.trim();
         const receiverAddress = document.getElementById('receiverAddress').value.trim();
         const currentLocation = document.getElementById('currentLocation').value.trim();
+        const industryType = document.getElementById('industryType').value;
 
         if (!trackingNumber || !senderName || !senderAddress || !receiverName || !receiverAddress || !currentLocation) {
             showToast('Please fill all fields', 'error');
@@ -33,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 senderAddress,
                 receiverName,
                 receiverAddress,
-                currentLocation
+                currentLocation,
+                industryType
             });
 
             showToast('Shipment created successfully!', 'success');

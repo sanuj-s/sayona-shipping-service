@@ -8,12 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Search and filter
     const searchInput = document.getElementById('searchInput');
     const statusFilter = document.getElementById('statusFilter');
+    const industryFilter = document.getElementById('industryFilter');
 
     if (searchInput) {
         searchInput.addEventListener('input', debounce(filterShipments, 300));
     }
     if (statusFilter) {
         statusFilter.addEventListener('change', filterShipments);
+    }
+    if (industryFilter) {
+        industryFilter.addEventListener('change', filterShipments);
     }
 });
 
@@ -28,13 +32,14 @@ async function loadShipments() {
         renderShipments(allShipments);
     } catch (error) {
         showToast('Failed to load shipments: ' + error.message, 'error');
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><p>Failed to load</p></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><p>Failed to load</p></td></tr>';
     }
 }
 
 function filterShipments() {
     const query = (document.getElementById('searchInput').value || '').toLowerCase();
     const status = document.getElementById('statusFilter').value;
+    const industry = document.getElementById('industryFilter') ? document.getElementById('industryFilter').value : '';
 
     let filtered = allShipments;
 
@@ -52,6 +57,10 @@ function filterShipments() {
         filtered = filtered.filter(s => s.status === status);
     }
 
+    if (industry) {
+        filtered = filtered.filter(s => s.industryType === industry);
+    }
+
     renderShipments(filtered);
 }
 
@@ -62,7 +71,7 @@ function renderShipments(shipments) {
     if (countEl) countEl.textContent = `${shipments.length} shipment${shipments.length !== 1 ? 's' : ''}`;
 
     if (shipments.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><div class="empty-icon">📦</div><p>No shipments found</p></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><div class="empty-icon">📦</div><p>No shipments found</p></td></tr>`;
         return;
     }
 
@@ -71,6 +80,7 @@ function renderShipments(shipments) {
             <td class="tracking-id">${s.trackingNumber}</td>
             <td>${s.senderName}</td>
             <td>${s.receiverName}</td>
+            <td><span class="badge" style="background:#e0e7ff; color:#3730a3;">${s.industryType || 'Unspecified'}</span></td>
             <td>${s.origin || '—'} → ${s.destination || '—'}</td>
             <td><span class="badge badge-${getStatusClass(s.status)}">${s.status}</span></td>
             <td>${formatDate(s.createdAt)}</td>

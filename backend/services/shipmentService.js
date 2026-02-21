@@ -13,24 +13,25 @@ const mapShipment = (row) => ({
     origin: row.origin,
     destination: row.destination,
     status: row.status,
+    industryType: row.industry_type,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
 });
 
 const ShipmentService = {
     // Create a shipment + initial tracking entry
-    create: async ({ trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation }) => {
+    create: async ({ trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation, industryType }) => {
         if (await Shipment.trackingExists(trackingNumber)) {
             throw Object.assign(new Error('Shipment with this tracking number already exists'), { statusCode: 400 });
         }
 
         const shipment = await Shipment.create({
-            trackingId: trackingNumber,
+            trackingNumber,
             senderName,
             receiverName,
             origin: senderAddress,
             destination: receiverAddress,
-            status: 'Pending',
+            industryType,
         });
 
         await Tracking.create({
@@ -42,9 +43,9 @@ const ShipmentService = {
         return { ...mapShipment(shipment), currentLocation };
     },
 
-    // Get all shipments
-    getAll: async () => {
-        const rows = await Shipment.findAll();
+    // Get all shipments (optionally filtered by industry)
+    getAll: async (industry) => {
+        const rows = await Shipment.findAll(industry);
         return rows.map(mapShipment);
     },
 

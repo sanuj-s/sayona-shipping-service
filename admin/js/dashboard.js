@@ -30,7 +30,7 @@ function renderRecentShipments(shipments) {
     if (!tbody) return;
 
     if (shipments.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><p>No shipments yet</p></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><p>No shipments yet</p></td></tr>`;
         return;
     }
 
@@ -39,6 +39,7 @@ function renderRecentShipments(shipments) {
             <td class="tracking-id">${s.trackingNumber}</td>
             <td>${s.senderName}</td>
             <td>${s.receiverName}</td>
+            <td><span class="badge" style="background:#e0e7ff; color:#3730a3;">${s.industryType || 'Unspecified'}</span></td>
             <td>${s.origin} → ${s.destination}</td>
             <td><span class="badge badge-${getStatusClass(s.status)}">${s.status}</span></td>
             <td>${formatDate(s.createdAt)}</td>

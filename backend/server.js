@@ -90,6 +90,11 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/quote', quoteRoutes);
 
+// Alias: POST /api/login (required by spec)
+const { loginUser } = require('./controllers/authController');
+const { authLimiter } = require('./middleware/rateLimiter');
+app.post('/api/login', authLimiter, loginUser);
+
 // ─────────────── Error Handling ───────────────
 app.use(notFound);
 app.use(errorHandler);

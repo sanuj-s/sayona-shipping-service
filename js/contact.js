@@ -2,6 +2,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.getElementById("contactForm");
     const message = document.getElementById("formMessage");
+    const industrySelect = document.getElementById("industrySelect");
+
+    // Auto-select industry from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const industryParam = urlParams.get('industry');
+    if (industryParam && industrySelect) {
+        Array.from(industrySelect.options).forEach(opt => {
+            if (opt.value.includes(industryParam) || opt.text.includes(industryParam)) {
+                industrySelect.value = opt.value;
+            }
+        });
+    }
 
     if (form) {
         form.addEventListener("submit", function (e) {

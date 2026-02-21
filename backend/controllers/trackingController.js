@@ -17,18 +17,18 @@ const getTracking = async (req, res) => {
     }
 };
 
-// @desc    Add a tracking update
-// @route   POST /api/tracking/update
+// @desc    Add a tracking update event
+// @route   POST /api/tracking
 // @access  Private
 const updateTracking = async (req, res) => {
     try {
-        const { trackingNumber, location, status } = req.body;
+        const { trackingNumber, location, status, description } = req.body;
 
         if (!trackingNumber || !location || !status) {
-            return res.status(400).json({ message: 'Please provide all fields' });
+            return res.status(400).json({ message: 'trackingNumber, location, and status are required' });
         }
 
-        const event = await TrackingService.addEvent({ trackingNumber, location, status });
+        const event = await TrackingService.addEvent({ trackingNumber, location, status, description });
         res.status(201).json(event);
     } catch (error) {
         const statusCode = error.statusCode || 500;

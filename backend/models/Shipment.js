@@ -5,11 +5,11 @@ const pool = require('../config/db');
 
 const Shipment = {
     // Create a new shipment
-    create: async ({ trackingId, senderName, receiverName, origin, destination, status }) => {
+    create: async ({ trackingNumber, senderName, receiverName, origin, destination, industryType }) => {
         const result = await pool.query(
-            `INSERT INTO shipments (tracking_id, sender_name, receiver_name, origin, destination, status)
-             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-            [trackingId, senderName, receiverName, origin, destination, status || 'Pending']
+            `INSERT INTO shipments (tracking_id, sender_name, receiver_name, origin, destination, status, industry_type)
+             VALUES ($1, $2, $3, $4, $5, 'Pending', $6) RETURNING *`,
+            [trackingNumber, senderName, receiverName, origin, destination, industryType || 'Unspecified']
         );
         return result.rows[0];
     },
@@ -23,11 +23,18 @@ const Shipment = {
         return result.rows[0] || null;
     },
 
-    // Get all shipments (sorted newest first)
-    findAll: async () => {
-        const result = await pool.query(
-            'SELECT * FROM shipments ORDER BY created_at DESC'
-        );
+    // Get all shipments (sorted newest first, optional industry filter)
+    findAll: async (industry) => {
+        let query = 'SELECT * FROM shipments';
+        let params = [];
+
+        if (industry) {
+            query += ' WHERE industry_type = $1';
+            params.push(industry);
+        }
+
+        query += ' ORDER BY created_at DESC';
+        const result = await pool.query(query, params);
         return result.rows;
     },
 

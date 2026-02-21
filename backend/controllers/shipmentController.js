@@ -26,12 +26,12 @@ const createShipment = async (req, res) => {
     }
 };
 
-// @desc    Get all shipments
+// @desc    Get all shipments (with optional filter)
 // @route   GET /api/shipments
 // @access  Public
 const getShipments = async (req, res) => {
     try {
-        const shipments = await ShipmentService.getAll();
+        const shipments = await ShipmentService.getAll(req.query.industry);
         res.status(200).json(shipments);
     } catch (error) {
         res.status(500).json({ message: error.message });

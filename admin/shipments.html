@@ -29,6 +29,15 @@
                 <li><a href="create-shipment.html">
                         <span class="nav-icon">➕</span> Create Shipment
                     </a></li>
+                <li><a href="#">
+                        <span class="nav-icon">📄</span> Quotes
+                    </a></li>
+                <li><a href="#">
+                        <span class="nav-icon">💬</span> Contacts
+                    </a></li>
+                <li><a href="#">
+                        <span class="nav-icon">👥</span> Users
+                    </a></li>
             </ul>
             <div class="sidebar-footer">
                 <button id="logoutBtn" class="btn btn-outline btn-sm">🚪 Logout</button>
@@ -50,6 +59,15 @@
                 <div class="filter-bar">
                     <input type="text" id="searchInput" class="form-control"
                         placeholder="🔍 Search by tracking ID, sender, receiver, route...">
+                    <select id="industryFilter" class="form-control" style="max-width: 150px;">
+                        <option value="">All Industries</option>
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Textile">Textile</option>
+                        <option value="High-Tech">High-Tech</option>
+                        <option value="Pharmaceuticals">Pharmaceuticals</option>
+                        <option value="General Cargo">General Cargo</option>
+                        <option value="Other">Other</option>
+                    </select>
                     <select id="statusFilter" class="form-control">
                         <option value="">All Statuses</option>
                         <option value="Pending">Pending</option>
@@ -71,6 +89,7 @@
                                         <th>Tracking ID</th>
                                         <th>Sender</th>
                                         <th>Receiver</th>
+                                        <th>Industry</th>
                                         <th>Route</th>
                                         <th>Status</th>
                                         <th>Created</th>
@@ -79,7 +98,7 @@
                                 </thead>
                                 <tbody id="shipmentsBody">
                                     <tr>
-                                        <td colspan="7">
+                                        <td colspan="8">
                                             <div class="spinner"></div>
                                         </td>
                                     </tr>

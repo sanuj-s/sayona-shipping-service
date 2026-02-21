@@ -85,10 +85,14 @@
                     <li class="dropdown-parent">
                         <a href="index.html#industries">Industries <i class="fas fa-chevron-down nav-caret"></i></a>
                         <ul class="dropdown-menu simple-menu">
-                            <li><a href="#"><i class="fas fa-tshirt"></i> Textile & Garments</a></li>
-                            <li><a href="#"><i class="fas fa-cogs"></i> Raw Materials</a></li>
-                            <li><a href="#"><i class="fas fa-laptop"></i> High-Tech Retail</a></li>
-                            <li><a href="#"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a></li>
+                            <li><a href="/industries/textile.html"><i class="fas fa-tshirt"></i> Textile & Garments</a>
+                            </li>
+                            <li><a href="/industries/raw-materials.html"><i class="fas fa-cogs"></i> Raw Materials</a>
+                            </li>
+                            <li><a href="/industries/hightech.html"><i class="fas fa-laptop"></i> High-Tech Retail</a>
+                            </li>
+                            <li><a href="/industries/pharma.html"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -181,14 +185,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label">Cargo Type</label>
-                                    <select class="form-control" style="appearance: none;">
-                                        <option>General Cargo</option>
-                                        <option>Industrial Materials</option>
-                                        <option>Consumer Goods</option>
-                                        <option>Automotive Parts</option>
-                                        <option>Medical/Pharmaceutical</option>
-                                        <option>Other</option>
+                                    <label class="form-label">Cargo Type / Industry</label>
+                                    <select id="industrySelect" class="form-control" style="appearance: none;">
+                                        <option value="General Cargo">General Cargo</option>
+                                        <option value="Raw Materials">Raw Materials</option>
+                                        <option value="Textile">Textile & Garments</option>
+                                        <option value="High-Tech">High-Tech Retail</option>
+                                        <option value="Pharmaceuticals">Pharmaceuticals</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
 
@@ -298,6 +302,7 @@
     <script src="js/scrollreveal.js"></script>
     <script src="js/counter.js"></script>
     <script src="js/progressbar.js"></script>
+    <script src="js/contact.js"></script>
     <script src="js/main.js"></script>
     <script src="js/modern-animations.js"></script>
 </body>

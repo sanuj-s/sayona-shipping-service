@@ -5,11 +5,11 @@ const pool = require('../config/db');
 
 const Tracking = {
     // Add a tracking event
-    create: async ({ trackingId, location, status }) => {
+    create: async ({ trackingId, location, status, description }) => {
         const result = await pool.query(
-            `INSERT INTO tracking (tracking_id, location, status)
-             VALUES ($1, $2, $3) RETURNING *`,
-            [trackingId, location, status]
+            `INSERT INTO tracking (tracking_id, location, status, description)
+             VALUES ($1, $2, $3, $4) RETURNING *`,
+            [trackingId, location, status, description || null]
         );
         return result.rows[0];
     },

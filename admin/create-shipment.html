@@ -29,6 +29,15 @@
                 <li><a href="create-shipment.html" class="active">
                         <span class="nav-icon">➕</span> Create Shipment
                     </a></li>
+                <li><a href="#">
+                        <span class="nav-icon">📄</span> Quotes
+                    </a></li>
+                <li><a href="#">
+                        <span class="nav-icon">💬</span> Contacts
+                    </a></li>
+                <li><a href="#">
+                        <span class="nav-icon">👥</span> Users
+                    </a></li>
             </ul>
             <div class="sidebar-footer">
                 <button id="logoutBtn" class="btn btn-outline btn-sm">🚪 Logout</button>
@@ -80,10 +89,23 @@
                                         placeholder="City, Country" required>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="currentLocation">Current Location</label>
-                                <input type="text" id="currentLocation" class="form-control"
-                                    placeholder="Pickup warehouse, city" required>
+                            <div class="detail-grid">
+                                <div class="form-group">
+                                    <label for="currentLocation">Current Location</label>
+                                    <input type="text" id="currentLocation" class="form-control"
+                                        placeholder="Pickup warehouse, city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="industryType">Industry Type</label>
+                                    <select id="industryType" class="form-control">
+                                        <option value="General Cargo">General Cargo</option>
+                                        <option value="Raw Materials">Raw Materials</option>
+                                        <option value="Textile">Textile</option>
+                                        <option value="High-Tech">High-Tech</option>
+                                        <option value="Pharmaceuticals">Pharmaceuticals</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
                             </div>
                             <div style="display: flex; gap: 12px; margin-top: 8px;">
                                 <button type="submit" class="btn btn-primary">Create Shipment</button>

@@ -33,6 +33,7 @@ const initDB = async () => {
             origin VARCHAR(100) NOT NULL,
             destination VARCHAR(100) NOT NULL,
             status VARCHAR(50) DEFAULT 'Pending',
+            industry_type VARCHAR(50) DEFAULT 'Unspecified',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
@@ -44,6 +45,7 @@ const initDB = async () => {
             tracking_id VARCHAR(50) NOT NULL,
             location VARCHAR(100) NOT NULL,
             status VARCHAR(50) NOT NULL,
+            description TEXT,
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (tracking_id) REFERENCES shipments(tracking_id) ON DELETE CASCADE
         );
