@@ -1,113 +1,101 @@
-/* Loader */
-#loader {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: white;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #eee;
-  border-top: 5px solid var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Fade animation */
-.fade-up {
-  animation: fadeUp 1s ease;
-}
-
-@keyframes fadeUp {
-  from {
+/* 2. Reveal Classes */
+.reveal {
     opacity: 0;
-    transform: translateY(40px);
-  }
+    transform: translateY(60px);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
 
-  to {
+.reveal.show {
     opacity: 1;
     transform: translateY(0);
-  }
 }
 
-/* Image hover */
-img {
-  transition: 0.4s;
+/* 3. Magnetic */
+.magnetic {
+    transition: transform 0.2s ease-out;
+    display: inline-block;
+    will-change: transform;
 }
 
-img:hover {
-  transform: scale(1.05);
+/* 4. Parallax Hero */
+.hero,
+.page-header {
+    will-change: transform;
 }
 
-/* Scroll Animations */
-.animate {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease-out;
+/* 5. Custom Cursor Glow */
+.cursor-glow {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 150, 255, 0.4);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    filter: blur(15px);
+    z-index: 9999;
+    will-change: left, top;
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
 }
 
-.animate.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .cursor-glow {
+        display: none;
+    }
 }
 
-.hero {
-  animation: heroZoom 20s ease-in-out infinite alternate;
+/* 7. Floating animation (pure GPU) */
+.float {
+    animation: float 4s ease-in-out infinite;
+    will-change: transform;
 }
 
-@keyframes heroZoom {
-  from {
-    background-size: 100%;
-  }
+@keyframes float {
 
-  to {
-    background-size: 110%;
-  }
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
-
-.hero h1 {
-  animation: fadeUp 1s ease;
+/* 8. Text gradient animation */
+.gradient-text {
+    background: linear-gradient(270deg,
+            #00c6ff,
+            #0072ff,
+            #00c6ff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s ease infinite;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
 
-  to {
-    opacity: 1;
-  }
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.service-image:hover {
-  transform: translateY(-5px);
+/* Smooth transitions for navbar padding */
+.navbar {
+    transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease !important;
 }
 
-.service-image:hover img {
-  transform: scale(1.05);
-}
-
-/* Progress bar specific animation/ui */
-#progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 4px;
-  background: var(--accent);
-  width: 0;
-  z-index: 9999;
-  transition: width 0.2s ease-out;
+html {
+    /* Required for Lenis smooth scroll */
+    scroll-behavior: auto !important;
 }

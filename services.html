@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="css/responsive.css">
 
     <title>Services | Sayona Shipping Service</title>
+
+  <!-- GSAP & Lenis -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
 </head>
 
 <body>
@@ -27,43 +31,94 @@
 
     </div>
     <div id="app">
-        <header class="navbar">
-            <div class="container">
-                <nav>
-                    <a href="index.html" class="logo">
-                        <img src="/logo.png" alt="Sayona Shipping" class="logo-img">
-                    </a>
+        <!-- Top Utility Bar -->
+<div class="top-bar">
+    <div class="top-bar-container">
+        <div class="top-bar-left">
+            <span><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</span>
+            <span><i class="fas fa-envelope"></i> info@sayonashipping.com</span>
+            <span><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 6:00 PM</span>
+        </div>
+        <div class="top-bar-right">
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <div class="vertical-divider"></div>
+            <a href="#" class="client-login"><i class="fas fa-user-circle"></i> Client Portal</a>
+        </div>
+    </div>
+</div>
 
-                    <!-- Desktop Links -->
-                    <div class="nav-links">
-                        <a href="index.html">Home</a>
-                        <a href="services.html" class="active color-primary">Services</a>
-                        <a href="index.html#industries" class="nav-link">Industries</a>
-                        <a href="index.html#tracking">Tracking</a>
-                        <a href="company.html">Company</a>
-                        <a href="contact.html">Contact</a>
+<!-- Main Corporate Navbar -->
+<nav class="navbar corporate-nav">
+
+    <div class="nav-left">
+        <div class="logo">
+            <a href="index.html" style="text-decoration:none;">
+                <img src="/images/logo.png" alt="Sayona Shipping Services">
+            </a>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            
+            <li class="dropdown-parent">
+                <a href="index.html#services">Services <i class="fas fa-chevron-down nav-caret"></i></a>
+                <div class="dropdown-menu mega-menu">
+                    <div class="mega-column">
+                        <h4>Core Freight</h4>
+                        <a href="services.html"><i class="fas fa-ship"></i> Ocean Freight (FCL/LCL)</a>
+                        <a href="services.html"><i class="fas fa-plane"></i> Air Freight</a>
+                        <a href="services.html"><i class="fas fa-truck"></i> Ground Transportation</a>
                     </div>
-
-                    <!-- Action Buttons -->
-                    <div class="nav-actions">
-                        <a href="index.html#tracking" class="link-track">Track Shipment</a>
-                        <a href="index.html#quote" class="btn btn-primary">Get Quote</a>
-                        <button id="menuBtn" class="mobile-menu-btn">☰</button>
+                    <div class="mega-column">
+                        <h4>Specialized Solutions</h4>
+                        <a href="services.html"><i class="fas fa-warehouse"></i> Warehousing</a>
+                        <a href="services.html"><i class="fas fa-file-signature"></i> Customs Clearance</a>
+                        <a href="services.html"><i class="fas fa-box-open"></i> Supply Chain Logistics</a>
                     </div>
+                </div>
+            </li>
 
-                    <!-- Mobile Menu Overlay -->
-                    <nav id="navMenu">
-                        <a href="services.html">Services</a>
-                        <a href="index.html#industries" class="nav-link">Industries</a>
-                        <a href="index.html#tracking">Tracking</a>
-                        <a href="company.html">Company</a>
-                        <a href="contact.html">Contact</a>
-                        <a href="index.html#tracking" class="btn btn-outline mobile-btn">Track Shipment</a>
-                        <a href="contact.html" class="btn btn-primary mobile-btn">Get Quote</a>
-                    </nav>
-                </nav>
-            </div>
-        </header>
+            <li class="dropdown-parent">
+                <a href="index.html#industries">Industries <i class="fas fa-chevron-down nav-caret"></i></a>
+                <ul class="dropdown-menu simple-menu">
+                    <li><a href="#"><i class="fas fa-tshirt"></i> Textile & Garments</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Raw Materials</a></li>
+                    <li><a href="#"><i class="fas fa-laptop"></i> High-Tech Retail</a></li>
+                    <li><a href="#"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a></li>
+                </ul>
+            </li>
+
+            <li><a href="tracking.html">Tracking</a></li>
+            <li><a href="company.html">Company</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-right">
+        <button class="nav-search-btn"><i class="fas fa-search"></i></button>
+        <div class="nav-actions">
+            <a href="tracking.html" class="btn-ghost"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
+            <a href="contact.html#quote" class="btn-enterprise">Get Quote</a>
+        </div>
+        <button id="menuBtn" class="mobile-menu-btn">☰</button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <nav id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#industries">Industries</a>
+        <a href="tracking.html">Tracking</a>
+        <a href="company.html">Company</a>
+        <a href="contact.html">Contact</a>
+        <hr/>
+        <a href="tracking.html" class="btn-ghost mobile-btn">Track Cargo</a>
+        <a href="contact.html#quote" class="btn-enterprise mobile-btn">Get Quote</a>
+    </nav>
+
+</nav>
 
         <main class="pt-3">
 
@@ -118,7 +173,7 @@
                                 <li>Flexible cargo volume</li>
                                 <li>Door-to-door or port-to-port</li>
                             </ul>
-                            <a href="contact.html" class="btn-primary">Request Quote</a>
+                            <a href="contact.html" class="btn-primary magnetic">Request Quote</a>
                         </div>
                         <div class="service-image">
                             <img src="/images/services/lcl-consolidation.jpg" alt="LCL consolidation" loading="lazy">
@@ -137,7 +192,7 @@
                                 <li>Sealed at origin, opened at destination</li>
                                 <li>Ideal for bulk goods and high volume</li>
                             </ul>
-                            <a href="contact.html" class="btn-primary">Request Quote</a>
+                            <a href="contact.html" class="btn-primary magnetic">Request Quote</a>
                         </div>
                         <div class="service-image">
                             <img src="/images/services/fcl-container-ship.jpg" alt="FCL container shipping" loading="lazy">
@@ -156,7 +211,7 @@
                                 <li>Real-time flight tracking</li>
                                 <li>Secure handling for high-value goods</li>
                             </ul>
-                            <a href="contact.html" class="btn-primary">Request Quote</a>
+                            <a href="contact.html" class="btn-primary magnetic">Request Quote</a>
                         </div>
                         <div class="service-image">
                             <img src="/images/services/air.jpg" alt="Air Freight Export">
@@ -175,7 +230,7 @@
                                 <li>Regulatory compliance checking</li>
                                 <li>Faster clearance to avoid demurrage</li>
                             </ul>
-                            <a href="contact.html" class="btn-primary">Request Quote</a>
+                            <a href="contact.html" class="btn-primary magnetic">Request Quote</a>
                         </div>
                         <div class="service-image">
                             <img src="/images/services/customs-clearance.jpg" alt="Customs clearance inspection" loading="lazy">
@@ -194,7 +249,7 @@
                                 <li>Inventory management systems</li>
                                 <li>Distribution and last-mile delivery</li>
                             </ul>
-                            <a href="contact.html" class="btn-primary">Request Quote</a>
+                            <a href="contact.html" class="btn-primary magnetic">Request Quote</a>
                         </div>
                         <div class="service-image">
                             <img src="/images/about/warehouse.jpg" alt="Warehousing and Storage">
@@ -231,7 +286,7 @@
                         <ul>
                             <li><a href="company.html">About Us</a></li>
                             <li><a href="index.html#process">Our Process</a></li>
-                            <li><a href="#">Careers</a></li>
+                            <li><a href="careers.html">Careers</a></li>
                             <li><a href="#">Privacy Policy</a></li>
                         </ul>
                     </div>
@@ -264,6 +319,7 @@
     <script src="js/counter.js"></script>
     <script src="js/progressbar.js"></script>
     <script src="js/main.js"></script>
+<script src="js/modern-animations.js"></script>
 </body>
 
 </html>

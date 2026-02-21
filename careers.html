@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <title>Careers | Sayona Shipping Service</title>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+
+    <style>
+        /* ========== Careers Page Styles ========== */
+        .careers-hero {
+            background: linear-gradient(135deg, #031326 0%, #0a2540 50%, #0072ff 100%);
+            color: #ffffff;
+            padding: 100px 40px 80px;
+            text-align: center;
+        }
+
+        .careers-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .careers-hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+        }
+
+        /* Why Join Section */
+        .why-join {
+            padding: 80px 40px;
+            background: #f8fafc;
+        }
+
+        .why-join h2 {
+            text-align: center;
+            font-size: 36px;
+            color: #0d1e38;
+            margin-bottom: 50px;
+        }
+
+        .perks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .perk-card {
+            background: #ffffff;
+            padding: 36px 28px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .perk-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .perk-card .perk-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(0, 114, 255, 0.1), rgba(0, 198, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .perk-card .perk-icon i {
+            font-size: 28px;
+            color: #0072ff;
+        }
+
+        .perk-card h3 {
+            font-size: 20px;
+            color: #0d1e38;
+            margin-bottom: 10px;
+        }
+
+        .perk-card p {
+            color: #5a6a7e;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* Open Positions */
+        .open-positions {
+            padding: 80px 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .open-positions h2 {
+            text-align: center;
+            font-size: 36px;
+            color: #0d1e38;
+            margin-bottom: 50px;
+        }
+
+        .job-card {
+            background: #ffffff;
+            border: 1px solid #e8ecf0;
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .job-card:hover {
+            border-color: #0072ff;
+            box-shadow: 0 8px 24px rgba(0, 114, 255, 0.08);
+        }
+
+        .job-info h3 {
+            font-size: 20px;
+            color: #0d1e38;
+            margin: 0 0 8px 0;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .job-meta span {
+            font-size: 13px;
+            color: #5a6a7e;
+        }
+
+        .job-meta span i {
+            margin-right: 6px;
+            color: #0072ff;
+        }
+
+        .job-apply-btn {
+            padding: 12px 28px;
+            border-radius: 8px;
+            background: #0072ff;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .job-apply-btn:hover {
+            background: #0060d9;
+            box-shadow: 0 6px 16px rgba(0, 114, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* CTA Section */
+        .careers-cta {
+            background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+            padding: 80px 40px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .careers-cta h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .careers-cta p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .careers-cta .cta-btn {
+            display: inline-block;
+            background: #ffffff;
+            color: #0072ff;
+            padding: 14px 36px;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .careers-cta .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .careers-hero h1 {
+                font-size: 32px;
+            }
+
+            .job-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+    <div id="progress-bar"></div>
+
+    </div>
+    <div id="app">
+        <!-- Top Utility Bar -->
+        <div class="top-bar">
+            <div class="top-bar-container">
+                <div class="top-bar-left">
+                    <span><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</span>
+                    <span><i class="fas fa-envelope"></i> info@sayonashipping.com</span>
+                    <span><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 6:00 PM</span>
+                </div>
+                <div class="top-bar-right">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <div class="vertical-divider"></div>
+                    <a href="#" class="client-login"><i class="fas fa-user-circle"></i> Client Portal</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Corporate Navbar -->
+        <nav class="navbar corporate-nav">
+
+            <div class="nav-left">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration:none;">
+                        <img src="/images/logo.png" alt="Sayona Shipping Services">
+                    </a>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+
+                    <li class="dropdown-parent">
+                        <a href="index.html#services">Services <i class="fas fa-chevron-down nav-caret"></i></a>
+                        <div class="dropdown-menu mega-menu">
+                            <div class="mega-column">
+                                <h4>Core Freight</h4>
+                                <a href="services.html"><i class="fas fa-ship"></i> Ocean Freight (FCL/LCL)</a>
+                                <a href="services.html"><i class="fas fa-plane"></i> Air Freight</a>
+                                <a href="services.html"><i class="fas fa-truck"></i> Ground Transportation</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>Specialized Solutions</h4>
+                                <a href="services.html"><i class="fas fa-warehouse"></i> Warehousing</a>
+                                <a href="services.html"><i class="fas fa-file-signature"></i> Customs Clearance</a>
+                                <a href="services.html"><i class="fas fa-box-open"></i> Supply Chain Logistics</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="dropdown-parent">
+                        <a href="index.html#industries">Industries <i class="fas fa-chevron-down nav-caret"></i></a>
+                        <ul class="dropdown-menu simple-menu">
+                            <li><a href="#"><i class="fas fa-tshirt"></i> Textile & Garments</a></li>
+                            <li><a href="#"><i class="fas fa-cogs"></i> Raw Materials</a></li>
+                            <li><a href="#"><i class="fas fa-laptop"></i> High-Tech Retail</a></li>
+                            <li><a href="#"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="tracking.html">Tracking</a></li>
+                    <li><a href="company.html">Company</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <button class="nav-search-btn"><i class="fas fa-search"></i></button>
+                <div class="nav-actions">
+                    <a href="tracking.html" class="btn-ghost"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
+                    <a href="contact.html#quote" class="btn-enterprise">Get Quote</a>
+                </div>
+                <button id="menuBtn" class="mobile-menu-btn">☰</button>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <nav id="navMenu">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="index.html#industries">Industries</a>
+                <a href="tracking.html">Tracking</a>
+                <a href="company.html">Company</a>
+                <a href="contact.html">Contact</a>
+                <hr />
+                <a href="tracking.html" class="btn-ghost mobile-btn">Track Cargo</a>
+                <a href="contact.html#quote" class="btn-enterprise mobile-btn">Get Quote</a>
+            </nav>
+
+        </nav>
+
+        <main>
+            <!-- === CAREERS HERO === -->
+            <section class="careers-hero reveal">
+                <h1>Join Our Global Team</h1>
+                <p>Build your career with one of the fastest-growing logistics companies. We are looking for passionate
+                    talent to drive innovation across international shipping and supply chain solutions.</p>
+            </section>
+
+            <!-- === WHY JOIN US === -->
+            <section class="why-join">
+                <h2 class="reveal">Why Work at Sayona?</h2>
+                <div class="perks-grid">
+                    <div class="perk-card reveal">
+                        <div class="perk-icon"><i class="fas fa-globe-americas"></i></div>
+                        <h3>Global Exposure</h3>
+                        <p>Work with international clients and partners across 25+ countries, gaining invaluable
+                            cross-border logistics expertise.</p>
+                    </div>
+                    <div class="perk-card reveal">
+                        <div class="perk-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Rapid Growth</h3>
+                        <p>Clear career progression paths with mentorship programs and leadership development
+                            opportunities.</p>
+                    </div>
+                    <div class="perk-card reveal">
+                        <div class="perk-icon"><i class="fas fa-laptop-house"></i></div>
+                        <h3>Flexible Environment</h3>
+                        <p>Hybrid work options, modern offices, and a culture that values work-life balance and personal
+                            well-being.</p>
+                    </div>
+                    <div class="perk-card reveal">
+                        <div class="perk-icon"><i class="fas fa-users-cog"></i></div>
+                        <h3>Dynamic Culture</h3>
+                        <p>Collaborative teams, regular team-building activities, and an inclusive environment where
+                            every voice matters.</p>
+                    </div>
+                    <div class="perk-card reveal">
+                        <div class="perk-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                        <h3>Competitive Benefits</h3>
+                        <p>Industry-leading compensation, comprehensive health coverage, and performance-based bonuses.
+                        </p>
+                    </div>
+                    <div class="perk-card reveal">
+                        <div class="perk-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h3>Continuous Learning</h3>
+                        <p>Sponsored certifications, training programs, and access to the latest logistics technology
+                            platforms.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === OPEN POSITIONS === -->
+            <section class="open-positions">
+                <h2 class="reveal">Open Positions</h2>
+
+                <div class="job-card reveal">
+                    <div class="job-info">
+                        <h3>Senior Operations Manager</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Tirupur, India</span>
+                            <span><i class="fas fa-clock"></i> Full-Time</span>
+                            <span><i class="fas fa-briefcase"></i> Operations</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="job-apply-btn">Apply Now</a>
+                </div>
+
+                <div class="job-card reveal">
+                    <div class="job-info">
+                        <h3>Customs Clearance Specialist</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Chennai, India</span>
+                            <span><i class="fas fa-clock"></i> Full-Time</span>
+                            <span><i class="fas fa-briefcase"></i> Compliance</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="job-apply-btn">Apply Now</a>
+                </div>
+
+                <div class="job-card reveal">
+                    <div class="job-info">
+                        <h3>Business Development Executive</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Mumbai, India</span>
+                            <span><i class="fas fa-clock"></i> Full-Time</span>
+                            <span><i class="fas fa-briefcase"></i> Sales</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="job-apply-btn">Apply Now</a>
+                </div>
+
+                <div class="job-card reveal">
+                    <div class="job-info">
+                        <h3>Supply Chain Analyst</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                            <span><i class="fas fa-clock"></i> Full-Time</span>
+                            <span><i class="fas fa-briefcase"></i> Logistics</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="job-apply-btn">Apply Now</a>
+                </div>
+
+                <div class="job-card reveal">
+                    <div class="job-info">
+                        <h3>Digital Marketing Coordinator</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Tirupur, India</span>
+                            <span><i class="fas fa-clock"></i> Full-Time</span>
+                            <span><i class="fas fa-briefcase"></i> Marketing</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="job-apply-btn">Apply Now</a>
+                </div>
+            </section>
+
+            <!-- === CAREERS CTA === -->
+            <section class="careers-cta reveal">
+                <h2>Don't See Your Role?</h2>
+                <p>We are always looking for talented individuals. Send us your resume, and we'll reach out when the
+                    right opportunity comes along.</p>
+                <a href="mailto:sayonaexim@gmail.com" class="cta-btn">Send Your Resume</a>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div>
+                        <h3>Sayona Shipping Service</h3>
+                        <p>Global logistics partner providing export and import services including ocean freight, air
+                            freight,
+                            customs clearance, and warehousing for all types of cargo.</p>
+                    </div>
+                    <div>
+                        <h3>Services</h3>
+                        <ul>
+                            <li><a href="services.html">LCL Shipping</a></li>
+                            <li><a href="services.html">FCL Shipping</a></li>
+                            <li><a href="services.html">Air Freight</a></li>
+                            <li><a href="services.html">Customs Clearance</a></li>
+                            <li><a href="services.html">Warehousing</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="company.html">About Us</a></li>
+                            <li><a href="index.html#process">Our Process</a></li>
+                            <li><a href="careers.html">Careers</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Contact</h3>
+                        <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
+                        <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
+                        <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
+                        <div class="social-links mt-1">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright text-center mt-3 pt-3 border-top">
+                    <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/scrollreveal.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/modern-animations.js"></script>
+</body>
+
+</html>
