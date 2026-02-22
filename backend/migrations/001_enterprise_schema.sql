@@ -22,7 +22,7 @@ DROP TYPE IF EXISTS shipment_status CASCADE;
 -- ═══════════════════════════════════════
 -- USERS — Unified users table with RBAC
 -- ═══════════════════════════════════════
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id                    SERIAL PRIMARY KEY,
     uuid                  UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
     name                  VARCHAR(100) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE users (
 -- ═══════════════════════════════════════
 -- REFRESH TOKENS
 -- ═══════════════════════════════════════
-CREATE TABLE refresh_tokens (
+CREATE TABLE IF NOT EXISTS refresh_tokens (
     id          SERIAL PRIMARY KEY,
     user_id     INTEGER REFERENCES users(id) ON DELETE CASCADE,
     token       TEXT NOT NULL UNIQUE,
@@ -59,11 +59,16 @@ CREATE TABLE refresh_tokens (
 -- ═══════════════════════════════════════
 -- SHIPMENTS
 -- ═══════════════════════════════════════
-CREATE TYPE shipment_status AS ENUM (
-    'CREATED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'
-);
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'shipment_status') THEN
+        CREATE TYPE shipment_status AS ENUM (
+            'CREATED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'
+        );
+    END IF;
+END$$;
 
-CREATE TABLE shipments (
+CREATE TABLE IF NOT EXISTS shipments (
     id              SERIAL PRIMARY KEY,
     uuid            UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
     tracking_number VARCHAR(50) UNIQUE NOT NULL,
@@ -84,7 +89,7 @@ CREATE TABLE shipments (
 -- ═══════════════════════════════════════
 -- TRACKING EVENTS
 -- ═══════════════════════════════════════
-CREATE TABLE tracking_events (
+CREATE TABLE IF NOT EXISTS tracking_events (
     id              SERIAL PRIMARY KEY,
     uuid            UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
     shipment_id     INTEGER REFERENCES shipments(id) ON DELETE CASCADE,
@@ -99,7 +104,7 @@ CREATE TABLE tracking_events (
 -- ═══════════════════════════════════════
 -- QUOTES
 -- ═══════════════════════════════════════
-CREATE TABLE quotes (
+CREATE TABLE IF NOT EXISTS quotes (
     id           SERIAL PRIMARY KEY,
     uuid         UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
     name         VARCHAR(100) NOT NULL,
@@ -122,7 +127,7 @@ CREATE TABLE quotes (
 -- ═══════════════════════════════════════
 -- CONTACTS
 -- ═══════════════════════════════════════
-CREATE TABLE contacts (
+CREATE TABLE IF NOT EXISTS contacts (
     id         SERIAL PRIMARY KEY,
     uuid       UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
     name       VARCHAR(100) NOT NULL,
@@ -138,7 +143,7 @@ CREATE TABLE contacts (
 -- ═══════════════════════════════════════
 -- AUDIT LOGS
 -- ═══════════════════════════════════════
-CREATE TABLE audit_logs (
+CREATE TABLE IF NOT EXISTS audit_logs (
     id          SERIAL PRIMARY KEY,
     uuid        UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
     user_id     INTEGER REFERENCES users(id) ON DELETE SET NULL,
