@@ -5,17 +5,21 @@ const {
     getShipments,
     getShipmentByTrackingNumber,
     updateShipment,
-    deleteShipment
+    deleteShipment,
+    generateInvoice
 } = require('../controllers/shipmentController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 router.route('/')
     .post(protect, createShipment)
-    .get(getShipments);
+    .get(protect, getShipments);
 
 router.route('/:trackingNumber')
     .get(getShipmentByTrackingNumber)
     .put(protect, updateShipment)
     .delete(protect, admin, deleteShipment);
+
+router.route('/:trackingNumber/invoice')
+    .get(protect, generateInvoice);
 
 module.exports = router;

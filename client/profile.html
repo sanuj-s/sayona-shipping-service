@@ -54,38 +54,36 @@
                     </div>
                 </div>
 
-                <div class="profile-grid" id="profileGrid">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pName">—
+                <form id="profileForm">
+                    <div class="profile-grid" id="profileGrid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="pName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="pEmail" class="form-input" disabled
+                                style="background:rgba(255,255,255,0.02)">
+                            <small style="color:var(--cp-text-muted)">Email cannot be changed directly.</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" id="pPhone" class="form-input" placeholder="+1 ...">
+                        </div>
+                        <div class="form-group">
+                            <label>Company</label>
+                            <input type="text" id="pCompany" class="form-input" placeholder="Company Name">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Billing / Shipping Address</label>
+                            <textarea id="pAddress" class="form-input" rows="3"
+                                placeholder="Street, City, Zip, Country..."></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pEmail">—
-                        </div>
+                    <div style="margin-top: 24px; text-align: right;">
+                        <button type="submit" class="btn-portal" id="saveProfileBtn">Save Changes</button>
                     </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pPhone">—
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Company</label>
-                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;"
-                            id="pCompany">—</div>
-                    </div>
-                    <div class="form-group">
-                        <label>Role</label>
-                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pRole">—
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Member Since</label>
-                        <div class="form-input" style="background:rgba(255,255,255,0.02); cursor:default;" id="pSince">—
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
 
             <div class="glass-panel">
@@ -112,16 +110,50 @@
                 document.getElementById('profileName').textContent = user.name || '—';
                 document.getElementById('profileRole').textContent = (user.role || 'Employee').charAt(0).toUpperCase() + (user.role || 'employee').slice(1);
 
-                document.getElementById('pName').textContent = user.name || '—';
-                document.getElementById('pEmail').textContent = user.email || '—';
-                document.getElementById('pPhone').textContent = user.phone || 'Not set';
-                document.getElementById('pCompany').textContent = user.company || 'Not set';
-                document.getElementById('pRole').textContent = (user.role || 'employee').charAt(0).toUpperCase() + (user.role || 'employee').slice(1);
-                document.getElementById('pSince').textContent = user.created_at ? formatDate(user.created_at) : '—';
+                document.getElementById('pName').value = user.name || '';
+                document.getElementById('pEmail').value = user.email || '';
+                document.getElementById('pPhone').value = user.phone || '';
+                document.getElementById('pCompany').value = user.company || '';
+                document.getElementById('pAddress').value = user.address || '';
             } catch (err) {
                 showToast(err.message, 'error');
             }
         }
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveProfileBtn');
+            btn.textContent = 'Saving...';
+            btn.disabled = true;
+
+            try {
+                const data = {
+                    name: document.getElementById('pName').value,
+                    phone: document.getElementById('pPhone').value,
+                    company: document.getElementById('pCompany').value,
+                    address: document.getElementById('pAddress').value,
+                };
+
+                const updated = await PortalAPI.updateProfile(data);
+                showToast('Profile updated successfully!', 'success');
+
+                // Update local storage and DOM
+                const oldAuth = JSON.parse(localStorage.getItem('client_user') || '{}');
+                oldAuth.name = updated.name;
+                localStorage.setItem('client_user', JSON.stringify(oldAuth));
+
+                document.getElementById('profileName').textContent = updated.name;
+                document.getElementById('profileAvatar').textContent = updated.name.charAt(0).toUpperCase();
+                document.getElementById('sidebarUserName').textContent = updated.name;
+                document.getElementById('sidebarAvatar').textContent = updated.name.charAt(0).toUpperCase();
+
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                btn.textContent = 'Save Changes';
+                btn.disabled = false;
+            }
+        });
 
         loadProfile();
     </script>

@@ -3,150 +3,436 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="../images/logo.png" />
+    <link rel="icon" type="image/svg+xml" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Google Fonts -->
+    <meta name="description"
+        content="Pharmaceutical and healthcare logistics by Sayona Shipping — GDP-compliant cold-chain shipping, temperature-controlled transport, and regulatory documentation for medicine exports.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
-        rel="stylesheet">
-
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/industry.css">
+    <title>Pharmaceutical & Healthcare Logistics | Sayona Shipping Service</title>
+    <style>
+        .ind-hero::before {
+            background-image: url('/images/services/air.jpg')
+        }
 
-    <title>Pharmaceuticals Logistics | Sayona Shipping Service</title>
+        .ind-badge {
+            background: rgba(16, 185, 129, .15);
+            color: #34d399;
+            border: 1px solid rgba(52, 211, 153, .3)
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Top Utility Bar -->
     <div class="top-bar">
         <div class="top-bar-container">
-            <div class="top-bar-left">
-                <span><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</span>
-                <span><i class="fas fa-envelope"></i> info@sayonashipping.com</span>
-            </div>
-            <div class="top-bar-right">
-                <a href="/client/login.html" class="client-login"><i class="fas fa-user-circle"></i> Client Portal</a>
+            <div class="top-bar-left"><span><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</span><span><i
+                        class="fas fa-envelope"></i> info@sayonashipping.com</span><span><i class="fas fa-clock"></i>
+                    Mon - Fri: 8:00 AM - 6:00 PM</span></div>
+            <div class="top-bar-right"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i
+                        class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-facebook-f"></i></a>
+                <div class="vertical-divider"></div><a href="/client/login.html" class="client-login"><i
+                        class="fas fa-user-circle"></i> Client Portal</a>
             </div>
         </div>
     </div>
 
-    <!-- Main Corporate Navbar -->
     <nav class="navbar corporate-nav">
         <div class="nav-left">
-            <div class="logo">
-                <a href="../index.html" style="text-decoration:none;">
-                    <img src="../images/logo.png" alt="Sayona Shipping Services">
-                </a>
-            </div>
+            <div class="logo"><a href="../index.html" style="text-decoration:none;"><img src="/images/sayona-logo.png"
+                        alt="Sayona Shipping Services"></a></div>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li class="dropdown-parent">
-                    <a href="../services.html">Services <i class="fas fa-chevron-down nav-caret"></i></a>
+                <li class="dropdown-parent"><a href="../services.html">Services <i
+                            class="fas fa-chevron-down nav-caret"></i></a>
                     <div class="dropdown-menu mega-menu">
                         <div class="mega-column">
-                            <h4>Core Freight</h4>
-                            <a href="../services.html"><i class="fas fa-ship"></i> Ocean Freight</a>
-                            <a href="../services.html"><i class="fas fa-plane"></i> Air Freight</a>
+                            <h4>Core Freight</h4><a href="../services.html#fcl"><i class="fas fa-ship"></i> Ocean
+                                Freight</a><a href="../services.html#air-freight"><i class="fas fa-plane"></i> Air
+                                Freight</a><a href="../services.html#lcl"><i class="fas fa-truck"></i> Ground
+                                Transport</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Specialized</h4><a href="../services.html#warehousing"><i class="fas fa-warehouse"></i>
+                                Warehousing</a><a href="../services.html#customs"><i class="fas fa-file-signature"></i>
+                                Customs Clearance</a>
                         </div>
                     </div>
                 </li>
-                <li class="dropdown-parent">
-                    <a href="../index.html#industries">Industries <i class="fas fa-chevron-down nav-caret"></i></a>
+                <li class="dropdown-parent"><a href="../index.html#industries">Industries <i
+                            class="fas fa-chevron-down nav-caret"></i></a>
                     <ul class="dropdown-menu simple-menu">
-                        <li><a href="textile.html"><i class="fas fa-tshirt"></i> Textile & Garments</a></li>
-                        <li><a href="raw-materials.html"><i class="fas fa-cogs"></i> Raw Materials</a></li>
-                        <li><a href="hightech.html"><i class="fas fa-laptop"></i> High-Tech Retail</a></li>
+                        <li><a href="textile.html"><i class="fas fa-tshirt"></i> Textile & Apparel</a></li>
+                        <li><a href="hightech.html"><i class="fas fa-laptop"></i> High-Tech & Electronics</a></li>
                         <li><a href="pharma.html"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a></li>
+                        <li><a href="automotive.html"><i class="fas fa-car"></i> Automotive</a></li>
+                        <li><a href="agri-products.html"><i class="fas fa-leaf"></i> Agri Products</a></li>
+                        <li><a href="general-cargo.html"><i class="fas fa-boxes"></i> General Cargo</a></li>
                     </ul>
                 </li>
-                <li><a href="../tracking.html">Tracking</a></li>
                 <li><a href="../company.html">Company</a></li>
                 <li><a href="../contact.html">Contact</a></li>
             </ul>
         </div>
-        <div class="nav-right">
-            <div class="nav-actions">
-                <a href="../tracking.html" class="btn-ghost"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
-                <a href="../contact.html#quote?industry=Pharmaceuticals" class="btn-enterprise">Get Quote</a>
-            </div>
+        <div class="nav-right"><button class="nav-search-btn"><i class="fas fa-search"></i></button>
+            <div class="nav-actions"><a href="../tracking.html" class="btn-ghost"><i class="fas fa-map-marker-alt"></i>
+                    Track Cargo</a><a href="../contact.html#quote" class="btn-enterprise">Get Quote</a></div>
         </div>
     </nav>
 
-    <main class="pt-3">
-        <!-- Hero Section -->
-        <section class="hero section-alt"
-            style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
-            <div class="container container-sm">
-                <div class="badge"
-                    style="margin-bottom: 20px; display: inline-block; background: #e0e7ff; color: #4338ca; padding: 6px 16px; border-radius: 20px; font-weight: 600;">
-                    Industry Solutions</div>
-                <h1 style="font-size: 3rem; color: #0f172a; margin-bottom: 24px;">Pharmaceuticals Logistics</h1>
-                <p style="font-size: 1.25rem; color: #475569; margin-bottom: 40px;">
-                    Strict temperature-controlled supply chains for vaccines, medications, and medical devices. Fully
-                    compliant with global healthcare distribution standards.
-                </p>
-                <div style="display: flex; gap: 16px; justify-content: center;">
-                    <a href="../contact.html#quote?industry=Pharmaceuticals" class="btn-enterprise"
-                        style="padding: 14px 32px; font-size: 1.1rem;">Request Pharma Quote</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Grid -->
-        <section class="section">
+    <main>
+        <section class="ind-hero">
             <div class="container">
-                <div class="tracking-details-grid" style="grid-template-columns: repeat(2, 1fr); gap: 32px;">
-                    <div class="tracking-detail-card">
-                        <div class="detail-icon" style="font-size: 32px; color: #0072ff; margin-bottom: 20px;">❄️</div>
-                        <h3 style="margin-bottom: 12px; color: #0d1e38;">Cold-Chain Freight</h3>
-                        <p style="color: #64748b; line-height: 1.6;">Active and passive temperature-controlled
-                            transport. Continuous monitoring for frozen, chilled (+2°C to +8°C), and controlled room
-                            temperature cargo.</p>
+                <div class="ind-badge"><i class="fas fa-heartbeat" style="margin-right:6px"></i> GDP-Compliant Logistics
+                </div>
+                <h1>Pharmaceutical & Healthcare Logistics</h1>
+                <p class="subtitle">Temperature-controlled, GDP-compliant logistics for pharmaceutical products,
+                    biologics, vaccines, and medical devices. Unbroken cold-chain from manufacturer to healthcare
+                    facility worldwide.</p>
+                <div class="ind-hero-actions">
+                    <a href="../contact.html#quote" class="btn-ind-primary">Request Pharma Quote</a>
+                    <a href="#services" class="btn-ind-outline">View Solutions</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="ind-stats">
+            <div class="container">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h3>$500M+</h3>
+                        <p>Pharma Cargo Value Handled</p>
                     </div>
-                    <div class="tracking-detail-card">
-                        <div class="detail-icon" style="font-size: 32px; color: #0072ff; margin-bottom: 20px;">🛡️</div>
-                        <h3 style="margin-bottom: 12px; color: #0d1e38;">GDP Compliance</h3>
-                        <p style="color: #64748b; line-height: 1.6;">Fully certified Good Distribution Practice
-                            operations. Guaranteed adherence to global healthcare authority regulations from origin to
-                            destination.</p>
+                    <div class="stat-item">
+                        <h3>60+</h3>
+                        <p>Healthcare Destinations</p>
                     </div>
-                    <div class="tracking-detail-card">
-                        <div class="detail-icon" style="font-size: 32px; color: #0072ff; margin-bottom: 20px;">🏥</div>
-                        <h3 style="margin-bottom: 12px; color: #0d1e38;">Clinical Trial Logistics</h3>
-                        <p style="color: #64748b; line-height: 1.6;">Time-critical delivery of investigative medical
-                            products and biological samples. Hand-carry and strict routing options for sensitive health
-                            payloads.</p>
+                    <div class="stat-item">
+                        <h3>100%</h3>
+                        <p>GDP Compliance Rate</p>
                     </div>
-                    <div class="tracking-detail-card">
-                        <div class="detail-icon" style="font-size: 32px; color: #0072ff; margin-bottom: 20px;">🌡️</div>
-                        <h3 style="margin-bottom: 12px; color: #0d1e38;">Data Log Tracking</h3>
-                        <p style="color: #64748b; line-height: 1.6;">Real-time IoT temperature and humidity tracking
-                            integrated directly into our digital portal. Full audit trails provided upon delivery.</p>
+                    <div class="stat-item">
+                        <h3>2-8°C</h3>
+                        <p>Cold-Chain Maintained</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA -->
-        <section class="section" style="background: #0d1e38; color: white; text-align: center;">
-            <div class="container container-sm">
-                <h2 style="color: white; margin-bottom: 20px;">Trust us with your critical healthcare cold-chain.</h2>
-                <p style="color: #94a3b8; margin-bottom: 40px; font-size: 1.1rem;">Ensure the integrity of your medical
-                    products anywhere in the world.</p>
-                <a href="../contact.html#quote?industry=Pharmaceuticals" class="btn-enterprise"
-                    style="background: #0072ff; padding: 16px 40px; font-size: 1.1rem;">Start Cold-Chain Shipping</a>
+        <section id="services" class="ind-section">
+            <div class="container">
+                <h2 class="ind-section-title">Pharma Logistics Solutions</h2>
+                <p class="ind-section-subtitle">End-to-end pharmaceutical supply chain with validated temperature
+                    control at every touchpoint.</p>
+                <div class="ind-services-grid">
+                    <div class="ind-service-card">
+                        <div class="ind-service-icon"><i class="fas fa-thermometer-half"></i></div>
+                        <h3>Cold-Chain Logistics</h3>
+                        <p>Active and passive temperature-controlled shipping — reefer containers, insulated shippers,
+                            gel packs, and dry ice for vaccines, biologics, and temperature-sensitive medicines.</p>
+                    </div>
+                    <div class="ind-service-card">
+                        <div class="ind-service-icon"><i class="fas fa-satellite-dish"></i></div>
+                        <h3>Real-Time Monitoring</h3>
+                        <p>IoT temperature loggers with GPS tracking. Continuous temperature data recording, automated
+                            excursion alerts, and downloadable temperature reports for regulatory compliance.</p>
+                    </div>
+                    <div class="ind-service-card">
+                        <div class="ind-service-icon"><i class="fas fa-certificate"></i></div>
+                        <h3>GDP Compliance</h3>
+                        <p>Full Good Distribution Practice compliance — validated transport, qualified packaging, staff
+                            training, deviation management, and complete audit trail documentation.</p>
+                    </div>
+                    <div class="ind-service-card">
+                        <div class="ind-service-icon"><i class="fas fa-file-medical-alt"></i></div>
+                        <h3>Regulatory Documentation</h3>
+                        <p>Drug import/export licenses, WHO GMP certificates, FDA registration, EU GDP certificates, and
+                            country-specific regulatory filings for pharma cargo clearance.</p>
+                    </div>
+                    <div class="ind-service-card">
+                        <div class="ind-service-icon"><i class="fas fa-warehouse"></i></div>
+                        <h3>Pharma Warehousing</h3>
+                        <p>GDP-compliant warehousing with validated temperature zones (ambient, 2-8°C, -20°C).
+                            Segregated storage, batch tracking, and FEFO (First Expiry First Out) management.</p>
+                    </div>
+                    <div class="ind-service-card">
+                        <div class="ind-service-icon"><i class="fas fa-plane"></i></div>
+                        <h3>Priority Air Freight</h3>
+                        <p>Temperature-controlled air cargo with priority handling. Pre-declared cool chain bookings
+                            with airlines, IATA CEIV Pharma-certified handling at airports.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ind-section alt">
+            <div class="container">
+                <h2 class="ind-section-title">Temperature Range Capabilities</h2>
+                <p class="ind-section-subtitle">Validated transport solutions across the complete pharmaceutical
+                    temperature spectrum.</p>
+                <div class="temp-grid">
+                    <div class="temp-card">
+                        <div class="temp-value">15-25°C</div>
+                        <h4>Controlled Room Temperature</h4>
+                        <p>General pharmaceuticals, OTC medicines, medical devices, and supplements</p>
+                    </div>
+                    <div class="temp-card">
+                        <div class="temp-value">2-8°C</div>
+                        <h4>Refrigerated</h4>
+                        <p>Vaccines, insulin, biologics, diagnostic reagents, and blood products</p>
+                    </div>
+                    <div class="temp-card">
+                        <div class="temp-value">-20°C</div>
+                        <h4>Frozen</h4>
+                        <p>mRNA vaccines, enzyme preparations, clinical trial materials, and plasma</p>
+                    </div>
+                </div>
+                <div class="cert-row">
+                    <span class="cert-badge"><i class="fas fa-check-circle" style="color:#0072ff;margin-right:6px"></i>
+                        WHO GDP</span>
+                    <span class="cert-badge"><i class="fas fa-check-circle" style="color:#0072ff;margin-right:6px"></i>
+                        EU GDP</span>
+                    <span class="cert-badge"><i class="fas fa-check-circle" style="color:#0072ff;margin-right:6px"></i>
+                        IATA CEIV Pharma</span>
+                    <span class="cert-badge"><i class="fas fa-check-circle" style="color:#0072ff;margin-right:6px"></i>
+                        FDA 21 CFR</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="ind-section">
+            <div class="container">
+                <div class="ind-process">
+                    <div class="ind-process-content">
+                        <h2>Why Choose Sayona for Pharma?</h2>
+                        <p>Pharmaceutical logistics demands zero tolerance for temperature excursions, absolute
+                            regulatory compliance, and complete traceability. Our GDP-compliant processes ensure your
+                            medicines reach patients safely.</p>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <div class="process-num">1</div>
+                                <div>
+                                    <h4>Qualified Packaging Design</h4>
+                                    <p>Temperature-mapped packaging qualification for each product. Thermal validation
+                                        studies and seasonal packaging protocols.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="process-num">2</div>
+                                <div>
+                                    <h4>GDP-Compliant Pickup</h4>
+                                    <p>Temperature-controlled vehicles with calibrated monitoring. Chain-of-custody
+                                        documentation from manufacturer's loading dock.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="process-num">3</div>
+                                <div>
+                                    <h4>Monitored Transit</h4>
+                                    <p>Real-time IoT monitoring with automated excursion alerts. Temperature data
+                                        continuously logged and accessible via dashboard.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="process-num">4</div>
+                                <div>
+                                    <h4>Validated Delivery</h4>
+                                    <p>Temperature report at delivery, proof-of-delivery with signature, and complete
+                                        audit trail for regulatory inspection readiness.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ind-process-visual">
+                        <div class="visual-stat"><i class="fas fa-thermometer-half"></i> <span>Validated cold-chain from
+                                start to finish</span></div>
+                        <div class="visual-stat"><i class="fas fa-certificate"></i> <span>GDP/GMP compliance
+                                documentation</span></div>
+                        <div class="visual-stat"><i class="fas fa-satellite-dish"></i> <span>IoT real-time temperature
+                                monitoring</span></div>
+                        <div class="visual-stat"><i class="fas fa-file-medical-alt"></i> <span>Regulatory filings in 60+
+                                countries</span></div>
+                        <div class="visual-stat"><i class="fas fa-snowflake"></i> <span>-20°C to 25°C temperature
+                                range</span></div>
+                        <div class="visual-stat"><i class="fas fa-history"></i> <span>Complete audit trail &
+                                traceability</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ind-section alt">
+            <div class="container">
+                <h2 class="ind-section-title">Products We Ship</h2>
+                <p class="ind-section-subtitle">Every category of pharmaceutical and healthcare product — from tablets
+                    to biologics.</p>
+                <div class="cargo-grid">
+                    <div class="cargo-item"><i class="fas fa-pills"></i>
+                        <h4>Finished Medicines</h4>
+                        <p>Tablets, capsules, syrups, injectables</p>
+                    </div>
+                    <div class="cargo-item"><i class="fas fa-syringe"></i>
+                        <h4>Vaccines & Biologics</h4>
+                        <p>mRNA, viral vector, recombinant</p>
+                    </div>
+                    <div class="cargo-item"><i class="fas fa-flask"></i>
+                        <h4>APIs & Intermediates</h4>
+                        <p>Active ingredients, drug substances</p>
+                    </div>
+                    <div class="cargo-item"><i class="fas fa-microscope"></i>
+                        <h4>Clinical Trial Materials</h4>
+                        <p>IMP, comparators, lab supplies</p>
+                    </div>
+                    <div class="cargo-item"><i class="fas fa-heartbeat"></i>
+                        <h4>Medical Devices</h4>
+                        <p>Diagnostics, implants, equipment</p>
+                    </div>
+                    <div class="cargo-item"><i class="fas fa-tint"></i>
+                        <h4>Blood Products</h4>
+                        <p>Plasma, sera, blood components</p>
+                    </div>
+                    <div class="cargo-item"><i class="fas fa-capsules"></i>
+                        <h4>Nutraceuticals</h4>
+                        <p>Supplements, vitamins, probiotics</p>
+                    </div>
+                    <div class="cargo-item"><i class="fas fa-first-aid"></i>
+                        <h4>Surgical Supplies</h4>
+                        <p>Sutures, gloves, sterile packs</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ind-section">
+            <div class="container">
+                <h2 class="ind-section-title">Frequently Asked Questions</h2>
+                <p class="ind-section-subtitle">Common questions about pharmaceutical logistics.</p>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">How do you maintain cold-chain integrity for vaccines? <i
+                                class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">
+                            <p>We use validated reefer containers with IoT temperature loggers providing real-time data.
+                                Active cooling systems maintain 2-8°C or -20°C as required. Pre-qualified insulated
+                                shippers with phase-change materials for last-mile. Temperature excursion alerts trigger
+                                immediate rerouting or intervention protocols.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">What GDP compliance documentation do you provide? <i
+                                class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">
+                            <p>Complete GDP documentation: temperature mapping reports, packaging qualification
+                                protocols, transport validation studies, deviation reports, CAPA records, and continuous
+                                temperature logs. All documentation is audit-ready for regulatory inspections by FDA,
+                                EMA, or WHO-PQ.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Can you handle controlled substances? <i
+                                class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">
+                            <p>Yes. We handle Schedule H, X, and narcotic drugs with additional security protocols —
+                                secured warehousing, chain-of-custody documentation, tamper-evident packaging, and
+                                compliance with NDPS Act and INCB requirements. All handling staff are
+                                security-verified.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Do you handle pharma exports to regulated markets like US and EU? <i
+                                class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">
+                            <p>Absolutely. We coordinate FDA registration, EU MAH requirements, WHO prequalification
+                                documentation. Our team handles Drug Master File references, Certificates of
+                                Pharmaceutical Product (CPP), and country-specific import licenses for 60+ regulated
+                                markets.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">What happens if there's a temperature excursion? <i
+                                class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">
+                            <p>Our IoT systems send automated alerts within minutes of an excursion. Our SOP includes
+                                immediate investigation, root cause analysis, product impact assessment per manufacturer
+                                stability data, and a formal deviation report. The quality team decides on product
+                                disposition per GDP requirements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ind-section alt">
+            <div class="container">
+                <h2 class="ind-section-title">Explore Other Industries</h2>
+                <p class="ind-section-subtitle">Specialized logistics across multiple industry verticals.</p>
+                <div class="other-industries">
+                    <a href="automotive.html" class="other-ind-card"><i class="fas fa-car"></i> Automotive</a>
+                    <a href="agri-products.html" class="other-ind-card"><i class="fas fa-leaf"></i> Agri Products</a>
+                    <a href="general-cargo.html" class="other-ind-card"><i class="fas fa-boxes"></i> General Cargo</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="ind-cta">
+            <div class="container">
+                <h2>Ready to Ship Pharmaceuticals Safely?</h2>
+                <p>Get a GDP-compliant logistics plan for your pharmaceutical and healthcare exports.</p>
+                <a href="../contact.html#quote" class="btn-ind-primary">Get Pharma Quote</a>
             </div>
         </section>
     </main>
 
-    <!-- JS -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid">
+                <div><a href="../index.html" class="logo"><img src="/images/sayona-logo.png" alt="Sayona Shipping"
+                            class="logo-img"></a>
+                    <p>Global logistics partner for export and import services including ocean freight, air freight,
+                        customs clearance, and warehousing.</p>
+                </div>
+                <div>
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="../services.html#lcl">LCL Shipping</a></li>
+                        <li><a href="../services.html#fcl">FCL Shipping</a></li>
+                        <li><a href="../services.html#air-freight">Air Freight</a></li>
+                        <li><a href="../services.html#customs">Customs Clearance</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Industries</h3>
+                    <ul>
+                        <li><a href="textile.html">Textile & Apparel</a></li>
+                        <li><a href="hightech.html">High-Tech & Electronics</a></li>
+                        <li><a href="pharma.html">Pharmaceuticals</a></li>
+                        <li><a href="automotive.html">Automotive</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contact</h3>
+                    <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
+                    <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
+                    <p><a href="tel:+917010764306" class="highlight">+91 70107 64306</a></p>
+                </div>
+            </div>
+            <div class="copyright text-center mt-3 pt-3 border-top">
+                <p>&copy; <span id="year"></span> Sayona Shipping Service. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="../js/navbar.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="../js/search.js"></script>
+    <script>document.querySelectorAll('.faq-question').forEach(q => { q.addEventListener('click', () => { const i = q.parentElement; document.querySelectorAll('.faq-item').forEach(x => { if (x !== i) x.classList.remove('open') }); i.classList.toggle('open') }) }); const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();</script>
 </body>
 
 </html>

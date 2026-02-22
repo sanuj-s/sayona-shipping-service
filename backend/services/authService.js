@@ -59,6 +59,21 @@ const AuthService = {
             token: AuthService.generateToken(user.id, user.role),
         };
     },
+
+    // Update user profile
+    updateProfile: async (id, data) => {
+        const user = await User.updateProfile(id, data);
+        if (!user) throw Object.assign(new Error('User not found'), { statusCode: 404 });
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            company: user.company,
+            role: user.role,
+            address: user.address,
+        };
+    },
 };
 
 module.exports = AuthService;

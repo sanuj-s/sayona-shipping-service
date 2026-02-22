@@ -1,0 +1,521 @@
+/* ─── Shared Industry Page Styles ─── */
+
+/* Hero */
+.ind-hero {
+    position: relative;
+    padding: 120px 0 100px;
+    text-align: center;
+    background: linear-gradient(135deg, #031326 0%, #0a2a4a 50%, #0d3b66 100%);
+    color: #fff;
+    overflow: hidden
+}
+
+.ind-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .12;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat
+}
+
+.ind-hero .container {
+    position: relative;
+    z-index: 2
+}
+
+.ind-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px
+}
+
+.ind-hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2
+}
+
+.ind-hero p.subtitle {
+    font-size: 1.15rem;
+    color: #94a3b8;
+    max-width: 680px;
+    margin: 0 auto 40px;
+    line-height: 1.7
+}
+
+.ind-hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap
+}
+
+/* Buttons */
+.btn-ind-primary {
+    background: #0072ff;
+    color: #fff;
+    padding: 14px 36px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all .3s;
+    box-shadow: 0 4px 16px rgba(0, 114, 255, .3)
+}
+
+.btn-ind-primary:hover {
+    background: #0060d9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 114, 255, .4)
+}
+
+.btn-ind-outline {
+    border: 2px solid rgba(255, 255, 255, .3);
+    color: #fff;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .3s
+}
+
+.btn-ind-outline:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, .08)
+}
+
+/* Stats */
+.ind-stats {
+    background: #fff;
+    padding: 50px 0;
+    border-bottom: 1px solid #eef2f6
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    text-align: center
+}
+
+.stat-item h3 {
+    font-size: 2.4rem;
+    color: #0072ff;
+    margin-bottom: 4px
+}
+
+.stat-item p {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500
+}
+
+/* Sections */
+.ind-section {
+    padding: 80px 0
+}
+
+.ind-section.alt {
+    background: #f8fafc
+}
+
+.ind-section-title {
+    font-size: 2rem;
+    color: #0d1e38;
+    text-align: center;
+    margin-bottom: 16px
+}
+
+.ind-section-subtitle {
+    text-align: center;
+    color: #64748b;
+    max-width: 620px;
+    margin: 0 auto 48px;
+    font-size: 1.05rem;
+    line-height: 1.6
+}
+
+/* Service cards */
+.ind-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px
+}
+
+.ind-service-card {
+    background: #fff;
+    border: 1px solid #eef2f6;
+    border-radius: 14px;
+    padding: 36px 28px;
+    transition: all .3s
+}
+
+.ind-service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .08);
+    border-color: transparent
+}
+
+.ind-service-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: rgba(0, 114, 255, .08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #0072ff;
+    margin-bottom: 20px
+}
+
+.ind-service-card h3 {
+    font-size: 18px;
+    color: #0d1e38;
+    margin-bottom: 12px
+}
+
+.ind-service-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7
+}
+
+/* Process / Why Choose Us */
+.ind-process {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center
+}
+
+.ind-process-content h2 {
+    font-size: 2rem;
+    color: #0d1e38;
+    margin-bottom: 20px
+}
+
+.ind-process-content>p {
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 28px
+}
+
+.process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.process-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start
+}
+
+.process-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #0072ff;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0
+}
+
+.process-step h4 {
+    font-size: 15px;
+    color: #0d1e38;
+    margin-bottom: 4px
+}
+
+.process-step p {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6
+}
+
+.ind-process-visual {
+    background: linear-gradient(135deg, #f0f6ff, #e8eef6);
+    border-radius: 16px;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.visual-stat {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .04)
+}
+
+.visual-stat i {
+    font-size: 24px;
+    color: #0072ff;
+    width: 32px;
+    text-align: center
+}
+
+.visual-stat span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #0d1e38
+}
+
+/* Cargo / Product grid */
+.cargo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px
+}
+
+.cargo-item {
+    text-align: center;
+    padding: 28px 16px;
+    background: #fff;
+    border: 1px solid #eef2f6;
+    border-radius: 12px;
+    transition: all .3s
+}
+
+.cargo-item:hover {
+    border-color: #0072ff;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 114, 255, .08)
+}
+
+.cargo-item i {
+    font-size: 32px;
+    color: #0072ff;
+    margin-bottom: 12px
+}
+
+.cargo-item h4 {
+    font-size: 15px;
+    color: #0d1e38;
+    margin-bottom: 6px
+}
+
+.cargo-item p {
+    font-size: 13px;
+    color: #94a3b8
+}
+
+/* FAQ Accordion */
+.faq-list {
+    max-width: 760px;
+    margin: 0 auto
+}
+
+.faq-item {
+    border: 1px solid #eef2f6;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    background: #fff
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #0d1e38;
+    font-size: 15px;
+    transition: background .2s
+}
+
+.faq-question:hover {
+    background: #f8fafc
+}
+
+.faq-question i {
+    color: #94a3b8;
+    transition: transform .3s;
+    font-size: 12px
+}
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg)
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s ease
+}
+
+.faq-item.open .faq-answer {
+    max-height: 300px
+}
+
+.faq-answer p {
+    padding: 0 24px 20px;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 14px;
+    margin: 0
+}
+
+/* CTA */
+.ind-cta {
+    background: linear-gradient(135deg, #031326, #0a2a4a);
+    padding: 80px 0;
+    text-align: center;
+    color: #fff
+}
+
+.ind-cta h2 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 16px
+}
+
+.ind-cta p {
+    color: #94a3b8;
+    margin-bottom: 36px;
+    font-size: 1.1rem;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+/* Cross-links */
+.other-industries {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto
+}
+
+.other-ind-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #eef2f6;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #0d1e38;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all .3s
+}
+
+.other-ind-card:hover {
+    border-color: #0072ff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .06)
+}
+
+.other-ind-card i {
+    font-size: 20px;
+    color: #0072ff
+}
+
+/* Pharma-specific: temperature cards & certifications */
+.temp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 48px
+}
+
+.temp-card {
+    background: #fff;
+    border: 1px solid #eef2f6;
+    border-radius: 14px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all .3s
+}
+
+.temp-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .06)
+}
+
+.temp-card .temp-value {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #0072ff;
+    margin-bottom: 8px
+}
+
+.temp-card h4 {
+    font-size: 16px;
+    color: #0d1e38;
+    margin-bottom: 8px
+}
+
+.temp-card p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.6
+}
+
+.cert-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px
+}
+
+.cert-badge {
+    background: #fff;
+    border: 1px solid #eef2f6;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #0d1e38
+}
+
+/* Responsive */
+@media(max-width:768px) {
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    .ind-services-grid {
+        grid-template-columns: 1fr
+    }
+
+    .ind-process {
+        grid-template-columns: 1fr
+    }
+
+    .cargo-grid {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    .other-industries {
+        grid-template-columns: 1fr
+    }
+
+    .temp-grid {
+        grid-template-columns: 1fr
+    }
+}

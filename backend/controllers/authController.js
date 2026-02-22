@@ -63,4 +63,17 @@ const getMe = async (req, res) => {
     res.json(req.user);
 };
 
-module.exports = { registerUser, loginUser, getMe };
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateProfile = async (req, res) => {
+    try {
+        const updatedUser = await AuthService.updateProfile(req.user.id, req.body);
+        res.json(updatedUser);
+    } catch (error) {
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).json({ message: error.message });
+    }
+};
+
+module.exports = { registerUser, loginUser, getMe, updateProfile };

@@ -5,11 +5,11 @@ const pool = require('../config/db');
 
 const Shipment = {
     // Create a new shipment
-    create: async ({ trackingNumber, senderName, receiverName, origin, destination, industryType }) => {
+    create: async ({ trackingNumber, senderName, receiverName, origin, destination, industryType, userId }) => {
         const result = await pool.query(
-            `INSERT INTO shipments (tracking_id, sender_name, receiver_name, origin, destination, status, industry_type)
-             VALUES ($1, $2, $3, $4, $5, 'Pending', $6) RETURNING *`,
-            [trackingNumber, senderName, receiverName, origin, destination, industryType || 'Unspecified']
+            `INSERT INTO shipments (tracking_id, sender_name, receiver_name, origin, destination, status, industry_type, user_id)
+             VALUES ($1, $2, $3, $4, $5, 'Pending', $6, $7) RETURNING *`,
+            [trackingNumber, senderName, receiverName, origin, destination, industryType || 'Unspecified', userId || null]
         );
         return result.rows[0];
     },
@@ -35,6 +35,15 @@ const Shipment = {
 
         query += ' ORDER BY created_at DESC';
         const result = await pool.query(query, params);
+        return result.rows;
+    },
+
+    // Get all shipments for a specific user
+    findByUserId: async (userId) => {
+        const result = await pool.query(
+            'SELECT * FROM shipments WHERE user_id = $1 ORDER BY created_at DESC',
+            [userId]
+        );
         return result.rows;
     },
 

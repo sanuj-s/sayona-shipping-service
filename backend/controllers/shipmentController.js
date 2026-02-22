@@ -16,7 +16,7 @@ const createShipment = async (req, res) => {
         }
 
         const shipment = await ShipmentService.create({
-            trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation,
+            trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation, userId: req.user.id
         });
 
         res.status(201).json(shipment);
@@ -26,12 +26,17 @@ const createShipment = async (req, res) => {
     }
 };
 
-// @desc    Get all shipments (with optional filter)
+// @desc    Get all shipments (role-based: admin gets all, client gets theirs)
 // @route   GET /api/shipments
-// @access  Public
+// @access  Private
 const getShipments = async (req, res) => {
     try {
-        const shipments = await ShipmentService.getAll(req.query.industry);
+        let shipments;
+        if (req.user && req.user.role === 'admin') {
+            shipments = await ShipmentService.getAll(req.query.industry);
+        } else {
+            shipments = await ShipmentService.getByUserId(req.user.id);
+        }
         res.status(200).json(shipments);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -77,4 +82,77 @@ const deleteShipment = async (req, res) => {
     }
 };
 
-module.exports = { createShipment, getShipments, getShipmentByTrackingNumber, updateShipment, deleteShipment };
+// @desc    Generate invoice (mock)
+// @route   GET /api/shipments/:trackingNumber/invoice
+// @access  Private
+const generateInvoice = async (req, res) => {
+    try {
+        const shipment = await ShipmentService.getByTrackingNumber(req.params.trackingNumber);
+
+        if (req.user.role !== 'admin' && shipment.userId !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to view this invoice' });
+        }
+
+        const html = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; color: #333; }
+                    .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, .15); }
+                    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #3730a3; padding-bottom: 20px; margin-bottom: 20px; }
+                    .header h1 { color: #3730a3; margin: 0; }
+                    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+                    .total { text-align: right; font-size: 1.5em; font-weight: bold; color: #3730a3; margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class="invoice-box">
+                    <div class="header">
+                        <h1>SAYONA LOGISTICS</h1>
+                        <div>
+                            <strong>INVOICE</strong><br>
+                            Tracking: #${shipment.trackingNumber}<br>
+                            Date: ${new Date().toLocaleDateString()}
+                        </div>
+                    </div>
+                    <div class="info-grid">
+                        <div>
+                            <strong>Sender Details:</strong><br>
+                            ${shipment.senderName}<br>
+                            ${shipment.origin}
+                        </div>
+                        <div>
+                            <strong>Receiver Details:</strong><br>
+                            ${shipment.receiverName}<br>
+                            ${shipment.destination}
+                        </div>
+                    </div>
+                    <table style="width: 100%; text-align: left; border-collapse: collapse;">
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; border: 1px solid #ddd;">Description</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">Amount</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Freight Charges (${shipment.industryType || 'General'})</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">$450.00</td>
+                        </tr>
+                    </table>
+                    <div class="total">Total Due: $450.00</div>
+                    <p style="text-align: center; color: #777; margin-top: 40px; font-size: 0.9em;">
+                        Thank you for your business. Payment is due within 30 days.
+                    </p>
+                </div>
+            </body>
+            </html>
+        `;
+
+        res.setHeader('Content-Type', 'text/html');
+        res.send(html);
+    } catch (error) {
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).json({ message: error.message });
+    }
+};
+
+module.exports = { createShipment, getShipments, getShipmentByTrackingNumber, updateShipment, deleteShipment, generateInvoice };

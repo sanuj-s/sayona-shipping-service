@@ -57,8 +57,15 @@ const PortalAPI = {
 
     getProfile: () => PortalAPI.request('/auth/me'),
 
+    updateProfile: (data) => PortalAPI.request('/auth/profile', {
+        method: 'PUT', body: JSON.stringify(data)
+    }),
+
     // Shipments
     getShipments: () => PortalAPI.request('/shipments'),
+    createShipment: (data) => PortalAPI.request('/shipments', {
+        method: 'POST', body: JSON.stringify(data)
+    }),
     getShipment: (tracking) => PortalAPI.request(`/shipments/${tracking}`),
 
     // Tracking

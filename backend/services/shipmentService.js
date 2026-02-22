@@ -8,6 +8,7 @@ const Tracking = require('../models/Tracking');
 const mapShipment = (row) => ({
     id: row.id,
     trackingNumber: row.tracking_id,
+    userId: row.user_id,
     senderName: row.sender_name,
     receiverName: row.receiver_name,
     origin: row.origin,
@@ -32,6 +33,7 @@ const ShipmentService = {
             origin: senderAddress,
             destination: receiverAddress,
             industryType,
+            userId,
         });
 
         await Tracking.create({
@@ -46,6 +48,12 @@ const ShipmentService = {
     // Get all shipments (optionally filtered by industry)
     getAll: async (industry) => {
         const rows = await Shipment.findAll(industry);
+        return rows.map(mapShipment);
+    },
+
+    // Get all shipments for a specific user
+    getByUserId: async (userId) => {
+        const rows = await Shipment.findByUserId(userId);
         return rows.map(mapShipment);
     },
 

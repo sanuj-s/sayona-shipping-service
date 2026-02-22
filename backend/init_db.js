@@ -18,8 +18,9 @@ const initDB = async () => {
             email VARCHAR(100) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
             phone VARCHAR(20),
-            company VARCHAR(150),
-            role VARCHAR(20) DEFAULT 'employee',
+            company VARCHAR(100),
+            role VARCHAR(20) DEFAULT 'client',
+            address TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     `;
@@ -28,6 +29,7 @@ const initDB = async () => {
         CREATE TABLE IF NOT EXISTS shipments (
             id SERIAL PRIMARY KEY,
             tracking_id VARCHAR(50) UNIQUE NOT NULL,
+            user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
             sender_name VARCHAR(100) NOT NULL,
             receiver_name VARCHAR(100) NOT NULL,
             origin VARCHAR(100) NOT NULL,
