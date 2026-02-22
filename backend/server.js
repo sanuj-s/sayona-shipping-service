@@ -69,7 +69,7 @@ async function startServer() {
         });
 
     } catch (error) {
-        logger.error('❌ Failed to start server', { error: error.message });
+        logger.error('❌ Failed to start server', { error: error.stack || error });
         process.exit(1);
     }
 }
