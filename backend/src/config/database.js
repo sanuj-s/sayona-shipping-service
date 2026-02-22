@@ -5,12 +5,22 @@ const { Pool } = require('pg');
 const config = require('./environment');
 const logger = require('./logger');
 
+const poolConfig = config.db.url
+    ? {
+        connectionString: config.db.url,
+        ssl: config.db.ssl ? { rejectUnauthorized: false } : false,
+    }
+    : {
+        host: config.db.host,
+        port: config.db.port,
+        user: config.db.user,
+        password: config.db.password,
+        database: config.db.name,
+        ssl: config.db.ssl ? { rejectUnauthorized: false } : false,
+    };
+
 const pool = new Pool({
-    host: config.db.host,
-    port: config.db.port,
-    user: config.db.user,
-    password: config.db.password,
-    database: config.db.name,
+    ...poolConfig,
     max: config.db.poolMax,
     idleTimeoutMillis: config.db.idleTimeoutMs,
     connectionTimeoutMillis: config.db.connectionTimeoutMs,

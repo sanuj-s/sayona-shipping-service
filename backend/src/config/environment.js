@@ -8,7 +8,11 @@ const path = require('path');
 // Load .env from backend root
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
-const requiredVars = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'JWT_SECRET', 'JWT_REFRESH_SECRET'];
+// Allow either DATABASE_URL or individual DB components
+const hasDbUrl = !!process.env.DATABASE_URL;
+const requiredVars = hasDbUrl
+    ? ['JWT_SECRET', 'JWT_REFRESH_SECRET']
+    : ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'JWT_SECRET', 'JWT_REFRESH_SECRET'];
 
 const missing = requiredVars.filter((key) => !process.env[key]);
 if (missing.length > 0 && process.env.NODE_ENV !== 'test') {
@@ -33,6 +37,7 @@ const config = {
     port: parseInt(process.env.PORT, 10) || 3000,
 
     db: {
+        url: process.env.DATABASE_URL,
         host: process.env.DB_HOST || 'localhost',
         port: parseInt(process.env.DB_PORT, 10) || 5432,
         user: process.env.DB_USER,
@@ -41,6 +46,7 @@ const config = {
         poolMax: parseInt(process.env.DB_POOL_MAX, 10) || 20,
         idleTimeoutMs: parseInt(process.env.DB_IDLE_TIMEOUT, 10) || 30000,
         connectionTimeoutMs: parseInt(process.env.DB_CONN_TIMEOUT, 10) || 5000,
+        ssl: process.env.NODE_ENV === 'production' || process.env.DB_SSL === 'true',
     },
 
     jwt: {
