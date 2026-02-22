@@ -28,6 +28,10 @@ const AuthService = {
 
     // Register a new user
     register: async ({ name, email, password, phone, company, role }) => {
+        if (password.length < 8) {
+            throw Object.assign(new Error('Password must be at least 8 characters long'), { statusCode: 400 });
+        }
+
         if (await User.emailExists(email)) {
             throw Object.assign(new Error('User already exists'), { statusCode: 400 });
         }

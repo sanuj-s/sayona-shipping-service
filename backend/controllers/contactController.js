@@ -15,11 +15,17 @@ const submitContact = async (req, res) => {
             return res.status(400).json({ message: 'Name, email, and message are required' });
         }
 
-        if (!email.includes('@') || !email.includes('.')) {
-            return res.status(400).json({ message: 'Please provide a valid email' });
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Please provide a valid email address' });
         }
 
         const result = await Contact.create({ name, email, phone, subject, message });
+
+        // -- EMAIL NOTIFICATION STUB --
+        // In production, integrate SendGrid/Nodemailer here:
+        // await EmailService.send({ to: 'admin@sayona.com', subject: 'New Contact Request', body: ... })
+        console.log(`[EMAIL STUB] Notification sent to Admin for new Contact Request from ${email}`);
 
         res.status(201).json({
             success: true,

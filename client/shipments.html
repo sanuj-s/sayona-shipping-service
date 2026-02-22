@@ -108,10 +108,11 @@
                             <label>Industry Type</label>
                             <select id="cIndustry" class="form-input">
                                 <option value="General Cargo">General Cargo</option>
-                                <option value="Raw Materials">Raw Materials</option>
-                                <option value="Textile">Textile</option>
-                                <option value="High-Tech">High-Tech</option>
+                                <option value="Textile & Apparel">Textile & Apparel</option>
+                                <option value="High-Tech & Electronics">High-Tech & Electronics</option>
                                 <option value="Pharmaceuticals">Pharmaceuticals</option>
+                                <option value="Automotive">Automotive</option>
+                                <option value="Agri Products">Agri Products</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -144,7 +145,8 @@
                 tbody.innerHTML = shipments.map(s => {
                     let invoiceBtn = '';
                     if (s.status?.toLowerCase() === 'delivered') {
-                        invoiceBtn = `<a href="/api/shipments/${s.trackingNumber}/invoice" target="_blank" class="btn-portal" style="padding:4px 8px; font-size:0.8rem; background:transparent; border:1px solid var(--cp-primary); color:var(--cp-primary);"><i class="fas fa-file-invoice"></i> Invoice</a>`;
+                        const token = PortalAPI.getToken();
+                        invoiceBtn = `<a href="/api/shipments/${s.trackingNumber}/invoice?token=${token}" target="_blank" class="btn-portal" style="padding:4px 8px; font-size:0.8rem; background:transparent; border:1px solid var(--cp-primary); color:var(--cp-primary);"><i class="fas fa-file-invoice"></i> Invoice</a>`;
                     }
                     return `
                     <tr>

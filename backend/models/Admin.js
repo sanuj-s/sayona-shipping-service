@@ -25,7 +25,7 @@ const Admin = {
     // Create new admin
     create: async ({ name, email, passwordHash }) => {
         const result = await pool.query(
-            `INSERT INTO admins (name, email, password_hash)
+            `INSERT INTO admins (name, email, password)
              VALUES ($1, $2, $3) RETURNING id, name, email, created_at`,
             [name, email, passwordHash]
         );

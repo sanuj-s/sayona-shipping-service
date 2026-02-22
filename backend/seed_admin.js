@@ -19,7 +19,7 @@ const seedAdmin = async () => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         await pool.query(
-            'INSERT INTO admins (name, email, password_hash) VALUES ($1, $2, $3)',
+            'INSERT INTO admins (name, email, password) VALUES ($1, $2, $3)',
             [name, email, passwordHash]
         );
 

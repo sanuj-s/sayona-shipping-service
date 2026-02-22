@@ -9,13 +9,13 @@ const AuthService = require('../services/authService');
 // @access  Public
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, phone, company, role } = req.body;
+        const { name, email, password, phone, company } = req.body;
 
         if (!name || !email || !password) {
             return res.status(400).json({ message: 'Please add all fields' });
         }
 
-        const user = await AuthService.register({ name, email, password, phone, company, role });
+        const user = await AuthService.register({ name, email, password, phone, company });
 
         res.status(201).json({
             _id: user.id,
@@ -76,4 +76,29 @@ const updateProfile = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, getMe, updateProfile };
+
+// @desc    Forgot Password (Dummy Implementation)
+// @route   POST /api/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ message: 'Please provide an email address' });
+        }
+
+        // We pretend to send an email. Since we don't have an email service integrated (like SendGrid),
+        // we just return success to not leak whether the email exists or not.
+        res.status(200).json({ message: 'If an account exists with that email, a password reset link has been sent.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error during password reset request' });
+    }
+};
+
+module.exports = {
+    registerUser,
+    loginUser,
+    getMe,
+    updateProfile,
+    forgotPassword
+};

@@ -15,15 +15,20 @@ const submitQuote = async (req, res) => {
             return res.status(400).json({ message: 'Name, email, origin, and destination are required' });
         }
 
-        if (!email.includes('@') || !email.includes('.')) {
-            return res.status(400).json({ message: 'Please provide a valid email' });
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Please provide a valid email address' });
         }
 
         const result = await Quote.create({ name, email, phone, company, origin, destination, cargoType, weight, message });
 
+        // -- EMAIL NOTIFICATION STUB --
+        // In production, integrate SendGrid/Nodemailer here:
+        // await EmailService.send({ to: 'admin@sayona.com', subject: 'New Quote Request', body: ... })
+        console.log(`[EMAIL STUB] Notification sent to Admin for new Quote Request from ${email}`);
+
         res.status(201).json({
-            success: true,
-            message: 'Your quote request has been submitted. Our team will contact you shortly.',
+            message: 'Quote request submitted successfully',
             id: result.id,
         });
     } catch (error) {

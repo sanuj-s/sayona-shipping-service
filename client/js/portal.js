@@ -55,6 +55,10 @@ const PortalAPI = {
         method: 'POST', body: JSON.stringify(data),
     }),
 
+    forgotPassword: (email) => PortalAPI.request('/auth/forgot-password', {
+        method: 'POST', body: JSON.stringify({ email }),
+    }),
+
     getProfile: () => PortalAPI.request('/auth/me'),
 
     updateProfile: (data) => PortalAPI.request('/auth/profile', {

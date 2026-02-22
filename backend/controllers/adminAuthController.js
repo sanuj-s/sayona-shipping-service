@@ -10,7 +10,7 @@ const User = require('../models/User');
 
 // Generate JWT for admin
 const generateAdminToken = (id) => {
-    return jwt.sign({ id, isAdmin: true }, process.env.JWT_SECRET, {
+    return jwt.sign({ id, isAdmin: true }, process.env.ADMIN_JWT_SECRET, {
         expiresIn: '7d',
     });
 };
@@ -31,7 +31,7 @@ const loginAdmin = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const isMatch = await bcrypt.compare(password, admin.password_hash);
+        const isMatch = await bcrypt.compare(password, admin.password);
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }

@@ -16,4 +16,7 @@ router.get('/me', protect, getMe);
 // @route   PUT /api/auth/profile (update user profile)
 router.put('/profile', protect, updateProfile);
 
+// @route   POST /api/auth/forgot-password (dummy endpoint for now)
+router.post('/forgot-password', authLimiter, require('../controllers/authController').forgotPassword);
+
 module.exports = router;

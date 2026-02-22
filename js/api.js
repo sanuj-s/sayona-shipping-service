@@ -51,4 +51,17 @@ async function loginUser(data) {
     return response.json();
 }
 
-window.api = { getTracking, createShipment, loginUser };
+async function submitContact(data) {
+    const response = await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.message || 'Failed to submit contact form');
+    }
+    return response.json();
+}
+
+window.api = { getTracking, createShipment, loginUser, submitContact };

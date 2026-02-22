@@ -55,11 +55,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 textInput.style.border = "";
             }
 
-            // Success message
-            message.style.color = "green";
-            message.innerText = "Message sent successfully";
+            // API Logic
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
 
-            form.reset();
+            window.api.submitContact({ name, email, phone: '', subject: industrySelect ? industrySelect.value : 'General Inquiry', message: text })
+                .then(() => {
+                    message.style.color = "green";
+                    message.innerText = "Message sent successfully! We will get back to you soon.";
+                    form.reset();
+                })
+                .catch(err => {
+                    message.style.color = "red";
+                    message.innerText = err.message || "Failed to send message. Please try again.";
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
 
         });
     }

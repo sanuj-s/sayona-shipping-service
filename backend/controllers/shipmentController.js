@@ -9,14 +9,27 @@ const ShipmentService = require('../services/shipmentService');
 // @access  Private
 const createShipment = async (req, res) => {
     try {
-        const { trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation } = req.body;
+        const { trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation, industryType } = req.body;
 
         if (!trackingNumber || !senderName || !senderAddress || !receiverName || !receiverAddress || !currentLocation) {
             return res.status(400).json({ message: 'Please provide all required fields' });
         }
 
+        let userId = req.user ? req.user.id : null;
+
+        // If admin is creating the shipment, try to link it to a user via email
+        if (req.admin && req.body.userEmail) {
+            const User = require('../models/User'); // Import dynamically or at top
+            const linkedUser = await User.findByEmail(req.body.userEmail);
+            if (linkedUser) {
+                userId = linkedUser.id;
+            } else {
+                return res.status(404).json({ message: 'User with provided email not found' });
+            }
+        }
+
         const shipment = await ShipmentService.create({
-            trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation, userId: req.user.id
+            trackingNumber, senderName, senderAddress, receiverName, receiverAddress, currentLocation, industryType, userId
         });
 
         res.status(201).json(shipment);
@@ -32,7 +45,7 @@ const createShipment = async (req, res) => {
 const getShipments = async (req, res) => {
     try {
         let shipments;
-        if (req.user && req.user.role === 'admin') {
+        if (req.admin || (req.user && req.user.role === 'admin')) {
             shipments = await ShipmentService.getAll(req.query.industry);
         } else {
             shipments = await ShipmentService.getByUserId(req.user.id);
@@ -89,9 +102,22 @@ const generateInvoice = async (req, res) => {
     try {
         const shipment = await ShipmentService.getByTrackingNumber(req.params.trackingNumber);
 
-        if (req.user.role !== 'admin' && shipment.userId !== req.user.id) {
+        const isAdmin = req.admin || (req.user && req.user.role === 'admin');
+        const isOwner = req.user && shipment.userId === req.user.id;
+
+        if (!isAdmin && !isOwner) {
             return res.status(403).json({ message: 'Not authorized to view this invoice' });
         }
+
+        const escapeHTML = (str) => {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        };
 
         const html = `
             <!DOCTYPE html>
@@ -112,20 +138,20 @@ const generateInvoice = async (req, res) => {
                         <h1>SAYONA LOGISTICS</h1>
                         <div>
                             <strong>INVOICE</strong><br>
-                            Tracking: #${shipment.trackingNumber}<br>
+                            Tracking: #${escapeHTML(shipment.trackingNumber)}<br>
                             Date: ${new Date().toLocaleDateString()}
                         </div>
                     </div>
                     <div class="info-grid">
                         <div>
                             <strong>Sender Details:</strong><br>
-                            ${shipment.senderName}<br>
-                            ${shipment.origin}
+                            ${escapeHTML(shipment.senderName)}<br>
+                            ${escapeHTML(shipment.origin)}
                         </div>
                         <div>
                             <strong>Receiver Details:</strong><br>
-                            ${shipment.receiverName}<br>
-                            ${shipment.destination}
+                            ${escapeHTML(shipment.receiverName)}<br>
+                            ${escapeHTML(shipment.destination)}
                         </div>
                     </div>
                     <table style="width: 100%; text-align: left; border-collapse: collapse;">
@@ -134,11 +160,11 @@ const generateInvoice = async (req, res) => {
                             <th style="padding: 10px; border: 1px solid #ddd;">Amount</th>
                         </tr>
                         <tr>
-                            <td style="padding: 10px; border: 1px solid #ddd;">Freight Charges (${shipment.industryType || 'General'})</td>
-                            <td style="padding: 10px; border: 1px solid #ddd;">$450.00</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Freight Charges (${escapeHTML(shipment.industryType) || 'General'})</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">To Be Calculated</td>
                         </tr>
                     </table>
-                    <div class="total">Total Due: $450.00</div>
+                    <div class="total">Total Due: TBD</div>
                     <p style="text-align: center; color: #777; margin-top: 40px; font-size: 0.9em;">
                         Thank you for your business. Payment is due within 30 days.
                     </p>

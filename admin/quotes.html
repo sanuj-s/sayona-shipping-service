@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard — Sayona Admin</title>
+    <title>Quotes — Sayona Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/admin.css">
@@ -20,7 +20,7 @@
                 <span>Admin Panel</span>
             </div>
             <ul class="sidebar-nav">
-                <li><a href="dashboard.html" class="active">
+                <li><a href="dashboard.html">
                         <span class="nav-icon">📊</span> Dashboard
                     </a></li>
                 <li><a href="shipments.html">
@@ -29,7 +29,7 @@
                 <li><a href="create-shipment.html">
                         <span class="nav-icon">➕</span> Create Shipment
                     </a></li>
-                <li><a href="quotes.html">
+                <li><a href="quotes.html" class="active">
                         <span class="nav-icon">📄</span> Quotes
                     </a></li>
                 <li><a href="contacts.html">
@@ -47,58 +47,45 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="topbar">
-                <h1>Dashboard</h1>
+                <h1>Quote Requests</h1>
                 <div class="topbar-right">
+                    <span id="quoteCount" style="color: var(--text-muted); font-size: 0.85rem;"></span>
                     <span class="admin-badge" id="adminName">Admin</span>
                 </div>
             </header>
 
             <div class="page-content">
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon purple">📦</div>
-                        <div class="stat-value" id="totalShipments">—</div>
-                        <div class="stat-label">Total Shipments</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon yellow">⏳</div>
-                        <div class="stat-value" id="pendingCount">—</div>
-                        <div class="stat-label">Pending</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon blue">🚚</div>
-                        <div class="stat-value" id="transitCount">—</div>
-                        <div class="stat-label">In Transit</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon green">✅</div>
-                        <div class="stat-value" id="deliveredCount">—</div>
-                        <div class="stat-label">Delivered</div>
-                    </div>
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <input type="text" id="searchInput" class="form-control"
+                        placeholder="🔍 Search by name, email, company, route...">
+                    <select id="statusFilter" class="form-control" style="max-width: 150px;">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="reviewed">Reviewed</option>
+                        <option value="quoted">Quoted</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
                 </div>
 
-                <!-- Recent Shipments -->
+                <!-- Quotes Table -->
                 <div class="card">
-                    <div class="card-header">
-                        <h2>Recent Shipments</h2>
-                        <a href="shipments.html" class="btn btn-outline btn-sm">View All →</a>
-                    </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0;">
                         <div class="table-wrapper">
                             <table class="data-table">
                                 <thead>
                                     <tr>
-                                        <th>Tracking ID</th>
-                                        <th>Sender</th>
-                                        <th>Receiver</th>
-                                        <th>Industry</th>
-                                        <th>Route</th>
-                                        <th>Status</th>
                                         <th>Date</th>
+                                        <th>Name / Company</th>
+                                        <th>Route</th>
+                                        <th>Cargo Type</th>
+                                        <th>Weight</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="recentShipmentsBody">
+                                <tbody id="quotesBody">
                                     <tr>
                                         <td colspan="7">
                                             <div class="spinner"></div>
@@ -113,9 +100,31 @@
         </main>
     </div>
 
+    <!-- View Modal -->
+    <div id="viewModal" class="modal-overlay">
+        <div class="modal" style="max-width: 600px;">
+            <h3>📄 Quote Details</h3>
+            <div id="quoteDetails" style="margin: 15px 0; line-height: 1.6;"></div>
+            <div class="form-group">
+                <label>Update Status</label>
+                <select id="updateStatusSelect" class="form-control">
+                    <option value="pending">Pending</option>
+                    <option value="reviewed">Reviewed</option>
+                    <option value="quoted">Quoted</option>
+                    <option value="accepted">Accepted</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline btn-sm" onclick="closeViewModal()">Close</button>
+                <button class="btn btn-primary btn-sm" onclick="saveStatus()">Save Status</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/dashboard.js"></script>
+    <script src="js/quotes.js"></script>
 </body>
 
 </html>

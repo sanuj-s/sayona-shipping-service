@@ -10,15 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const trackingNumber = document.getElementById('trackingNumber').value.trim();
-        const senderName = document.getElementById('senderName').value.trim();
-        const senderAddress = document.getElementById('senderAddress').value.trim();
-        const receiverName = document.getElementById('receiverName').value.trim();
-        const receiverAddress = document.getElementById('receiverAddress').value.trim();
-        const currentLocation = document.getElementById('currentLocation').value.trim();
-        const industryType = document.getElementById('industryType').value;
+        const clientEmail = document.getElementById('clientEmail')?.value || null;
 
-        if (!trackingNumber || !senderName || !senderAddress || !receiverName || !receiverAddress || !currentLocation) {
+        const data = {
+            trackingNumber: document.getElementById('trackingNumber').value.trim(),
+            senderName: document.getElementById('senderName').value.trim(),
+            senderAddress: document.getElementById('senderAddress').value.trim(),
+            receiverName: document.getElementById('receiverName').value.trim(),
+            receiverAddress: document.getElementById('receiverAddress').value.trim(),
+            currentLocation: document.getElementById('currentLocation').value.trim(),
+            industryType: document.getElementById('industryType').value,
+            userEmail: clientEmail
+        };
+
+        if (!data.trackingNumber || !data.senderName || !data.senderAddress || !data.receiverName || !data.receiverAddress || !data.currentLocation) {
             showToast('Please fill all fields', 'error');
             return;
         }

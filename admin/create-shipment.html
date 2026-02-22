@@ -29,13 +29,13 @@
                 <li><a href="create-shipment.html" class="active">
                         <span class="nav-icon">➕</span> Create Shipment
                     </a></li>
-                <li><a href="#">
+                <li><a href="quotes.html">
                         <span class="nav-icon">📄</span> Quotes
                     </a></li>
-                <li><a href="#">
+                <li><a href="contacts.html">
                         <span class="nav-icon">💬</span> Contacts
                     </a></li>
-                <li><a href="#">
+                <li><a href="users.html">
                         <span class="nav-icon">👥</span> Users
                     </a></li>
             </ul>
@@ -60,10 +60,17 @@
                     </div>
                     <div class="card-body">
                         <form id="createShipmentForm">
-                            <div class="form-group">
-                                <label for="trackingNumber">Tracking Number</label>
-                                <input type="text" id="trackingNumber" class="form-control"
-                                    placeholder="e.g. SAY-2026-00001" required>
+                            <div class="detail-grid">
+                                <div class="form-group">
+                                    <label for="trackingNumber">Tracking Number</label>
+                                    <input type="text" id="trackingNumber" class="form-control"
+                                        placeholder="e.g. SAY-2026-00001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clientEmail">Client Email (Optional)</label>
+                                    <input type="email" id="clientEmail" class="form-control"
+                                        placeholder="user@example.com">
+                                </div>
                             </div>
                             <div class="detail-grid">
                                 <div class="form-group">
@@ -99,10 +106,11 @@
                                     <label for="industryType">Industry Type</label>
                                     <select id="industryType" class="form-control">
                                         <option value="General Cargo">General Cargo</option>
-                                        <option value="Raw Materials">Raw Materials</option>
-                                        <option value="Textile">Textile</option>
-                                        <option value="High-Tech">High-Tech</option>
+                                        <option value="Textile & Apparel">Textile & Apparel</option>
+                                        <option value="High-Tech & Electronics">High-Tech & Electronics</option>
                                         <option value="Pharmaceuticals">Pharmaceuticals</option>
+                                        <option value="Automotive">Automotive</option>
+                                        <option value="Agri Products">Agri Products</option>
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>

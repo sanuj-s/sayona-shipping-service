@@ -23,7 +23,7 @@ const Shipment = {
         return result.rows[0] || null;
     },
 
-    // Get all shipments (sorted newest first, optional industry filter)
+    // Get all shipments (sorted newest first, optional industry filter, hard limit 1000 to prevent DOS)
     findAll: async (industry) => {
         let query = 'SELECT * FROM shipments';
         let params = [];
@@ -33,15 +33,15 @@ const Shipment = {
             params.push(industry);
         }
 
-        query += ' ORDER BY created_at DESC';
+        query += ' ORDER BY created_at DESC LIMIT 1000';
         const result = await pool.query(query, params);
         return result.rows;
     },
 
-    // Get all shipments for a specific user
+    // Get all shipments for a specific user (hard limit 1000)
     findByUserId: async (userId) => {
         const result = await pool.query(
-            'SELECT * FROM shipments WHERE user_id = $1 ORDER BY created_at DESC',
+            'SELECT * FROM shipments WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1000',
             [userId]
         );
         return result.rows;

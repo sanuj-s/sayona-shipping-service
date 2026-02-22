@@ -102,10 +102,9 @@
       </div>
 
       <div class="nav-right">
-        <button class="nav-search-btn"><i class="fas fa-search"></i></button>
         <div class="nav-actions">
-          <a href="tracking.html" class="btn-ghost"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
-          <a href="contact.html#quote" class="btn-enterprise">Get Quote</a>
+          <a href="tracking.html" class="btn-outline"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
+          <a href="contact.html#quote" class="btn-primary">Get Quote</a>
         </div>
         <button id="menuBtn" class="mobile-menu-btn">☰</button>
       </div>
@@ -126,11 +125,41 @@
     </nav>
 
     <main>
-      <section id="hero" class="hero">
-        <div class="hero-content">
-          <h1 class="gradient-text">Sayona Shipping Services</h1>
-          <p>Trusted global logistics partner delivering reliable cargo solutions worldwide.</p>
-          <a href="contact.html" class="btn-primary magnetic">Get Quote</a>
+      <section id="hero" class="hero"
+        style="background: linear-gradient(rgba(7, 26, 51, 0.85), rgba(7, 26, 51, 0.7)), url('/images/hero-bg.jpg') center/cover; min-height: 85vh; display: flex; align-items: center;">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+          <div class="hero-content text-left">
+            <h1 style="color: white; margin-bottom: 20px;">Precision Logistics for Global Trade</h1>
+            <p style="color: #cbd5e1; font-size: 1.2rem; margin-bottom: 30px; max-width: 550px;">
+              Sayona Shipping Services engineers high-performance cargo solutions. We move your goods with unmatched
+              speed, comprehensive route tracking, and assured reliability.
+            </p>
+            <div style="display: flex; gap: 15px;">
+              <a href="contact.html#quote" class="btn-primary magnetic">Get a Quote</a>
+              <a href="tracking.html" class="btn-outline magnetic"
+                style="color: white; border-color: rgba(255,255,255,0.5);">Track Shipment</a>
+            </div>
+          </div>
+          <div class="hero-metrics" style="display: flex; flex-direction: column; gap: 20px;">
+            <div
+              style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+              <h3 style="color: #00C2FF; font-size: 2.5rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif;">98%
+              </h3>
+              <p style="color: white; margin: 0; font-size: 1rem;">On-Time Delivery Rate</p>
+            </div>
+            <div
+              style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+              <h3 style="color: #00C2FF; font-size: 2.5rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif;">50+
+              </h3>
+              <p style="color: white; margin: 0; font-size: 1rem;">Global Trade Routes Active</p>
+            </div>
+            <div
+              style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+              <h3 style="color: #00C2FF; font-size: 2.5rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif;">24/7
+              </h3>
+              <p style="color: white; margin: 0; font-size: 1rem;">Live Route Tracking</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -244,69 +273,6 @@
 
       </section>
 
-      <section id="tracking-demo" style="background: #f8fafc; padding: 80px 0;">
-        <div class="container">
-          <h2 class="section-title reveal">Live Shipment Tracking</h2>
-          <p style="text-align: center; max-width: 600px; margin: 0 auto 3rem; color: var(--text-secondary);">
-            Stay updated with real-time status of your cargo from booking to final delivery.
-          </p>
-
-          <div class="timeline-container">
-            <div class="timeline-progress-bar">
-              <div class="timeline-progress-fill" style="width: 60%;"></div>
-            </div>
-
-            <div class="timeline-steps">
-              <div class="timeline-step completed">
-                <div class="step-circle">✓</div>
-                <div class="step-content">
-                  <span class="step-title">Booked</span>
-                  <span class="step-date">Oct 12, 10:00 AM</span>
-                </div>
-              </div>
-
-              <div class="timeline-step completed">
-                <div class="step-circle">✓</div>
-                <div class="step-content">
-                  <span class="step-title">Picked Up</span>
-                  <span class="step-date">Oct 13, 02:30 PM</span>
-                </div>
-              </div>
-
-              <div class="timeline-step completed">
-                <div class="step-circle">✓</div>
-                <div class="step-content">
-                  <span class="step-title">In Transit</span>
-                  <span class="step-date">Oct 15, 08:00 AM</span>
-                </div>
-              </div>
-
-              <div class="timeline-step active">
-                <div class="step-circle">●</div>
-                <div class="step-content">
-                  <span class="step-title">Arrived at Port</span>
-                  <span class="step-date">Oct 20, 06:45 AM</span>
-                </div>
-              </div>
-
-              <div class="timeline-step">
-                <div class="step-circle"></div>
-                <div class="step-content">
-                  <span class="step-title">Out for Delivery</span>
-                </div>
-              </div>
-
-              <div class="timeline-step">
-                <div class="step-circle"></div>
-                <div class="step-content">
-                  <span class="step-title">Delivered</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section id="industries" class="industries-section">
         <div class="container">
 
@@ -314,66 +280,112 @@
 
           <div class="grid">
 
-            <div class="card text-center reveal">
-              <i class="fas fa-tshirt fa-3x color-primary float mb-1"></i>
-              <h3 class="mb-1">Textile Industry</h3>
-              <p>Specialized logistics for garments and fabrics.</p>
-            </div>
+            <a href="industries/textile.html" class="service-card-link">
+              <div class="card text-center reveal">
+                <i class="fas fa-tshirt fa-3x color-primary float mb-1"></i>
+                <h3 class="mb-1">Textile & Apparel</h3>
+                <p>Specialized logistics for garments and fabrics.</p>
+              </div>
+            </a>
 
-            <div class="card text-center reveal">
-              <i class="fas fa-laptop fa-3x color-primary float mb-1"></i>
-              <h3 class="mb-1">Electronics</h3>
-              <p>Secure shipping for sensitive electronic goods.</p>
-            </div>
+            <a href="industries/automotive.html" class="service-card-link">
+              <div class="card text-center reveal">
+                <i class="fas fa-car fa-3x color-primary float mb-1"></i>
+                <h3 class="mb-1">Automotive</h3>
+                <p>Transport solutions for automotive components.</p>
+              </div>
+            </a>
 
-            <div class="card text-center reveal">
-              <i class="fas fa-car fa-3x color-primary float mb-1"></i>
-              <h3 class="mb-1">Automotive</h3>
-              <p>Transport solutions for automotive components.</p>
-            </div>
+            <a href="industries/hightech.html" class="service-card-link">
+              <div class="card text-center reveal">
+                <i class="fas fa-laptop fa-3x color-primary float mb-1"></i>
+                <h3 class="mb-1">High-Tech</h3>
+                <p>Secure shipping for sensitive electronic goods.</p>
+              </div>
+            </a>
 
-            <div class="card text-center reveal">
-              <i class="fas fa-box fa-3x color-primary float mb-1"></i>
-              <h3 class="mb-1">General Cargo</h3>
-              <p>Reliable shipping for all cargo categories.</p>
-            </div>
+            <a href="industries/pharma.html" class="service-card-link">
+              <div class="card text-center reveal">
+                <i class="fas fa-heartbeat fa-3x color-primary float mb-1"></i>
+                <h3 class="mb-1">Pharmaceuticals</h3>
+                <p>Temperature-controlled shipping for meds.</p>
+              </div>
+            </a>
+
+            <a href="industries/agri-products.html" class="service-card-link">
+              <div class="card text-center reveal">
+                <i class="fas fa-leaf fa-3x color-primary float mb-1"></i>
+                <h3 class="mb-1">Agri Products</h3>
+                <p>Fast and safe transport for agricultural goods.</p>
+              </div>
+            </a>
+
+            <a href="industries/general-cargo.html" class="service-card-link">
+              <div class="card text-center reveal">
+                <i class="fas fa-boxes fa-3x color-primary float mb-1"></i>
+                <h3 class="mb-1">General Cargo</h3>
+                <p>Reliable shipping for all cargo categories.</p>
+              </div>
+            </a>
 
           </div>
 
         </div>
       </section>
 
-      <section id="company" class="about-section">
+      <section id="company" class="about-section" style="padding: 100px 0;">
         <div class="container">
-          <div class="grid align-center">
+          <div class="grid align-center" style="gap: 60px;">
             <div>
-              <h2 class="section-title text-left no-transform">About Us</h2>
+              <h2 class="section-title text-left no-transform" style="font-size: 2.2rem;">Architects of Global Trade
+              </h2>
               <p class="about-desc">
-                Founded in 2020 and backed by over 30 years of industry experience, the company delivers reliable
-                transport,
-                logistics, and supply chain solutions worldwide. We ensure your cargo reaches its destination safely, on
+                Founded in 2020 and backed by over 30 years of deep industry expertise, Sayona Shipping Services
+                delivers highly reliable transport,
+                logistics, and global supply chain solutions. We engineer fault-tolerant networks to ensure your cargo
+                reaches its destination safely, on
                 time, and within budget.
               </p>
-              <a href="company.html" class="btn btn-outline magnetic">Read Our Story</a>
+              <a href="company.html" class="btn btn-outline magnetic">Discover Our Infrastructure</a>
             </div>
-            <div class="about-img-wrap">
-              <img src="/images/ship_large.png" alt="About Us" class="img-fluid rounded shadow hover-scale"
-                loading="lazy">
+            <div class="about-img-wrap" style="position: relative;">
+              <img src="/images/about/warehouse.jpg" alt="Sayona Shipping Warehouse"
+                class="img-fluid rounded shadow hover-scale"
+                style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+              <div
+                style="position: absolute; bottom: 20px; left: -20px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <i class="fas fa-ship fa-2x color-primary" style="margin-bottom: 5px;"></i>
+                <p style="margin: 0; font-weight: 600;">Full Integration</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Clients Logos -->
-      <section id="clients" class="clients-section">
+      <!-- Trust Signals -->
+      <section id="trust" class="section-alt" style="padding: 60px 0;">
         <div class="container text-center">
-          <h3 class="clients-title">Trusted By Industry Leaders</h3>
-          <div class="clients-flex">
-            <i class="fab fa-aws fa-3x"></i>
-            <i class="fab fa-dhl fa-3x"></i>
-            <i class="fab fa-fedex fa-3x"></i>
-            <i class="fab fa-ups fa-3x"></i>
-            <i class="fab fa-amazon fa-3x"></i>
+          <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; align-items: center;">
+            <div>
+              <i class="fas fa-certificate fa-2x color-primary mb-1"></i>
+              <h4 style="margin: 0;">ISO 9001:2015</h4>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Certified Operations</p>
+            </div>
+            <div>
+              <i class="fas fa-shield-alt fa-2x color-primary mb-1"></i>
+              <h4 style="margin: 0;">Fully Insured</h4>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">End-to-end Coverage</p>
+            </div>
+            <div>
+              <i class="fas fa-handshake fa-2x color-primary mb-1"></i>
+              <h4 style="margin: 0;">30+ Years</h4>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Logistics Expertise</p>
+            </div>
+            <div>
+              <i class="fas fa-headset fa-2x color-primary mb-1"></i>
+              <h4 style="margin: 0;">24/7 Support</h4>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Dedicated Account Managers</p>
+            </div>
           </div>
         </div>
       </section>
@@ -387,19 +399,19 @@
               <div class="stars">★★★★★</div>
               <p class="testimonial-quote">"Sayona Shipping handles all our
                 international logistics. Incredibly reliable and fast!"</p>
-              <h4 class="testimonial-author">Rajesh K.</h4>
+              <h4 class="testimonial-author">amith ac</h4>
             </div>
             <div class="card text-center reveal">
               <div class="stars">★★★★★</div>
               <p class="testimonial-quote">"The best customs clearance team. We never
                 have to worry about paperwork delays."</p>
-              <h4 class="testimonial-author">Sarah M.</h4>
+              <h4 class="testimonial-author">prakashan</h4>
             </div>
             <div class="card text-center reveal">
               <div class="stars">★★★★★</div>
               <p class="testimonial-quote">"Excellent FCL rates and real-time tracking
                 made our supply chain much smoother."</p>
-              <h4 class="testimonial-author">Ahmed A.</h4>
+              <h4 class="testimonial-author">megha</h4>
             </div>
           </div>
         </div>
@@ -457,9 +469,20 @@
             </ul>
           </div>
           <div>
+            <h3>Industries</h3>
+            <ul>
+              <li><a href="industries/textile.html">Textile & Apparel</a></li>
+              <li><a href="industries/automotive.html">Automotive</a></li>
+              <li><a href="industries/hightech.html">High-Tech</a></li>
+              <li><a href="industries/pharma.html">Pharmaceuticals</a></li>
+              <li><a href="industries/agri-products.html">Agri Products</a></li>
+              <li><a href="industries/general-cargo.html">General Cargo</a></li>
+            </ul>
+          </div>
+          <div>
             <h3>Company</h3>
             <ul>
-              <li><a href="#">About Us</a></li>
+              <li><a href="company.html">About Us</a></li>
               <li><a href="#process">Our Process</a></li>
               <li><a href="careers.html">Careers</a></li>
               <li><a href="#">Privacy Policy</a></li>
