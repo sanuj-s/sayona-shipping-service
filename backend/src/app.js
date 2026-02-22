@@ -11,7 +11,7 @@ const path = require('path');
 
 const config = require('./config/environment');
 const corsOptions = require('./config/cors');
-const logger = require('./config/logger');
+const _logger = require('./config/logger');
 const { testConnection } = require('./config/database');
 const routes = require('./routes');
 

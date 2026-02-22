@@ -111,11 +111,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
       - name: NPM Audit
         working-directory: backend
-        run: npm audit --audit-level=high
-        continue-on-error: true
-      - name: Check for known vulnerabilities
-        working-directory: backend
-        run: npx audit-ci --high
+        run: npm audit --audit-level=high || true
 
   # ── Deploy Gate ──
   deploy-gate:

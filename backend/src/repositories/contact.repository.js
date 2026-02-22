@@ -75,7 +75,7 @@ const ContactRepository = {
      */
     markRead: async (id) => {
         const result = await query(
-            `UPDATE contacts SET is_read = TRUE WHERE id = $1 AND deleted_at IS NULL RETURNING *`,
+            'UPDATE contacts SET is_read = TRUE WHERE id = $1 AND deleted_at IS NULL RETURNING *',
             [id]
         );
         return result.rows[0] || null;

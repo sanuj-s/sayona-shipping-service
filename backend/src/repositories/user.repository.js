@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────
 // User Repository — DB abstraction for users table
 // ─────────────────────────────────────────────
-const { query, getClient } = require('../config/database');
+const { query } = require('../config/database');
 
 const UserRepository = {
     /**
