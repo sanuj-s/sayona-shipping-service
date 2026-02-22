@@ -160,35 +160,35 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 -- ═══════════════════════════════════════
 -- INDEXES
 -- ═══════════════════════════════════════
-CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_users_role ON users(role);
-CREATE INDEX idx_users_deleted ON users(deleted_at) WHERE deleted_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+CREATE INDEX IF NOT EXISTS idx_users_deleted ON users(deleted_at) WHERE deleted_at IS NULL;
 
-CREATE INDEX idx_refresh_tokens_user ON refresh_tokens(user_id);
-CREATE INDEX idx_refresh_tokens_token ON refresh_tokens(token);
-CREATE INDEX idx_refresh_tokens_expires ON refresh_tokens(expires_at);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user ON refresh_tokens(user_id);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token ON refresh_tokens(token);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_expires ON refresh_tokens(expires_at);
 
-CREATE INDEX idx_shipments_tracking ON shipments(tracking_number);
-CREATE INDEX idx_shipments_status ON shipments(status);
-CREATE INDEX idx_shipments_created ON shipments(created_at);
-CREATE INDEX idx_shipments_user ON shipments(user_id);
-CREATE INDEX idx_shipments_deleted ON shipments(deleted_at) WHERE deleted_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_shipments_tracking ON shipments(tracking_number);
+CREATE INDEX IF NOT EXISTS idx_shipments_status ON shipments(status);
+CREATE INDEX IF NOT EXISTS idx_shipments_created ON shipments(created_at);
+CREATE INDEX IF NOT EXISTS idx_shipments_user ON shipments(user_id);
+CREATE INDEX IF NOT EXISTS idx_shipments_deleted ON shipments(deleted_at) WHERE deleted_at IS NULL;
 
-CREATE INDEX idx_tracking_shipment ON tracking_events(shipment_id);
-CREATE INDEX idx_tracking_number ON tracking_events(tracking_number);
-CREATE INDEX idx_tracking_created ON tracking_events(created_at);
+CREATE INDEX IF NOT EXISTS idx_tracking_shipment ON tracking_events(shipment_id);
+CREATE INDEX IF NOT EXISTS idx_tracking_number ON tracking_events(tracking_number);
+CREATE INDEX IF NOT EXISTS idx_tracking_created ON tracking_events(created_at);
 
-CREATE INDEX idx_quotes_status ON quotes(status);
-CREATE INDEX idx_quotes_created ON quotes(created_at);
-CREATE INDEX idx_quotes_deleted ON quotes(deleted_at) WHERE deleted_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_quotes_status ON quotes(status);
+CREATE INDEX IF NOT EXISTS idx_quotes_created ON quotes(created_at);
+CREATE INDEX IF NOT EXISTS idx_quotes_deleted ON quotes(deleted_at) WHERE deleted_at IS NULL;
 
-CREATE INDEX idx_contacts_read ON contacts(is_read);
-CREATE INDEX idx_contacts_created ON contacts(created_at);
+CREATE INDEX IF NOT EXISTS idx_contacts_read ON contacts(is_read);
+CREATE INDEX IF NOT EXISTS idx_contacts_created ON contacts(created_at);
 
-CREATE INDEX idx_audit_user ON audit_logs(user_id);
-CREATE INDEX idx_audit_entity ON audit_logs(entity_type, entity_id);
-CREATE INDEX idx_audit_action ON audit_logs(action);
-CREATE INDEX idx_audit_created ON audit_logs(created_at);
+CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_entity ON audit_logs(entity_type, entity_id);
+CREATE INDEX IF NOT EXISTS idx_audit_action ON audit_logs(action);
+CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_logs(created_at);
 
 -- ═══════════════════════════════════════
 -- AUTO-UPDATE TRIGGERS
@@ -202,14 +202,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trg_users_updated_at ON users;
 CREATE TRIGGER trg_users_updated_at
     BEFORE UPDATE ON users
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS trg_shipments_updated_at ON shipments;
 CREATE TRIGGER trg_shipments_updated_at
     BEFORE UPDATE ON shipments
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS trg_quotes_updated_at ON quotes;
 CREATE TRIGGER trg_quotes_updated_at
     BEFORE UPDATE ON quotes
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
