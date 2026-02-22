@@ -57,7 +57,12 @@ const PortalAPI = {
                     window.location.href = '/client/login.html';
                     return;
                 }
-                throw new Error(json.error?.message || json.message || 'Request failed');
+
+                let errorMsg = json.error?.message || json.message || 'Request failed';
+                if (json.error?.details && json.error.details.length > 0) {
+                    errorMsg += `: ${json.error.details[0].message}`;
+                }
+                throw new Error(errorMsg);
             }
 
             // Unwrap response envelope
