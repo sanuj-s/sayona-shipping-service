@@ -11,7 +11,7 @@
     "setup": "npm run migrate && npm run seed",
     "lint": "eslint src/ --ext .js",
     "lint:fix": "eslint src/ --ext .js --fix",
-    "test": "echo \"No tests configured yet\" && exit 0"
+    "test": "jest --detectOpenHandles --forceExit"
   },
   "keywords": [
     "shipping",
@@ -41,7 +41,9 @@
   },
   "devDependencies": {
     "eslint": "^8.57.1",
-    "nodemon": "^3.1.14"
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   },
   "engines": {
     "node": ">=18.0.0"

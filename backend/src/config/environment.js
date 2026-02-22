@@ -16,6 +16,18 @@ if (missing.length > 0 && process.env.NODE_ENV !== 'test') {
     process.exit(1);
 }
 
+// Strict production sanity checks
+if (process.env.NODE_ENV === 'production') {
+    if (process.env.JWT_SECRET.length < 32 || process.env.JWT_REFRESH_SECRET.length < 32) {
+        console.error('❌ CRITICAL: JWT secrets must be at least 32 characters in production.');
+        process.exit(1);
+    }
+    if (process.env.DB_PASSWORD === 'changeme' || process.env.DB_PASSWORD === 'test') {
+        console.error('❌ CRITICAL: Insecure database password detected in production.');
+        process.exit(1);
+    }
+}
+
 const config = {
     nodeEnv: process.env.NODE_ENV || 'development',
     port: parseInt(process.env.PORT, 10) || 3000,
