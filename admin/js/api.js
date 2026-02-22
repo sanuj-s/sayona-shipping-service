@@ -1,5 +1,12 @@
+// ─────────────────────────────────────
 // Centralized API helper for the admin panel
-const API_BASE = '/api/admin';
+// Adapted for Enterprise v1 API
+// ─────────────────────────────────────
+const AUTH_API = '/api/v1/auth';
+const ADMIN_API = '/api/v1/admin';
+const SHIPMENTS_API = '/api/v1/shipments';
+const TRACKING_API = '/api/v1/tracking';
+const QUOTES_API = '/api/v1/quotes';
 
 function getToken() {
     return localStorage.getItem('admin_token');
@@ -13,8 +20,10 @@ function authHeaders() {
     };
 }
 
-async function apiRequest(endpoint, options = {}) {
-    const url = `${API_BASE}${endpoint}`;
+/**
+ * Core API request — auto-unwraps { success, data } envelope
+ */
+async function apiRequest(url, options = {}) {
     const config = {
         headers: authHeaders(),
         ...options,
@@ -25,83 +34,130 @@ async function apiRequest(endpoint, options = {}) {
     if (response.status === 401) {
         localStorage.removeItem('admin_token');
         localStorage.removeItem('admin_name');
+        localStorage.removeItem('admin_refresh_token');
         window.location.href = '/admin/login.html';
         throw new Error('Unauthorized');
     }
 
-    const data = await response.json();
+    const json = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || 'API request failed');
+        // Handle new error envelope: { success: false, error: { code, message } }
+        const errMsg = json.error?.message || json.message || 'API request failed';
+        throw new Error(errMsg);
     }
 
-    return data;
+    // Unwrap the response envelope — return data directly
+    return json.data !== undefined ? json.data : json;
 }
 
-// Auth
+// ─────────── Auth ───────────
 async function loginAPI(email, password) {
-    return apiRequest('/login', {
+    return apiRequest(`${AUTH_API}/login`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
     });
 }
 
 async function getProfile() {
-    return apiRequest('/profile');
+    return apiRequest(`${AUTH_API}/me`);
 }
 
-// Analytics
+// ─────────── Dashboard / Analytics ───────────
 async function getAnalytics() {
-    return apiRequest('/analytics');
+    return apiRequest(`${ADMIN_API}/dashboard`);
 }
 
-// Shipments
+// ─────────── Shipments ───────────
 async function getShipments() {
-    return apiRequest('/shipments');
+    const result = await apiRequest(`${SHIPMENTS_API}?limit=100`);
+    return result.data || result;
 }
 
 async function getShipment(trackingNumber) {
-    return apiRequest(`/shipments/${trackingNumber}`);
+    return apiRequest(`${TRACKING_API}/${trackingNumber}`);
 }
 
 async function createShipmentAPI(data) {
-    return apiRequest('/shipments', {
+    return apiRequest(SHIPMENTS_API, {
         method: 'POST',
         body: JSON.stringify(data),
     });
 }
 
 async function updateShipmentAPI(trackingNumber, data) {
-    return apiRequest(`/shipments/${trackingNumber}`, {
+    // New API uses UUID for updates — look up shipment first to get UUID
+    const trackingData = await apiRequest(`${TRACKING_API}/${trackingNumber}`);
+    const uuid = trackingData.shipment?.uuid;
+
+    if (!uuid) {
+        throw new Error('Shipment not found');
+    }
+
+    return apiRequest(`${SHIPMENTS_API}/${uuid}`, {
         method: 'PUT',
         body: JSON.stringify(data),
     });
 }
 
 async function deleteShipmentAPI(trackingNumber) {
-    return apiRequest(`/shipments/${trackingNumber}`, {
+    // New API uses UUID for deletes — look up shipment first
+    const trackingData = await apiRequest(`${TRACKING_API}/${trackingNumber}`);
+    const uuid = trackingData.shipment?.uuid;
+
+    if (!uuid) {
+        throw new Error('Shipment not found');
+    }
+
+    return apiRequest(`${SHIPMENTS_API}/${uuid}`, {
         method: 'DELETE',
     });
 }
 
-// Tracking
+// ─────────── Tracking ───────────
 async function getTrackingHistory(trackingNumber) {
-    return apiRequest(`/tracking/${trackingNumber}`);
+    return apiRequest(`${TRACKING_API}/${trackingNumber}`);
 }
 
 async function addTrackingEvent(data) {
-    return apiRequest('/tracking', {
+    return apiRequest(TRACKING_API, {
         method: 'POST',
         body: JSON.stringify(data),
     });
 }
 
-// Users
+// ─────────── Users ───────────
 async function getUsersAPI() {
-    return apiRequest('/users');
+    const result = await apiRequest(`${ADMIN_API}/users?limit=100`);
+    return result.data || result;
 }
 
-// Toast notifications
+// ─────────── Contacts ───────────
+async function getContactsAPI() {
+    const result = await apiRequest(`${ADMIN_API}/contacts?limit=100`);
+    return result.data || result;
+}
+
+async function markContactReadAPI(uuid) {
+    return apiRequest(`${ADMIN_API}/contacts/${uuid}/read`, {
+        method: 'PUT',
+    });
+}
+
+// ─────────── Quotes ───────────
+async function getQuotesAPI() {
+    const result = await apiRequest(`${QUOTES_API}?limit=100`);
+    return result.data || result;
+}
+
+async function updateQuoteStatusAPI(uuid, status) {
+    return apiRequest(`${QUOTES_API}/${uuid}/status`, {
+        method: 'PUT',
+        body: JSON.stringify({ status }),
+    });
+}
+
+// ─────────── Toast Notifications ───────────
 function showToast(message, type = 'info') {
     let container = document.querySelector('.toast-container');
     if (!container) {

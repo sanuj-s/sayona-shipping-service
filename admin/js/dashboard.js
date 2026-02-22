@@ -12,10 +12,10 @@ async function loadDashboard() {
 
         // Stat cards
         document.getElementById('totalShipments').textContent = data.totalShipments || 0;
-        document.getElementById('pendingCount').textContent = data.statusCounts['Pending'] || 0;
+        document.getElementById('pendingCount').textContent = data.statusCounts['CREATED'] || 0;
         document.getElementById('transitCount').textContent =
-            (data.statusCounts['In Transit'] || 0) + (data.statusCounts['Shipped'] || 0);
-        document.getElementById('deliveredCount').textContent = data.statusCounts['Delivered'] || 0;
+            (data.statusCounts['IN_TRANSIT'] || 0) + (data.statusCounts['OUT_FOR_DELIVERY'] || 0);
+        document.getElementById('deliveredCount').textContent = data.statusCounts['DELIVERED'] || 0;
 
         // Recent shipments table
         renderRecentShipments(data.recentShipments || []);

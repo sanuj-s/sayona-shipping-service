@@ -1,142 +1,75 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const dotenv = require('dotenv');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const hpp = require('hpp');
-
-dotenv.config();
-
-const pool = require('./config/db');
-const initDB = require('./init_db');
-const { apiLimiter } = require('./middleware/rateLimiter');
-const { errorHandler, notFound } = require('./middleware/errorHandler');
-
-const app = express();
-
-// ─────────────── Security Middleware ───────────────
-app.use(helmet({
-    contentSecurityPolicy: false,   // Allow inline scripts in admin panel
-    crossOriginEmbedderPolicy: false,
-}));
-app.use(hpp());
-
-// ─────────────── General Middleware ───────────────
-app.use(cors({
-    origin: process.env.CORS_ORIGIN || '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
-
-// Request logging
-if (process.env.NODE_ENV !== 'test') {
-    app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-}
-
-// Rate limiting on all API routes
-app.use('/api', apiLimiter);
-
-// ─────────────── Static Files ───────────────
-// Serve admin panel
-app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
-
-// Serve client portal
-app.use('/client', express.static(path.join(__dirname, '..', 'client')));
-
-// Serve images and assets from public/
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
-// Serve main website
-app.use(express.static(path.join(__dirname, '..'), {
-    extensions: ['html'],
-    index: 'index.html',
-}));
-
-// ─────────────── Health Check ───────────────
-app.get('/api/health', async (req, res) => {
-    try {
-        await pool.query('SELECT 1');
-        res.json({
-            status: 'ok',
-            uptime: process.uptime(),
-            timestamp: new Date().toISOString(),
-            database: 'connected',
-            environment: process.env.NODE_ENV || 'development',
-        });
-    } catch (error) {
-        res.status(503).json({
-            status: 'error',
-            database: 'disconnected',
-            message: error.message,
-        });
-    }
-});
-
-// ─────────────── API Routes ───────────────
-const authRoutes = require('./routes/authRoutes');
-const shipmentRoutes = require('./routes/shipmentRoutes');
-const trackingRoutes = require('./routes/trackingRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const contactRoutes = require('./routes/contactRoutes');
-const quoteRoutes = require('./routes/quoteRoutes');
-
-app.use('/api/auth', authRoutes);
-app.use('/api/shipments', shipmentRoutes);
-app.use('/api/tracking', trackingRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/quote', quoteRoutes);
-
-// Alias: POST /api/login (required by spec)
-const { loginUser } = require('./controllers/authController');
-const { authLimiter } = require('./middleware/rateLimiter');
-app.post('/api/login', authLimiter, loginUser);
-
-// ─────────────── Error Handling ───────────────
-app.use(notFound);
-app.use(errorHandler);
-
-// ─────────────── Server Start ───────────────
-const PORT = process.env.PORT || 3000;
+// ─────────────────────────────────────────────
+// Server Entry Point — Sayona Shipping Service
+// Enterprise-grade logistics platform
+// ─────────────────────────────────────────────
+const app = require('./src/app');
+const config = require('./src/config/environment');
+const logger = require('./src/config/logger');
+const { testConnection, close: closeDB } = require('./src/config/database');
 
 async function startServer() {
     try {
-        await pool.query('SELECT 1');
-        console.log('✅ PostgreSQL connected');
+        // Test database connectivity
+        await testConnection();
+        logger.info('✅ PostgreSQL connected', { host: config.db.host, database: config.db.name });
 
-        await initDB();
-
-        const server = app.listen(PORT, () => {
-            console.log(`🚀 Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-            console.log(`📊 Admin panel: http://localhost:${PORT}/admin/login.html`);
-            console.log(`❤️  Health check: http://localhost:${PORT}/api/health`);
+        // Start HTTP server
+        const server = app.listen(config.port, () => {
+            logger.info(`🚀 Server running on port ${config.port}`, {
+                environment: config.nodeEnv,
+                port: config.port,
+            });
+            logger.info(`📊 Admin panel: http://localhost:${config.port}/admin/login.html`);
+            logger.info(`🔗 API Base: http://localhost:${config.port}/api/v1`);
+            logger.info(`❤️  Health: http://localhost:${config.port}/api/v1/health`);
         });
 
-        // Graceful shutdown
-        const gracefulShutdown = (signal) => {
-            console.log(`\n${signal} received. Shutting down gracefully...`);
-            server.close(() => {
-                pool.end(() => {
-                    console.log('Database pool closed. Goodbye.');
-                    process.exit(0);
-                });
+        // Set server timeout
+        server.timeout = 30000; // 30 seconds
+        server.keepAliveTimeout = 65000; // Slightly higher than typical LB timeout
+
+        // ─────────────── Graceful Shutdown ───────────────
+        const gracefulShutdown = async (signal) => {
+            logger.info(`${signal} received. Starting graceful shutdown...`);
+
+            // Stop accepting new connections
+            server.close(async () => {
+                logger.info('HTTP server closed');
+
+                try {
+                    // Close database pool
+                    await closeDB();
+                    logger.info('Database connections closed');
+                } catch (err) {
+                    logger.error('Error closing database', { error: err.message });
+                }
+
+                logger.info('Graceful shutdown complete. Goodbye.');
+                process.exit(0);
             });
 
-            // Force exit after 10 seconds
+            // Force exit after 15 seconds
             setTimeout(() => {
-                console.error('Forced shutdown after timeout');
+                logger.error('Forced shutdown after 15s timeout');
                 process.exit(1);
-            }, 10000);
+            }, 15000);
         };
 
         process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
         process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
+        // ─────────────── Unhandled Error Safety Net ───────────────
+        process.on('unhandledRejection', (reason) => {
+            logger.error('Unhandled Promise Rejection', { error: reason?.message || reason });
+        });
+
+        process.on('uncaughtException', (error) => {
+            logger.error('Uncaught Exception — shutting down', { error: error.message, stack: error.stack });
+            process.exit(1);
+        });
+
     } catch (error) {
-        console.error('❌ Database connection failed:', error.message);
+        logger.error('❌ Failed to start server', { error: error.message });
         process.exit(1);
     }
 }

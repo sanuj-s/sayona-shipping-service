@@ -1,4 +1,4 @@
-// Contacts management page
+// Contacts management page — adapted for v1 API
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!requireAuth()) return;
@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let allContacts = [];
-let currentContactId = null;
+let currentContact = null;
 
 async function loadContacts() {
     const tbody = document.getElementById('contactsBody');
     tbody.innerHTML = '<tr><td colspan="5"><div class="spinner"></div></td></tr>';
 
     try {
-        allContacts = await apiRequest('/contacts');
+        allContacts = await getContactsAPI();
         renderContacts(allContacts);
     } catch (error) {
         showToast('Failed to load contacts: ' + error.message, 'error');
@@ -44,7 +44,7 @@ function filterContacts() {
 
     if (status) {
         const isRead = status === 'read';
-        filtered = filtered.filter(c => c.is_read === isRead || c.isRead === isRead);
+        filtered = filtered.filter(c => c.isRead === isRead);
     }
 
     renderContacts(filtered);
@@ -62,10 +62,10 @@ function renderContacts(contacts) {
     }
 
     tbody.innerHTML = contacts.map(c => {
-        const isRead = c.is_read || c.isRead;
+        const isRead = c.isRead;
         return `
         <tr class="${isRead ? 'row-read' : 'row-unread'}">
-            <td>${formatDate(c.created_at || c.createdAt)}</td>
+            <td>${formatDate(c.createdAt)}</td>
             <td>
                 <strong>${c.name}</strong>
                 <div style="font-size: 0.85em; color: var(--text-muted);">${c.email}</div>
@@ -75,19 +75,19 @@ function renderContacts(contacts) {
                 ${isRead ? '<span class="badge" style="background:#e2e8f0;color:#475569;">Read</span>' : '<span class="badge badge-pending">Unread</span>'}
             </td>
             <td>
-                <button class="btn btn-outline btn-sm" onclick="viewContact(${c.id})">👁 View</button>
+                <button class="btn btn-outline btn-sm" onclick="viewContact('${c.uuid}')">👁 View</button>
             </td>
         </tr>
     `}).join('');
 }
 
-function viewContact(id) {
-    const contact = allContacts.find(c => c.id === id);
+function viewContact(uuid) {
+    const contact = allContacts.find(c => c.uuid === uuid);
     if (!contact) return;
 
-    currentContactId = id;
+    currentContact = contact;
     const details = document.getElementById('contactDetails');
-    const isRead = contact.is_read || contact.isRead;
+    const isRead = contact.isRead;
 
     details.innerHTML = `
         <strong>Name:</strong> ${contact.name}<br>
@@ -111,16 +111,14 @@ function viewContact(id) {
 
 function closeViewModal() {
     document.getElementById('viewModal').classList.remove('show');
-    currentContactId = null;
+    currentContact = null;
 }
 
 async function markAsRead() {
-    if (!currentContactId) return;
+    if (!currentContact) return;
 
     try {
-        await apiRequest(`/contacts/${currentContactId}/read`, {
-            method: 'PUT'
-        });
+        await markContactReadAPI(currentContact.uuid);
         showToast('Message marked as read', 'success');
         closeViewModal();
         loadContacts();

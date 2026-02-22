@@ -1,4 +1,4 @@
-// Users management page
+// Users management page — adapted for v1 API
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!requireAuth()) return;
@@ -17,7 +17,7 @@ async function loadUsers() {
     tbody.innerHTML = '<tr><td colspan="5"><div class="spinner"></div></td></tr>';
 
     try {
-        allUsers = await apiRequest('/users');
+        allUsers = await getUsersAPI();
         renderUsers(allUsers);
     } catch (error) {
         showToast('Failed to load users: ' + error.message, 'error');
@@ -54,16 +54,19 @@ function renderUsers(users) {
 
     tbody.innerHTML = users.map(u => `
         <tr>
-            <td>${formatDate(u.created_at || u.createdAt)}</td>
+            <td>${formatDate(u.createdAt)}</td>
             <td>
                 <strong>${u.name}</strong>
                 <div style="font-size: 0.85em; color: var(--text-muted);"><a href="mailto:${u.email}">${u.email}</a></div>
                 <div style="font-size: 0.85em; color: var(--text-muted);">${u.phone || ''}</div>
             </td>
             <td>${u.company || '—'}</td>
-            <td><span class="badge ${u.role === 'admin' ? 'badge-delivered' : 'badge-transit'}">${u.role || 'client'}</span></td>
+            <td><span class="badge ${u.role === 'admin' ? 'badge-delivered' : u.role === 'staff' ? 'badge-transit' : 'badge-pending'}">${u.role || 'client'}</span></td>
             <td>
-                <span style="color: #94a3b8; font-size: 0.85em;">View Only</span>
+                <span style="color: #94a3b8; font-size: 0.85em;">
+                    ${u.isVerified ? '✅ Verified' : '⏳ Unverified'}
+                    ${u.isLocked ? ' | 🔒 Locked' : ''}
+                </span>
             </td>
         </tr>
     `).join('');

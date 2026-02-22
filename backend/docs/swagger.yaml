@@ -1,0 +1,413 @@
+openapi: 3.0.3
+info:
+  title: Sayona Shipping Service API
+  description: |
+    Enterprise-grade logistics SaaS platform API.
+    
+    ## Authentication
+    All protected endpoints require a JWT access token in the Authorization header:
+    ```
+    Authorization: Bearer <access_token>
+    ```
+    
+    ## Roles
+    - **client** — Can view own shipments, update profile
+    - **staff** — Can create/update shipments, manage quotes, tracking
+    - **admin** — Full system access including user management, audit logs
+    
+    ## Rate Limiting
+    - API: 100 requests / 15 min
+    - Auth: 10 requests / 15 min  
+    - Forms: 5 requests / 15 min
+  version: 2.0.0
+  contact:
+    name: Sayona Shipping
+    email: admin@sayona.com
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Development
+  - url: https://api.sayona.com/api/v1
+    description: Production
+
+tags:
+  - name: Auth
+    description: Authentication & user management
+  - name: Shipments
+    description: Shipment lifecycle management
+  - name: Tracking
+    description: Shipment tracking events
+  - name: Quotes
+    description: Quote request management
+  - name: Contacts
+    description: Contact form submissions
+  - name: Admin
+    description: Admin panel endpoints
+
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name: { type: string, minLength: 2, maxLength: 100 }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8 }
+                phone: { type: string }
+                company: { type: string }
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '423':
+          description: Account locked
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken: { type: string }
+      responses:
+        '200':
+          description: Tokens refreshed
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Get current user profile
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: User profile
+
+  /auth/profile:
+    put:
+      tags: [Auth]
+      summary: Update user profile
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                phone: { type: string }
+                company: { type: string }
+                address: { type: string }
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Request password reset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string, format: email }
+
+  /auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Reset password with token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password]
+              properties:
+                token: { type: string }
+                password: { type: string, minLength: 8 }
+
+  /shipments:
+    get:
+      tags: [Shipments]
+      summary: List shipments (paginated)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/ShipmentStatus'
+        - name: search
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Paginated shipment list
+    post:
+      tags: [Shipments]
+      summary: Create shipment (staff+)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [trackingNumber, senderName, receiverName, origin, destination]
+              properties:
+                trackingNumber: { type: string }
+                senderName: { type: string }
+                receiverName: { type: string }
+                origin: { type: string }
+                destination: { type: string }
+                currentLocation: { type: string }
+                industryType: { type: string }
+
+  /shipments/{uuid}:
+    get:
+      tags: [Shipments]
+      summary: Get shipment by UUID
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+    put:
+      tags: [Shipments]
+      summary: Update shipment (staff+)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  $ref: '#/components/schemas/ShipmentStatus'
+                currentLocation: { type: string }
+                description: { type: string }
+    delete:
+      tags: [Shipments]
+      summary: Delete shipment (admin only)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+
+  /tracking/{trackingNumber}:
+    get:
+      tags: [Tracking]
+      summary: Get tracking history (public)
+      parameters:
+        - name: trackingNumber
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Tracking history with shipment info
+
+  /tracking:
+    post:
+      tags: [Tracking]
+      summary: Add tracking event (staff+)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [trackingNumber, location, status]
+              properties:
+                trackingNumber: { type: string }
+                location: { type: string }
+                status:
+                  $ref: '#/components/schemas/ShipmentStatus'
+                description: { type: string }
+
+  /quotes:
+    post:
+      tags: [Quotes]
+      summary: Submit quote request (public)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, origin, destination]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                origin: { type: string }
+                destination: { type: string }
+                cargoType: { type: string }
+                weight: { type: string }
+    get:
+      tags: [Quotes]
+      summary: List quotes (staff+)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+
+  /contacts:
+    post:
+      tags: [Contacts]
+      summary: Submit contact message (public)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, message]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                message: { type: string, minLength: 10 }
+
+  /admin/dashboard:
+    get:
+      tags: [Admin]
+      summary: Dashboard analytics (admin only)
+      security: [{ bearerAuth: [] }]
+
+  /admin/users:
+    get:
+      tags: [Admin]
+      summary: List users (admin only)
+      security: [{ bearerAuth: [] }]
+
+  /admin/audit-logs:
+    get:
+      tags: [Admin]
+      summary: View audit logs (admin only)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - name: action
+          in: query
+          schema: { type: string }
+        - name: entityType
+          in: query
+          schema: { type: string }
+
+  /health:
+    get:
+      tags: [Admin]
+      summary: Health check
+      responses:
+        '200':
+          description: Service healthy
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    page:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 1, default: 1 }
+    limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+
+  schemas:
+    ShipmentStatus:
+      type: string
+      enum: [CREATED, IN_TRANSIT, OUT_FOR_DELIVERY, DELIVERED, CANCELLED]
+
+    AuthResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        data:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                uuid: { type: string, format: uuid }
+                name: { type: string }
+                email: { type: string }
+                role: { type: string }
+            accessToken: { type: string }
+            refreshToken: { type: string }
+
+    ErrorResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: false }
+        error:
+          type: object
+          properties:
+            code: { type: string }
+            message: { type: string }
+
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+    Forbidden:
+      description: Insufficient permissions

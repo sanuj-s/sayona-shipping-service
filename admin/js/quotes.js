@@ -1,4 +1,4 @@
-// Quotes management page
+// Quotes management page — adapted for v1 API
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!requireAuth()) return;
@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let allQuotes = [];
-let currentQuoteId = null;
+let currentQuote = null;
 
 async function loadQuotes() {
     const tbody = document.getElementById('quotesBody');
     tbody.innerHTML = '<tr><td colspan="7"><div class="spinner"></div></td></tr>';
 
     try {
-        allQuotes = await apiRequest('/quotes');
+        allQuotes = await getQuotesAPI();
         renderQuotes(allQuotes);
     } catch (error) {
         showToast('Failed to load quotes: ' + error.message, 'error');
@@ -64,27 +64,27 @@ function renderQuotes(quotes) {
 
     tbody.innerHTML = quotes.map(q => `
         <tr>
-            <td>${formatDate(q.created_at || q.createdAt)}</td>
+            <td>${formatDate(q.createdAt)}</td>
             <td>
                 <strong>${q.name}</strong>
                 <div style="font-size: 0.85em; color: var(--text-muted);">${q.company || q.email}</div>
             </td>
             <td>${q.origin || '—'} → ${q.destination || '—'}</td>
-            <td>${q.cargo_type || q.cargoType || '—'}</td>
+            <td>${q.cargoType || '—'}</td>
             <td>${q.weight || '—'}</td>
             <td><span class="badge badge-${getStatusClass(q.status)}">${q.status || 'pending'}</span></td>
             <td>
-                <button class="btn btn-outline btn-sm" onclick="viewQuote(${q.id})">👁 View</button>
+                <button class="btn btn-outline btn-sm" onclick="viewQuote('${q.uuid}')">👁 View</button>
             </td>
         </tr>
     `).join('');
 }
 
-function viewQuote(id) {
-    const quote = allQuotes.find(q => q.id === id);
+function viewQuote(uuid) {
+    const quote = allQuotes.find(q => q.uuid === uuid);
     if (!quote) return;
 
-    currentQuoteId = id;
+    currentQuote = quote;
     const details = document.getElementById('quoteDetails');
 
     details.innerHTML = `
@@ -94,8 +94,8 @@ function viewQuote(id) {
         <strong>Company:</strong> ${quote.company || 'N/A'}<br>
         <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
         <strong>Route:</strong> ${quote.origin} → ${quote.destination}<br>
-        <strong>Cargo:</strong> ${quote.cargo_type || quote.cargoType}<br>
-        <strong>Weight:</strong> ${quote.weight}<br>
+        <strong>Cargo:</strong> ${quote.cargoType || '—'}<br>
+        <strong>Weight:</strong> ${quote.weight || '—'}<br>
         <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
         <strong>Message:</strong><br>
         <div style="background: #f9f9f9; padding: 10px; border-radius: 4px; border: 1px solid #e2e8f0; margin-top: 5px; white-space: pre-wrap;">${quote.message || 'No message provided.'}</div>
@@ -107,18 +107,15 @@ function viewQuote(id) {
 
 function closeViewModal() {
     document.getElementById('viewModal').classList.remove('show');
-    currentQuoteId = null;
+    currentQuote = null;
 }
 
 async function saveStatus() {
-    if (!currentQuoteId) return;
+    if (!currentQuote) return;
     const newStatus = document.getElementById('updateStatusSelect').value;
 
     try {
-        await apiRequest(`/quotes/${currentQuoteId}/status`, {
-            method: 'PUT',
-            body: JSON.stringify({ status: newStatus })
-        });
+        await updateQuoteStatusAPI(currentQuote.uuid, newStatus);
         showToast('Status updated', 'success');
         closeViewModal();
         loadQuotes();

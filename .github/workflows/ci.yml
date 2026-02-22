@@ -1,0 +1,130 @@
+# ─────────────────────────────────────────────
+# CI/CD Pipeline — GitHub Actions
+# Stages: Install → Lint → Test → Security → Deploy gate
+# ─────────────────────────────────────────────
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # ── Install Dependencies ──
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
+
+  # ── Lint ──
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
+      - name: Run ESLint
+        working-directory: backend
+        run: npx eslint src/ --ext .js --max-warnings 0
+
+  # ── Test ──
+  test:
+    needs: install
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: sayona_test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: test
+      DB_PASSWORD: test
+      DB_NAME: sayona_test
+      JWT_SECRET: test-jwt-secret-ci
+      JWT_REFRESH_SECRET: test-refresh-secret-ci
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
+      - name: Run migrations
+        working-directory: backend
+        run: node scripts/migrate.js
+      - name: Run tests
+        working-directory: backend
+        run: npm test
+
+  # ── Security Audit ──
+  security:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
+      - name: NPM Audit
+        working-directory: backend
+        run: npm audit --audit-level=high
+        continue-on-error: true
+      - name: Check for known vulnerabilities
+        working-directory: backend
+        run: npx audit-ci --high
+
+  # ── Deploy Gate ──
+  deploy-gate:
+    needs: [lint, test, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Deploy gate passed
+        run: |
+          echo "✅ All checks passed. Ready for deployment."
+          echo "Deploy to staging/production using your preferred method."
+          echo "Suggested: docker-compose up -d --build"

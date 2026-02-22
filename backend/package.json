@@ -1,19 +1,23 @@
 {
   "name": "sayona-shipping-backend",
-  "version": "1.0.0",
-  "description": "Production backend for Sayona Shipping Service — Express + PostgreSQL",
+  "version": "2.0.0",
+  "description": "Enterprise-grade logistics SaaS platform — Express + PostgreSQL",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "npx nodemon server.js",
-    "init-db": "node init_db.js",
-    "seed-admin": "node seed_admin.js",
+    "migrate": "node scripts/migrate.js",
+    "seed": "node scripts/seed.js",
+    "setup": "npm run migrate && npm run seed",
+    "lint": "eslint src/ --ext .js",
+    "lint:fix": "eslint src/ --ext .js --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "shipping",
     "logistics",
-    "backend",
+    "enterprise",
+    "saas",
     "express",
     "postgresql"
   ],
@@ -22,17 +26,24 @@
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
+    "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.0",
-    "pg": "^8.18.0"
+    "pg": "^8.18.0",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "eslint": "^8.57.1",
+    "nodemon": "^3.1.14"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

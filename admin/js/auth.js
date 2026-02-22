@@ -1,4 +1,4 @@
-// Auth guard and login/logout logic
+// Auth guard and login/logout logic — adapted for enterprise v1 API
 
 function requireAuth() {
     const token = localStorage.getItem('admin_token');
@@ -10,8 +10,22 @@ function requireAuth() {
 }
 
 function logout() {
+    // Revoke refresh token on server
+    const refreshToken = localStorage.getItem('admin_refresh_token');
+    if (refreshToken) {
+        fetch('/api/v1/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`,
+            },
+            body: JSON.stringify({ refreshToken }),
+        }).catch(() => { }); // Fire and forget
+    }
+
     localStorage.removeItem('admin_token');
     localStorage.removeItem('admin_name');
+    localStorage.removeItem('admin_refresh_token');
     window.location.href = '/admin/login.html';
 }
 
@@ -77,8 +91,23 @@ function initLoginForm() {
 
         try {
             const data = await loginAPI(email, password);
-            localStorage.setItem('admin_token', data.token);
-            localStorage.setItem('admin_name', data.name);
+
+            // Check that the user has admin or staff role
+            if (data.user && data.user.role !== 'admin' && data.user.role !== 'staff') {
+                errorEl.textContent = 'Access denied. Admin or staff account required.';
+                errorEl.classList.add('show');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
+                return;
+            }
+
+            // New API returns { user, accessToken, refreshToken }
+            localStorage.setItem('admin_token', data.accessToken);
+            localStorage.setItem('admin_name', data.user?.name || 'Admin');
+            if (data.refreshToken) {
+                localStorage.setItem('admin_refresh_token', data.refreshToken);
+            }
+
             window.location.href = '/admin/dashboard.html';
         } catch (err) {
             errorEl.textContent = err.message || 'Login failed';
