@@ -144,9 +144,9 @@
 
                 tbody.innerHTML = shipments.map(s => {
                     let invoiceBtn = '';
-                    if (s.status?.toLowerCase() === 'delivered') {
+                    if (s.status === 'DELIVERED') {
                         const token = PortalAPI.getToken();
-                        invoiceBtn = `<a href="/api/shipments/${s.trackingNumber}/invoice?token=${token}" target="_blank" class="btn-portal" style="padding:4px 8px; font-size:0.8rem; background:transparent; border:1px solid var(--cp-primary); color:var(--cp-primary);"><i class="fas fa-file-invoice"></i> Invoice</a>`;
+                        invoiceBtn = `<a href="/api/v1/shipments/${s.trackingNumber}/invoice?token=${token}" target="_blank" class="btn-portal" style="padding:4px 8px; font-size:0.8rem; background:transparent; border:1px solid var(--cp-primary); color:var(--cp-primary);"><i class="fas fa-file-invoice"></i> Invoice</a>`;
                     }
                     return `
                     <tr>
@@ -199,9 +199,9 @@
             const payload = {
                 trackingNumber: document.getElementById('cTracking').value,
                 senderName: document.getElementById('cSender').value,
-                senderAddress: document.getElementById('cOrigin').value,
+                origin: document.getElementById('cOrigin').value,
                 receiverName: document.getElementById('cReceiver').value,
-                receiverAddress: document.getElementById('cDestination').value,
+                destination: document.getElementById('cDestination').value,
                 industryType: document.getElementById('cIndustry').value,
                 currentLocation: document.getElementById('cLocation').value
             };

@@ -121,9 +121,9 @@
             try {
                 const shipments = await PortalAPI.getShipments();
                 const total = shipments.length;
-                const transit = shipments.filter(s => s.status?.toLowerCase().includes('transit')).length;
-                const delivered = shipments.filter(s => s.status?.toLowerCase() === 'delivered').length;
-                const pending = shipments.filter(s => s.status?.toLowerCase() === 'pending' || s.status?.toLowerCase() === 'picked up').length;
+                const transit = shipments.filter(s => s.status === 'IN_TRANSIT' || s.status === 'OUT_FOR_DELIVERY').length;
+                const delivered = shipments.filter(s => s.status === 'DELIVERED').length;
+                const pending = shipments.filter(s => s.status === 'CREATED').length;
 
                 document.getElementById('totalShipments').textContent = total;
                 document.getElementById('inTransit').textContent = transit;

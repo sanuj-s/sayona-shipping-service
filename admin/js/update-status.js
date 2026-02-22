@@ -1,4 +1,4 @@
-// Update shipment status page
+// Update shipment status page — adapted for v1 API
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!requireAuth()) return;
@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadShipmentDetail(trackingNumber) {
     try {
-        const shipment = await getShipment(trackingNumber);
+        const data = await getShipment(trackingNumber);
+        const shipment = data.shipment || data;
         const grid = document.getElementById('detailGrid');
         grid.innerHTML = `
             <div class="detail-item">
@@ -41,11 +42,11 @@ async function loadShipmentDetail(trackingNumber) {
             </div>
             <div class="detail-item">
                 <label>Origin</label>
-                <div class="value">${shipment.senderAddress || shipment.origin || '—'}</div>
+                <div class="value">${shipment.origin || '—'}</div>
             </div>
             <div class="detail-item">
                 <label>Destination</label>
-                <div class="value">${shipment.receiverAddress || shipment.destination || '—'}</div>
+                <div class="value">${shipment.destination || '—'}</div>
             </div>
             <div class="detail-item">
                 <label>Current Location</label>
@@ -76,7 +77,8 @@ async function loadTrackingHistory(trackingNumber) {
             <div class="timeline-item">
                 <div class="tl-status">${event.status}</div>
                 <div class="tl-location">📍 ${event.location}</div>
-                <div class="tl-time">${formatDateTime(event.timestamp)}</div>
+                ${event.description ? `<div class="tl-desc" style="font-size:0.85em;color:#64748b;">${event.description}</div>` : ''}
+                <div class="tl-time">${formatDateTime(event.createdAt)}</div>
             </div>
         `).join('');
     } catch (error) {
@@ -129,9 +131,9 @@ function initUpdateForm(trackingNumber) {
 
 function getStatusClass(status) {
     if (!status) return 'created';
-    const s = status.toLowerCase().replace(/\s+/g, '-');
-    if (s.includes('pending')) return 'pending';
-    if (s.includes('transit') || s.includes('shipped')) return 'transit';
+    const s = status.toLowerCase().replace(/[_\s]+/g, '-');
+    if (s.includes('created')) return 'pending';
+    if (s.includes('transit') || s.includes('out-for')) return 'transit';
     if (s.includes('deliver')) return 'delivered';
     if (s.includes('cancel')) return 'cancelled';
     return 'created';

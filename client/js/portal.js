@@ -1,23 +1,42 @@
-// ─── Client Portal API Helper ───
-const API_BASE = '/api';
+// ─── Client Portal API Helper — v1 API ───
+const API_BASE = '/api/v1';
 
 const PortalAPI = {
     getToken: () => localStorage.getItem('client_token'),
     getUser: () => JSON.parse(localStorage.getItem('client_user') || 'null'),
 
     setAuth: (data) => {
-        localStorage.setItem('client_token', data.token);
+        // New API returns { user, accessToken, refreshToken }
+        localStorage.setItem('client_token', data.accessToken);
+        if (data.refreshToken) {
+            localStorage.setItem('client_refresh_token', data.refreshToken);
+        }
         localStorage.setItem('client_user', JSON.stringify({
-            id: data._id || data.id,
-            name: data.name,
-            email: data.email,
-            role: data.role,
+            uuid: data.user.uuid,
+            name: data.user.name,
+            email: data.user.email,
+            role: data.user.role,
         }));
     },
 
     clearAuth: () => {
+        // Try to revoke refresh token
+        const refreshToken = localStorage.getItem('client_refresh_token');
+        const token = localStorage.getItem('client_token');
+        if (refreshToken && token) {
+            fetch('/api/v1/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ refreshToken }),
+            }).catch(() => { });
+        }
+
         localStorage.removeItem('client_token');
         localStorage.removeItem('client_user');
+        localStorage.removeItem('client_refresh_token');
     },
 
     request: async (endpoint, options = {}) => {
@@ -31,16 +50,18 @@ const PortalAPI = {
                 headers: { ...headers, ...options.headers },
             });
 
-            const data = await res.json();
+            const json = await res.json();
             if (!res.ok) {
                 if (res.status === 401) {
                     PortalAPI.clearAuth();
                     window.location.href = '/client/login.html';
                     return;
                 }
-                throw new Error(data.message || 'Request failed');
+                throw new Error(json.error?.message || json.message || 'Request failed');
             }
-            return data;
+
+            // Unwrap response envelope
+            return json.data !== undefined ? json.data : json;
         } catch (err) {
             throw err;
         }
@@ -65,11 +86,11 @@ const PortalAPI = {
         method: 'PUT', body: JSON.stringify(data)
     }),
 
-    // Shipments
-    getShipments: () => PortalAPI.request('/shipments'),
-    createShipment: (data) => PortalAPI.request('/shipments', {
-        method: 'POST', body: JSON.stringify(data)
-    }),
+    // Shipments — returns paginated data, extract the array
+    getShipments: async () => {
+        const result = await PortalAPI.request('/shipments?limit=100');
+        return result.data || result;
+    },
     getShipment: (tracking) => PortalAPI.request(`/shipments/${tracking}`),
 
     // Tracking
@@ -129,11 +150,12 @@ function initSidebar() {
 
 // ─── Status badge helper ───
 function statusBadge(status) {
-    const s = (status || '').toLowerCase().replace(/\s+/g, '-');
+    const s = (status || '').toLowerCase().replace(/[_\s]+/g, '-');
     const cls = s.includes('delivered') ? 'delivered'
-        : s.includes('transit') ? 'transit'
-            : s.includes('picked') ? 'picked-up'
-                : 'pending';
+        : s.includes('transit') || s.includes('out-for') ? 'transit'
+            : s.includes('created') ? 'pending'
+                : s.includes('cancel') ? 'cancelled'
+                    : 'pending';
     return `<span class="badge badge-${cls}">${status}</span>`;
 }
 

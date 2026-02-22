@@ -1,4 +1,4 @@
-// Create shipment form handler
+// Create shipment form handler — adapted for v1 API
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!requireAuth()) return;
@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = {
             trackingNumber: document.getElementById('trackingNumber').value.trim(),
             senderName: document.getElementById('senderName').value.trim(),
-            senderAddress: document.getElementById('senderAddress').value.trim(),
+            origin: document.getElementById('senderAddress').value.trim(),
             receiverName: document.getElementById('receiverName').value.trim(),
-            receiverAddress: document.getElementById('receiverAddress').value.trim(),
+            destination: document.getElementById('receiverAddress').value.trim(),
             currentLocation: document.getElementById('currentLocation').value.trim(),
             industryType: document.getElementById('industryType').value,
             userEmail: clientEmail
         };
 
-        if (!data.trackingNumber || !data.senderName || !data.senderAddress || !data.receiverName || !data.receiverAddress || !data.currentLocation) {
-            showToast('Please fill all fields', 'error');
+        if (!data.trackingNumber || !data.senderName || !data.origin || !data.receiverName || !data.destination || !data.currentLocation) {
+            showToast('Please fill all required fields', 'error');
             return;
         }
 
@@ -33,15 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = 'Creating...';
 
         try {
-            await createShipmentAPI({
-                trackingNumber,
-                senderName,
-                senderAddress,
-                receiverName,
-                receiverAddress,
-                currentLocation,
-                industryType
-            });
+            await createShipmentAPI(data);
 
             showToast('Shipment created successfully!', 'success');
 
