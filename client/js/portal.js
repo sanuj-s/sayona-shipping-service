@@ -1,21 +1,24 @@
 // ─── Client Portal API Helper — v1 API ───
-const API_BASE = '/api/v1';
+const BASE_URL = window.location.origin;
+const API_BASE = `${BASE_URL}/api/v1`;
 
 const PortalAPI = {
     getToken: () => localStorage.getItem('client_token'),
     getUser: () => JSON.parse(localStorage.getItem('client_user') || 'null'),
 
     setAuth: (data) => {
-        // New API returns { user, accessToken, refreshToken }
-        localStorage.setItem('client_token', data.accessToken);
+        // Handle both v1 envelope ({ user, accessToken }) and legacy flat ({ token, name })
+        const token = data.accessToken || data.token;
+        localStorage.setItem('client_token', token);
         if (data.refreshToken) {
             localStorage.setItem('client_refresh_token', data.refreshToken);
         }
+        const user = data.user || { name: data.name, email: data.email, role: data.role };
         localStorage.setItem('client_user', JSON.stringify({
-            uuid: data.user.uuid,
-            name: data.user.name,
-            email: data.user.email,
-            role: data.user.role,
+            uuid: user.uuid || data._id || '',
+            name: user.name,
+            email: user.email,
+            role: user.role || 'client',
         }));
     },
 
@@ -24,7 +27,7 @@ const PortalAPI = {
         const refreshToken = localStorage.getItem('client_refresh_token');
         const token = localStorage.getItem('client_token');
         if (refreshToken && token) {
-            fetch('/api/v1/auth/logout', {
+            fetch(`${BASE_URL}/api/v1/auth/logout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

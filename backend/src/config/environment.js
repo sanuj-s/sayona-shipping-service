@@ -59,7 +59,7 @@ const config = {
     cors: {
         origins: process.env.CORS_ORIGINS
             ? process.env.CORS_ORIGINS.split(',').map((s) => s.trim())
-            : ['http://localhost:3000'],
+            : ['http://localhost:3000', 'https://sayona-shipping-service.onrender.com'],
     },
 
     rateLimit: {

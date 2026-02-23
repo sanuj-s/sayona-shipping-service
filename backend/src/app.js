@@ -102,6 +102,11 @@ app.get('/api/health', (req, res) => {
 });
 
 // ─────────────── API Routes ───────────────
+// Log all API requests for production debugging
+app.use('/api', (req, res, next) => {
+    _logger.info(`[API] ${req.method} ${req.originalUrl}`, { ip: req.ip, correlationId: req.correlationId });
+    next();
+});
 app.use('/api', routes);
 
 // ─────────────── Legacy Route Aliases ───────────────

@@ -12,21 +12,26 @@ const registerUser = async (req, res) => {
         const { name, email, password, phone, company } = req.body;
 
         if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Please add all fields' });
+            return res.status(400).json({ success: false, error: { message: 'Please add all fields' } });
         }
 
         const user = await AuthService.register({ name, email, password, phone, company });
 
         res.status(201).json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: user.token,
+            success: true,
+            data: {
+                user: {
+                    uuid: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                },
+                accessToken: user.token,
+            },
         });
     } catch (error) {
         const statusCode = error.statusCode || 500;
-        res.status(statusCode).json({ message: error.message });
+        res.status(statusCode).json({ success: false, error: { message: error.message } });
     }
 };
 
@@ -38,21 +43,26 @@ const loginUser = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ message: 'Please provide email and password' });
+            return res.status(400).json({ success: false, error: { message: 'Please provide email and password' } });
         }
 
         const user = await AuthService.login(email, password);
 
         res.json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: user.token,
+            success: true,
+            data: {
+                user: {
+                    uuid: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                },
+                accessToken: user.token,
+            },
         });
     } catch (error) {
         const statusCode = error.statusCode || 500;
-        res.status(statusCode).json({ message: error.message });
+        res.status(statusCode).json({ success: false, error: { message: error.message } });
     }
 };
 
