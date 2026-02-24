@@ -5,21 +5,23 @@
   box-sizing: border-box;
 }
 
+/* Prevent horizontal scroll */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 /* Root color system */
 :root {
   --primary: #0B3D91;
-  /* deep corporate blue */
   --secondary: #071A33;
-  /* dark navy background */
   --accent: #00C2FF;
-  /* bright cyan highlight */
   --accent-soft: #E6F7FF;
   --text: #1A1A1A;
   --text-light: #6B7280;
   --background: #FFFFFF;
   --background-alt: #F8FAFC;
-
-  /* Additional variables needed for the site */
   --bg-main: var(--background-alt);
   --bg-surface: var(--background);
   --bg-elevated: #F1F5F9;
@@ -29,7 +31,7 @@
   --success: #16a34a;
 }
 
-/* Typography */
+/* Typography — fluid */
 body {
   font-family: 'Poppins', sans-serif;
   color: var(--text);
@@ -40,9 +42,9 @@ h1 {
   font-family: 'Outfit', sans-serif;
   color: var(--text-main);
   margin-bottom: 24px;
-  line-height: 1.2;
+  line-height: 1.1;
   font-weight: 700;
-  font-size: clamp(48px, 5vw, 56px);
+  font-size: clamp(28px, 4vw, 56px);
 }
 
 h2,
@@ -58,9 +60,8 @@ h6 {
 }
 
 p {
-  font-size: 17px;
+  font-size: clamp(14px, 1.2vw, 18px);
   line-height: 1.7;
-  max-width: 600px;
 }
 
 a {
@@ -78,15 +79,16 @@ ul {
   max-width: 1200px;
   margin: auto;
   padding: 0 20px;
+  width: 100%;
 }
 
-/* Section spacing */
+/* Section spacing — fluid */
 section {
-  padding: 100px 0;
+  padding: clamp(50px, 8vw, 100px) 0;
   position: relative;
 }
 
-/* Base utilities needed for pages */
+/* Base utilities */
 .text-center {
   text-align: center;
 }
@@ -99,8 +101,20 @@ section {
   margin-top: 1rem;
 }
 
+.mt-3 {
+  margin-top: 3rem;
+}
+
 .mb-1 {
   margin-bottom: 1rem;
+}
+
+.mb-3 {
+  margin-bottom: 3rem;
+}
+
+.pt-3 {
+  padding-top: 3rem;
 }
 
 .color-primary {

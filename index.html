@@ -127,37 +127,31 @@
     <main>
       <section id="hero" class="hero"
         style="background: linear-gradient(rgba(7, 26, 51, 0.85), rgba(7, 26, 51, 0.7)), url('/images/hero-bg.jpg') center/cover; min-height: 85vh; display: flex; align-items: center;">
-        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+        <div class="container hero-grid">
           <div class="hero-content text-left">
             <h1 style="color: white; margin-bottom: 20px;">Precision Logistics for Global Trade</h1>
             <p style="color: #cbd5e1; font-size: 1.2rem; margin-bottom: 30px; max-width: 550px;">
               Sayona Shipping Services engineers high-performance cargo solutions. We move your goods with unmatched
               speed, comprehensive route tracking, and assured reliability.
             </p>
-            <div style="display: flex; gap: 15px;">
+            <div class="hero-buttons">
               <a href="contact.html#quote" class="btn-primary magnetic">Get a Quote</a>
               <a href="tracking.html" class="btn-outline magnetic"
                 style="color: white; border-color: rgba(255,255,255,0.5);">Track Shipment</a>
             </div>
           </div>
-          <div class="hero-metrics" style="display: flex; flex-direction: column; gap: 20px;">
-            <div
-              style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
-              <h3 style="color: #00C2FF; font-size: 2.5rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif;">98%
-              </h3>
-              <p style="color: white; margin: 0; font-size: 1rem;">On-Time Delivery Rate</p>
+          <div class="hero-metrics">
+            <div class="hero-metric-card">
+              <h3>98%</h3>
+              <p>On-Time Delivery Rate</p>
             </div>
-            <div
-              style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
-              <h3 style="color: #00C2FF; font-size: 2.5rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif;">50+
-              </h3>
-              <p style="color: white; margin: 0; font-size: 1rem;">Global Trade Routes Active</p>
+            <div class="hero-metric-card">
+              <h3>50+</h3>
+              <p>Global Trade Routes Active</p>
             </div>
-            <div
-              style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
-              <h3 style="color: #00C2FF; font-size: 2.5rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif;">24/7
-              </h3>
-              <p style="color: white; margin: 0; font-size: 1rem;">Live Route Tracking</p>
+            <div class="hero-metric-card">
+              <h3>24/7</h3>
+              <p>Live Route Tracking</p>
             </div>
           </div>
         </div>
@@ -333,11 +327,11 @@
         </div>
       </section>
 
-      <section id="company" class="about-section" style="padding: 100px 0;">
+      <section id="company" class="about-section">
         <div class="container">
-          <div class="grid align-center" style="gap: 60px;">
+          <div class="about-two-col">
             <div>
-              <h2 class="section-title text-left no-transform" style="font-size: 2.2rem;">Architects of Global Trade
+              <h2 class="section-title text-left no-transform">Architects of Global Trade
               </h2>
               <p class="about-desc">
                 Founded in 2020 and backed by over 30 years of deep industry expertise, Sayona Shipping Services
@@ -352,8 +346,7 @@
               <img src="/images/about/warehouse.jpg" alt="Sayona Shipping Warehouse"
                 class="img-fluid rounded shadow hover-scale"
                 style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
-              <div
-                style="position: absolute; bottom: 20px; left: -20px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+              <div class="about-badge">
                 <i class="fas fa-ship fa-2x color-primary" style="margin-bottom: 5px;"></i>
                 <p style="margin: 0; font-weight: 600;">Full Integration</p>
               </div>
@@ -363,9 +356,9 @@
       </section>
 
       <!-- Trust Signals -->
-      <section id="trust" class="section-alt" style="padding: 60px 0;">
+      <section id="trust" class="section-alt">
         <div class="container text-center">
-          <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; align-items: center;">
+          <div class="trust-signals">
             <div>
               <i class="fas fa-certificate fa-2x color-primary mb-1"></i>
               <h4 style="margin: 0;">ISO 9001:2015</h4>

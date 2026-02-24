@@ -237,8 +237,8 @@
 
 .section-title {
   text-align: center;
-  font-size: 40px;
-  margin-bottom: 60px;
+  font-size: clamp(24px, 3vw, 40px);
+  margin-bottom: clamp(30px, 5vw, 60px);
   position: relative;
   color: var(--text-main);
 }
@@ -275,7 +275,7 @@
 }
 
 .hero {
-  height: calc(100vh - 80px);
+  min-height: clamp(500px, 80vh, 85vh);
   background: linear-gradient(rgba(7, 26, 51, 0.65),
       rgba(11, 61, 145, 0.55)),
     url('/images/hero/container-ship.jpg');
@@ -288,22 +288,19 @@
 }
 
 .hero-content {
-  text-align: center;
-  max-width: 800px;
   width: 100%;
-  padding: 0 20px;
 }
 
 .hero h1 {
-  font-size: 64px;
+  font-size: clamp(28px, 5vw, 64px);
   font-weight: 700;
   color: white;
   margin-bottom: 1rem;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .hero p {
-  font-size: 20px;
+  font-size: clamp(14px, 1.5vw, 20px);
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2rem;
 }
@@ -411,13 +408,13 @@ textarea.form-control {
 }
 
 .cta-section h2 {
-  font-size: 2.5rem;
+  font-size: clamp(24px, 3vw, 2.5rem);
   margin-bottom: 1rem;
   color: white;
 }
 
 .cta-section p {
-  font-size: 1.2rem;
+  font-size: clamp(14px, 1.5vw, 1.2rem);
   margin-bottom: 2rem;
   opacity: 0.9;
 }
@@ -486,14 +483,14 @@ textarea.form-control {
 }
 
 .stat-card h2 {
-  font-size: 42px;
+  font-size: clamp(28px, 4vw, 42px);
   color: var(--primary);
   margin-bottom: 10px;
 }
 
 .stat-card p {
   color: var(--text-light);
-  font-size: 16px;
+  font-size: clamp(13px, 1.2vw, 16px);
 }
 
 /* Professional Services Block System */
@@ -522,13 +519,13 @@ textarea.form-control {
 }
 
 .service-text h2 {
-  font-size: 36px;
+  font-size: clamp(22px, 3vw, 36px);
   margin-bottom: 20px;
   color: var(--secondary);
 }
 
 .service-text p {
-  font-size: 18px;
+  font-size: clamp(14px, 1.3vw, 18px);
   color: var(--text-light);
   line-height: 1.6;
 }
@@ -646,35 +643,7 @@ textarea.form-control {
 
 
 
-
-body {
-  margin: 0;
-  padding-top: 110px;
-  /* Accounts for Top Bar + Navbar */
-  font-family: 'Poppins', sans-serif;
-}
-
-/* --------------- Top Utility Bar --------------- */
-.top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  background-color: #031326;
-  color: #a4b2c1;
-  z-index: 100001;
-  display: flex;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 500;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.top-bar.hidden {
-  transform: translateY(-40px);
-}
-
+/* --------------- Top Bar --------------- */
 .top-bar-container {
   width: 100%;
   max-width: 1400px;
@@ -716,40 +685,11 @@ body {
   margin-right: 6px;
 }
 
-/* --------------- Corporate Navbar --------------- */
-.corporate-nav {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  z-index: 100000;
-  transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-}
-
-.corporate-nav.docked {
-  top: 0;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-}
-
+/* --------------- Navbar Structure --------------- */
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 50px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 32px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: clamp(20px, 3vw, 50px);
 }
 
 .nav-links li {
@@ -757,7 +697,6 @@ body {
   display: flex;
   align-items: center;
   height: 80px;
-  /* Allows full hover bounding box */
 }
 
 .nav-links a {
@@ -784,7 +723,6 @@ body {
   transform: rotate(180deg);
 }
 
-/* Nav Link Hover Underline */
 .nav-links>li>a::after {
   content: "";
   position: absolute;
@@ -800,7 +738,7 @@ body {
   width: 100%;
 }
 
-/* ─── Logo: transparent, no background, big & crisp ─── */
+/* Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -818,8 +756,6 @@ body {
 }
 
 .logo img {
-  height: 65px;
-  max-width: 260px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -897,7 +833,7 @@ body {
   min-width: 240px;
 }
 
-/* --------------- Right Actions --------------- */
+/* Nav right */
 .nav-right {
   display: flex;
   gap: 24px;
@@ -915,12 +851,6 @@ body {
 
 .nav-search-btn:hover {
   color: #0072ff;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 16px;
-  align-items: center;
 }
 
 .btn-ghost {
@@ -963,27 +893,92 @@ body {
   transform: translateY(-2px);
 }
 
-/* Responsive Hide */
-@media (max-width: 1024px) {
-  .top-bar {
-    display: none;
+/* Services Hero */
+.services-hero {
+  background: linear-gradient(135deg, #031326 0%, #0a2a4a 50%, #0d3b66 100%);
+  color: white;
+  text-align: center;
+}
+
+.services-hero h1 {
+  color: white;
+}
+
+.services-hero p {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.services-hero-badge {
+  display: inline-block;
+  padding: 6px 20px;
+  background: rgba(0, 114, 255, 0.15);
+  color: #00C2FF;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* Contact form grid */
+.contact-form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Tracking Search Box Enhancement */
+.tracking-search-box {
+  display: flex;
+  gap: 16px;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  align-items: center;
+}
+
+.tracking-search-box input.form-control {
+  flex: 1;
+  padding: 16px 24px;
+  border: 2px solid #eef2f6;
+  border-radius: 10px;
+  font-size: 16px;
+  background: var(--background-alt);
+  transition: all 0.3s ease;
+  margin-bottom: 0;
+}
+
+.tracking-search-box input.form-control:focus {
+  border-color: #0072ff;
+  box-shadow: 0 0 0 4px rgba(0, 114, 255, 0.1);
+  background: white;
+}
+
+.tracking-search-box .btn {
+  padding: 16px 40px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 600px) {
+  .tracking-search-box {
+    flex-direction: column;
+    padding: 16px;
+    gap: 12px;
   }
 
-  .nav-actions {
-    display: none;
-  }
-
-  .nav-search-btn {
-    display: none;
-  }
-
-  .corporate-nav {
-    top: 0;
-    padding: 0 20px;
-  }
-
-  body {
-    padding-top: 80px;
+  .tracking-search-box input.form-control,
+  .tracking-search-box .btn {
+    width: 100%;
   }
 }
 
