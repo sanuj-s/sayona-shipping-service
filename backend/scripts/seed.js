@@ -27,7 +27,13 @@ async function seed() {
 
         const existing = await pool.query('SELECT id FROM users WHERE email = $1', [adminEmail]);
         if (existing.rows.length > 0) {
-            console.log(`Admin user (${adminEmail}) already exists, skipping.`);
+            const salt = await bcrypt.genSalt(12);
+            const passwordHash = await bcrypt.hash(finalAdminPassword, salt);
+            await pool.query(
+                `UPDATE users SET password_hash = $1, name = $2 WHERE email = $3`,
+                [passwordHash, adminName, adminEmail]
+            );
+            console.log(`✅ Admin user (${adminEmail}) updated with latest credentials.`);
         } else {
             const salt = await bcrypt.genSalt(12);
             const passwordHash = await bcrypt.hash(finalAdminPassword, salt);
@@ -53,7 +59,13 @@ async function seed() {
 
         const existingStaff = await pool.query('SELECT id FROM users WHERE email = $1', [staffEmail]);
         if (existingStaff.rows.length > 0) {
-            console.log(`Staff user (${staffEmail}) already exists, skipping.`);
+            const salt = await bcrypt.genSalt(12);
+            const passwordHash = await bcrypt.hash(finalStaffPassword, salt);
+            await pool.query(
+                `UPDATE users SET password_hash = $1, name = $2 WHERE email = $3`,
+                [passwordHash, 'Sayona Staff', staffEmail]
+            );
+            console.log(`✅ Staff user (${staffEmail}) updated with latest credentials.`);
         } else {
             const salt = await bcrypt.genSalt(12);
             const passwordHash = await bcrypt.hash(finalStaffPassword, salt);
