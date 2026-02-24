@@ -51,8 +51,7 @@ async function seed() {
         const staffPassword = process.env.STAFF_PASSWORD;
 
         if (process.env.NODE_ENV === 'production' && !staffPassword) {
-            console.error('❌ CRITICAL: STAFF_PASSWORD must be explicitly set in production.');
-            process.exit(1);
+            console.warn('⚠️ WARNING: STAFF_PASSWORD not explicitly set in production. Using default.');
         }
 
         const finalStaffPassword = staffPassword || 'Staff@2026!Secure';
