@@ -54,6 +54,13 @@ app.use(auditMiddleware);
 app.use('/api', apiLimiter);
 
 // ─────────────── Static Files ───────────────
+
+// Add root redirects since there are no index.html files
+app.get('/admin', (req, res) => res.redirect(301, '/admin/login.html'));
+app.get('/admin/', (req, res) => res.redirect(301, '/admin/login.html'));
+app.get('/client', (req, res) => res.redirect(301, '/client/login.html'));
+app.get('/client/', (req, res) => res.redirect(301, '/client/login.html'));
+
 // Serve admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', '..', 'admin')));
 
