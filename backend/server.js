@@ -15,13 +15,14 @@ async function startServer() {
 
         // Start HTTP server
         const server = app.listen(config.port, () => {
+            const baseUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${config.port}`;
             logger.info(`🚀 Server running on port ${config.port}`, {
                 environment: config.nodeEnv,
                 port: config.port,
             });
-            logger.info(`📊 Admin panel: http://localhost:${config.port}/admin/login.html`);
-            logger.info(`🔗 API Base: http://localhost:${config.port}/api/v1`);
-            logger.info(`❤️  Health: http://localhost:${config.port}/api/v1/health`);
+            logger.info(`📊 Admin panel: ${baseUrl}/admin/login.html`);
+            logger.info(`🔗 API Base: ${baseUrl}/api/v1`);
+            logger.info(`❤️  Health: ${baseUrl}/api/v1/health`);
         });
 
         // Set server timeout
