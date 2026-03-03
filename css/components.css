@@ -278,7 +278,7 @@
   min-height: clamp(500px, 80vh, 85vh);
   background: linear-gradient(rgba(7, 26, 51, 0.65),
       rgba(11, 61, 145, 0.55)),
-    url('/images/hero/container-ship.jpg');
+    url('images/hero/container-ship.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -308,7 +308,7 @@
 /* Page Headers (Company, Contact) */
 .page-header {
   padding: 120px 0 80px;
-  background: linear-gradient(rgba(7, 26, 51, 0.9), rgba(11, 61, 145, 0.8)), url('/images/banner/company.jpg') center/cover no-repeat;
+  background: linear-gradient(rgba(7, 26, 51, 0.9), rgba(11, 61, 145, 0.8)), url('images/banner/company.jpg') center/cover no-repeat;
   color: white;
 }
 
