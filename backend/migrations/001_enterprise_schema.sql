@@ -8,16 +8,7 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- ─────────────── Drop old tables (order matters for foreign keys) ───────────────
-DROP TABLE IF EXISTS tracking CASCADE;
-DROP TABLE IF EXISTS quote_requests CASCADE;
-DROP TABLE IF EXISTS contact_messages CASCADE;
-DROP TABLE IF EXISTS shipments CASCADE;
-DROP TABLE IF EXISTS admins CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
-
--- ─────────────── Drop old types if exist ───────────────
-DROP TYPE IF EXISTS shipment_status CASCADE;
+-- ─────────────── Note: Drop statements removed for safety ───────────────
 
 -- ═══════════════════════════════════════
 -- USERS — Unified users table with RBAC

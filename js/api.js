@@ -3,7 +3,25 @@
 // Connects to the backend REST API for tracking,
 // shipment creation, and authentication
 // ─────────────────────────────────────────────
-const API_BASE = '/api';
+const API_BASE = '/api/v1';
+
+/**
+ * Safely escape HTML to prevent XSS
+ */
+function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+/**
+ * Unwrap v1 API response envelope { success, data }
+ */
+function unwrapResponse(json) {
+    if (json && json.data !== undefined) return json.data;
+    return json;
+}
 
 /**
  * Fetch tracking details and history from PostgreSQL
@@ -11,12 +29,13 @@ const API_BASE = '/api';
  * @returns {Promise<Object>} shipment + history timeline
  */
 async function getTracking(trackingId) {
-    const response = await fetch(`${API_BASE}/tracking/${trackingId}`);
+    const response = await fetch(`${API_BASE}/tracking/${encodeURIComponent(trackingId)}`);
     if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err.message || 'Tracking ID not found');
+        throw new Error(err.error?.message || err.message || 'Tracking ID not found');
     }
-    return response.json();
+    const json = await response.json();
+    return unwrapResponse(json);
 }
 
 /**
@@ -30,9 +49,10 @@ async function createShipment(data) {
     });
     if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err.message || 'Failed to create shipment');
+        throw new Error(err.error?.message || err.message || 'Failed to create shipment');
     }
-    return response.json();
+    const json = await response.json();
+    return unwrapResponse(json);
 }
 
 /**
@@ -46,22 +66,24 @@ async function loginUser(data) {
     });
     if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err.message || 'Invalid credentials');
+        throw new Error(err.error?.message || err.message || 'Invalid credentials');
     }
-    return response.json();
+    const json = await response.json();
+    return unwrapResponse(json);
 }
 
 async function submitContact(data) {
-    const response = await fetch(`${API_BASE}/contact`, {
+    const response = await fetch(`${API_BASE}/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
     });
     if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err.message || 'Failed to submit contact form');
+        throw new Error(err.error?.message || err.message || 'Failed to submit contact form');
     }
-    return response.json();
+    const json = await response.json();
+    return unwrapResponse(json);
 }
 
-window.api = { getTracking, createShipment, loginUser, submitContact };
+window.api = { getTracking, createShipment, loginUser, submitContact, escapeHtml };

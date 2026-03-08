@@ -80,9 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 ${i < data.history.length - 1 ? '<div class="timeline-connector"></div>' : ''}
                                             </div>
                                             <div class="timeline-content">
-                                                <div class="timeline-status">${ev.status}</div>
-                                                <div class="timeline-location">📍 ${ev.location}</div>
-                                                ${ev.description ? `<div class="timeline-desc">${ev.description}</div>` : ''}
+                                                <div class="timeline-status">${window.api.escapeHtml(ev.status)}</div>
+                                                <div class="timeline-location">📍 ${window.api.escapeHtml(ev.location)}</div>
+                                                ${ev.description ? `<div class="timeline-desc">${window.api.escapeHtml(ev.description)}</div>` : ''}
                                                 <div class="timeline-time">${dateStr} • ${timeStr}</div>
                                             </div>
                                         </div>`;
@@ -107,27 +107,27 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="tracking-detail-card">
                                 <div class="detail-icon">📤</div>
                                 <div class="detail-label">Sender</div>
-                                <div class="detail-value">${s.senderName || '—'}</div>
+                                <div class="detail-value">${window.api.escapeHtml(s.senderName) || '—'}</div>
                             </div>
                             <div class="tracking-detail-card">
                                 <div class="detail-icon">📥</div>
                                 <div class="detail-label">Receiver</div>
-                                <div class="detail-value">${s.receiverName || '—'}</div>
+                                <div class="detail-value">${window.api.escapeHtml(s.receiverName) || '—'}</div>
                             </div>
                             <div class="tracking-detail-card">
                                 <div class="detail-icon">🏁</div>
                                 <div class="detail-label">Origin</div>
-                                <div class="detail-value">${s.origin || '—'}</div>
+                                <div class="detail-value">${window.api.escapeHtml(s.origin) || '—'}</div>
                             </div>
                             <div class="tracking-detail-card">
                                 <div class="detail-icon">📍</div>
                                 <div class="detail-label">Destination</div>
-                                <div class="detail-value">${s.destination || '—'}</div>
+                                <div class="detail-value">${window.api.escapeHtml(s.destination) || '—'}</div>
                             </div>
                             <div class="tracking-detail-card">
                                 <div class="detail-icon">🗺️</div>
                                 <div class="detail-label">Current Location</div>
-                                <div class="detail-value">${s.currentLocation || '—'}</div>
+                                <div class="detail-value">${window.api.escapeHtml(s.currentLocation) || '—'}</div>
                             </div>
                             <div class="tracking-detail-card">
                                 <div class="detail-icon">📅</div>

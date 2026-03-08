@@ -42,8 +42,8 @@ const PortalAPI = {
         localStorage.removeItem('client_refresh_token');
     },
 
-    request: async (endpoint, options = {}) => {
-        const token = PortalAPI.getToken();
+    request: async (endpoint, options = {}, isRetry = false) => {
+        let token = PortalAPI.getToken();
         const headers = { 'Content-Type': 'application/json' };
         if (token) headers['Authorization'] = `Bearer ${token}`;
 
@@ -53,9 +53,30 @@ const PortalAPI = {
                 headers: { ...headers, ...options.headers },
             });
 
-            const json = await res.json();
+            const json = await res.json().catch(() => ({}));
             if (!res.ok) {
-                if (res.status === 401) {
+                if (res.status === 401 && !isRetry) {
+                    const refreshToken = localStorage.getItem('client_refresh_token');
+                    if (refreshToken) {
+                        try {
+                            const refreshRes = await fetch(`${API_BASE}/auth/refresh`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ refreshToken })
+                            });
+
+                            if (refreshRes.ok) {
+                                const refreshJson = await refreshRes.json();
+                                const data = refreshJson.data || refreshJson;
+                                PortalAPI.setAuth(data);
+                                // Retry the original request
+                                return PortalAPI.request(endpoint, options, true);
+                            }
+                        } catch (refreshErr) {
+                            // Refresh failed, fall through to logout
+                        }
+                    }
+
                     PortalAPI.clearAuth();
                     window.location.href = '/client/login.html';
                     return;
