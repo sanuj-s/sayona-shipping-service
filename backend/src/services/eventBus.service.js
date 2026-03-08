@@ -39,6 +39,7 @@ const eventBus = new EventBus();
 // --- Domain Event Registrations ---
 const notificationService = require('./notification.service');
 const webhookService = require('./webhook.service');
+const searchService = require('./search.service');
 
 // When a shipment changes state, trigger decouple side-effects
 eventBus.subscribe('shipment.updated', async (shipment) => {
@@ -47,10 +48,12 @@ eventBus.subscribe('shipment.updated', async (shipment) => {
 
     await notificationService.sendStatusUpdate(shipment, mockTrackingEvent);
     await webhookService.dispatchShipmentWebhook(shipment, 'shipment.updated');
+    await searchService.indexShipment(shipment);
 });
 
 eventBus.subscribe('shipment.created', async (shipment) => {
     await webhookService.dispatchShipmentWebhook(shipment, 'shipment.created');
+    await searchService.indexShipment(shipment);
 });
 
 module.exports = eventBus;

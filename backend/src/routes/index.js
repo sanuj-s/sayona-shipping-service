@@ -14,14 +14,29 @@ const adminRoutes = require('./v1/admin.routes');
 const docsRoutes = require('./v1/docs.routes');
 const metricsRoutes = require('./v1/metrics.routes');
 
-// Mount v1
-router.use('/v1/auth', authRoutes);
-router.use('/v1/shipments', shipmentRoutes);
-router.use('/v1/tracking', trackingRoutes);
-router.use('/v1/quotes', quoteRoutes);
-router.use('/v1/contacts', contactRoutes);
-router.use('/v1/admin', adminRoutes);
-router.use('/v1/docs', docsRoutes);
-router.use('/v1/metrics', metricsRoutes);
+const serviceName = process.env.SERVICE_NAME || 'monolith';
+
+// ─────────────── Microservice Mount Mapping ───────────────
+
+if (serviceName === 'auth' || serviceName === 'monolith') {
+    router.use('/v1/auth', authRoutes);
+}
+
+if (serviceName === 'shipment' || serviceName === 'monolith') {
+    router.use('/v1/shipments', shipmentRoutes);
+}
+
+if (serviceName === 'tracking' || serviceName === 'monolith') {
+    router.use('/v1/tracking', trackingRoutes);
+}
+
+// ─────────────── Monolith-Only Shared ───────────────
+if (serviceName === 'monolith') {
+    router.use('/v1/quotes', quoteRoutes);
+    router.use('/v1/contacts', contactRoutes);
+    router.use('/v1/admin', adminRoutes);
+    router.use('/v1/docs', docsRoutes);
+    router.use('/v1/metrics', metricsRoutes);
+}
 
 module.exports = router;
