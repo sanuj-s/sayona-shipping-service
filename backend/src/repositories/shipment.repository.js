@@ -1,20 +1,57 @@
 // ─────────────────────────────────────────────
 // Shipment Repository — DB abstraction for shipments table
 // ─────────────────────────────────────────────
-const { query } = require('../config/database');
+const { query, getClient } = require('../config/database');
 
 const ShipmentRepository = {
     /**
-     * Create a new shipment
+     * Create a new shipment and its associated packages context
      */
-    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy, shippingType, price, weight, dimensions }) => {
-        const result = await query(
-            `INSERT INTO shipments (tracking_number, user_id, sender_name, receiver_name, origin, destination, industry_type, created_by, shipping_type, price, weight, dimensions)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-             RETURNING *`,
-            [trackingNumber, userId || null, senderName, receiverName, origin, destination, industryType || 'General', createdBy || null, shippingType || 'standard', price || 0.00, weight || null, dimensions || null]
-        );
-        return result.rows[0];
+    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy, shippingType, price, weight, dimensions, packages }) => {
+        const client = await getClient();
+        try {
+            await client.query('BEGIN');
+
+            const result = await client.query(
+                `INSERT INTO shipments (tracking_number, user_id, sender_name, receiver_name, origin, destination, industry_type, created_by, shipping_type, price, weight, dimensions)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+                 RETURNING *`,
+                [trackingNumber, userId || null, senderName, receiverName, origin, destination, industryType || 'General', createdBy || null, shippingType || 'standard', price || 0.00, weight || null, dimensions || null]
+            );
+
+            const shipment = result.rows[0];
+
+            // If discrete packages are provided, insert them dimensionally
+            if (packages && Array.isArray(packages) && packages.length > 0) {
+                for (const pkg of packages) {
+                    await client.query(
+                        `INSERT INTO packages (shipment_id, weight, height, width, length, fragile)
+                         VALUES ($1, $2, $3, $4, $5, $6)`,
+                        [shipment.id, pkg.weight, pkg.height, pkg.width, pkg.length, pkg.fragile || false]
+                    );
+                }
+            } else if (weight || dimensions) {
+                // Fallback: create a single package representing the whole shipment if legacy payload passed
+                let w = 0, h = 0, wd = 0, l = 0;
+                if (weight) w = parseFloat(weight) || 0;
+                if (dimensions) {
+                    const parts = typeof dimensions === 'string' ? dimensions.split('x').map(n => parseFloat(n.trim())) : [];
+                    if (parts.length === 3) { l = parts[0] || 0; wd = parts[1] || 0; h = parts[2] || 0; }
+                }
+                await client.query(
+                    `INSERT INTO packages (shipment_id, weight, height, width, length, fragile) VALUES ($1, $2, $3, $4, $5, $6)`,
+                    [shipment.id, w, h, wd, l, false]
+                );
+            }
+
+            await client.query('COMMIT');
+            return shipment;
+        } catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+        }
     },
 
     /**

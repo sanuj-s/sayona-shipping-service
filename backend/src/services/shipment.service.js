@@ -39,21 +39,27 @@ const ShipmentService = {
     /**
      * Create a shipment + initial tracking event
      */
-    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, currentLocation, createdBy, shippingType, weight, dimensions }) => {
+    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, currentLocation, createdBy, shippingType, weight, dimensions, packages }) => {
         if (await ShipmentRepository.trackingNumberExists(trackingNumber)) {
             throw new ConflictError('A shipment with this tracking number already exists');
+        }
+
+        // Domain Logic: Handle Multi-Package Weight Aggregation
+        let totalWeight = weight || 1;
+        if (packages && Array.isArray(packages) && packages.length > 0) {
+            totalWeight = packages.reduce((sum, pkg) => sum + (parseFloat(pkg.weight) || 0), 0) || 1;
         }
 
         // Domain Logic Injection: Calculate Pricing & ETA
         const distanceKm = await routeService.estimateDistance(origin, destination);
         const price = pricingService.calculatePrice({
-            weight: weight || 1,
+            weight: totalWeight,
             distance: distanceKm,
             serviceType: shippingType || 'standard'
         });
 
         const shipment = await ShipmentRepository.create({
-            trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy, shippingType, price, weight, dimensions
+            trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy, shippingType, price, weight: totalWeight, dimensions, packages
         });
 
         // Create initial tracking event
