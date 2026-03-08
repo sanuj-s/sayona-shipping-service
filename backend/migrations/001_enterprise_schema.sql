@@ -207,6 +207,21 @@ CREATE TABLE IF NOT EXISTS contacts (
 );
 
 -- ═══════════════════════════════════════
+-- API KEYS (External Integrations)
+-- ═══════════════════════════════════════
+CREATE TABLE IF NOT EXISTS api_keys (
+    id           SERIAL PRIMARY KEY,
+    uuid         UUID DEFAULT gen_random_uuid() UNIQUE NOT NULL,
+    client_name  VARCHAR(150) NOT NULL,
+    key_hash     VARCHAR(255) NOT NULL UNIQUE,
+    permissions  JSONB DEFAULT '[]',
+    is_active    BOOLEAN DEFAULT TRUE,
+    last_used_at TIMESTAMP,
+    created_at   TIMESTAMP DEFAULT NOW(),
+    updated_at   TIMESTAMP DEFAULT NOW()
+);
+
+-- ═══════════════════════════════════════
 -- AUDIT LOGS
 -- ═══════════════════════════════════════
 CREATE TABLE IF NOT EXISTS audit_logs (

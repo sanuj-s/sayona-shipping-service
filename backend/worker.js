@@ -1,9 +1,22 @@
 const queueService = require('./src/services/queue.service');
 const logger = require('./src/utils/logger');
 const { initRedis } = require('./src/config/redis');
+const archiveService = require('./src/services/archive.service');
 
 // Initialize Redis explicitly for the worker
 initRedis();
+
+// Run nightly data retention (Archive old logs/tracking)
+setInterval(async () => {
+    try {
+        await archiveService.enforceDataRetention();
+    } catch (err) {
+        logger.error('Background Archive Service failed out-of-band', err);
+    }
+}, 24 * 60 * 60 * 1000);
+
+// Kick off an initial cleanup on boot
+archiveService.enforceDataRetention().catch(err => logger.warn('Initial boot archive cleanup warning', err));
 
 const notificationWorker = queueService.createWorker('notifications', async (job) => {
     logger.info(`Processing notification job ${job.id} for type: ${job.name}`);

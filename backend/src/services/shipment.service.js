@@ -12,6 +12,7 @@ const stateMachineService = require('./stateMachine.service');
 const notificationService = require('./notification.service');
 const webhookService = require('./webhook.service');
 const cacheService = require('./cache.service');
+const lockService = require('./lock.service');
 
 /**
  * Map DB row to API response (no internal IDs exposed)
@@ -117,40 +118,49 @@ const ShipmentService = {
     },
 
     /**
-     * Update shipment status with lifecycle enforcement
+     * Update shipment status with lifecycle enforcement and distributed locking
      */
     updateStatus: async (uuid, { status, currentLocation, description }, userId) => {
-        const shipment = await ShipmentRepository.findByUuid(uuid);
-        if (!shipment) throw new NotFoundError('Shipment');
+        let lockToken = null;
+        try {
+            lockToken = await lockService.acquireLock(`shipment:${uuid}`, 10000);
 
-        // Enforce strict State Machine domain architecture
-        if (status) {
-            stateMachineService.enforceTransition(shipment.status, status);
+            const shipment = await ShipmentRepository.findByUuid(uuid);
+            if (!shipment) throw new NotFoundError('Shipment');
+
+            // Enforce strict State Machine domain architecture
+            if (status) {
+                stateMachineService.enforceTransition(shipment.status, status);
+            }
+
+            const newStatus = status || shipment.status;
+
+            // Update shipment
+            const updated = await ShipmentRepository.updateStatus(shipment.id, newStatus);
+            if (!updated) throw new ConflictError('Shipment was modified by another request');
+
+            // Add tracking event and fire notifications
+            if (status || currentLocation) {
+                const trackingEvent = await TrackingRepository.create({
+                    shipmentId: shipment.id,
+                    trackingNumber: shipment.tracking_number,
+                    location: currentLocation || 'Unknown',
+                    status: newStatus,
+                    description: description || `Status updated to ${newStatus}`,
+                    createdBy: userId,
+                });
+
+                // Async Background Triggers
+                notificationService.sendStatusUpdate(updated, trackingEvent);
+                webhookService.dispatchShipmentWebhook(updated, 'shipment.updated');
+            }
+
+            return { message: 'Shipment updated', shipment: mapShipment(updated) };
+        } finally {
+            if (lockToken) {
+                await lockService.releaseLock(`shipment:${uuid}`, lockToken);
+            }
         }
-
-        const newStatus = status || shipment.status;
-
-        // Update shipment
-        const updated = await ShipmentRepository.updateStatus(shipment.id, newStatus);
-        if (!updated) throw new ConflictError('Shipment was modified by another request');
-
-        // Add tracking event and fire notifications
-        if (status || currentLocation) {
-            const trackingEvent = await TrackingRepository.create({
-                shipmentId: shipment.id,
-                trackingNumber: shipment.tracking_number,
-                location: currentLocation || 'Unknown',
-                status: newStatus,
-                description: description || `Status updated to ${newStatus}`,
-                createdBy: userId,
-            });
-
-            // Async Background Triggers
-            notificationService.sendStatusUpdate(updated, trackingEvent);
-            webhookService.dispatchShipmentWebhook(updated, 'shipment.updated');
-        }
-
-        return { message: 'Shipment updated', shipment: mapShipment(updated) };
     },
 
     /**
