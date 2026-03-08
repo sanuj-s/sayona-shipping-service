@@ -130,6 +130,139 @@
   gap: 1rem;
 }
 
+/* --------------- Professional Vertical Timeline --------------- */
+.tracking-timeline {
+  position: relative;
+  padding: 30px 0;
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.tracking-timeline h3 {
+  margin-bottom: 30px;
+  font-size: 1.4rem;
+  color: var(--secondary);
+}
+
+.timeline-event {
+  position: relative;
+  padding-left: 60px;
+  padding-bottom: 40px;
+}
+
+.timeline-event:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  bottom: 0;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeline-icon {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.timeline-connector {
+  width: 2px;
+  flex: 1;
+  background: var(--border);
+  margin: 4px 0;
+}
+
+.timeline-event.latest .timeline-icon {
+  border-color: var(--primary);
+  background: var(--accent-soft);
+  box-shadow: 0 0 15px rgba(11, 61, 145, 0.15);
+  transform: scale(1.1);
+}
+
+.timeline-content {
+  background: var(--background-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.timeline-event.latest .timeline-content {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-status {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--secondary);
+  margin-bottom: 6px;
+}
+
+.timeline-location {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-desc {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.timeline-time {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Tracking Result Container */
+.tracking-result {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.tracking-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tracking-badge {
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+
 .align-center {
   align-items: center;
 }

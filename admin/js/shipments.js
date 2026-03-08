@@ -127,10 +127,14 @@ async function executeDelete() {
 function getStatusClass(status) {
     if (!status) return 'created';
     const s = status.toLowerCase().replace(/\s+/g, '-');
-    if (s.includes('pending')) return 'pending';
+    if (s.includes('pending') || s.includes('created')) return 'created';
+    if (s.includes('picked')) return 'picked';
+    if (s.includes('warehouse')) return 'warehouse';
     if (s.includes('transit') || s.includes('shipped')) return 'transit';
-    if (s.includes('deliver')) return 'delivered';
-    if (s.includes('cancel')) return 'cancelled';
+    if (s.includes('out-for-delivery')) return 'out-delivery';
+    if (s.includes('delivered')) return 'delivered';
+    if (s.includes('fail')) return 'failed';
+    if (s.includes('return')) return 'returned';
     return 'created';
 }
 

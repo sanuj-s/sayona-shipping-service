@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sayona Shipping Service - Premium global logistics and freight forwarding solutions.">
+    <meta name="description"
+        content="Sayona Shipping Service - Premium global logistics and freight forwarding solutions.">
 
     <title>Create Shipment — Sayona Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,9 +101,13 @@
                             </div>
                             <div class="detail-grid">
                                 <div class="form-group">
-                                    <label for="currentLocation">Current Location</label>
-                                    <input type="text" id="currentLocation" class="form-control"
-                                        placeholder="Pickup warehouse, city" required>
+                                    <label for="shippingType">Service Type</label>
+                                    <select id="shippingType" class="form-control">
+                                        <option value="standard">Standard Shipping</option>
+                                        <option value="express">Express Delivery</option>
+                                        <option value="same-day">Same Day Service</option>
+                                        <option value="international">Global Freight</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="industryType">Industry Type</label>
@@ -117,6 +122,39 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label>Package Dimensions & Weight</label>
+                                <div class="package-grid">
+                                    <div class="form-group">
+                                        <input type="number" id="weight" class="form-control" placeholder="Weight (kg)"
+                                            step="0.1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="length" class="form-control" placeholder="L (cm)"
+                                            step="1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="width" class="form-control" placeholder="W (cm)"
+                                            step="1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="height" class="form-control" placeholder="H (cm)"
+                                            step="1" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pricing-preview">
+                                <div class="price-info">
+                                    <div class="price-label">Estimated Shipping Cost</div>
+                                    <div class="price-help"
+                                        style="font-size: 0.7rem; color: var(--accent-hover); opacity: 0.8;">Based on
+                                        weight, dimensions, and distance</div>
+                                </div>
+                                <div class="price-value" id="pricePreview">$0.00</div>
+                            </div>
+
                             <div style="display: flex; gap: 12px; margin-top: 8px;">
                                 <button type="submit" class="btn btn-primary">Create Shipment</button>
                                 <a href="shipments.html" class="btn btn-outline">Cancel</a>

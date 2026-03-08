@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sayona Shipping Service - Premium global logistics and freight forwarding solutions.">
+    <meta name="description"
+        content="Sayona Shipping Service - Premium global logistics and freight forwarding solutions.">
 
     <title>Shipments — Sayona Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,11 +75,15 @@
                     <select id="statusFilter" class="form-control">
                         <option value="">All Statuses</option>
                         <option value="CREATED">Created</option>
+                        <option value="PICKED_UP">Picked Up</option>
                         <option value="IN_TRANSIT">In Transit</option>
+                        <option value="ARRIVED_AT_WAREHOUSE">At Warehouse</option>
                         <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
                         <option value="DELIVERED">Delivered</option>
-                        <option value="CANCELLED">Cancelled</option>
+                        <option value="FAILED_DELIVERY">Failed</option>
+                        <option value="RETURNED">Returned</option>
                     </select>
+
                     <a href="create-shipment.html" class="btn btn-primary btn-sm">➕ New Shipment</a>
                 </div>
 

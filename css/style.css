@@ -29,6 +29,17 @@ body {
   --text-main: var(--text);
   --text-secondary: var(--text-light);
   --success: #16a34a;
+  --border-glass: rgba(0, 0, 0, 0.08);
+
+  /* Status Colors */
+  --status-created: #94a3b8;
+  --status-picked: #c084fc;
+  --status-transit: #3b82f6;
+  --status-warehouse: #8b5cf6;
+  --status-out-delivery: #f59e0b;
+  --status-delivered: #10b981;
+  --status-failed: #ef4444;
+  --status-returned: #6366f1;
 }
 
 /* Typography — fluid */

@@ -66,10 +66,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.history && data.history.length > 0) {
                     timelineHtml = `
                         <div class="tracking-timeline-section">
-                            <h3>📍 Tracking Timeline</h3>
                             <div class="tracking-timeline">
+                                <h3>📍 Tracking Timeline</h3>
                                 ${data.history.map((ev, i) => {
-                        const d = new Date(ev.timestamp);
+                        const d = new Date(ev.timestamp || ev.createdAt);
                         const dateStr = d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
                         const timeStr = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
                         const icon = getStatusIcon(ev.status);
@@ -80,9 +80,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 ${i < data.history.length - 1 ? '<div class="timeline-connector"></div>' : ''}
                                             </div>
                                             <div class="timeline-content">
-                                                <div class="timeline-status">${window.api.escapeHtml(ev.status)}</div>
-                                                <div class="timeline-location">📍 ${window.api.escapeHtml(ev.location)}</div>
-                                                ${ev.description ? `<div class="timeline-desc">${window.api.escapeHtml(ev.description)}</div>` : ''}
+                                                <div class="timeline-status">${ev.status}</div>
+                                                <div class="timeline-location">
+                                                    <i class="fas fa-map-marker-alt" style="color:var(--primary); font-size: 0.8rem;"></i> 
+                                                    ${ev.location || 'Location Pending'}
+                                                </div>
+                                                ${ev.description ? `<div class="timeline-desc">${ev.description}</div>` : ''}
                                                 <div class="timeline-time">${dateStr} • ${timeStr}</div>
                                             </div>
                                         </div>`;
@@ -94,50 +97,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 resultBox.innerHTML = `
                     <div class="tracking-result">
                         <div class="tracking-result-header">
-                            <div class="tracking-badge">${s.status}</div>
+                            <div class="tracking-badge" style="background: var(--status-${statusLower.replace(/\s+/g, '-')})">${s.status}</div>
                             <div class="tracking-id-display">
-                                <span class="label">Tracking ID</span>
-                                <span class="value">${s.trackingNumber}</span>
+                                <span style="color: var(--text-light); font-size: 0.8rem; text-transform: uppercase; font-weight: 600;">Tracking ID:</span>
+                                <span style="color: var(--secondary); font-weight: 700; margin-left: 8px;">${s.trackingNumber}</span>
                             </div>
                         </div>
 
                         ${progressHtml}
 
-                        <div class="tracking-details-grid">
-                            <div class="tracking-detail-card">
-                                <div class="detail-icon">📤</div>
-                                <div class="detail-label">Sender</div>
-                                <div class="detail-value">${window.api.escapeHtml(s.senderName) || '—'}</div>
+                        <div class="tracking-details-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 30px;">
+                            <div class="card" style="padding: 15px; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 5px;">📤</div>
+                                <div style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase;">From</div>
+                                <div style="font-weight: 600;">${s.origin || '—'}</div>
                             </div>
-                            <div class="tracking-detail-card">
-                                <div class="detail-icon">📥</div>
-                                <div class="detail-label">Receiver</div>
-                                <div class="detail-value">${window.api.escapeHtml(s.receiverName) || '—'}</div>
+                            <div class="card" style="padding: 15px; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 5px;">📥</div>
+                                <div style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase;">To</div>
+                                <div style="font-weight: 600;">${s.destination || '—'}</div>
                             </div>
-                            <div class="tracking-detail-card">
-                                <div class="detail-icon">🏁</div>
-                                <div class="detail-label">Origin</div>
-                                <div class="detail-value">${window.api.escapeHtml(s.origin) || '—'}</div>
+                            <div class="card" style="padding: 15px; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 5px;">⚖️</div>
+                                <div style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase;">Weight</div>
+                                <div style="font-weight: 600;">${s.weight ? s.weight + ' kg' : '—'}</div>
                             </div>
-                            <div class="tracking-detail-card">
-                                <div class="detail-icon">📍</div>
-                                <div class="detail-label">Destination</div>
-                                <div class="detail-value">${window.api.escapeHtml(s.destination) || '—'}</div>
-                            </div>
-                            <div class="tracking-detail-card">
-                                <div class="detail-icon">🗺️</div>
-                                <div class="detail-label">Current Location</div>
-                                <div class="detail-value">${window.api.escapeHtml(s.currentLocation) || '—'}</div>
-                            </div>
-                            <div class="tracking-detail-card">
-                                <div class="detail-icon">📅</div>
-                                <div class="detail-label">Ship Date</div>
-                                <div class="detail-value">${s.createdAt ? new Date(s.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}</div>
+                            <div class="card" style="padding: 15px; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 5px;">📦</div>
+                                <div style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase;">Type</div>
+                                <div style="font-weight: 600; text-transform: capitalize;">${s.shippingType || 'Standard'}</div>
                             </div>
                         </div>
 
                         ${timelineHtml}
                     </div>`;
+
 
             } catch (error) {
                 if (loading) loading.style.display = "none";
