@@ -13,6 +13,9 @@ const createShipment = {
         destination: Joi.string().trim().max(200).required(),
         currentLocation: Joi.string().trim().max(200),
         industryType: Joi.string().trim().max(50),
+        shippingType: Joi.string().valid('standard', 'express', 'same-day', 'international').default('standard'),
+        weight: Joi.number().positive().max(10000),
+        dimensions: Joi.string().max(100),
         userEmail: Joi.string().email().lowercase().trim(),
     }),
 };
@@ -25,6 +28,8 @@ const updateShipment = {
         status: Joi.string().valid(...SHIPMENT_STATUS_VALUES),
         currentLocation: Joi.string().trim().max(200),
         description: Joi.string().trim().max(500),
+        weight: Joi.number().positive().max(10000),
+        dimensions: Joi.string().max(100),
     }).min(1).messages({ 'object.min': 'At least one field to update must be provided' }),
 };
 

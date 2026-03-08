@@ -11,6 +11,8 @@ const trackingRoutes = require('./v1/tracking.routes');
 const quoteRoutes = require('./v1/quote.routes');
 const contactRoutes = require('./v1/contact.routes');
 const adminRoutes = require('./v1/admin.routes');
+const docsRoutes = require('./v1/docs.routes');
+const metricsRoutes = require('./v1/metrics.routes');
 
 // Mount v1
 router.use('/v1/auth', authRoutes);
@@ -19,5 +21,7 @@ router.use('/v1/tracking', trackingRoutes);
 router.use('/v1/quotes', quoteRoutes);
 router.use('/v1/contacts', contactRoutes);
 router.use('/v1/admin', adminRoutes);
+router.use('/v1/docs', docsRoutes);
+router.use('/v1/metrics', metricsRoutes);
 
 module.exports = router;

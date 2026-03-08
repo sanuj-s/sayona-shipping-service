@@ -4,19 +4,24 @@
 const ShipmentRepository = require('../repositories/shipment.repository');
 const TrackingRepository = require('../repositories/tracking.repository');
 const { NotFoundError } = require('../utils/AppError');
+const cacheService = require('./cache.service');
 
 const TrackingService = {
     /**
      * Get tracking history + shipment info
      */
     getHistory: async (trackingNumber) => {
+        const cacheKey = `tracking_history:${trackingNumber}`;
+        const cached = await cacheService.get(cacheKey);
+        if (cached) return cached;
+
         const shipment = await ShipmentRepository.findByTrackingNumber(trackingNumber);
         if (!shipment) throw new NotFoundError('Shipment');
 
         const history = await TrackingRepository.findByTrackingNumber(trackingNumber);
         const currentLocation = history.length > 0 ? history[0].location : 'Unknown';
 
-        return {
+        const result = {
             shipment: {
                 uuid: shipment.uuid,
                 trackingNumber: shipment.tracking_number,
@@ -37,6 +42,10 @@ const TrackingService = {
                 createdAt: h.created_at,
             })),
         };
+
+        // Cache for 10 minutes
+        await cacheService.set(cacheKey, result, 600);
+        return result;
     },
 
     /**
@@ -58,6 +67,9 @@ const TrackingService = {
             description,
             createdBy: userId,
         });
+
+        // Invalidate tracking cache
+        await cacheService.del(`tracking_history:${trackingNumber}`);
 
         return {
             uuid: event.uuid,

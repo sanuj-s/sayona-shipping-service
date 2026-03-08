@@ -7,12 +7,12 @@ const ShipmentRepository = {
     /**
      * Create a new shipment
      */
-    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy }) => {
+    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy, shippingType, price, weight, dimensions }) => {
         const result = await query(
-            `INSERT INTO shipments (tracking_number, user_id, sender_name, receiver_name, origin, destination, industry_type, created_by)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            `INSERT INTO shipments (tracking_number, user_id, sender_name, receiver_name, origin, destination, industry_type, created_by, shipping_type, price, weight, dimensions)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
              RETURNING *`,
-            [trackingNumber, userId || null, senderName, receiverName, origin, destination, industryType || 'General', createdBy || null]
+            [trackingNumber, userId || null, senderName, receiverName, origin, destination, industryType || 'General', createdBy || null, shippingType || 'standard', price || 0.00, weight || null, dimensions || null]
         );
         return result.rows[0];
     },
@@ -168,6 +168,17 @@ const ShipmentRepository = {
         const counts = {};
         result.rows.forEach((row) => { counts[row.status] = parseInt(row.count, 10); });
         return counts;
+    },
+
+    /**
+     * Calculate total system revenue (for dashboard)
+     */
+    calculateTotalRevenue: async () => {
+        const result = await query(
+            `SELECT SUM(price) as total_revenue FROM shipments 
+             WHERE deleted_at IS NULL AND status != 'CANCELLED' AND status != 'RETURNED'`
+        );
+        return parseFloat(result.rows[0].total_revenue || 0).toFixed(2);
     },
 
     /**

@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: Sayona Shipping Service Logistics API
+  description: Enterprise-grade logistics backend with State Machines, Pricing, and Routing features.
+  version: 2.0.0
+servers:
+  - url: /api/v1
+    description: Production API V1
+paths:
+  /shipments:
+    post:
+      summary: Create a shipment
+      description: Inserts a shipment into the tracking queue and calculates initial pricing.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trackingNumber:
+                  type: string
+                senderName:
+                  type: string
+                receiverName:
+                  type: string
+                origin:
+                  type: string
+                destination:
+                  type: string
+                shippingType:
+                  type: string
+                  enum: [standard, express, same-day, international]
+                weight:
+                  type: number
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Validation Error
+
+  /tracking/{trackingNumber}:
+    get:
+      summary: Get Shipment History
+      description: Returns shipment status and tracking event history (from Cache if available).
+      parameters:
+        - in: path
+          name: trackingNumber
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Not Found

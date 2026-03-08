@@ -3,8 +3,15 @@
 // ─────────────────────────────────────────────
 const ShipmentRepository = require('../repositories/shipment.repository');
 const TrackingRepository = require('../repositories/tracking.repository');
-const { NotFoundError, ConflictError, ValidationError } = require('../utils/AppError');
-const { SHIPMENT_STATUS, SHIPMENT_STATUS_TRANSITIONS } = require('../models/schemas');
+const { NotFoundError, ConflictError } = require('../utils/AppError');
+const { SHIPMENT_STATUS } = require('../models/schemas');
+
+const pricingService = require('./pricing.service');
+const routeService = require('./route.service');
+const stateMachineService = require('./stateMachine.service');
+const notificationService = require('./notification.service');
+const webhookService = require('./webhook.service');
+const cacheService = require('./cache.service');
 
 /**
  * Map DB row to API response (no internal IDs exposed)
@@ -17,6 +24,10 @@ const mapShipment = (row) => ({
     origin: row.origin,
     destination: row.destination,
     status: row.status,
+    shippingType: row.shipping_type,
+    price: row.price,
+    weight: row.weight,
+    dimensions: row.dimensions,
     industryType: row.industry_type,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -27,24 +38,36 @@ const ShipmentService = {
     /**
      * Create a shipment + initial tracking event
      */
-    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, currentLocation, createdBy }) => {
+    create: async ({ trackingNumber, userId, senderName, receiverName, origin, destination, industryType, currentLocation, createdBy, shippingType, weight, dimensions }) => {
         if (await ShipmentRepository.trackingNumberExists(trackingNumber)) {
             throw new ConflictError('A shipment with this tracking number already exists');
         }
 
+        // Domain Logic Injection: Calculate Pricing & ETA
+        const distanceKm = await routeService.estimateDistance(origin, destination);
+        const price = pricingService.calculatePrice({
+            weight: weight || 1,
+            distance: distanceKm,
+            serviceType: shippingType || 'standard'
+        });
+
         const shipment = await ShipmentRepository.create({
-            trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy,
+            trackingNumber, userId, senderName, receiverName, origin, destination, industryType, createdBy, shippingType, price, weight, dimensions
         });
 
         // Create initial tracking event
-        await TrackingRepository.create({
+        const trackingEvent = await TrackingRepository.create({
             shipmentId: shipment.id,
             trackingNumber,
             location: currentLocation || origin,
             status: SHIPMENT_STATUS.CREATED,
-            description: 'Shipment created',
+            description: 'Shipment created and awaiting pickup',
             createdBy,
         });
+
+        // Async Background Triggers
+        notificationService.sendStatusUpdate(shipment, trackingEvent);
+        webhookService.dispatchShipmentWebhook(shipment, 'shipment.created');
 
         return { ...mapShipment(shipment), currentLocation: currentLocation || origin };
     },
@@ -100,14 +123,9 @@ const ShipmentService = {
         const shipment = await ShipmentRepository.findByUuid(uuid);
         if (!shipment) throw new NotFoundError('Shipment');
 
-        // Validate status transition
+        // Enforce strict State Machine domain architecture
         if (status) {
-            const allowed = SHIPMENT_STATUS_TRANSITIONS[shipment.status];
-            if (!allowed || !allowed.includes(status)) {
-                throw new ValidationError(
-                    `Cannot transition from ${shipment.status} to ${status}. Allowed: ${(allowed || []).join(', ') || 'none'}`
-                );
-            }
+            stateMachineService.enforceTransition(shipment.status, status);
         }
 
         const newStatus = status || shipment.status;
@@ -116,9 +134,9 @@ const ShipmentService = {
         const updated = await ShipmentRepository.updateStatus(shipment.id, newStatus);
         if (!updated) throw new ConflictError('Shipment was modified by another request');
 
-        // Add tracking event
+        // Add tracking event and fire notifications
         if (status || currentLocation) {
-            await TrackingRepository.create({
+            const trackingEvent = await TrackingRepository.create({
                 shipmentId: shipment.id,
                 trackingNumber: shipment.tracking_number,
                 location: currentLocation || 'Unknown',
@@ -126,6 +144,10 @@ const ShipmentService = {
                 description: description || `Status updated to ${newStatus}`,
                 createdBy: userId,
             });
+
+            // Async Background Triggers
+            notificationService.sendStatusUpdate(updated, trackingEvent);
+            webhookService.dispatchShipmentWebhook(updated, 'shipment.updated');
         }
 
         return { message: 'Shipment updated', shipment: mapShipment(updated) };
@@ -146,17 +168,36 @@ const ShipmentService = {
      * Dashboard analytics
      */
     getAnalytics: async () => {
-        const [totalShipments, statusCounts, recentShipments] = await Promise.all([
+        const cacheKey = 'dashboard:analytics';
+        const cached = await cacheService.get(cacheKey);
+        if (cached) return cached;
+
+        const [totalShipments, statusCounts, recentShipments, totalRevenue] = await Promise.all([
             ShipmentRepository.countAll(),
             ShipmentRepository.countByStatus(),
             ShipmentRepository.findRecent(10),
+            ShipmentRepository.calculateTotalRevenue(),
         ]);
 
-        return {
+        const deliveredCount = statusCounts[SHIPMENT_STATUS.DELIVERED] || 0;
+        const failedCount = statusCounts[SHIPMENT_STATUS.FAILED_DELIVERY] || 0;
+        const terminalCount = deliveredCount + failedCount;
+
+        const deliverySuccessRate = terminalCount > 0
+            ? ((deliveredCount / terminalCount) * 100).toFixed(1) + '%'
+            : '0.0%';
+
+        const result = {
             totalShipments,
             statusCounts,
+            totalRevenue: `$${totalRevenue}`,
+            deliverySuccessRate,
             recentShipments: recentShipments.map(mapShipment),
         };
+
+        // Cache dashboard for 5 minutes
+        await cacheService.set(cacheKey, result, 300);
+        return result;
     },
 };
 

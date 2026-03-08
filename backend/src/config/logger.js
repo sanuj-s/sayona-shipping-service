@@ -61,6 +61,12 @@ const logger = winston.createLogger({
             maxFiles: 10,
             tailable: true,
         }),
+
+        // External Monitor Mock (Sentry/Datadog)
+        new winston.transports.Console({
+            level: 'error',
+            format: printf(info => `[Sentry Mock Transport] Captured Error: ${info.message}`)
+        }),
     ],
     // Do not exit on uncaught
     exitOnError: false,

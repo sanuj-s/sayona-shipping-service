@@ -49,4 +49,19 @@ const formLimiter = rateLimit({
     legacyHeaders: false,
 });
 
-module.exports = { apiLimiter, authLimiter, formLimiter };
+// Medium limiter for public tracking endpoints to prevent scraping
+const trackingLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 tracking requests per windowMs
+    message: {
+        success: false,
+        error: {
+            code: 'ERR_RATE_LIMIT',
+            message: 'Too many tracking requests, please try again later',
+        },
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+module.exports = { apiLimiter, authLimiter, formLimiter, trackingLimiter };

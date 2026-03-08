@@ -77,6 +77,26 @@ async function seed() {
             console.log(`✅ Staff user created: ${staffEmail}`);
         }
 
+        // Generate 50 mock shipments
+        console.log('📦 Starting massive mock shipment generation...');
+        for (let i = 1; i <= 50; i++) {
+            const trackingNumber = `SAY${Math.floor(100000000 + Math.random() * 900000000)}`;
+            await pool.query(
+                `INSERT INTO shipments 
+                (tracking_number, origin, destination, weight, shipping_type, status) 
+                 VALUES ($1, $2, $3, $4, $5, $6)`,
+                [
+                    trackingNumber,
+                    'Location A',
+                    'Location B',
+                    (Math.random() * 50).toFixed(2),
+                    i % 2 === 0 ? 'standard' : 'express',
+                    'CREATED'
+                ]
+            );
+        }
+        console.log(`✅ 50 Mock Shipments created for analytics processing.`);
+
         console.log('\nSeed completed! ✅');
     } catch (error) {
         console.error('Seed failed:', error.message);
