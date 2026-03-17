@@ -71,18 +71,17 @@ npm install
 cp .env.example .env
 # Edit .env with your database credentials
 
-# 3. Initialize database tables
-npm run init-db
+# 3. Initialize database schema + seed users (first run)
+npm run setup
 
-# 4. Seed admin user
-npm run seed-admin
-# Default: admin@sayona.com / admin123
-
-# 5. Start development server (with hot reload)
+# 4. Start development server (with hot reload)
 npm run dev
 
-# OR start production server
+# 5. Start production server (no automatic migrate/seed on boot)
 npm start
+
+# Optional one-shot bootstrap start (migrate + seed + server)
+npm run start:bootstrap
 ```
 
 Server starts at `http://localhost:3000`

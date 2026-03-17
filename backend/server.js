@@ -16,8 +16,8 @@ async function startServer() {
         logger.info('✅ PostgreSQL connected', { host: config.db.host, database: config.db.name });
 
         // Start HTTP server
-        const server = app.listen(config.port,'0.0.0.0', () => {
-            const baseUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${config.port}`;
+        const server = app.listen(config.port, '0.0.0.0', () => {
+            const baseUrl = config.isProduction() ? 'https://sayonashipping.me' : `http://localhost:${config.port}`;
             logger.info(`🚀 Server running on port ${config.port}`, {
                 environment: config.nodeEnv,
                 port: config.port,

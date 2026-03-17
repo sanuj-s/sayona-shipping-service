@@ -49,8 +49,15 @@ The project is structured into three main components:
    npm run dev
    ```
 
-7. **Launch the Frontend:**
+7. **Launch the Frontend (development):**
    Open `index.html` in your browser or use a local dev server (e.g., Live Server, `npx serve .`).
+
+8. **Create a deployable static build (all pages/assets):**
+   ```bash
+   cd ..
+   npm run build
+   # Output: ./dist
+   ```
 
 ## Key Features
 

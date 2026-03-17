@@ -19,7 +19,7 @@ class ArchiveService {
             trackingArchiveThreshold.setFullYear(trackingArchiveThreshold.getFullYear() - 2);
 
             const trackingResult = await client.query(
-                `DELETE FROM tracking_events WHERE created_at < $1`,
+                'DELETE FROM tracking_events WHERE created_at < $1',
                 [trackingArchiveThreshold]
             );
             logger.info(`[ArchiveService] Retained tracking events. Removed ${trackingResult.rowCount} old rows.`);
@@ -29,7 +29,7 @@ class ArchiveService {
             auditArchiveThreshold.setFullYear(auditArchiveThreshold.getFullYear() - 3);
 
             const auditResult = await client.query(
-                `DELETE FROM audit_logs WHERE created_at < $1`,
+                'DELETE FROM audit_logs WHERE created_at < $1',
                 [auditArchiveThreshold]
             );
             logger.info(`[ArchiveService] Retained audit logs. Removed ${auditResult.rowCount} old rows.`);

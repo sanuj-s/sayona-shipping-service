@@ -16,13 +16,16 @@ async function seed() {
         // Admin user
         const adminEmail = process.env.ADMIN_EMAIL || 'admin@sayona.com';
         const adminPassword = process.env.ADMIN_PASSWORD;
+        const defaultAdminPassword = 'Admin@2026!Secure';
+        const defaultStaffPassword = 'Staff@2026!Secure';
+        const isProduction = process.env.NODE_ENV === 'production';
 
-        if (process.env.NODE_ENV === 'production' && !adminPassword) {
+        if (isProduction && !adminPassword) {
             console.error('❌ CRITICAL: ADMIN_PASSWORD must be explicitly set in production.');
             process.exit(1);
         }
 
-        const finalAdminPassword = adminPassword || 'Admin@2026!Secure';
+        const finalAdminPassword = adminPassword || defaultAdminPassword;
         const adminName = 'Sayona Admin';
 
         const existing = await pool.query('SELECT id FROM users WHERE email = $1', [adminEmail]);
@@ -50,11 +53,17 @@ async function seed() {
         const staffEmail = process.env.STAFF_EMAIL || 'staff@sayona.com';
         const staffPassword = process.env.STAFF_PASSWORD;
 
-        if (process.env.NODE_ENV === 'production' && !staffPassword) {
-            console.warn('⚠️ WARNING: STAFF_PASSWORD not explicitly set in production. Using default.');
+        if (isProduction && !staffPassword) {
+            console.error('❌ CRITICAL: STAFF_PASSWORD must be explicitly set in production.');
+            process.exit(1);
         }
 
-        const finalStaffPassword = staffPassword || 'Staff@2026!Secure';
+        const finalStaffPassword = staffPassword || defaultStaffPassword;
+
+        if (isProduction && (finalAdminPassword === defaultAdminPassword || finalStaffPassword === defaultStaffPassword)) {
+            console.error('❌ CRITICAL: Default seed passwords are not allowed in production.');
+            process.exit(1);
+        }
 
         const existingStaff = await pool.query('SELECT id FROM users WHERE email = $1', [staffEmail]);
         if (existingStaff.rows.length > 0) {
@@ -77,25 +86,32 @@ async function seed() {
             console.log(`✅ Staff user created: ${staffEmail}`);
         }
 
-        // Generate 50 mock shipments
-        console.log('📦 Starting massive mock shipment generation...');
-        for (let i = 1; i <= 50; i++) {
-            const trackingNumber = `SAY${Math.floor(100000000 + Math.random() * 900000000)}`;
-            await pool.query(
-                `INSERT INTO shipments 
-                (tracking_number, origin, destination, weight, shipping_type, status) 
-                 VALUES ($1, $2, $3, $4, $5, $6)`,
-                [
-                    trackingNumber,
-                    'Location A',
-                    'Location B',
-                    (Math.random() * 50).toFixed(2),
-                    i % 2 === 0 ? 'standard' : 'express',
-                    'CREATED'
-                ]
-            );
+        // Optional demo data generation (disabled by default)
+        if (process.env.SEED_MOCK_SHIPMENTS === 'true') {
+            const requestedCount = Number.parseInt(process.env.SEED_MOCK_SHIPMENT_COUNT || '50', 10);
+            const mockShipmentCount = Number.isNaN(requestedCount) || requestedCount < 1 ? 50 : requestedCount;
+
+            console.log(`📦 Generating ${mockShipmentCount} mock shipments...`);
+            for (let i = 1; i <= mockShipmentCount; i++) {
+                const trackingNumber = `SAY${Math.floor(100000000 + Math.random() * 900000000)}`;
+                await pool.query(
+                    `INSERT INTO shipments 
+                    (tracking_number, origin, destination, weight, shipping_type, status) 
+                     VALUES ($1, $2, $3, $4, $5, $6)`,
+                    [
+                        trackingNumber,
+                        'Location A',
+                        'Location B',
+                        (Math.random() * 50).toFixed(2),
+                        i % 2 === 0 ? 'standard' : 'express',
+                        'CREATED'
+                    ]
+                );
+            }
+            console.log(`✅ ${mockShipmentCount} mock shipments created.`);
+        } else {
+            console.log('ℹ️  Skipping mock shipment generation (SEED_MOCK_SHIPMENTS != true).');
         }
-        console.log(`✅ 50 Mock Shipments created for analytics processing.`);
 
         console.log('\nSeed completed! ✅');
     } catch (error) {

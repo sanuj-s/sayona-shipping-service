@@ -1,6 +1,5 @@
 // ─── Client Portal API Helper — v1 API ───
-const BASE_URL = window.location.origin;
-const API_BASE = `${BASE_URL}/api/v1`;
+const API_BASE = `${window.location.origin}/api/v1`;
 
 const PortalAPI = {
     getToken: () => localStorage.getItem('client_token'),
@@ -92,6 +91,9 @@ const PortalAPI = {
             // Unwrap response envelope
             return json.data !== undefined ? json.data : json;
         } catch (err) {
+            if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+                throw new Error('Cannot connect to the server. Please check your internet connection and try again.');
+            }
             throw err;
         }
     },

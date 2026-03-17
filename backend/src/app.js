@@ -24,6 +24,9 @@ const { errorHandler, notFound } = require('./middlewares/errorHandler');
 
 const app = express();
 
+// Trust first proxy (Nginx) — required for correct IP, protocol, and secure cookies
+app.set('trust proxy', 1);
+
 // ─────────────── Security Middleware ───────────────
 app.use(helmet({
     contentSecurityPolicy: config.isProduction() ? {
@@ -33,7 +36,7 @@ app.use(helmet({
             styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
             fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
             imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
-            connectSrc: ["'self'", 'https://sayona-shipping-service.onrender.com'],
+            connectSrc: ["'self'"],
         }
     } : false,
     crossOriginEmbedderPolicy: false,

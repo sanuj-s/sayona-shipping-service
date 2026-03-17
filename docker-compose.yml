@@ -5,6 +5,7 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile
+    command: ["npm", "run", "start:bootstrap"]
     ports:
       - "3000:3000"
     environment:

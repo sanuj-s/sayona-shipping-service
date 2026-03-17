@@ -1,5 +1,5 @@
 const { SHIPMENT_STATUS, SHIPMENT_STATUS_TRANSITIONS } = require('../models/schemas');
-const AppError = require('../utils/AppError');
+const { AppError } = require('../utils/AppError');
 
 class StateMachineService {
 

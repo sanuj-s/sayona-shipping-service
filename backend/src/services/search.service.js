@@ -1,6 +1,5 @@
 const { Client } = require('@elastic/elasticsearch');
 const logger = require('../utils/logger');
-const config = require('../config/environment');
 
 class SearchService {
     constructor() {

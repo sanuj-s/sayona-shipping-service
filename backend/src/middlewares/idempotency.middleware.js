@@ -48,7 +48,7 @@ const idempotencyMiddleware = async (req, res, next) => {
 
             // Store for 24 hours
             redis.setex(cacheKey, 24 * 60 * 60, JSON.stringify(responseData))
-                .catch(err => logger.error(`[Idempotency] Failed to cache response:`, err));
+                .catch((err) => logger.error('[Idempotency] Failed to cache response:', err));
         };
 
         res.json = function (body) {

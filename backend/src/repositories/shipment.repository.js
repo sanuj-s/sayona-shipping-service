@@ -39,7 +39,7 @@ const ShipmentRepository = {
                     if (parts.length === 3) { l = parts[0] || 0; wd = parts[1] || 0; h = parts[2] || 0; }
                 }
                 await client.query(
-                    `INSERT INTO packages (shipment_id, weight, height, width, length, fragile) VALUES ($1, $2, $3, $4, $5, $6)`,
+                    'INSERT INTO packages (shipment_id, weight, height, width, length, fragile) VALUES ($1, $2, $3, $4, $5, $6)',
                     [shipment.id, w, h, wd, l, false]
                 );
             }
