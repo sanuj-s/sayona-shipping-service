@@ -57,33 +57,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("message").style.border = "";
             }
 
-            // API Logic
+            // API Logic — direct fetch, no dependency on api.js
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
 
-            // We assume backend has a submitQuote route available in window.api
-            const apiMethod = window.api.submitQuote || window.api.submitContact;
-            const payload = { 
-                name, email, phone, company, origin, destination, 
-                cargoType, message: text 
-            };
-
-            apiMethod(payload)
-                .then(() => {
-                    message.style.color = "green";
-                    message.innerText = "Message sent successfully! We will get back to you soon.";
-                    form.reset();
+            fetch('/api/v1/quotes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name, email, phone, company, origin, destination,
+                    cargoType, message: text
                 })
-                .catch(err => {
-                    message.style.color = "red";
-                    message.innerText = err.message || "Failed to send message. Please try again.";
-                })
-                .finally(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    return response.json().then(function(err) {
+                        throw new Error(err.error?.message || 'Failed to submit quote');
+                    });
+                }
+                return response.json();
+            })
+            .then(function() {
+                message.style.color = "green";
+                message.innerText = "Quote submitted successfully! We will get back to you within 24 hours.";
+                form.reset();
+            })
+            .catch(function(err) {
+                message.style.color = "red";
+                message.innerText = err.message || "Failed to send. Please try again.";
+            })
+            .finally(function() {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
 
         });
     }
