@@ -31,30 +31,30 @@ class EmailService {
         }
 
         const mailOptions = {
-            from: `"${quote.name}" <${config.email.user}>`, // Appears from customer name but uses our authenticated email
-            replyTo: quote.email,                            // Reply goes straight to the customer
-            to: config.email.user,                           // Send to our own inbox
-            subject: `New Quote Request: ${quote.origin || 'N/A'} to ${quote.destination || 'N/A'}`,
+            from: `"Sayona Shipping" <${config.email.user}>`,
+            replyTo: quote.email,
+            to: config.email.user,
+            subject: 'New Quote Request – Sayona Shipping',
             text: `
-You have received a new shipping quote request.
+New Quote Request Received
 
---- Customer Details ---
-Name:    ${quote.name}
-Email:   ${quote.email}
-Phone:   ${quote.phone}
-Company: ${quote.company || 'N/A'}
+Customer Details:
+Name: ${quote.name}
+Email: ${quote.email}
+Phone: ${quote.phone || '-'}
+Company: ${quote.company || '-'}
 
---- Shipment Details ---
-Origin:      ${quote.origin || 'N/A'}
-Destination: ${quote.destination || 'N/A'}
-Cargo Type:  ${quote.cargo_type || 'N/A'}
-Weight:      ${quote.weight || 'N/A'}
+Shipment Details:
+Origin Country: ${quote.origin || '-'}
+Destination Country: ${quote.destination || '-'}
+Cargo Type / Industry: ${quote.cargo_type || '-'}
 
---- Message / Notes ---
-${quote.message || 'No additional message provided.'}
+Message:
+${quote.message || '-'}
 
----------------------------------------------------
-View full quote details in the Sayona Admin Panel.
+-----------------------------------
+Submitted via sayonashipping.me
+Time: ${new Date(quote.created_at || Date.now()).toISOString().replace('T', ' ').substring(0, 19)}
             `.trim(),
         };
 
