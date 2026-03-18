@@ -1,0 +1,10 @@
+# Sayona Shipping Service - robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://sayonashipping.me/sitemap.xml
+
+# Block admin and client portals from indexing
+Disallow: /admin/
+Disallow: /client/
