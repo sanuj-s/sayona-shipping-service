@@ -20,50 +20,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
             e.preventDefault();
 
-            // Contact and Quote generic fields
-            const nameInput = document.getElementById("name");
-            const emailInput = document.getElementById("email");
-            const textInput = document.getElementById("message");
-
-            const name = nameInput?.value.trim() || '';
-            const email = emailInput?.value.trim() || '';
-            const text = textInput?.value.trim() || '';
-
-            // Additional Quote-specific fields (grabbing by position since they lack IDs)
-            const inputs = form.querySelectorAll('input.form-control');
-            // Hacky fallback since inputs don't have IDs. 
-            // Name: inputs[0], Company: inputs[1], Email: inputs[2], Phone: inputs[3], Origin: inputs[4], Dest: inputs[5]
-            const company = inputs[1]?.value.trim() || '';
-            const phone = inputs[3]?.value.trim() || '';
-            const origin = inputs[4]?.value.trim() || '';
-            const destination = inputs[5]?.value.trim() || '';
+            // All fields grabbed by ID (reliable)
+            const name = (document.getElementById("name")?.value || '').trim();
+            const email = (document.getElementById("email")?.value || '').trim();
+            const phone = (document.getElementById("phone")?.value || '').trim();
+            const company = (document.getElementById("company")?.value || '').trim();
+            const origin = (document.getElementById("origin")?.value || '').trim();
+            const destination = (document.getElementById("destination")?.value || '').trim();
+            const text = (document.getElementById("message")?.value || '').trim();
             const cargoType = industrySelect ? industrySelect.value : '';
 
             message.style.color = "red";
 
-            // 4. Contact form validation UI visually
+            // Validation
             if (name.length < 3) {
-                if (nameInput) nameInput.style.border = "1px solid red";
+                document.getElementById("name").style.border = "1px solid red";
                 message.innerText = "Name must be at least 3 characters";
                 return;
             } else {
-                if (nameInput) nameInput.style.border = "";
+                document.getElementById("name").style.border = "";
             }
 
             if (!email.includes("@")) {
-                if (emailInput) emailInput.style.border = "1px solid red";
+                document.getElementById("email").style.border = "1px solid red";
                 message.innerText = "Invalid email";
                 return;
             } else {
-                if (emailInput) emailInput.style.border = "";
+                document.getElementById("email").style.border = "";
             }
 
             if (text.length < 5) {
-                if (textInput) textInput.style.border = "1px solid red";
+                document.getElementById("message").style.border = "1px solid red";
                 message.innerText = "Message too short";
                 return;
             } else {
-                if (textInput) textInput.style.border = "";
+                document.getElementById("message").style.border = "";
             }
 
             // API Logic

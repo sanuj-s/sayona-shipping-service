@@ -11,7 +11,7 @@ const QuoteRepository = {
         const result = await query(
             `INSERT INTO quotes (name, email, phone, company, origin, destination, cargo_type, weight, message)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-             RETURNING id, uuid, created_at`,
+             RETURNING *`,
             [name, email, phone || null, company || null, origin, destination, cargoType || null, weight || null, message || null]
         );
         return result.rows[0];
