@@ -17,7 +17,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd ~/sayona-shipping-service/backend
+            cd ~/sayona-shipping-service
             git pull origin main
-            npm install
-            pm2 restart sayona
+            cd backend && npm install
+            cd ..
+            node scripts/build-static.cjs
+            sudo cp -r dist/* /var/www/html/
+            pm2 restart all || (cd backend && pm2 start server.js --name sayona && pm2 save)
