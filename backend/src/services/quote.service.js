@@ -2,6 +2,7 @@
 // Quote Service — Business logic for quote requests
 // ─────────────────────────────────────────────
 const QuoteRepository = require('../repositories/quote.repository');
+const EmailService = require('./email.service');
 const { NotFoundError, ValidationError } = require('../utils/AppError');
 const { QUOTE_STATUS_VALUES } = require('../models/schemas');
 
@@ -11,7 +12,8 @@ const QuoteService = {
      */
     submit: async (data) => {
         const quote = await QuoteRepository.create(data);
-        // STUB: Email notification
+        // Send email notification (throws on failure -> 500 response)
+        await EmailService.sendQuoteNotification(quote);
         return quote;
     },
 
