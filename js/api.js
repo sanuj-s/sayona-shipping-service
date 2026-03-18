@@ -86,4 +86,21 @@ async function submitContact(data) {
     return unwrapResponse(json);
 }
 
-window.api = { getTracking, createShipment, loginUser, submitContact, escapeHtml };
+/**
+ * Submit a Quote Request
+ */
+async function submitQuote(data) {
+    const response = await fetch(`${API_BASE}/quotes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error?.message || err.message || 'Failed to submit quote request');
+    }
+    const json = await response.json();
+    return unwrapResponse(json);
+}
+
+window.api = { getTracking, createShipment, loginUser, submitContact, submitQuote, escapeHtml };
