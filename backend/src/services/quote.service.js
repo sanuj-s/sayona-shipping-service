@@ -12,8 +12,14 @@ const QuoteService = {
      */
     submit: async (data) => {
         const quote = await QuoteRepository.create(data);
-        // Send email notification (throws on failure -> 500 response)
-        await EmailService.sendQuoteNotification(quote);
+        
+        // Send email notification (side-effect, non-blocking)
+        try {
+            await EmailService.sendQuoteNotification(quote);
+        } catch (err) {
+            console.error('Email failed:', err.message);
+        }
+
         return quote;
     },
 
