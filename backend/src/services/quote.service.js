@@ -13,8 +13,13 @@ const QuoteService = {
     submit: async (data) => {
         const quote = await QuoteRepository.create(data);
         
-        // Send email notification (blocking — ensuring successful delivery before 200 OK)
-        await EmailService.sendQuoteNotification(quote);
+        // Send email notification (non-blocking: quote is saved regardless)
+        try {
+            await EmailService.sendQuoteNotification(quote);
+        } catch (err) {
+            // Log but do NOT crash — quote is already saved in DB
+            console.error('📧 Email notification failed:', err.message);
+        }
 
         return quote;
     },

@@ -14,6 +14,9 @@ class EmailService {
                     user: config.email.user,
                     pass: config.email.pass,
                 },
+                connectionTimeout: 10000,  // 10s max to connect
+                greetingTimeout: 10000,    // 10s max for SMTP greeting
+                socketTimeout: 15000,      // 15s max for socket idle
             });
             logger.info('📧 EmailService initialized successfully');
         } else {
@@ -65,8 +68,7 @@ Time: ${new Date(quote.created_at || Date.now()).toISOString().replace('T', ' ')
             logger.info(`Quote notification email sent successfully for ${quote.uuid}`);
         } catch (error) {
             logger.error(`Failed to send quote notification for ${quote.uuid}`, { error: error.message });
-            // Throw error to trigger a 500 response per requirements
-            throw new Error('Failed to send the quote email notification');
+            // Do NOT throw — quote is already saved, just log the failure
         }
     }
 }

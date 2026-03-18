@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const apiMethod = window.api.submitQuote || window.api.submitContact;
             const payload = { 
                 name, email, phone, company, origin, destination, 
-                cargo_type: cargoType, message: text 
+                cargoType, message: text 
             };
 
             apiMethod(payload)
