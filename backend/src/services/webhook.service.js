@@ -1,5 +1,5 @@
 const queueService = require('./queue.service');
-const logger = require('../utils/logger');
+const logger = require('../config/logger');
 const { createCircuitBreaker } = require('../config/circuitBreaker');
 
 class WebhookService {

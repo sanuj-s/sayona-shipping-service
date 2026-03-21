@@ -1,5 +1,5 @@
 const { getRedisClient } = require('../config/redis');
-const logger = require('../utils/logger');
+const logger = require('../config/logger');
 
 /**
  * Middleware to enforce idempotency for critical POST/PUT endpoints

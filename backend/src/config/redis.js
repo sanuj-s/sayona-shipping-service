@@ -1,11 +1,11 @@
 const Redis = require('ioredis');
-const logger = require('../utils/logger');
-const { environment } = require('./environment');
+const logger = require('./logger');
+const config = require('./environment');
 
 let redisClient;
 
 const initRedis = () => {
-    if (!environment.isProduction && !process.env.REDIS_HOST) {
+    if (!config.isProduction() && !process.env.REDIS_HOST) {
         logger.warn('Redis not configured. Skipping connection.');
         return null;
     }

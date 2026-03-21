@@ -1,5 +1,5 @@
 const queueService = require('./src/services/queue.service');
-const logger = require('./src/utils/logger');
+const logger = require('./src/config/logger');
 const { initRedis } = require('./src/config/redis');
 const archiveService = require('./src/services/archive.service');
 

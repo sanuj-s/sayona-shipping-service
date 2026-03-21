@@ -1,5 +1,5 @@
 const { Queue, Worker } = require('bullmq');
-const logger = require('../utils/logger');
+const logger = require('../config/logger');
 
 // Centralize connection options
 const connection = {

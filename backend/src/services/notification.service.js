@@ -1,5 +1,5 @@
 const queueService = require('./queue.service');
-const logger = require('../utils/logger');
+const logger = require('../config/logger');
 
 class NotificationService {
     /**

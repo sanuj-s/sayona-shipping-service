@@ -1,5 +1,5 @@
 const { getRedisClient } = require('../config/redis');
-const logger = require('../utils/logger');
+const logger = require('../config/logger');
 
 // Generic wrapper for get/set cache logic to transparently handle missing redis instances
 class CacheService {

@@ -1,5 +1,12 @@
+// ─────────────────────────────────────────────
+// State Machine Service — Shipment Lifecycle
+// Enforces strict state transitions, rejects
+// invalid transitions deterministically, and
+// persists transition history for auditability.
+// ─────────────────────────────────────────────
 const { SHIPMENT_STATUS, SHIPMENT_STATUS_TRANSITIONS } = require('../models/schemas');
 const { AppError } = require('../utils/AppError');
+const { query } = require('../config/database');
 
 class StateMachineService {
 
@@ -36,6 +43,45 @@ class StateMachineService {
         }
 
         return true;
+    }
+
+    /**
+     * Record a state transition in the history table for auditability.
+     * @param {number} shipmentId - Internal shipment ID
+     * @param {string|null} fromStatus - Previous status (null for first assignment)
+     * @param {string} toStatus - New status
+     * @param {number|null} userId - User who triggered the transition
+     * @param {object} metadata - Optional additional context
+     */
+    async recordTransition(shipmentId, fromStatus, toStatus, userId = null, metadata = {}) {
+        try {
+            await query(
+                `INSERT INTO state_transitions (shipment_id, from_status, to_status, triggered_by, metadata)
+                 VALUES ($1, $2, $3, $4, $5)`,
+                [shipmentId, fromStatus, toStatus, userId, JSON.stringify(metadata)]
+            );
+        } catch (error) {
+            // Log but don't fail the main operation if audit logging fails
+            const logger = require('../config/logger');
+            logger.error('Failed to record state transition', {
+                shipmentId, fromStatus, toStatus, error: error.message,
+            });
+        }
+    }
+
+    /**
+     * Get transition history for a shipment
+     */
+    async getTransitionHistory(shipmentId) {
+        const result = await query(
+            `SELECT st.*, u.name as triggered_by_name
+             FROM state_transitions st
+             LEFT JOIN users u ON st.triggered_by = u.id
+             WHERE st.shipment_id = $1
+             ORDER BY st.created_at ASC`,
+            [shipmentId]
+        );
+        return result.rows;
     }
 }
 

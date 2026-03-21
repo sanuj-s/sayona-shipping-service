@@ -1,5 +1,6 @@
 // ─────────────────────────────────────────────
 // Migration Runner — Executes SQL migration files
+// Tracks applied migrations to prevent re-runs.
 // Usage: node scripts/migrate.js
 // ─────────────────────────────────────────────
 const fs = require('fs');
@@ -18,6 +19,18 @@ async function runMigrations() {
         console.log(`Database: ${process.env.DB_NAME}@${process.env.DB_HOST}`);
         console.log();
 
+        // Ensure migration tracking table exists
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS schema_migrations (
+                version VARCHAR(255) PRIMARY KEY,
+                applied_at TIMESTAMP DEFAULT NOW()
+            )
+        `);
+
+        // Get already-applied migrations
+        const applied = await client.query('SELECT version FROM schema_migrations ORDER BY version');
+        const appliedSet = new Set(applied.rows.map(r => r.version));
+
         // Get migration files sorted by name
         const files = fs.readdirSync(migrationsDir)
             .filter((f) => f.endsWith('.sql'))
@@ -28,7 +41,21 @@ async function runMigrations() {
             return;
         }
 
+        let appliedCount = 0;
+        let skippedCount = 0;
+
         for (const file of files) {
+            // Skip the tracking table bootstrap migration itself
+            if (file === '000_migration_tracking.sql') {
+                continue;
+            }
+
+            if (appliedSet.has(file)) {
+                console.log(`  ⏭  Skipping: ${file} (already applied)`);
+                skippedCount++;
+                continue;
+            }
+
             const filePath = path.join(migrationsDir, file);
             const sql = fs.readFileSync(filePath, 'utf-8');
 
@@ -38,9 +65,15 @@ async function runMigrations() {
             await client.query('BEGIN');
             try {
                 await client.query(sql);
+                // Record migration as applied
+                await client.query(
+                    'INSERT INTO schema_migrations (version) VALUES ($1)',
+                    [file]
+                );
                 await client.query('COMMIT');
                 const duration = Date.now() - start;
                 console.log(`  ✅ Completed in ${duration}ms`);
+                appliedCount++;
             } catch (error) {
                 await client.query('ROLLBACK');
                 console.error(`  ❌ Failed: ${error.message}`);
@@ -49,7 +82,7 @@ async function runMigrations() {
         }
 
         console.log();
-        console.log('All migrations completed successfully! ✅');
+        console.log(`Migration complete: ${appliedCount} applied, ${skippedCount} skipped ✅`);
     } catch (error) {
         console.error('Migration failed:', error.message);
         process.exit(1);

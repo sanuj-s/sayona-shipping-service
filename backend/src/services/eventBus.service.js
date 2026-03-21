@@ -1,5 +1,5 @@
 const EventEmitter = require('events');
-const logger = require('../utils/logger');
+const logger = require('../config/logger');
 
 class EventBus extends EventEmitter {
     constructor() {

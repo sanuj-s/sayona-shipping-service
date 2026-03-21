@@ -2,6 +2,8 @@
 // Auth Service — Business logic for authentication
 // Features: brute-force protection, account locking,
 // password reset, email verification
+// Token security: all tokens hashed before persistence,
+// expiry enforced, single-use with immediate invalidation
 // ─────────────────────────────────────────────
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
@@ -9,6 +11,11 @@ const config = require('../config/environment');
 const UserRepository = require('../repositories/user.repository');
 const TokenService = require('./token.service');
 const { AuthenticationError, ConflictError, ValidationError, NotFoundError, AccountLockedError } = require('../utils/AppError');
+
+/**
+ * Hash a token using SHA-256 for secure storage
+ */
+const hashToken = (token) => crypto.createHash('sha256').update(token).digest('hex');
 
 const AuthService = {
     /**
@@ -28,11 +35,13 @@ const AuthService = {
             name, email, passwordHash, phone, company, role: safeRole,
         });
 
-        // Generate verification token (stubbed — email not actually sent)
+        // Generate verification token — hash before storage, enforce 24h expiry
         const verificationToken = crypto.randomBytes(32).toString('hex');
-        await UserRepository.setVerificationToken(user.id, verificationToken);
+        const verificationTokenHash = hashToken(verificationToken);
+        const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+        await UserRepository.setVerificationToken(user.id, verificationTokenHash, verificationExpires);
 
-        // Generate tokens
+        // Generate auth tokens
         const accessToken = TokenService.generateAccessToken(user);
         const refreshToken = await TokenService.generateRefreshToken(user.id);
 
@@ -46,7 +55,7 @@ const AuthService = {
             },
             accessToken,
             refreshToken,
-            verificationToken, // In production, this would be sent via email
+            ...(config.isDevelopment() && { verificationToken }),
         };
     },
 
@@ -140,7 +149,7 @@ const AuthService = {
         if (!user) return { message: 'If an account exists, a reset link has been sent' };
 
         const resetToken = crypto.randomBytes(32).toString('hex');
-        const tokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+        const tokenHash = hashToken(resetToken);
         const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
         await UserRepository.setPasswordResetToken(user.id, tokenHash, expiresAt);
@@ -148,15 +157,15 @@ const AuthService = {
         // STUB: In production, send email with reset link containing resetToken
         return {
             message: 'If an account exists, a reset link has been sent',
-            resetToken, // Only returned in non-production for testing
+            ...(config.isDevelopment() && { resetToken }),
         };
     },
 
     /**
-     * Reset password with token
+     * Reset password with token — single-use enforcement
      */
     resetPassword: async (token, newPassword) => {
-        const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+        const tokenHash = hashToken(token);
         const user = await UserRepository.findByResetToken(tokenHash);
 
         if (!user) {
@@ -164,6 +173,7 @@ const AuthService = {
         }
 
         const passwordHash = await bcrypt.hash(newPassword, config.security.saltRounds);
+        // updatePassword clears reset token atomically (single-use)
         await UserRepository.updatePassword(user.id, passwordHash);
 
         // Revoke all refresh tokens (force re-login)
@@ -173,10 +183,11 @@ const AuthService = {
     },
 
     /**
-     * Verify email
+     * Verify email — token is hashed, expiry-checked, single-use
      */
     verifyEmail: async (token) => {
-        const user = await UserRepository.verifyEmail(token);
+        const tokenHash = hashToken(token);
+        const user = await UserRepository.verifyEmail(tokenHash);
         if (!user) {
             throw new ValidationError('Invalid or expired verification token');
         }

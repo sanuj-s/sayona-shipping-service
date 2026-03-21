@@ -183,24 +183,26 @@ const UserRepository = {
     },
 
     /**
-     * Set email verification token
+     * Set email verification token (hashed, with expiry)
      */
-    setVerificationToken: async (id, token) => {
+    setVerificationToken: async (id, tokenHash, expiresAt) => {
         await query(
-            'UPDATE users SET email_verification_token = $1 WHERE id = $2',
-            [token, id]
+            'UPDATE users SET verification_token_hash = $1, verification_token_expires = $2 WHERE id = $3',
+            [tokenHash, expiresAt, id]
         );
     },
 
     /**
-     * Verify email
+     * Verify email — match hashed token, enforce expiry, single-use invalidation
      */
-    verifyEmail: async (token) => {
+    verifyEmail: async (tokenHash) => {
         const result = await query(
-            `UPDATE users SET is_verified = TRUE, email_verification_token = NULL 
-             WHERE email_verification_token = $1 AND deleted_at IS NULL
+            `UPDATE users SET is_verified = TRUE, verification_token_hash = NULL, verification_token_expires = NULL
+             WHERE verification_token_hash = $1 
+               AND verification_token_expires > NOW()
+               AND deleted_at IS NULL
              RETURNING id, uuid, email`,
-            [token]
+            [tokenHash]
         );
         return result.rows[0] || null;
     },

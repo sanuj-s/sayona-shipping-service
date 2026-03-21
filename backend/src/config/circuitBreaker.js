@@ -1,5 +1,5 @@
 const CircuitBreaker = require('opossum');
-const logger = require('../utils/logger');
+const logger = require('./logger');
 
 // Common options for resilience against cascading external failures
 const breakerOptions = {

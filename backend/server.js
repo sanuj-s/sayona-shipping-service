@@ -17,7 +17,7 @@ async function startServer() {
 
         // Start HTTP server
         const server = app.listen(config.port, '0.0.0.0', () => {
-            const baseUrl = config.isProduction() ? 'https://sayonashipping.me' : `http://localhost:${config.port}`;
+            const baseUrl = config.baseUrl;
             logger.info(`🚀 Server running on port ${config.port}`, {
                 environment: config.nodeEnv,
                 port: config.port,

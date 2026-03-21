@@ -109,9 +109,12 @@ jobs:
         with:
           path: backend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
+      - name: Verify lockfile integrity
+        working-directory: backend
+        run: npm ci --ignore-scripts
       - name: NPM Audit
         working-directory: backend
-        run: npm audit --audit-level=high || true
+        run: npm audit --audit-level=high
 
   # ── Deploy Gate ──
   deploy-gate:

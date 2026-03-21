@@ -3,6 +3,7 @@
 // Separating app from server enables testing
 // ─────────────────────────────────────────────
 const express = require('express');
+const crypto = require('crypto');
 const cors = require('cors');
 const helmet = require('helmet');
 const hpp = require('hpp');
@@ -21,35 +22,54 @@ const accessLogger = require('./middlewares/accessLogger');
 const { auditMiddleware } = require('./middlewares/auditLogger');
 const { apiLimiter } = require('./middlewares/rateLimiter');
 const { errorHandler, notFound } = require('./middlewares/errorHandler');
+const sanitize = require('./middlewares/sanitize');
+const timeout = require('./middlewares/timeout');
 
 const app = express();
 
 // Trust first proxy (Nginx) — required for correct IP, protocol, and secure cookies
 app.set('trust proxy', 1);
 
+// ─────────────── CSP Nonce Generation ───────────────
+// Generate a unique nonce per request for Content Security Policy
+app.use((req, res, next) => {
+    res.locals.cspNonce = crypto.randomBytes(16).toString('base64');
+    next();
+});
+
 // ─────────────── Security Middleware ───────────────
-app.use(helmet({
-    contentSecurityPolicy: config.isProduction() ? {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
-            styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
-            fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
-            imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
-            connectSrc: ["'self'"],
-        }
-    } : false,
-    crossOriginEmbedderPolicy: false,
-    hsts: config.isProduction() ? { maxAge: 31536000, includeSubDomains: true } : false,
-}));
+app.use((req, res, next) => {
+    const nonce = res.locals.cspNonce;
+    const helmetMiddleware = helmet({
+        contentSecurityPolicy: config.isProduction() ? {
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: ["'self'", `'nonce-${nonce}'`, 'https://cdnjs.cloudflare.com'],
+                styleSrc: ["'self'", `'nonce-${nonce}'`, 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
+                fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
+                imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
+                connectSrc: ["'self'"],
+                objectSrc: ["'none'"],
+                baseUri: ["'self'"],
+                frameAncestors: ["'none'"],
+                formAction: ["'self'"],
+            }
+        } : false,
+        crossOriginEmbedderPolicy: false,
+        hsts: config.isProduction() ? { maxAge: 31536000, includeSubDomains: true } : false,
+    });
+    helmetMiddleware(req, res, next);
+});
 app.use(hpp());
 app.use(compression());
 
 // ─────────────── Request Processing ───────────────
 app.use(correlationId);
+app.use(timeout);
 app.use(cors(corsOptions));
 app.use(express.json({ limit: config.security.bodyLimit }));
 app.use(express.urlencoded({ extended: true, limit: config.security.bodyLimit }));
+app.use(sanitize);
 app.use(accessLogger);
 app.use(auditMiddleware);
 

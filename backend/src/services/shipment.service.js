@@ -72,6 +72,12 @@ const ShipmentService = {
             createdBy,
         });
 
+        // Record state transition for audit
+        await stateMachineService.recordTransition(
+            shipment.id, null, SHIPMENT_STATUS.CREATED, createdBy,
+            { trackingNumber, origin, destination }
+        );
+
         // Async Background Triggers
         notificationService.sendStatusUpdate(shipment, trackingEvent);
         webhookService.dispatchShipmentWebhook(shipment, 'shipment.created');
@@ -159,6 +165,14 @@ const ShipmentService = {
                 // Async Background Triggers
                 notificationService.sendStatusUpdate(updated, trackingEvent);
                 webhookService.dispatchShipmentWebhook(updated, 'shipment.updated');
+            }
+
+            // Record state transition for audit trail
+            if (status && status !== shipment.status) {
+                await stateMachineService.recordTransition(
+                    shipment.id, shipment.status, status, userId,
+                    { currentLocation, description }
+                );
             }
 
             return { message: 'Shipment updated', shipment: mapShipment(updated) };

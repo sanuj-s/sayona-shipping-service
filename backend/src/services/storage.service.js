@@ -1,4 +1,4 @@
-const logger = require('../utils/logger');
+const logger = require('../config/logger');
 // const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 
 class StorageService {
