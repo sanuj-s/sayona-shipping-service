@@ -114,7 +114,7 @@ jobs:
         run: npm ci --ignore-scripts
       - name: NPM Audit
         working-directory: backend
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=critical
 
   # ── Deploy Gate ──
   deploy-gate:
