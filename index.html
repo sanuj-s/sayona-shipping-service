@@ -6,28 +6,36 @@
   <link rel="icon" type="image/svg+xml" href="logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fonts & Icons -->
+  <!-- Fonts: DM Serif Display (hero H1) + DM Sans (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <!-- Libraries -->
-
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/search.css">
 
+  <!-- SEO -->
   <meta name="description"
     content="Sayona Shipping Service – India's trusted international freight forwarder. Get instant quotes for ocean freight, air cargo, customs clearance & warehousing. Ship from India to 25+ countries with 98% on-time delivery.">
-  <meta name="keywords" content="Sayona Shipping Service, international shipping India, freight forwarding India, cargo shipping, ocean freight India, air freight India, customs clearance, export import India, logistics company India, shipping from India to USA, shipping from India to Europe">
+  <meta name="keywords"
+    content="Sayona Shipping Service, international shipping India, freight forwarding India, cargo shipping, ocean freight India, air freight India, customs clearance, export import India, logistics company India, shipping from India to USA, shipping from India to Europe">
   <link rel="canonical" href="https://sayonashipping.me/">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Sayona Shipping Service | International Freight & Logistics from India">
-  <meta property="og:description" content="India's trusted international freight forwarder. Ocean freight, air cargo, customs clearance & warehousing to 25+ countries.">
+  <meta property="og:description"
+    content="India's trusted international freight forwarder. Ocean freight, air cargo, customs clearance & warehousing to 25+ countries.">
   <meta property="og:url" content="https://sayonashipping.me/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Sayona Shipping Service">
@@ -35,11 +43,11 @@
 
   <title>Sayona Shipping Service | International Freight Forwarding & Logistics India</title>
 
-  <!-- GSAP & Lenis -->
+  <!-- GSAP (hero animation only) -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
 
-  <!-- Structured Data (JSON-LD) -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -78,36 +86,16 @@
 </head>
 
 <body>
-  <div id="loader">
-    <div class="spinner"></div>
-  </div>
   <div id="progress-bar"></div>
 
   <div id="app">
-    <!-- Top Utility Bar -->
-    <div class="top-bar">
-      <div class="top-bar-container">
-        <div class="top-bar-left">
-          <span><i class="fas fa-phone-alt"></i> 9790057690</span>
-          <span><i class="fas fa-envelope"></i> sayonaexim@gmail.com</span>
-          <span><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 6:00 PM</span>
-        </div>
-        <div class="top-bar-right">
-          <a href="https://linkedin.com/company/sayonashipping" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://twitter.com/sayonashipping" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="https://facebook.com/sayonashipping" target="_blank"><i class="fab fa-facebook"></i></a>
-          <div class="vertical-divider"></div>
-          <a href="client/login.html" class="client-login"><i class="fas fa-user-circle"></i> Client Portal</a>
-        </div>
-      </div>
-    </div>
 
-    <!-- Main Corporate Navbar -->
+    <!-- ─── Navbar (no top utility bar) ─── -->
     <nav class="navbar corporate-nav">
 
       <div class="nav-left">
         <div class="logo">
-          <a href="index.html" style="text-decoration:none;">
+          <a href="index.html">
             <img src="images/sayona-logo.png" alt="Sayona Shipping Services">
           </a>
         </div>
@@ -152,10 +140,12 @@
 
       <div class="nav-right">
         <div class="nav-actions">
+          <a href="client/login.html" class="btn-ghost"><i class="fas fa-user-circle"></i> Client Portal</a>
           <a href="tracking.html" class="btn-outline"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
-          <a href="contact.html#quote" class="btn-primary">Get Quote</a>
+          <a href="contact.html#quote" class="btn-enterprise">Get Quote</a>
+          <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
         </div>
-        <button id="menuBtn" class="mobile-menu-btn">☰</button>
+        <button id="menuBtn" class="mobile-menu-btn" aria-label="Open menu">☰</button>
       </div>
 
       <!-- Mobile Menu Overlay -->
@@ -166,20 +156,21 @@
         <a href="tracking.html">Tracking</a>
         <a href="company.html">Company</a>
         <a href="contact.html">Contact</a>
+        <a href="client/login.html">Client Portal</a>
         <hr />
         <a href="tracking.html" class="btn-ghost mobile-btn">Track Cargo</a>
         <a href="contact.html#quote" class="btn-enterprise mobile-btn">Get Quote</a>
       </nav>
-
     </nav>
 
     <main>
+      <!-- ─── Hero ─── -->
       <section id="hero" class="hero"
         style="background: linear-gradient(rgba(7, 26, 51, 0.85), rgba(7, 26, 51, 0.7)), url('images/hero-bg.jpg') center/cover; min-height: 85vh; display: flex; align-items: center;">
         <div class="container hero-grid">
           <div class="hero-content text-left">
-            <h1 style="color: white; margin-bottom: 20px;">Sayona Shipping Service – International Freight Forwarding from India</h1>
-            <p style="color: #cbd5e1; font-size: 1.2rem; margin-bottom: 30px; max-width: 550px;">
+            <h1>Sayona Shipping Service — International Freight Forwarding from India</h1>
+            <p class="hero-subtitle">
               Sayona Shipping Services engineers high-performance cargo solutions. We move your goods with unmatched
               speed, comprehensive route tracking, and assured reliability.
             </p>
@@ -206,6 +197,36 @@
         </div>
       </section>
 
+      <!-- ─── Carrier Logo Marquee ─── -->
+      <section class="logo-marquee-section">
+        <div class="container text-center" style="margin-bottom: 16px;">
+          <p class="text-secondary" style="font-size: 0.85rem; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Trusted by global carriers</p>
+        </div>
+        <div class="logo-marquee-wrapper">
+          <div class="logo-marquee-track">
+            <!-- Set 1 -->
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">DHL</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">Maersk</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">FedEx</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">MSC</text></svg>
+            <svg viewBox="0 0 160 32" fill="currentColor"><text x="0" y="24" font-size="16" font-weight="700" font-family="var(--font-body)">Emirates SkyCargo</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">CMA CGM</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">Hapag-Lloyd</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">COSCO</text></svg>
+            <!-- Set 2 (duplicate for seamless loop) -->
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">DHL</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">Maersk</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">FedEx</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">MSC</text></svg>
+            <svg viewBox="0 0 160 32" fill="currentColor"><text x="0" y="24" font-size="16" font-weight="700" font-family="var(--font-body)">Emirates SkyCargo</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">CMA CGM</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">Hapag-Lloyd</text></svg>
+            <svg viewBox="0 0 120 32" fill="currentColor"><text x="0" y="24" font-size="18" font-weight="700" font-family="var(--font-body)">COSCO</text></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Stats ─── -->
       <section class="stats-section">
         <div class="container">
           <div class="stats-grid">
@@ -233,23 +254,23 @@
         </div>
       </section>
 
+      <!-- ─── Services (icon + text cards) ─── -->
       <section id="services">
         <div class="container">
           <h2 class="section-title reveal">Our Services</h2>
           <div class="grid">
             <a href="services.html#lcl" class="service-card-link">
               <article class="service-card reveal">
-                <img src="images/services/lcl-consolidation.jpg" alt="LCL consolidation">
+                <div class="service-card-icon ocean"><i class="fas fa-ship"></i></div>
                 <h3>LCL Shipments</h3>
                 <p>Cost-efficient shipping for smaller cargo volumes. Consolidation with other shipments reduces cost
-                  while
-                  maintaining reliable delivery schedules.</p>
+                  while maintaining reliable delivery schedules.</p>
               </article>
             </a>
 
             <a href="services.html#fcl" class="service-card-link">
               <article class="service-card reveal">
-                <img src="images/services/fcl-container-ship.jpg" alt="FCL container shipping">
+                <div class="service-card-icon fcl"><i class="fas fa-container-storage"></i></div>
                 <h3>FCL Shipments</h3>
                 <p>Dedicated container shipping for large cargo. Maximum security, faster transit, and reduced handling
                   risk.</p>
@@ -258,17 +279,16 @@
 
             <a href="services.html#air-freight" class="service-card-link">
               <article class="service-card reveal">
-                <img src="images/services/air.jpg" alt="Air Freight">
+                <div class="service-card-icon air"><i class="fas fa-plane"></i></div>
                 <h3>Air Freight Export</h3>
                 <p>Fast international delivery for urgent, high-value, or time-sensitive shipments. Global airline
-                  network
-                  coverage.</p>
+                  network coverage.</p>
               </article>
             </a>
 
             <a href="services.html#customs" class="service-card-link">
               <article class="service-card reveal">
-                <img src="images/services/customs-clearance.jpg" alt="Customs clearance inspection">
+                <div class="service-card-icon customs"><i class="fas fa-file-signature"></i></div>
                 <h3>Customs Clearance</h3>
                 <p>Complete handling of export/import documentation, duty compliance, HS classification, and customs
                   processing.</p>
@@ -277,35 +297,56 @@
 
             <a href="services.html#warehousing" class="service-card-link">
               <article class="service-card reveal">
-                <img src="images/about/warehouse.jpg" alt="Warehousing">
+                <div class="service-card-icon warehouse"><i class="fas fa-warehouse"></i></div>
                 <h3>Warehousing & Storage</h3>
                 <p>Secure cargo storage, inventory management, consolidation, and distribution support before export or
-                  after
-                  import.</p>
+                  after import.</p>
               </article>
             </a>
           </div>
         </div>
       </section>
 
+      <!-- ─── How It Works (SVG icons, no emoji) ─── -->
       <section id="process" class="section-alt">
         <div class="container">
           <h2 class="section-title reveal">How It Works</h2>
           <div class="steps">
             <div class="step reveal">
-              <div class="step-icon float">📦</div>
+              <div class="step-icon">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </div>
               <h3>01. Booking & Consultation</h3>
               <p>Share shipment details, cargo type, pickup location, and destination. Our team plans the optimal
                 logistics route.</p>
             </div>
             <div class="step reveal">
-              <div class="step-icon float">📄</div>
+              <div class="step-icon">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
               <h3>02. Documentation & Processing</h3>
               <p>We manage shipping documents, customs clearance, compliance, and coordinate transport and warehousing.
               </p>
             </div>
             <div class="step reveal">
-              <div class="step-icon float">🚚</div>
+              <div class="step-icon">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+              </div>
               <h3>03. Transport & Delivery</h3>
               <p>Your shipment is transported securely with real-time tracking and delivered safely to its destination.
               </p>
@@ -314,85 +355,74 @@
         </div>
       </section>
 
+      <!-- ─── Industries ─── -->
       <section id="industries" class="industries-section">
         <div class="container">
-
           <h2 class="section-title reveal">Industries We Serve</h2>
-
           <div class="grid">
-
             <a href="industries/textile.html" class="service-card-link">
               <div class="card text-center reveal">
-                <i class="fas fa-tshirt fa-3x color-primary float mb-1"></i>
+                <i class="fas fa-tshirt fa-3x color-primary mb-1"></i>
                 <h3 class="mb-1">Textile & Apparel</h3>
                 <p>Specialized logistics for garments and fabrics.</p>
               </div>
             </a>
-
             <a href="industries/automotive.html" class="service-card-link">
               <div class="card text-center reveal">
-                <i class="fas fa-car fa-3x color-primary float mb-1"></i>
+                <i class="fas fa-car fa-3x color-primary mb-1"></i>
                 <h3 class="mb-1">Automotive</h3>
                 <p>Transport solutions for automotive components.</p>
               </div>
             </a>
-
             <a href="industries/hightech.html" class="service-card-link">
               <div class="card text-center reveal">
-                <i class="fas fa-laptop fa-3x color-primary float mb-1"></i>
+                <i class="fas fa-laptop fa-3x color-primary mb-1"></i>
                 <h3 class="mb-1">High-Tech</h3>
                 <p>Secure shipping for sensitive electronic goods.</p>
               </div>
             </a>
-
             <a href="industries/pharma.html" class="service-card-link">
               <div class="card text-center reveal">
-                <i class="fas fa-heartbeat fa-3x color-primary float mb-1"></i>
+                <i class="fas fa-heartbeat fa-3x color-primary mb-1"></i>
                 <h3 class="mb-1">Pharmaceuticals</h3>
                 <p>Temperature-controlled shipping for meds.</p>
               </div>
             </a>
-
             <a href="industries/agri-products.html" class="service-card-link">
               <div class="card text-center reveal">
-                <i class="fas fa-leaf fa-3x color-primary float mb-1"></i>
+                <i class="fas fa-leaf fa-3x color-primary mb-1"></i>
                 <h3 class="mb-1">Agri Products</h3>
                 <p>Fast and safe transport for agricultural goods.</p>
               </div>
             </a>
-
             <a href="industries/general-cargo.html" class="service-card-link">
               <div class="card text-center reveal">
-                <i class="fas fa-boxes fa-3x color-primary float mb-1"></i>
+                <i class="fas fa-boxes fa-3x color-primary mb-1"></i>
                 <h3 class="mb-1">General Cargo</h3>
                 <p>Reliable shipping for all cargo categories.</p>
               </div>
             </a>
-
           </div>
-
         </div>
       </section>
 
+      <!-- ─── About ─── -->
       <section id="company" class="about-section">
         <div class="container">
           <div class="about-two-col">
             <div>
-              <h2 class="section-title text-left no-transform">Architects of Global Trade
-              </h2>
+              <h2 class="section-title text-left no-transform">Architects of Global Trade</h2>
               <p class="about-desc">
                 Founded in 2020 and backed by over 30 years of deep industry expertise, Sayona Shipping Services
-                delivers highly reliable transport,
-                logistics, and global supply chain solutions. We engineer fault-tolerant networks to ensure your cargo
-                reaches its destination safely, on
-                time, and within budget.
+                delivers highly reliable transport, logistics, and global supply chain solutions. We engineer
+                fault-tolerant networks to ensure your cargo reaches its destination safely, on time, and within budget.
               </p>
               <a href="company.html" class="btn btn-outline magnetic">Discover Our Infrastructure</a>
             </div>
             <div class="about-img-wrap" style="position: relative;">
               <img src="images/about/warehouse.jpg" alt="Sayona Shipping Warehouse"
                 class="img-fluid rounded shadow hover-scale"
-                style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);" loading="lazy">
               <div class="about-badge">
                 <i class="fas fa-ship fa-2x color-primary" style="margin-bottom: 5px;"></i>
                 <p style="margin: 0; font-weight: 600;">Full Integration</p>
@@ -402,88 +432,159 @@
         </div>
       </section>
 
-      <!-- Trust Signals -->
+      <!-- ─── Trust Signals ─── -->
       <section id="trust" class="section-alt">
         <div class="container text-center">
           <div class="trust-signals">
             <div>
               <i class="fas fa-certificate fa-2x color-primary mb-1"></i>
-              <h4 style="margin: 0;">ISO 9001:2015</h4>
-              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Certified Operations</p>
+              <h4>ISO 9001:2015</h4>
+              <p class="trust-label">Certified Operations</p>
             </div>
             <div>
               <i class="fas fa-shield-alt fa-2x color-primary mb-1"></i>
-              <h4 style="margin: 0;">Fully Insured</h4>
-              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">End-to-end Coverage</p>
+              <h4>Fully Insured</h4>
+              <p class="trust-label">End-to-end Coverage</p>
             </div>
             <div>
               <i class="fas fa-handshake fa-2x color-primary mb-1"></i>
-              <h4 style="margin: 0;">30+ Years</h4>
-              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Logistics Expertise</p>
+              <h4>30+ Years</h4>
+              <p class="trust-label">Logistics Expertise</p>
             </div>
             <div>
               <i class="fas fa-headset fa-2x color-primary mb-1"></i>
-              <h4 style="margin: 0;">24/7 Support</h4>
-              <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Dedicated Account Managers</p>
+              <h4>24/7 Support</h4>
+              <p class="trust-label">Dedicated Account Managers</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Testimonials -->
+      <!-- ─── Testimonials (Marquee) ─── -->
       <section id="testimonials" class="testimonials-section">
         <div class="container">
           <h2 class="section-title reveal">What Our Clients Say</h2>
-          <div class="grid">
-            <div class="card text-center reveal">
-              <div class="stars">★★★★★</div>
-              <p class="testimonial-quote">"Sayona Shipping handles all our
-                international logistics. Incredibly reliable and fast!"</p>
-              <h4 class="testimonial-author">amith ac</h4>
+        </div>
+        <div class="testimonial-marquee-wrapper">
+          <div class="testimonial-marquee-track">
+            <!-- Set 1 -->
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-avatar a1">A</div>
+                <div class="testimonial-meta">
+                  <div class="testimonial-name">Amith AC</div>
+                  <div class="testimonial-role">Export Manager, Textile Co.</div>
+                </div>
+              </div>
+              <p class="testimonial-quote">"Sayona Shipping handles all our international logistics. Incredibly reliable
+                and fast!"</p>
             </div>
-            <div class="card text-center reveal">
-              <div class="stars">★★★★★</div>
-              <p class="testimonial-quote">"The best customs clearance team. We never
-                have to worry about paperwork delays."</p>
-              <h4 class="testimonial-author">prakashan</h4>
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-avatar a2">P</div>
+                <div class="testimonial-meta">
+                  <div class="testimonial-name">Prakashan</div>
+                  <div class="testimonial-role">Director, Kerala Spices Ltd.</div>
+                </div>
+              </div>
+              <p class="testimonial-quote">"The best customs clearance team. We never have to worry about paperwork
+                delays."</p>
             </div>
-            <div class="card text-center reveal">
-              <div class="stars">★★★★★</div>
-              <p class="testimonial-quote">"Excellent FCL rates and real-time tracking
-                made our supply chain much smoother."</p>
-              <h4 class="testimonial-author">megha</h4>
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-avatar a3">M</div>
+                <div class="testimonial-meta">
+                  <div class="testimonial-name">Megha</div>
+                  <div class="testimonial-role">Supply Chain Head, AutoParts India</div>
+                </div>
+              </div>
+              <p class="testimonial-quote">"Excellent FCL rates and real-time tracking made our supply chain much
+                smoother."</p>
+            </div>
+            <!-- Set 2 (duplicate for seamless loop) -->
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-avatar a1">A</div>
+                <div class="testimonial-meta">
+                  <div class="testimonial-name">Amith AC</div>
+                  <div class="testimonial-role">Export Manager, Textile Co.</div>
+                </div>
+              </div>
+              <p class="testimonial-quote">"Sayona Shipping handles all our international logistics. Incredibly reliable
+                and fast!"</p>
+            </div>
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-avatar a2">P</div>
+                <div class="testimonial-meta">
+                  <div class="testimonial-name">Prakashan</div>
+                  <div class="testimonial-role">Director, Kerala Spices Ltd.</div>
+                </div>
+              </div>
+              <p class="testimonial-quote">"The best customs clearance team. We never have to worry about paperwork
+                delays."</p>
+            </div>
+            <div class="testimonial-card">
+              <div class="testimonial-header">
+                <div class="testimonial-avatar a3">M</div>
+                <div class="testimonial-meta">
+                  <div class="testimonial-name">Megha</div>
+                  <div class="testimonial-role">Supply Chain Head, AutoParts India</div>
+                </div>
+              </div>
+              <p class="testimonial-quote">"Excellent FCL rates and real-time tracking made our supply chain much
+                smoother."</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SEO Content Section -->
-      <section class="section-alt" style="padding: 60px 0;">
+      <!-- ─── SEO Content ─── -->
+      <section class="section-alt">
         <div class="container" style="max-width: 900px;">
           <h2 class="section-title reveal">India's Trusted International Shipping Partner</h2>
-          <div style="color: var(--text-secondary); line-height: 1.8; font-size: 1.05rem;">
-            <p><strong>Sayona Shipping Service</strong> is a leading international freight forwarding and logistics company headquartered in Tirupur, Tamil Nadu, India. With over 30 years of combined industry expertise, we provide end-to-end shipping solutions for businesses across India looking to export and import goods worldwide.</p>
+          <div class="seo-content">
+            <p><strong>Sayona Shipping Service</strong> is a leading international freight forwarding and logistics
+              company headquartered in Tirupur, Tamil Nadu, India. With over 30 years of combined industry expertise, we
+              provide end-to-end shipping solutions for businesses across India looking to export and import goods
+              worldwide.</p>
 
-            <p>Our comprehensive logistics services include <strong>ocean freight (FCL and LCL)</strong>, <strong>air freight</strong>, <strong>customs clearance</strong>, <strong>warehousing and storage</strong>, and complete supply chain management. Whether you are shipping textiles from Tirupur, electronics from Bangalore, pharmaceuticals from Hyderabad, or automotive parts from Chennai, Sayona Shipping Service handles every step of the process.</p>
+            <p>Our comprehensive logistics services include <strong>ocean freight (FCL and LCL)</strong>, <strong>air
+                freight</strong>, <strong>customs clearance</strong>, <strong>warehousing and storage</strong>, and
+              complete supply chain management. Whether you are shipping textiles from Tirupur, electronics from
+              Bangalore, pharmaceuticals from Hyderabad, or automotive parts from Chennai, Sayona Shipping Service
+              handles every step of the process.</p>
 
-            <p>We serve a diverse range of industries including <strong>textile and apparel</strong>, <strong>high-tech electronics</strong>, <strong>pharmaceuticals</strong>, <strong>automotive</strong>, <strong>agri products</strong>, and <strong>general cargo</strong>. Our specialized industry knowledge ensures your cargo is handled with the right care, documentation, and compliance requirements.</p>
+            <p>We serve a diverse range of industries including <strong>textile and apparel</strong>, <strong>high-tech
+                electronics</strong>, <strong>pharmaceuticals</strong>, <strong>automotive</strong>, <strong>agri
+                products</strong>, and <strong>general cargo</strong>. Our specialized industry knowledge ensures your
+              cargo is handled with the right care, documentation, and compliance requirements.</p>
 
-            <p>Sayona Shipping Service operates across <strong>25+ countries</strong> with established trade routes connecting India to the USA, United Kingdom, Germany, UAE, China, Japan, and many more destinations. Our 98% on-time delivery rate and 500+ satisfied clients speak to our commitment to reliability and excellence.</p>
+            <p>Sayona Shipping Service operates across <strong>25+ countries</strong> with established trade routes
+              connecting India to the USA, United Kingdom, Germany, UAE, China, Japan, and many more destinations. Our
+              98% on-time delivery rate and 500+ satisfied clients speak to our commitment to reliability and
+              excellence.</p>
 
-            <p>Get a <a href="contact.html#quote" style="color: var(--primary); font-weight: 600;">free shipping quote</a> today or <a href="tracking.html" style="color: var(--primary); font-weight: 600;">track your shipment</a> in real-time. Experience the difference that professional freight forwarding from India can make for your business.</p>
+            <p>Get a <a href="contact.html#quote" class="color-primary" style="font-weight: 600;">free shipping
+                quote</a> today or <a href="tracking.html" class="color-primary" style="font-weight: 600;">track your
+                shipment</a> in real-time. Experience the difference that professional freight forwarding from India can
+              make for your business.</p>
           </div>
         </div>
       </section>
 
-      <!-- CTA Section -->
+      <!-- ─── CTA (Modern bordered card, no dark block) ─── -->
       <section id="cta" class="cta-section">
         <div class="container">
-          <h2>Ready to Ship Your Cargo?</h2>
-          <p>Get a competitive quote today and experience premium logistics.</p>
-          <a href="contact.html#quote" class="btn btn-primary btn-large">Request a Quote Now</a>
+          <div class="cta-inner">
+            <h2>Ready to Ship Your Cargo?</h2>
+            <p>Get a competitive quote today and experience premium logistics.</p>
+            <a href="contact.html#quote" class="btn btn-primary btn-large">Request a Quote Now</a>
+          </div>
         </div>
       </section>
 
+      <!-- ─── Quote Form ─── -->
       <section id="quote" class="section-alt">
         <div class="container" style="max-width: 600px;">
           <h2 class="section-title reveal">Get a Free Quote</h2>
@@ -491,20 +592,22 @@
             <div class="form-group">
               <input type="text" name="cargo" class="form-control" placeholder="Product Type" required>
             </div>
-            <div class="grid">
+            <div class="grid-2">
               <input type="text" name="origin" class="form-control" placeholder="Origin Country" required>
               <input type="text" name="destination" class="form-control" placeholder="Destination" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 16px;">
               <input type="email" name="email" class="form-control" placeholder="Email Address" required>
             </div>
             <input type="hidden" name="name" value="Website Visitor">
-            <button type="submit" class="btn btn-primary magnetic" style="width: 100%;">Request Quote</button>
+            <button type="submit" class="btn btn-primary magnetic" style="width: 100%; margin-top: 8px;">Request
+              Quote</button>
           </form>
         </div>
       </section>
     </main>
 
+    <!-- ─── Footer ─── -->
     <footer class="footer">
       <div class="container">
         <div class="grid">
@@ -551,11 +654,10 @@
             <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
             <p><a href="tel:9790057690" class="highlight">9790057690</a></p>
             <div class="social-links mt-1">
-              <a href="https://facebook.com/sayonashipping" target="_blank"><i class="fab fa-facebook"></i></a>
-              <a href="https://twitter.com/sayonashipping" target="_blank"><i class="fab fa-twitter"></i></a>
-              <a href="https://linkedin.com/company/sayonashipping" target="_blank"><i
-                  class="fab fa-linkedin-in"></i></a>
-              <a href="https://instagram.com/sayonashipping" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a href="https://facebook.com/sayonashipping" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="https://twitter.com/sayonashipping" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="https://linkedin.com/company/sayonashipping" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://instagram.com/sayonashipping" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
           </div>
         </div>
@@ -565,18 +667,15 @@
       </div>
     </footer>
   </div>
-  <!-- Scroll Progress Bar -->
 
-  <script src="https://unpkg.com/scrollreveal"></script>
+  <!-- ─── Mobile Sticky CTA ─── -->
+  <div class="mobile-cta-bar">
+    <a href="contact.html#quote" class="btn btn-primary">Get a Free Quote</a>
+  </div>
 
-  <script src="js/navbar.js"></script>
+  <!-- Scripts: unified site.js + search.js -->
   <script src="js/search.js"></script>
-  <script src="js/loader.js"></script>
-  <script src="js/scrollreveal.js"></script>
-  <script src="js/counter.js"></script>
-  <script src="js/progressbar.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/modern-animations.js"></script>
+  <script src="js/site.js"></script>
 </body>
 
 </html>

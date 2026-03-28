@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════
-   RESPONSIVE SYSTEM — Mobile-First
+   RESPONSIVE SYSTEM — Mobile-First 2026
    Base: 320px+  |  480px  |  768px  |  1024px  |  1280px+
    ═══════════════════════════════════════════════ */
 
-/* ─── Mobile Menu Button (visible on mobile only) ─── */
+/* ─── Mobile Menu Button ─── */
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -18,14 +18,14 @@
 /* ─── Mobile Menu Overlay ─── */
 #navMenu {
   display: none;
-  background: white;
+  background: var(--bg-surface);
   padding: 1.5rem 20px;
   position: fixed;
   top: 80px;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 99999;
+  z-index: calc(var(--z-navbar) - 1);
   flex-direction: column;
   gap: 0;
   overflow-y: auto;
@@ -39,7 +39,7 @@
 #navMenu a {
   display: block;
   padding: 14px 0;
-  border-bottom: 1px solid #E2E8F0;
+  border-bottom: 1px solid var(--border);
   color: var(--text-main) !important;
   font-weight: 500;
   font-size: 1rem;
@@ -50,7 +50,7 @@
 }
 
 #navMenu .mobile-btn {
-  margin-top: 8px;
+  margin-top: var(--sp-1);
   text-align: center;
   padding: 14px 24px;
   border-radius: 8px;
@@ -58,18 +58,12 @@
   display: block;
 }
 
-/* ─── BASE: 320px–479px (small mobile) ─── */
+/* ─── BASE: 320px+ (mobile-first) ─── */
 
-/* Body: account for fixed navbar only (no top-bar on mobile) */
 body {
   margin: 0;
   padding-top: 80px;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Top bar hidden on mobile */
-.top-bar {
-  display: none;
+  font-family: var(--font-body);
 }
 
 /* Navbar: mobile defaults */
@@ -83,10 +77,16 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  z-index: 100000;
-  transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 var(--border);
+  z-index: var(--z-navbar);
+  transition: box-shadow 0.3s ease;
+}
+
+html.dark-mode .corporate-nav {
+  background: rgba(15, 23, 42, 0.92);
 }
 
 /* Show hamburger on mobile */
@@ -131,7 +131,7 @@ body {
 .hero-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--sp-2);
   align-items: center;
 }
 
@@ -145,112 +145,82 @@ body {
 .hero-metrics {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--sp-2);
 }
 
-.hero-metric-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.hero-metric-card h3 {
-  color: #00C2FF;
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  margin-bottom: 5px;
-  font-family: 'Outfit', sans-serif;
-}
-
-.hero-metric-card p {
-  color: white;
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-/* Stats grid: 2 columns on mobile */
+/* Stats: 2 columns on mobile */
 .stats-grid {
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: var(--sp-2);
 }
 
 .stat-card {
-  padding: 24px 16px;
+  padding: var(--sp-3) var(--sp-2);
 }
 
-/* Service cards grid: single column */
+/* Service cards: single column */
 .grid {
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: var(--sp-3);
 }
 
 /* Steps: vertical stack */
 .steps {
   flex-direction: column;
-  gap: 20px;
+  gap: var(--sp-3);
 }
 
 /* Service blocks: stack */
 .service-block {
   grid-template-columns: 1fr;
-  gap: 30px;
+  gap: var(--sp-4);
 }
 
-/* About grid: stack */
+/* About: stack */
 .about-grid,
 .about-two-col {
   grid-template-columns: 1fr;
-  gap: 30px;
+  gap: var(--sp-4);
 }
 
-/* About badge: hide overflow-based absolute on mobile, make inline */
 .about-badge {
   position: relative !important;
   bottom: auto !important;
   left: auto !important;
-  margin-top: 16px;
+  margin-top: var(--sp-2);
   display: inline-block;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Contact layout: stack */
+/* Contact: stack */
 .contact-layout {
   grid-template-columns: 1fr;
-  gap: 30px;
+  gap: var(--sp-4);
 }
 
-/* Contact form grid: single column */
 .contact-form-grid {
   grid-template-columns: 1fr;
 }
 
-/* Stats four column: 2 on mobile */
 .stats-four-col {
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: var(--sp-3);
   text-align: center;
 }
 
-/* Mission grid: stack */
 .mission-grid {
   grid-template-columns: 1fr;
-  gap: 30px;
+  gap: var(--sp-4);
 }
 
-/* Locations grid: single column */
 .locations-grid {
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: var(--sp-3);
 }
 
 /* Trust signals: stack */
 .trust-signals {
   flex-direction: column;
-  gap: 24px;
+  gap: var(--sp-3);
   align-items: center;
   text-align: center;
 }
@@ -266,12 +236,16 @@ body {
 /* Footer: single column */
 .footer .grid {
   grid-template-columns: 1fr;
-  gap: 30px;
+  gap: var(--sp-4);
 }
 
-/* CTA section */
 .cta-section p {
   max-width: 100%;
+}
+
+/* CTA inner padding */
+.cta-inner {
+  padding: var(--sp-5) var(--sp-3);
 }
 
 /* Page header */
@@ -279,14 +253,66 @@ body {
   padding: clamp(80px, 12vw, 120px) 0 clamp(40px, 6vw, 80px);
 }
 
-/* Services hero */
 .services-hero {
   padding: clamp(80px, 12vw, 120px) 0 clamp(40px, 6vw, 60px);
 }
 
-/* Maps */
 .map-container iframe {
   height: 300px;
+}
+
+/* Mobile sticky CTA: VISIBLE on mobile */
+.mobile-cta-bar {
+  display: block;
+}
+
+/* Marquee: slower on mobile */
+.testimonial-marquee-track {
+  animation-duration: 50s;
+}
+
+.logo-marquee-track {
+  animation-duration: 40s;
+}
+
+/* Testimonial cards: smaller on mobile */
+.testimonial-card {
+  width: 280px;
+}
+
+/* Tracking responsive */
+.tracking-stepper {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.stepper-step {
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: var(--sp-3);
+  padding: 0;
+}
+
+.stepper-line {
+  display: none;
+}
+
+.tracking-details-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 600px) {
+  .tracking-search-box {
+    flex-direction: column;
+    padding: var(--sp-2);
+    gap: var(--sp-2);
+  }
+
+  .tracking-search-box input.form-control,
+  .tracking-search-box .btn {
+    width: 100%;
+  }
 }
 
 
@@ -321,54 +347,51 @@ body {
     max-width: 200px;
   }
 
-  /* Grid: 2 columns */
   .grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+    gap: var(--sp-3);
   }
 
-  /* Stats: 4 columns on tablet */
   .stats-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: var(--sp-3);
   }
 
   .stat-card {
-    padding: 30px 20px;
+    padding: var(--sp-4) var(--sp-3);
   }
 
-  /* Contact form grid: 2 columns */
   .contact-form-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: var(--sp-2);
   }
 
-  /* Stats four col: all 4 */
   .stats-four-col {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  /* Locations: 2 columns */
   .locations-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Trust: horizontal row */
   .trust-signals {
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
   }
 
-  /* Footer: 2 columns */
   .footer .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: var(--sp-4);
   }
 
-  /* Maps */
   .map-container iframe {
     height: 400px;
+  }
+
+  /* Hide mobile CTA on tablet+ */
+  .mobile-cta-bar {
+    display: none;
   }
 }
 
@@ -376,41 +399,17 @@ body {
 /* ─── 1024px: desktop ─── */
 @media (min-width: 1024px) {
 
-  /* Show top bar */
-  .top-bar {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background-color: #031326;
-    color: #a4b2c1;
-    z-index: 100001;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 500;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .top-bar.hidden {
-    transform: translateY(-40px);
-  }
-
-  /* Adjust body padding for top bar + navbar */
   body {
-    padding-top: 120px;
+    padding-top: 80px;
   }
 
-  /* Navbar: push below top bar */
   .corporate-nav {
-    top: 40px;
+    top: 0;
     padding: 0 40px;
   }
 
   .corporate-nav.docked {
-    top: 0;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   }
 
   /* Show desktop nav */
@@ -424,7 +423,7 @@ body {
 
   .nav-actions {
     display: flex;
-    gap: 16px;
+    gap: var(--sp-2);
     align-items: center;
   }
 
@@ -433,7 +432,6 @@ body {
     display: none;
   }
 
-  /* Logo: full-size */
   .logo img {
     height: 65px;
     max-width: 260px;
@@ -455,61 +453,56 @@ body {
     justify-content: flex-start;
   }
 
-  /* Grid: auto-fit */
   .grid {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: var(--sp-4);
   }
 
-  /* Service blocks: 2 columns */
   .service-block {
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: var(--sp-8);
   }
 
-  /* About grid */
   .about-grid,
   .about-two-col {
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: var(--sp-8);
   }
 
-  /* About badge: back to absolute on desktop */
   .about-badge {
     position: absolute !important;
     bottom: 20px !important;
     left: -20px !important;
     margin-top: 0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 
-  /* Contact layout: 2 columns */
   .contact-layout {
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: var(--sp-8);
   }
 
-  /* Mission grid */
   .mission-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: var(--sp-5);
   }
 
-  /* Locations: 3 columns */
   .locations-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: var(--sp-4);
   }
 
-  /* Footer: multi-column */
   .footer .grid {
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-    gap: 30px;
+    gap: var(--sp-4);
   }
 
-  /* Maps */
   .map-container iframe {
     height: 450px;
+  }
+
+  /* Testimonial cards wider */
+  .testimonial-card {
+    width: 360px;
   }
 }
 

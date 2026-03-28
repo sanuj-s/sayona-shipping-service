@@ -63,7 +63,7 @@
     border: none;
     outline: none;
     font-size: 17px;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     font-weight: 500;
     color: #0d1e38;
     background: transparent;
@@ -80,7 +80,7 @@
     border-radius: 5px;
     padding: 2px 8px;
     font-size: 11px;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     font-weight: 600;
     color: #64748b;
     line-height: 1.6;
@@ -233,7 +233,7 @@
     border-radius: 4px;
     padding: 1px 6px;
     font-size: 11px;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-body);
     font-weight: 600;
     color: #64748b;
 }
