@@ -643,7 +643,7 @@ html.dark-mode .corporate-nav {
 .service-text h2 {
   font-size: clamp(22px, 3vw, 36px);
   margin-bottom: var(--sp-2);
-  color: var(--secondary);
+  color: var(--text-main);
 }
 
 .service-text p {
@@ -1464,4 +1464,268 @@ html.dark-mode .tracking-error {
 .btn-loading {
   pointer-events: none;
   opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════
+   DARK MODE — Comprehensive Overrides
+   ═══════════════════════════════════════════════ */
+
+/* --- Dropdown Menu --- */
+html.dark-mode .dropdown-menu,
+:root:not(.light-mode) .dropdown-menu {
+  border-top-color: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .dropdown-menu {
+    background: #1e293b;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  }
+  :root:not(.light-mode) .dropdown-menu a:hover {
+    background: rgba(232, 168, 56, 0.1);
+  }
+  :root:not(.light-mode) .mega-menu h4 {
+    color: #f1f5f9;
+  }
+}
+
+html.dark-mode .dropdown-menu {
+  background: #1e293b;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+html.dark-mode .dropdown-menu a:hover {
+  background: rgba(232, 168, 56, 0.1);
+}
+
+html.dark-mode .mega-menu h4 {
+  color: #f1f5f9;
+}
+
+/* --- Service Text Headings (hardcoded --secondary is invisible in dark) --- */
+html.dark-mode .service-text h2 {
+  color: var(--text-main);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .service-text h2 {
+    color: var(--text-main);
+  }
+}
+
+/* --- CTA Section --- */
+html.dark-mode .cta-section {
+  background: var(--background);
+}
+
+html.dark-mode .cta-section h2 {
+  color: var(--accent);
+}
+
+html.dark-mode .cta-section p {
+  color: var(--text-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .cta-section {
+    background: var(--background);
+  }
+  :root:not(.light-mode) .cta-section h2 {
+    color: var(--accent);
+  }
+  :root:not(.light-mode) .cta-section p {
+    color: var(--text-secondary);
+  }
+}
+
+/* --- Stats Section --- */
+html.dark-mode .stats-section {
+  background: var(--background);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .stats-section {
+    background: var(--background);
+  }
+}
+
+/* --- Top Bar --- */
+html.dark-mode .top-bar {
+  background: #071A33;
+  border-bottom-color: #1e293b;
+}
+
+html.dark-mode .top-bar span,
+html.dark-mode .top-bar a {
+  color: #94a3b8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .top-bar {
+    background: #071A33;
+    border-bottom-color: #1e293b;
+  }
+  :root:not(.light-mode) .top-bar span,
+  :root:not(.light-mode) .top-bar a {
+    color: #94a3b8;
+  }
+}
+
+/* --- Tracking Error --- */
+html.dark-mode .tracking-error h3 {
+  color: #fc8181;
+}
+
+html.dark-mode .tracking-error p {
+  color: #feb2b2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .tracking-error h3 {
+    color: #fc8181;
+  }
+  :root:not(.light-mode) .tracking-error p {
+    color: #feb2b2;
+  }
+}
+
+/* --- Form Inputs in dark mode --- */
+html.dark-mode input::placeholder,
+html.dark-mode textarea::placeholder,
+html.dark-mode select.form-control {
+  color: #64748b;
+}
+
+html.dark-mode input,
+html.dark-mode .form-control,
+html.dark-mode select.form-control {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+html.dark-mode input:focus,
+html.dark-mode .form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) input::placeholder,
+  :root:not(.light-mode) textarea::placeholder {
+    color: #64748b;
+  }
+  :root:not(.light-mode) input,
+  :root:not(.light-mode) .form-control,
+  :root:not(.light-mode) select.form-control {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+  :root:not(.light-mode) input:focus,
+  :root:not(.light-mode) .form-control:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.15);
+  }
+}
+
+/* --- Industries Section in dark mode --- */
+html.dark-mode .industries-section {
+  background: var(--background);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .industries-section {
+    background: var(--background);
+  }
+}
+
+/* --- About Badge in dark mode --- */
+html.dark-mode .about-badge {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .about-badge {
+    background: #1e293b;
+    border-color: #334155;
+  }
+}
+
+/* --- Service Card images keep visible in dark --- */
+html.dark-mode .service-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .service-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+}
+
+/* --- Testimonial section --- */
+html.dark-mode .testimonials-section {
+  background: var(--background);
+}
+
+html.dark-mode .testimonial-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .testimonials-section {
+    background: var(--background);
+  }
+  :root:not(.light-mode) .testimonial-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+}
+
+/* --- CTA Inner Card in dark --- */
+html.dark-mode .cta-inner {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+html.dark-mode .cta-inner::before {
+  opacity: 0.15;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .cta-inner {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  :root:not(.light-mode) .cta-inner::before {
+    opacity: 0.15;
+  }
+}
+
+/* --- Contact section title in dark --- */
+html.dark-mode .contact-section-title,
+html.dark-mode .highlight {
+  color: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .contact-section-title,
+  :root:not(.light-mode) .highlight {
+    color: var(--accent);
+  }
+}
+
+/* --- Service block even rows in dark --- */
+html.dark-mode .service-block:nth-child(even) {
+  background: #1e293b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .service-block:nth-child(even) {
+    background: #1e293b;
+  }
 }
