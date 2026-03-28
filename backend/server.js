@@ -2,6 +2,7 @@
 // Server Entry Point — Sayona Shipping Service
 // Enterprise-grade logistics platform
 // ─────────────────────────────────────────────
+require('dotenv').config();
 require('./src/config/tracer'); // OpenTelemetry MUST be required first!
 
 const app = require('./src/app');

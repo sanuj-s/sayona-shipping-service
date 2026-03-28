@@ -1,7 +1,8 @@
-// Create shipment form handler — adapted for v1 API
+// Create shipment form handler — v1 API
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     if (!requireAuth()) return;
+    await loadSidebar();
     initAdminUI();
 
     const form = document.getElementById('createShipmentForm');
@@ -22,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const h = parseFloat(heightInput.value) || 0;
         const service = serviceInput.value;
 
-        // Base Rates matching PricingService.js
         const rates = {
             standard: { base: 50, w: 5, d: 0.5, m: 1.0 },
             express: { base: 100, w: 8, d: 0.8, m: 1.5 },
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const config = rates[service] || rates.standard;
-        const distMock = 500; // Mock 500km distance for preview
+        const distMock = 500;
 
         const total = (config.base + (w * config.w) + (distMock * config.d)) * config.m;
         pricePreview.textContent = `$${total.toFixed(2)}`;
@@ -91,5 +91,4 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = 'Create Shipment';
         }
     });
-
 });

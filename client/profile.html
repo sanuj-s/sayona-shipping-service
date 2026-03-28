@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sayona Shipping Service - Premium global logistics and freight forwarding solutions.">
+    <meta name="description"
+        content="Sayona Shipping Service - Premium global logistics and freight forwarding solutions.">
 
     <title>Profile — Sayona Client Portal</title>
     <link rel="icon" href="../logo.png">
@@ -15,29 +16,9 @@
 
 <body>
     <div class="portal-layout">
-        <aside class="portal-sidebar">
-            <div class="sidebar-brand">
-                <h2>🚢 Sayona Shipping</h2><span>Client Portal</span>
-            </div>
-            <nav class="sidebar-nav">
-                <a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
-                <a href="shipments.html"><i class="fas fa-box"></i> My Shipments</a>
-                <a href="track.html"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
-                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
-                <a href="../index.html"><i class="fas fa-globe"></i> Back to Website</a>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="sidebar-user">
-                    <div class="user-avatar" id="sidebarAvatar">U</div>
-                    <div class="user-info">
-                        <div class="user-name" id="sidebarUserName">User</div>
-                        <div class="user-email" id="sidebarUserEmail">user@email.com</div>
-                    </div>
-                    <button class="btn-logout" id="logoutBtn" title="Logout"><i
-                            class="fas fa-sign-out-alt"></i></button>
-                </div>
-            </div>
-        </aside>
+
+        <!-- Sidebar Mount Point -->
+        <div id="client-sidebar-mount"></div>
 
         <main class="portal-main">
             <div class="portal-topbar">
@@ -93,7 +74,8 @@
                 <p style="color:var(--cp-text-secondary); margin-bottom:16px;">
                     To change your password or update sensitive account details, please contact our support team.
                 </p>
-                <a href="../contact.html" class="btn-portal" style="width:auto; display:inline-block; padding:12px 28px;">
+                <a href="../contact.html" class="btn-portal"
+                    style="width:auto; display:inline-block; padding:12px 28px;">
                     <i class="fas fa-headset"></i> Contact Support
                 </a>
             </div>
@@ -101,64 +83,7 @@
     </div>
 
     <script src="js/portal.js"></script>
-    <script>
-        if (!requireAuth()) throw new Error('Not authenticated');
-        initSidebar();
-
-        async function loadProfile() {
-            try {
-                const user = await PortalAPI.getProfile();
-                document.getElementById('profileAvatar').textContent = user.name?.charAt(0).toUpperCase() || 'U';
-                document.getElementById('profileName').textContent = user.name || '—';
-                document.getElementById('profileRole').textContent = (user.role || 'Employee').charAt(0).toUpperCase() + (user.role || 'employee').slice(1);
-
-                document.getElementById('pName').value = user.name || '';
-                document.getElementById('pEmail').value = user.email || '';
-                document.getElementById('pPhone').value = user.phone || '';
-                document.getElementById('pCompany').value = user.company || '';
-                document.getElementById('pAddress').value = user.address || '';
-            } catch (err) {
-                showToast(err.message, 'error');
-            }
-        }
-
-        document.getElementById('profileForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('saveProfileBtn');
-            btn.textContent = 'Saving...';
-            btn.disabled = true;
-
-            try {
-                const data = {
-                    name: document.getElementById('pName').value,
-                    phone: document.getElementById('pPhone').value,
-                    company: document.getElementById('pCompany').value,
-                    address: document.getElementById('pAddress').value,
-                };
-
-                const updated = await PortalAPI.updateProfile(data);
-                showToast('Profile updated successfully!', 'success');
-
-                // Update local storage and DOM
-                const oldAuth = JSON.parse(localStorage.getItem('client_user') || '{}');
-                oldAuth.name = updated.name;
-                localStorage.setItem('client_user', JSON.stringify(oldAuth));
-
-                document.getElementById('profileName').textContent = updated.name;
-                document.getElementById('profileAvatar').textContent = updated.name.charAt(0).toUpperCase();
-                document.getElementById('sidebarUserName').textContent = updated.name;
-                document.getElementById('sidebarAvatar').textContent = updated.name.charAt(0).toUpperCase();
-
-            } catch (err) {
-                showToast(err.message, 'error');
-            } finally {
-                btn.textContent = 'Save Changes';
-                btn.disabled = false;
-            }
-        });
-
-        loadProfile();
-    </script>
+    <script src="js/profile.js"></script>
 </body>
 
 </html>

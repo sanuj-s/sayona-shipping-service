@@ -1,7 +1,8 @@
-// Contacts management page — adapted for v1 API
+// Contacts management — XSS-safe, textContent for messages, event delegation
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     if (!requireAuth()) return;
+    await loadSidebar();
     initAdminUI();
     loadContacts();
 
@@ -10,6 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchInput) searchInput.addEventListener('input', debounce(filterContacts, 300));
     if (statusFilter) statusFilter.addEventListener('change', filterContacts);
+
+    // Event delegation for view buttons
+    const tbody = document.getElementById('contactsBody');
+    if (tbody) {
+        tbody.addEventListener('click', (e) => {
+            const viewBtn = e.target.closest('[data-view-uuid]');
+            if (viewBtn) {
+                viewContact(viewBtn.dataset.viewUuid);
+            }
+        });
+    }
+
+    // Modal buttons
+    const closeBtn = document.getElementById('closeContactModalBtn');
+    const markReadBtn = document.getElementById('markReadBtn');
+    if (closeBtn) closeBtn.addEventListener('click', closeViewModal);
+    if (markReadBtn) markReadBtn.addEventListener('click', markAsRead);
 });
 
 let allContacts = [];
@@ -17,14 +35,16 @@ let currentContact = null;
 
 async function loadContacts() {
     const tbody = document.getElementById('contactsBody');
-    tbody.innerHTML = '<tr><td colspan="5"><div class="spinner"></div></td></tr>';
+    tbody.innerHTML = renderSkeletonRows(5, 5);
 
     try {
-        allContacts = await getContactsAPI();
+        const result = await getContactsAPI({ limit: 100 });
+        allContacts = result.data || result;
+        if (!Array.isArray(allContacts)) allContacts = [];
         renderContacts(allContacts);
     } catch (error) {
         showToast('Failed to load contacts: ' + error.message, 'error');
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><p>Failed to load</p></td></tr>';
+        tbody.innerHTML = renderEmptyState(5, '⚠️', 'Failed to load', 'Please try again later.');
     }
 }
 
@@ -57,7 +77,7 @@ function renderContacts(contacts) {
     if (countEl) countEl.textContent = `${contacts.length} message${contacts.length !== 1 ? 's' : ''}`;
 
     if (contacts.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><div class="empty-icon">💬</div><p>No contact messages found</p></td></tr>`;
+        tbody.innerHTML = renderEmptyState(5, '💬', 'No contact messages', 'No messages match your current filters.');
         return;
     }
 
@@ -65,17 +85,17 @@ function renderContacts(contacts) {
         const isRead = c.isRead;
         return `
         <tr class="${isRead ? 'row-read' : 'row-unread'}">
-            <td>${formatDate(c.createdAt)}</td>
+            <td>${formatDateTime(c.createdAt)}</td>
             <td>
-                <strong>${c.name}</strong>
-                <div style="font-size: 0.85em; color: var(--text-muted);">${c.email}</div>
+                <strong>${escapeHtml(c.name)}</strong>
+                <div style="font-size: 0.85em; color: var(--text-muted);">${escapeHtml(c.email)}</div>
             </td>
-            <td>${c.subject || 'General Inquiry'}</td>
+            <td>${escapeHtml(c.subject || 'General Inquiry')}</td>
             <td>
-                ${isRead ? '<span class="badge" style="background:#e2e8f0;color:#475569;">Read</span>' : '<span class="badge badge-pending">Unread</span>'}
+                ${isRead ? '<span class="badge" style="background:rgba(226,232,240,0.15);color:#94a3b8;">Read</span>' : '<span class="badge badge-pending">Unread</span>'}
             </td>
             <td>
-                <button class="btn btn-outline btn-sm" onclick="viewContact('${c.uuid}')">👁 View</button>
+                <button class="btn btn-outline btn-sm" data-view-uuid="${escapeHtml(c.uuid)}">👁 View</button>
             </td>
         </tr>
     `}).join('');
@@ -89,15 +109,26 @@ function viewContact(uuid) {
     const details = document.getElementById('contactDetails');
     const isRead = contact.isRead;
 
-    details.innerHTML = `
-        <strong>Name:</strong> ${contact.name}<br>
-        <strong>Email:</strong> <a href="mailto:${contact.email}">${contact.email}</a><br>
-        <strong>Phone:</strong> ${contact.phone || 'N/A'}<br>
-        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
-        <strong>Subject:</strong> ${contact.subject || 'General Inquiry'}<br>
+    // Build details safely using DOM manipulation for message
+    details.innerHTML = '';
+
+    // Info section
+    const infoHtml = document.createElement('div');
+    infoHtml.innerHTML = `
+        <strong>Name:</strong> ${escapeHtml(contact.name)}<br>
+        <strong>Email:</strong> <a href="mailto:${escapeHtml(contact.email)}">${escapeHtml(contact.email)}</a><br>
+        <strong>Phone:</strong> ${escapeHtml(contact.phone || 'N/A')}<br>
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.08);">
+        <strong>Subject:</strong> ${escapeHtml(contact.subject || 'General Inquiry')}<br>
         <strong>Message:</strong><br>
-        <div style="background: #f9f9f9; padding: 10px; border-radius: 4px; border: 1px solid #e2e8f0; margin-top: 5px; white-space: pre-wrap;">${contact.message || ''}</div>
     `;
+    details.appendChild(infoHtml);
+
+    // Message content — use textContent for user-submitted free text
+    const messageDiv = document.createElement('div');
+    messageDiv.style.cssText = 'background: rgba(255,255,255,0.04); padding: 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.08); margin-top: 5px; white-space: pre-wrap; color: var(--text-secondary);';
+    messageDiv.textContent = contact.message || '';
+    details.appendChild(messageDiv);
 
     const markReadBtn = document.getElementById('markReadBtn');
     if (isRead) {
@@ -125,18 +156,4 @@ async function markAsRead() {
     } catch (err) {
         showToast(err.message, 'error');
     }
-}
-
-function formatDate(dateStr) {
-    if (!dateStr) return '—';
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-}
-
-function debounce(fn, delay) {
-    let timer;
-    return function (...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-    };
 }

@@ -1,29 +1,20 @@
 // ─────────────────────────────────────────────
 // Database Configuration — PostgreSQL Pool
+// SSL is FORCE DISABLED (VPS PostgreSQL has no SSL)
 // ─────────────────────────────────────────────
 const { Pool } = require('pg');
-const config = require('./environment');
 const logger = require('./logger');
 
-const poolConfig = config.db.url
-    ? {
-        connectionString: config.db.url,
-        ssl: config.db.ssl ? { rejectUnauthorized: false } : false,
-    }
-    : {
-        host: config.db.host,
-        port: config.db.port,
-        user: config.db.user,
-        password: config.db.password,
-        database: config.db.name,
-        ssl: config.db.ssl ? { rejectUnauthorized: false } : false,
-    };
-
 const pool = new Pool({
-    ...poolConfig,
-    max: config.db.poolMax,
-    idleTimeoutMillis: config.db.idleTimeoutMs,
-    connectionTimeoutMillis: config.db.connectionTimeoutMs,
+    host: process.env.DB_HOST || '127.0.0.1',
+    port: parseInt(process.env.DB_PORT, 10) || 5432,
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'postgres',
+    database: process.env.DB_NAME || 'postgres',
+    ssl: false,
+    max: parseInt(process.env.DB_POOL_MAX, 10) || 20,
+    idleTimeoutMillis: parseInt(process.env.DB_IDLE_TIMEOUT, 10) || 30000,
+    connectionTimeoutMillis: parseInt(process.env.DB_CONN_TIMEOUT, 10) || 5000,
 });
 
 pool.on('connect', () => {
@@ -34,12 +25,6 @@ pool.on('error', (err) => {
     logger.error('Unexpected PostgreSQL pool error', { error: err.message });
 });
 
-/**
- * Execute a query with logging
- * @param {string} text - SQL query
- * @param {Array} params - Query parameters
- * @returns {Promise<import('pg').QueryResult>}
- */
 const query = async (text, params) => {
     const start = Date.now();
     try {
@@ -60,24 +45,14 @@ const query = async (text, params) => {
     }
 };
 
-/**
- * Get a client for transactions
- * @returns {Promise<import('pg').PoolClient>}
- */
 const getClient = async () => {
     return pool.connect();
 };
 
-/**
- * Test database connectivity
- */
 const testConnection = async () => {
     await pool.query('SELECT 1');
 };
 
-/**
- * Close all connections
- */
 const close = async () => {
     await pool.end();
 };

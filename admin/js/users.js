@@ -1,12 +1,12 @@
-// Users management page — adapted for v1 API
+// Users management — XSS-safe, event delegation
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     if (!requireAuth()) return;
+    await loadSidebar();
     initAdminUI();
     loadUsers();
 
     const searchInput = document.getElementById('searchInput');
-
     if (searchInput) searchInput.addEventListener('input', debounce(filterUsers, 300));
 });
 
@@ -14,14 +14,16 @@ let allUsers = [];
 
 async function loadUsers() {
     const tbody = document.getElementById('usersBody');
-    tbody.innerHTML = '<tr><td colspan="5"><div class="spinner"></div></td></tr>';
+    tbody.innerHTML = renderSkeletonRows(5, 5);
 
     try {
-        allUsers = await getUsersAPI();
+        const result = await getUsersAPI({ limit: 100 });
+        allUsers = result.data || result;
+        if (!Array.isArray(allUsers)) allUsers = [];
         renderUsers(allUsers);
     } catch (error) {
         showToast('Failed to load users: ' + error.message, 'error');
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><p>Failed to load</p></td></tr>';
+        tbody.innerHTML = renderEmptyState(5, '⚠️', 'Failed to load', 'Please try again later.');
     }
 }
 
@@ -48,7 +50,7 @@ function renderUsers(users) {
     if (countEl) countEl.textContent = `${users.length} user${users.length !== 1 ? 's' : ''}`;
 
     if (users.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><div class="empty-icon">👥</div><p>No users found</p></td></tr>`;
+        tbody.innerHTML = renderEmptyState(5, '👥', 'No users found', 'No registered users match your search criteria.');
         return;
     }
 
@@ -56,12 +58,12 @@ function renderUsers(users) {
         <tr>
             <td>${formatDate(u.createdAt)}</td>
             <td>
-                <strong>${u.name}</strong>
-                <div style="font-size: 0.85em; color: var(--text-muted);"><a href="mailto:${u.email}">${u.email}</a></div>
-                <div style="font-size: 0.85em; color: var(--text-muted);">${u.phone || ''}</div>
+                <strong>${escapeHtml(u.name)}</strong>
+                <div style="font-size: 0.85em; color: var(--text-muted);"><a href="mailto:${escapeHtml(u.email)}">${escapeHtml(u.email)}</a></div>
+                <div style="font-size: 0.85em; color: var(--text-muted);">${escapeHtml(u.phone || '')}</div>
             </td>
-            <td>${u.company || '—'}</td>
-            <td><span class="badge ${u.role === 'admin' ? 'badge-delivered' : u.role === 'staff' ? 'badge-transit' : 'badge-pending'}">${u.role || 'client'}</span></td>
+            <td>${escapeHtml(u.company || '—')}</td>
+            <td><span class="badge ${u.role === 'admin' ? 'badge-delivered' : u.role === 'staff' ? 'badge-transit' : 'badge-pending'}">${escapeHtml(u.role || 'client')}</span></td>
             <td>
                 <span style="color: #94a3b8; font-size: 0.85em;">
                     ${u.isVerified ? '✅ Verified' : '⏳ Unverified'}
@@ -70,18 +72,4 @@ function renderUsers(users) {
             </td>
         </tr>
     `).join('');
-}
-
-function formatDate(dateStr) {
-    if (!dateStr) return '—';
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-}
-
-function debounce(fn, delay) {
-    let timer;
-    return function (...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-    };
 }

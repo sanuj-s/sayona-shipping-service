@@ -15,36 +15,8 @@
 <body>
     <div class="app-layout">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <h2>Sayona Shipping</h2>
-                <span>Admin Panel</span>
-            </div>
-            <ul class="sidebar-nav">
-                <li><a href="dashboard.html">
-                        <span class="nav-icon">📊</span> Dashboard
-                    </a></li>
-                <li><a href="shipments.html">
-                        <span class="nav-icon">📦</span> Shipments
-                    </a></li>
-                <li><a href="create-shipment.html">
-                        <span class="nav-icon">➕</span> Create Shipment
-                    </a></li>
-                <li><a href="quotes.html" class="active">
-                        <span class="nav-icon">📄</span> Quotes
-                    </a></li>
-                <li><a href="contacts.html">
-                        <span class="nav-icon">💬</span> Contacts
-                    </a></li>
-                <li><a href="users.html">
-                        <span class="nav-icon">👥</span> Users
-                    </a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <button id="logoutBtn" class="btn btn-outline btn-sm">🚪 Logout</button>
-            </div>
-        </aside>
+        <!-- Sidebar Mount Point -->
+        <div id="sidebar-mount"></div>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -118,14 +90,15 @@
                 </select>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-outline btn-sm" onclick="closeViewModal()">Close</button>
-                <button class="btn btn-primary btn-sm" onclick="saveStatus()">Save Status</button>
+                <button class="btn btn-outline btn-sm" id="closeQuoteModalBtn">Close</button>
+                <button class="btn btn-primary btn-sm" id="saveQuoteStatusBtn">Save Status</button>
             </div>
         </div>
     </div>
 
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="js/quotes.js"></script>
 </body>
 

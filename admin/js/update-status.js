@@ -1,7 +1,8 @@
-// Update shipment status page — adapted for v1 API
+// Update shipment status page — XSS-safe
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     if (!requireAuth()) return;
+    await loadSidebar();
     initAdminUI();
 
     const params = new URLSearchParams(window.location.search);
@@ -26,31 +27,31 @@ async function loadShipmentDetail(trackingNumber) {
         grid.innerHTML = `
             <div class="detail-item">
                 <label>Tracking Number</label>
-                <div class="value tracking-id">${shipment.trackingNumber}</div>
+                <div class="value tracking-id">${escapeHtml(shipment.trackingNumber)}</div>
             </div>
             <div class="detail-item">
                 <label>Status</label>
-                <div class="value"><span class="badge badge-${getStatusClass(shipment.status)}">${shipment.status}</span></div>
+                <div class="value"><span class="badge badge-${getStatusClass(shipment.status)}">${escapeHtml(shipment.status)}</span></div>
             </div>
             <div class="detail-item">
                 <label>Sender</label>
-                <div class="value">${shipment.senderName}</div>
+                <div class="value">${escapeHtml(shipment.senderName)}</div>
             </div>
             <div class="detail-item">
                 <label>Receiver</label>
-                <div class="value">${shipment.receiverName}</div>
+                <div class="value">${escapeHtml(shipment.receiverName)}</div>
             </div>
             <div class="detail-item">
                 <label>Origin</label>
-                <div class="value">${shipment.origin || '—'}</div>
+                <div class="value">${escapeHtml(shipment.origin || '—')}</div>
             </div>
             <div class="detail-item">
                 <label>Destination</label>
-                <div class="value">${shipment.destination || '—'}</div>
+                <div class="value">${escapeHtml(shipment.destination || '—')}</div>
             </div>
             <div class="detail-item">
                 <label>Current Location</label>
-                <div class="value">${shipment.currentLocation || '—'}</div>
+                <div class="value">${escapeHtml(shipment.currentLocation || '—')}</div>
             </div>
             <div class="detail-item">
                 <label>Created</label>
@@ -69,15 +70,15 @@ async function loadTrackingHistory(trackingNumber) {
         const history = data.history || [];
 
         if (history.length === 0) {
-            timeline.innerHTML = '<div class="empty-state"><p>No tracking events yet</p></div>';
+            timeline.innerHTML = '<div class="empty-state"><div class="empty-icon">📍</div><p class="empty-title">No tracking events yet</p><p class="empty-subtitle">Update the status to add the first event.</p></div>';
             return;
         }
 
         timeline.innerHTML = history.map(event => `
             <div class="timeline-item">
-                <div class="tl-status">${event.status}</div>
-                <div class="tl-location">📍 ${event.location}</div>
-                ${event.description ? `<div class="tl-desc" style="font-size:0.85em;color:#64748b;">${event.description}</div>` : ''}
+                <div class="tl-status">${escapeHtml(event.status)}</div>
+                <div class="tl-location">📍 ${escapeHtml(event.location)}</div>
+                ${event.description ? `<div class="tl-desc" style="font-size:0.85em;color:#64748b;">${escapeHtml(event.description)}</div>` : ''}
                 <div class="tl-time">${formatDateTime(event.createdAt)}</div>
             </div>
         `).join('');
@@ -113,11 +114,9 @@ function initUpdateForm(trackingNumber) {
 
             showToast('Status updated successfully!', 'success');
 
-            // Reload data
             loadShipmentDetail(trackingNumber);
             loadTrackingHistory(trackingNumber);
 
-            // Reset form
             form.reset();
             submitBtn.disabled = false;
             submitBtn.textContent = 'Update Status';
@@ -126,30 +125,5 @@ function initUpdateForm(trackingNumber) {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Update Status';
         }
-    });
-}
-
-function getStatusClass(status) {
-    if (!status) return 'created';
-    const s = status.toLowerCase().replace(/[_\s]+/g, '-');
-    if (s.includes('created')) return 'pending';
-    if (s.includes('transit') || s.includes('out-for')) return 'transit';
-    if (s.includes('deliver')) return 'delivered';
-    if (s.includes('cancel')) return 'cancelled';
-    return 'created';
-}
-
-function formatDate(dateStr) {
-    if (!dateStr) return '—';
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-}
-
-function formatDateTime(dateStr) {
-    if (!dateStr) return '—';
-    const d = new Date(dateStr);
-    return d.toLocaleString('en-IN', {
-        day: '2-digit', month: 'short', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
     });
 }

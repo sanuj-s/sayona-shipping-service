@@ -10,7 +10,6 @@ function requireAuth() {
 }
 
 function logout() {
-    // Revoke refresh token on server
     const refreshToken = localStorage.getItem('admin_refresh_token');
     if (refreshToken) {
         fetch('/api/v1/auth/logout', {
@@ -20,7 +19,7 @@ function logout() {
                 'Authorization': `Bearer ${localStorage.getItem('admin_token')}`,
             },
             body: JSON.stringify({ refreshToken }),
-        }).catch(() => { }); // Fire and forget
+        }).catch(() => { });
     }
 
     localStorage.removeItem('admin_token');
@@ -33,30 +32,14 @@ function getAdminName() {
     return localStorage.getItem('admin_name') || 'Admin';
 }
 
-// Set admin name in topbar
+// Set admin name in topbar — active-state logic is now in sidebar.js
 function initAdminUI() {
     const nameEl = document.getElementById('adminName');
     if (nameEl) {
         nameEl.textContent = getAdminName();
     }
-
-    // Logout button
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            logout();
-        });
-    }
-
-    // Highlight current nav item
-    const currentPage = window.location.pathname.split('/').pop();
-    document.querySelectorAll('.sidebar-nav a').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && href.includes(currentPage)) {
-            link.classList.add('active');
-        }
-    });
+    // NOTE: Logout button wiring and active-state nav highlighting
+    // are handled by sidebar.js loadSidebar() — not here.
 }
 
 // Login form handler
@@ -66,7 +49,6 @@ function initLoginForm() {
 
     if (!form) return;
 
-    // If already logged in, redirect
     if (localStorage.getItem('admin_token')) {
         window.location.href = '/admin/dashboard.html';
         return;
@@ -92,7 +74,6 @@ function initLoginForm() {
         try {
             const data = await loginAPI(email, password);
 
-            // Check that the user has admin or staff role
             if (data.user && data.user.role !== 'admin' && data.user.role !== 'staff') {
                 errorEl.textContent = 'Access denied. Admin or staff account required.';
                 errorEl.classList.add('show');
@@ -101,7 +82,6 @@ function initLoginForm() {
                 return;
             }
 
-            // New API returns { user, accessToken, refreshToken }
             localStorage.setItem('admin_token', data.accessToken);
             localStorage.setItem('admin_name', data.user?.name || 'Admin');
             if (data.refreshToken) {

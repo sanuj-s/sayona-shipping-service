@@ -91,7 +91,7 @@ const { error: validationError, value: env } = envSchema.validate(process.env, {
 
 if (validationError) {
     const details = validationError.details.map(d => `  ✗ ${d.message}`).join('\n');
-    console.error(`❌ Environment validation failed:\n${details}`);
+    console.error(`❌ Environment validation failed:\n${details}\n💡 Please check your .env file or environment variables.`);
     if (env.NODE_ENV !== 'test') {
         process.exit(1);
     }
@@ -123,7 +123,7 @@ const config = {
         poolMax: parseInt(env.DB_POOL_MAX, 10),
         idleTimeoutMs: parseInt(env.DB_IDLE_TIMEOUT, 10),
         connectionTimeoutMs: parseInt(env.DB_CONN_TIMEOUT, 10),
-        ssl: env.NODE_ENV === 'production' || env.DB_SSL === 'true',
+        ssl: env.DB_SSL === 'true',
     },
 
     jwt: {

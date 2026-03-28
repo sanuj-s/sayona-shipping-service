@@ -1,12 +1,18 @@
 // ─── Client Portal API Helper — v1 API ───
 const API_BASE = `${window.location.origin}/api/v1`;
 
+// ─── XSS Protection ───
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
+
 const PortalAPI = {
     getToken: () => localStorage.getItem('client_token'),
     getUser: () => JSON.parse(localStorage.getItem('client_user') || 'null'),
 
     setAuth: (data) => {
-        // Handle both v1 envelope ({ user, accessToken }) and legacy flat ({ token, name })
         const token = data.accessToken || data.token;
         localStorage.setItem('client_token', token);
         if (data.refreshToken) {
@@ -22,11 +28,10 @@ const PortalAPI = {
     },
 
     clearAuth: () => {
-        // Try to revoke refresh token
         const refreshToken = localStorage.getItem('client_refresh_token');
         const token = localStorage.getItem('client_token');
         if (refreshToken && token) {
-            fetch(`${BASE_URL}/api/v1/auth/logout`, {
+            fetch(`${API_BASE}/auth/logout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,12 +73,9 @@ const PortalAPI = {
                                 const refreshJson = await refreshRes.json();
                                 const data = refreshJson.data || refreshJson;
                                 PortalAPI.setAuth(data);
-                                // Retry the original request
                                 return PortalAPI.request(endpoint, options, true);
                             }
-                        } catch (refreshErr) {
-                            // Refresh failed, fall through to logout
-                        }
+                        } catch (refreshErr) { }
                     }
 
                     PortalAPI.clearAuth();
@@ -88,7 +90,6 @@ const PortalAPI = {
                 throw new Error(errorMsg);
             }
 
-            // Unwrap response envelope
             return json.data !== undefined ? json.data : json;
         } catch (err) {
             if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
@@ -117,18 +118,48 @@ const PortalAPI = {
         method: 'PUT', body: JSON.stringify(data)
     }),
 
-    // Shipments — returns paginated data, extract the array
-    getShipments: async () => {
-        const result = await PortalAPI.request('/shipments?limit=100');
-        return result.data || result;
+    // Shipments (paginated)
+    getShipments: async (params = {}) => {
+        const defaults = { page: 1, limit: 20 };
+        const merged = { ...defaults, ...params };
+        const query = new URLSearchParams();
+        if (merged.page) query.set('page', merged.page);
+        if (merged.limit) query.set('limit', merged.limit);
+        if (merged.status) query.set('status', merged.status);
+        if (merged.search) query.set('search', merged.search);
+
+        const result = await PortalAPI.request(`/shipments?${query.toString()}`);
+        return result;
     },
+
     getShipment: (tracking) => PortalAPI.request(`/shipments/${tracking}`),
 
     // Tracking
     getTracking: (tracking) => PortalAPI.request(`/tracking/${tracking}`),
+
+    // Create Shipment
+    createShipment: (data) => PortalAPI.request('/shipments', {
+        method: 'POST', body: JSON.stringify(data),
+    }),
+
+    // Secure invoice download (no JWT in URL)
+    downloadInvoice: async (trackingNumber) => {
+        const token = PortalAPI.getToken();
+        const res = await fetch(`${API_BASE}/shipments/${encodeURIComponent(trackingNumber)}/invoice`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+        });
+        if (!res.ok) throw new Error('Failed to download invoice');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `invoice-${trackingNumber}.pdf`;
+        link.click();
+        URL.revokeObjectURL(url);
+    },
 };
 
-// ─── Toast Notifications ───
+// ─── Toast Notifications (Safe — no innerHTML) ───
 function showToast(message, type = 'success') {
     const existing = document.querySelector('.cp-toast');
     if (existing) existing.remove();
@@ -149,20 +180,34 @@ function requireAuth() {
     return true;
 }
 
-// ─── Init Sidebar User ───
-function initSidebar() {
+// ─── Sidebar Component Loader ───
+// ALL sidebar logic lives here — active state, user info, logout.
+async function loadClientSidebar() {
+    const mount = document.getElementById('client-sidebar-mount');
+    if (!mount) return;
+
+    try {
+        const res = await fetch('/client/components/sidebar.html');
+        if (!res.ok) throw new Error('Failed');
+        mount.innerHTML = await res.text();
+    } catch (e) {
+        mount.innerHTML = '<aside class="portal-sidebar"><div class="sidebar-brand"><h2>🚢 Sayona</h2></div></aside>';
+    }
+
+    // Populate user info synchronously from localStorage
     const user = PortalAPI.getUser();
-    if (!user) return;
+    if (user) {
+        const nameEl = document.getElementById('sidebarUserName');
+        const emailEl = document.getElementById('sidebarUserEmail');
+        const avatarEl = document.getElementById('sidebarAvatar');
 
-    const nameEl = document.getElementById('sidebarUserName');
-    const emailEl = document.getElementById('sidebarUserEmail');
-    const avatarEl = document.getElementById('sidebarAvatar');
+        if (nameEl) nameEl.textContent = user.name || 'User';
+        if (emailEl) emailEl.textContent = user.email || '';
+        if (avatarEl) avatarEl.textContent = (user.name || 'U').charAt(0).toUpperCase();
+    }
+
+    // Logout handler
     const logoutBtn = document.getElementById('logoutBtn');
-
-    if (nameEl) nameEl.textContent = user.name;
-    if (emailEl) emailEl.textContent = user.email;
-    if (avatarEl) avatarEl.textContent = user.name.charAt(0).toUpperCase();
-
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             PortalAPI.clearAuth();
@@ -170,7 +215,7 @@ function initSidebar() {
         });
     }
 
-    // Highlight active nav
+    // Active nav state
     const currentPage = window.location.pathname.split('/').pop();
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
         if (link.getAttribute('href') === currentPage) {
@@ -179,7 +224,7 @@ function initSidebar() {
     });
 }
 
-// ─── Status badge helper ───
+// ─── Status badge helper (XSS-safe) ───
 function statusBadge(status) {
     const s = (status || '').toLowerCase().replace(/[_\s]+/g, '-');
     const cls = s.includes('delivered') ? 'delivered'
@@ -187,12 +232,48 @@ function statusBadge(status) {
             : s.includes('created') ? 'pending'
                 : s.includes('cancel') ? 'cancelled'
                     : 'pending';
-    return `<span class="badge badge-${cls}">${status}</span>`;
+    return `<span class="badge badge-${cls}">${escapeHtml(status)}</span>`;
 }
 
 function formatDate(d) {
+    if (!d) return '—';
     return new Date(d).toLocaleDateString('en-IN', {
         year: 'numeric', month: 'short', day: 'numeric',
         hour: '2-digit', minute: '2-digit',
     });
+}
+
+// ─── Pagination UI Helper (Client) ───
+function renderClientPagination(containerId, currentPage, totalPages, onPageChange) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'client-pagination';
+    wrapper.style.cssText = 'display:flex; align-items:center; justify-content:center; gap:16px; margin-top:24px; padding:16px;';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'btn-portal';
+    prevBtn.style.cssText = 'padding:8px 16px; font-size:0.85rem;';
+    prevBtn.textContent = '← Prev';
+    prevBtn.disabled = currentPage <= 1;
+    prevBtn.addEventListener('click', () => onPageChange(currentPage - 1));
+    wrapper.appendChild(prevBtn);
+
+    const info = document.createElement('span');
+    info.style.cssText = 'color: var(--cp-text-muted); font-size:0.85rem;';
+    info.textContent = `Page ${currentPage} of ${totalPages}`;
+    wrapper.appendChild(info);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn-portal';
+    nextBtn.style.cssText = 'padding:8px 16px; font-size:0.85rem;';
+    nextBtn.textContent = 'Next →';
+    nextBtn.disabled = currentPage >= totalPages;
+    nextBtn.addEventListener('click', () => onPageChange(currentPage + 1));
+    wrapper.appendChild(nextBtn);
+
+    container.appendChild(wrapper);
 }
