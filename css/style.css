@@ -61,6 +61,10 @@ html {
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.1);
 
+  /* Navigation */
+  --nav-bg: #ffffff;
+  --nav-bg-dark: #0f172a;
+
   /* Status Colors */
   --status-created: #94a3b8;
   --status-picked: #c084fc;
@@ -104,13 +108,14 @@ html.dark-mode {
   --background-alt: #1e293b;
   --bg-main: #1e293b;
   --bg-surface: #1e293b;
-  --bg-elevated: #334155;
+  --bg-elevated: #293548;
   --border: #334155;
   --text-main: #F1F5F9;
   --text-secondary: #94A3B8;
   --border-glass: rgba(255, 255, 255, 0.08);
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
   --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --nav-bg: var(--nav-bg-dark);
 }
 
 /* ---------- Reduced Motion ---------- */

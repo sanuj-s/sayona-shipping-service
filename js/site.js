@@ -88,7 +88,8 @@
         // ease-out quad
         const eased = 1 - (1 - progress) * (1 - progress);
         count = Math.ceil(eased * target);
-        el.textContent = count >= target ? target + '+' : count;
+        const formattedCount = (count >= target ? target : count).toLocaleString();
+        el.textContent = formattedCount + (count >= target ? '+' : '');
         if (progress < 1) requestAnimationFrame(update);
       }
 
@@ -245,6 +246,17 @@
 
       if (!valid) return;
 
+      let msgEl = form.querySelector('.form-message');
+      if (!msgEl) {
+        msgEl = document.createElement('div');
+        msgEl.className = 'form-message';
+        msgEl.style.marginTop = '12px';
+        msgEl.style.fontSize = '0.9rem';
+        msgEl.style.fontWeight = '500';
+        form.appendChild(msgEl);
+      }
+      msgEl.style.display = 'none';
+
       btn.textContent = 'Sending...';
       btn.classList.add('btn-loading');
 
@@ -260,20 +272,27 @@
 
         if (res.ok) {
           btn.textContent = 'Quote Sent ✓';
+          msgEl.textContent = 'Quote request sent successfully! We will contact you soon.';
+          msgEl.style.color = 'var(--status-delivered, #10b981)';
+          msgEl.style.display = 'block';
           form.reset();
           setTimeout(() => {
             btn.textContent = originalText;
             btn.classList.remove('btn-loading');
-          }, 3000);
+            msgEl.style.display = 'none';
+          }, 5000);
         } else {
           throw new Error('Failed to send');
         }
       } catch (err) {
         btn.textContent = 'Try Again';
         btn.classList.remove('btn-loading');
+        msgEl.textContent = 'Failed to convey request. Please try again.';
+        msgEl.style.color = 'var(--status-exception, #ef4444)';
+        msgEl.style.display = 'block';
         setTimeout(() => {
           btn.textContent = originalText;
-        }, 2000);
+        }, 3000);
       }
     });
   }

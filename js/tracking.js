@@ -139,7 +139,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="tracking-error">
                         <div class="tracking-error-icon">🔍</div>
                         <h3>Shipment Not Found</h3>
-                        <p>${error.message || 'No shipment found with this tracking number. Please check and try again.'}</p>
+                        <p>${error.message || 'No shipment found with this tracking number. please check and try again.'}</p>
+                        <div style="margin-top: 20px;">
+                            <a href="contact.html" class="btn-outline" style="font-size: 0.9rem; padding: 10px 20px;">Contact Support</a>
+                        </div>
                     </div>`;
             }
         });

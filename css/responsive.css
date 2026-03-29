@@ -63,6 +63,7 @@
 body {
   margin: 0;
   padding-top: 80px;
+  padding-bottom: 70px; /* Space for mobile sticky CTA */
   font-family: var(--font-body);
 }
 
@@ -77,19 +78,19 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
-  background: #ffffff;
+  background: var(--nav-bg);
   box-shadow: 0 1px 0 var(--border);
   z-index: var(--z-navbar);
   transition: box-shadow 0.3s ease;
 }
 
 html.dark-mode .corporate-nav {
-  background: #0f172a;
+  background: var(--nav-bg);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light-mode) .corporate-nav {
-    background: #0f172a;
+    background: var(--nav-bg-dark);
   }
 }
 
@@ -358,6 +359,11 @@ html.dark-mode .corporate-nav {
   .logo img {
     height: 50px;
     max-width: 200px;
+  }
+
+  .hero-metrics {
+    flex-direction: row;
+    justify-content: center;
   }
 
   .grid {
