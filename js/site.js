@@ -114,26 +114,43 @@
 
     const html = document.documentElement;
     const stored = localStorage.getItem('sayona-theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (stored === 'dark') {
+    function applyDark() {
       html.classList.add('dark-mode');
+      html.classList.remove('light-mode');
       toggle.innerHTML = '☀️';
-    } else if (stored === 'light') {
+    }
+
+    function applyLight() {
       html.classList.remove('dark-mode');
+      html.classList.add('light-mode');
       toggle.innerHTML = '🌙';
+    }
+
+    // On load: apply stored preference or follow system
+    if (stored === 'dark') {
+      applyDark();
+    } else if (stored === 'light') {
+      applyLight();
     } else {
-      // Follow system preference
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        toggle.innerHTML = '☀️';
+      // No stored pref: follow system
+      if (systemDark) {
+        applyDark();
       } else {
-        toggle.innerHTML = '🌙';
+        applyLight();
       }
     }
 
     toggle.addEventListener('click', () => {
-      const isDark = html.classList.toggle('dark-mode');
-      localStorage.setItem('sayona-theme', isDark ? 'dark' : 'light');
-      toggle.innerHTML = isDark ? '☀️' : '🌙';
+      const isDark = html.classList.contains('dark-mode');
+      if (isDark) {
+        applyLight();
+        localStorage.setItem('sayona-theme', 'light');
+      } else {
+        applyDark();
+        localStorage.setItem('sayona-theme', 'dark');
+      }
     });
   }
 
