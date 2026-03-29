@@ -77,16 +77,20 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #ffffff;
   box-shadow: 0 1px 0 var(--border);
   z-index: var(--z-navbar);
   transition: box-shadow 0.3s ease;
 }
 
 html.dark-mode .corporate-nav {
-  background: rgba(15, 23, 42, 0.92);
+  background: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) .corporate-nav {
+    background: #0f172a;
+  }
 }
 
 /* Show hamburger on mobile */
@@ -101,6 +105,15 @@ html.dark-mode .corporate-nav {
 
 .nav-actions {
   display: none;
+}
+
+/* Keep dark mode toggle visible on mobile */
+.dark-mode-toggle {
+  display: flex;
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* Logo: smaller on mobile */
@@ -430,6 +443,12 @@ html.dark-mode .corporate-nav {
   /* Hide hamburger */
   .mobile-menu-btn {
     display: none;
+  }
+
+  /* Reset dark mode toggle to flow inside nav-actions on desktop */
+  .dark-mode-toggle {
+    position: static;
+    transform: none;
   }
 
   .logo img {
