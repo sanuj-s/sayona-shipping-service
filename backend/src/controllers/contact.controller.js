@@ -8,6 +8,9 @@ const { AUDIT_ACTIONS } = require('../models/schemas');
 
 const submitContact = async (req, res, next) => {
     try {
+        if (req.body._honey) {
+            return res.status(400).json({ status: 'error', message: 'Bot detected' });
+        }
         const contact = await ContactService.submit(req.body);
 
         if (req.audit) {

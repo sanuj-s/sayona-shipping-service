@@ -8,6 +8,9 @@ const { AUDIT_ACTIONS } = require('../models/schemas');
 
 const submitQuote = async (req, res, next) => {
     try {
+        if (req.body._honey) {
+            return res.status(400).json({ status: 'error', message: 'Bot detected' });
+        }
         const quote = await QuoteService.submit(req.body);
 
         // Audit log (user might not be authenticated)

@@ -10,6 +10,9 @@ const config = require('../config/environment');
 
 const register = async (req, res, next) => {
     try {
+        if (req.body._honey) {
+            return res.status(400).json({ status: 'error', message: 'Bot detected' });
+        }
         const result = await AuthService.register(req.body);
 
         await req.audit(AUDIT_ACTIONS.USER_REGISTER, 'user', null, null, {
