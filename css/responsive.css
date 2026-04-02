@@ -88,11 +88,7 @@ html.dark-mode .corporate-nav {
   background: var(--nav-bg);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not(.light-mode) .corporate-nav {
-    background: var(--nav-bg-dark);
-  }
-}
+
 
 /* Show hamburger on mobile */
 .mobile-menu-btn {

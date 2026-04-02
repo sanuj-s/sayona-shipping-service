@@ -83,23 +83,7 @@ html {
 }
 
 /* ---------- Dark Mode ---------- */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light-mode) {
-    --text: #F1F5F9;
-    --text-light: #94A3B8;
-    --background: #0f172a;
-    --background-alt: #1e293b;
-    --bg-main: #1e293b;
-    --bg-surface: #1e293b;
-    --bg-elevated: #334155;
-    --border: #334155;
-    --text-main: #F1F5F9;
-    --text-secondary: #94A3B8;
-    --border-glass: rgba(255, 255, 255, 0.08);
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.4);
-  }
-}
+
 
 html.dark-mode {
   --text: #F1F5F9;
