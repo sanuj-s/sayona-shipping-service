@@ -33,48 +33,11 @@
 
 <body>
 
-    <nav class="navbar corporate-nav">
-        <div class="nav-left">
-            <div class="logo"><a href="../index.html" style="text-decoration:none;"><img src="../images/sayona-logo.png"
-                        alt="Sayona Shipping Services"></a></div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li class="dropdown-parent"><a href="../services.html">Services <i
-                            class="fas fa-chevron-down nav-caret"></i></a>
-                    <div class="dropdown-menu mega-menu">
-                        <div class="mega-column">
-                            <h4>Core Freight</h4><a href="../services.html#fcl"><i class="fas fa-ship"></i> Ocean
-                                Freight</a><a href="../services.html#air-freight"><i class="fas fa-plane"></i> Air
-                                Freight</a><a href="../services.html#lcl"><i class="fas fa-truck"></i> Ground
-                                Transport</a>
-                        </div>
-                        <div class="mega-column">
-                            <h4>Specialized</h4><a href="../services.html#warehousing"><i class="fas fa-warehouse"></i>
-                                Warehousing</a><a href="../services.html#customs"><i class="fas fa-file-signature"></i>
-                                Customs Clearance</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown-parent"><a href="../index.html#industries">Industries <i
-                            class="fas fa-chevron-down nav-caret"></i></a>
-                    <ul class="dropdown-menu simple-menu">
-                        <li><a href="textile.html"><i class="fas fa-tshirt"></i> Textile & Apparel</a></li>
-                        <li><a href="hightech.html"><i class="fas fa-laptop"></i> High-Tech & Electronics</a></li>
-                        <li><a href="pharma.html"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a></li>
-                        <li><a href="automotive.html"><i class="fas fa-car"></i> Automotive</a></li>
-                        <li><a href="agri-products.html"><i class="fas fa-leaf"></i> Agri Products</a></li>
-                        <li><a href="general-cargo.html"><i class="fas fa-boxes"></i> General Cargo</a></li>
-                    </ul>
-                </li>
-                <li><a href="../company.html">Company</a></li>
-                <li><a href="../contact.html">Contact</a></li>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <div class="nav-actions"><a href="../tracking.html" class="btn-outline"><i class="fas fa-map-marker-alt"></i>
-                    Track Cargo</a><a href="../contact.html#quote" class="btn-primary">Get Quote</a><button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button></div>
-        </div>
-    </nav>
+    
+    <div id="navbar-placeholder"></div>
+    <script>window.SAYONA_BASE = '../';</script>
+    <script src="../components/navbar.js"></script>
+
 
     <main>
         <section class="ind-hero">
@@ -329,44 +292,8 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="grid">
-                <div><a href="../index.html" class="logo"><img src="../images/sayona-logo.png" alt="Sayona Shipping"
-                            class="logo-img"></a>
-                    <p>Global logistics partner for export and import services including ocean freight, air freight,
-                        customs clearance, and warehousing.</p>
-                </div>
-                <div>
-                    <h3>Services</h3>
-                    <ul>
-                        <li><a href="../services.html#lcl">LCL Shipping</a></li>
-                        <li><a href="../services.html#fcl">FCL Shipping</a></li>
-                        <li><a href="../services.html#air-freight">Air Freight</a></li>
-                        <li><a href="../services.html#customs">Customs Clearance</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Industries</h3>
-                    <ul>
-                        <li><a href="textile.html">Textile & Apparel</a></li>
-                        <li><a href="hightech.html">High-Tech & Electronics</a></li>
-                        <li><a href="pharma.html">Pharmaceuticals</a></li>
-                        <li><a href="automotive.html">Automotive</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Contact</h3>
-                    <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
-                    <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
-                    <p><a href="tel:+919790057690" class="highlight">9790057690</a></p>
-                </div>
-            </div>
-            <div class="copyright text-center mt-3 pt-3 border-top">
-                <p>&copy; <span id="year">2026</span> Sayona Shipping Service. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+        <div id="footer-placeholder"></div>
+    <script src="../components/footer.js"></script>
 
   <script src="../js/site.js"></script>
     <script src="../js/search.js"></script>

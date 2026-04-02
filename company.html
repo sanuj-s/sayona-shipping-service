@@ -9,8 +9,6 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
@@ -33,102 +31,10 @@
 
     </div>
     <div id="app">
-        <!-- Top Utility Bar -->
-        <div class="top-bar">
-            <div class="top-bar-container">
-                <div class="top-bar-left">
-                    <span><i class="fas fa-phone-alt"></i> 9790057690</span>
-                    <span><i class="fas fa-envelope"></i> sayonaexim@gmail.com</span>
-                    <span><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 6:00 PM</span>
-                </div>
-                <div class="top-bar-right">
-                    <a href="https://linkedin.com/company/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://twitter.com/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                    <a href="https://facebook.com/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
-                    <div class="vertical-divider"></div>
-                    <a href="client/login.html" class="client-login"><i class="fas fa-user-circle"></i> Client
-                        Portal</a>
-                </div>
-            </div>
-        </div>
+    <div id="navbar-placeholder"></div>
+    <script>window.SAYONA_BASE = '';</script>
+    <script src="components/navbar.js"></script>
 
-        <!-- Main Corporate Navbar -->
-        <nav class="navbar corporate-nav">
-
-            <div class="nav-left">
-                <div class="logo">
-                    <a href="index.html" style="text-decoration:none;">
-                        <img src="images/sayona-logo.png" alt="Sayona Shipping Services">
-                    </a>
-                </div>
-
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-
-                    <li class="dropdown-parent">
-                        <a href="index.html#services">Services <i class="fas fa-chevron-down nav-caret"></i></a>
-                        <div class="dropdown-menu mega-menu">
-                            <div class="mega-column">
-                                <h4>Core Freight</h4>
-                                <a href="services.html"><i class="fas fa-ship"></i> Ocean Freight (FCL/LCL)</a>
-                                <a href="services.html"><i class="fas fa-plane"></i> Air Freight</a>
-                                <a href="services.html"><i class="fas fa-truck"></i> Ground Transportation</a>
-                            </div>
-                            <div class="mega-column">
-                                <h4>Specialized Solutions</h4>
-                                <a href="services.html"><i class="fas fa-warehouse"></i> Warehousing</a>
-                                <a href="services.html"><i class="fas fa-file-signature"></i> Customs Clearance</a>
-                                <a href="services.html"><i class="fas fa-box-open"></i> Supply Chain Logistics</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="dropdown-parent">
-                        <a href="index.html#industries">Industries <i class="fas fa-chevron-down nav-caret"></i></a>
-                        <ul class="dropdown-menu simple-menu">
-                            <li><a href="industries/textile.html"><i class="fas fa-tshirt"></i> Textile & Apparel</a>
-                            </li>
-                            <li><a href="industries/hightech.html"><i class="fas fa-laptop"></i> High-Tech &
-                                    Electronics</a></li>
-                            <li><a href="industries/pharma.html"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a>
-                            </li>
-                            <li><a href="industries/automotive.html"><i class="fas fa-car"></i> Automotive</a></li>
-                            <li><a href="industries/agri-products.html"><i class="fas fa-leaf"></i> Agri Products</a>
-                            </li>
-                            <li><a href="industries/general-cargo.html"><i class="fas fa-boxes"></i> General Cargo</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li><a href="company.html">Company</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="nav-right">
-
-                <div class="nav-actions">
-                    <a href="tracking.html" class="btn-outline"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
-                    <a href="contact.html#quote" class="btn-primary">Get Quote</a>
-                </div>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
-                <button id="menuBtn" class="mobile-menu-btn">☰</button>
-            </div>
-
-            <!-- Mobile Menu Overlay -->
-            <nav id="navMenu">
-                <a href="index.html">Home</a>
-                <a href="services.html">Services</a>
-                <a href="index.html#industries">Industries</a>
-                <a href="tracking.html">Tracking</a>
-                <a href="company.html">Company</a>
-                <a href="contact.html">Contact</a>
-                <hr />
-                <a href="tracking.html" class="btn-ghost mobile-btn">Track Cargo</a>
-                <a href="contact.html#quote" class="btn-enterprise mobile-btn">Get Quote</a>
-            </nav>
-
-        </nav>
 
         <main class="pt-3">
 
@@ -136,7 +42,7 @@
             <section class="page-header section-alt text-center">
                 <div class="container">
                     <h1 class="color-text-main mb-1">About Sayona Shipping Services</h1>
-                    <p class="color-text-secondary container-sm text-center" style="max-width: 700px; margin: 0 auto;">
+                    <p class="color-text-secondary container-narrow text-center">
                         Trusted logistics partner delivering reliable cargo solutions across India and globally.
                     </p>
                 </div>
@@ -161,25 +67,22 @@
                                 maintain rigorous compliance standards across domestic transport, multi-modal freight
                                 forwarding, and customs clearance.
                             </p>
-                            <div style="margin-top: 30px; display: flex; gap: 20px; flex-wrap: wrap;">
-                                <div style="border-left: 3px solid var(--accent); padding-left: 15px;">
-                                    <h4 style="margin-bottom: 5px;">Reliability</h4>
-                                    <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 0;">24/7
-                                        Monitored Routes</p>
+                            <div class="mt-3" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                                <div class="accent-border-card">
+                                    <h4>Reliability</h4>
+                                    <p>24/7 Monitored Routes</p>
                                 </div>
-                                <div style="border-left: 3px solid var(--accent); padding-left: 15px;">
-                                    <h4 style="margin-bottom: 5px;">Compliance</h4>
-                                    <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 0;">Industry Compliance Standard</p>
+                                <div class="accent-border-card">
+                                    <h4>Compliance</h4>
+                                    <p>Industry Compliance Standard</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="about-image" style="position: relative;">
-                            <img src="images/logistics.jpg" alt="Sayona Shipping Warehouse"
-                                style="border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                        <div class="about-image about-img-wrap">
+                            <img src="images/logistics.jpg" alt="Sayona Shipping Warehouse" class="service-image">
                             <div class="about-badge">
-                                <h3 style="color: var(--primary); font-size: 2.5rem; margin: 0;">500+</h3>
-                                <p style="margin: 0; font-weight: 600; color: var(--text-secondary);">Clients Served
-                                </p>
+                                <h3 class="color-primary counter-accent">500+</h3>
+                                <p class="stat-sublabel" style="font-weight: 600;">Clients Served</p>
                             </div>
                         </div>
                     </div>
@@ -187,32 +90,24 @@
             </section>
 
             <!-- Stats Section (Industrial Redesign) -->
-            <section class="stats-section" style="background: var(--secondary); color: white;">
+            <section class="stats-section stats-dark">
                 <div class="container">
                     <div class="stats-four-col">
                         <div class="reveal">
-                            <h2 class="counter" data-target="98"
-                                style="color: var(--accent); font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 10px;">
-                                0</h2>
-                            <p style="color: #94a3b8; margin: 0;">% On-Time Delivery</p>
+                            <h2 class="counter counter-accent" data-target="98">0</h2>
+                            <p class="stat-sublabel">% On-Time Delivery</p>
                         </div>
                         <div class="reveal">
-                            <h2 class="counter" data-target="1500"
-                                style="color: var(--accent); font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 10px;">
-                                0</h2>
-                            <p style="color: #94a3b8; margin: 0;">Active Routes</p>
+                            <h2 class="counter counter-accent" data-target="1500">0</h2>
+                            <p class="stat-sublabel">Active Routes</p>
                         </div>
                         <div class="reveal">
-                            <h2 class="counter" data-target="120"
-                                style="color: var(--accent); font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 10px;">
-                                0</h2>
-                            <p style="color: #94a3b8; margin: 0;">Global Partners</p>
+                            <h2 class="counter counter-accent" data-target="120">0</h2>
+                            <p class="stat-sublabel">Global Partners</p>
                         </div>
                         <div class="reveal">
-                            <h2 class="counter" data-target="15"
-                                style="color: var(--accent); font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 10px;">
-                                0</h2>
-                            <p style="color: #94a3b8; margin: 0;">Countries Served</p>
+                            <h2 class="counter counter-accent" data-target="15">0</h2>
+                            <p class="stat-sublabel">Countries Served</p>
                         </div>
                     </div>
                 </div>
@@ -223,19 +118,17 @@
                 <div class="container">
                     <div class="mission-grid">
                         <!-- Core Principles -->
-                        <div style="display: flex; flex-direction: column; gap: 30px;">
-                            <div
-                                style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border-left: 4px solid var(--primary);">
-                                <h3 class="color-text-main mb-1" style="font-size: 1.8rem;">Our Mission</h3>
+                        <div class="mission-col">
+                            <div class="card-elevated card-primary-border">
+                                <h3 class="color-text-main mb-1 heading-lg">Our Mission</h3>
                                 <p class="color-text-secondary" style="margin: 0; line-height: 1.8;">
                                     To architect and execute fault-tolerant logistics networks that power international
                                     trade. We eliminate supply chain friction through strategic routing, predictive
                                     tracking, and unwavering operational integrity.
                                 </p>
                             </div>
-                            <div
-                                style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border-left: 4px solid var(--accent);">
-                                <h3 class="color-text-main mb-1" style="font-size: 1.8rem;">Our Vision</h3>
+                            <div class="card-elevated card-accent-border">
+                                <h3 class="color-text-main mb-1 heading-lg">Our Vision</h3>
                                 <p class="color-text-secondary" style="margin: 0; line-height: 1.8;">
                                     To be the definitive baseline for freight reliability in South Asia, scaling our
                                     digital and physical infrastructure to support next-generation, high-speed global
@@ -245,43 +138,35 @@
                         </div>
 
                         <!-- Timeline -->
-                        <div
-                            style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-                            <h3 class="mb-1" style="font-size: 1.8rem;">Growth Trajectory</h3>
-                            <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 20px;">
-                                <div style="display: flex; gap: 20px;">
-                                    <div style="width: 60px; font-weight: 700; color: var(--primary);">2020</div>
-                                    <div
-                                        style="border-left: 2px solid var(--border); padding-left: 20px; padding-bottom: 10px;">
-                                        <h4 style="margin: 0 0 5px 0;">Foundation</h4>
-                                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-secondary);">
-                                            Established operations focusing on the textile export corridors.</p>
+                        <div class="card-elevated">
+                            <h3 class="mb-1 heading-lg">Growth Trajectory</h3>
+                            <div class="timeline-col">
+                                <div class="timeline-entry">
+                                    <div class="timeline-year">2020</div>
+                                    <div class="timeline-content">
+                                        <h4>Foundation</h4>
+                                        <p>Established operations focusing on the textile export corridors.</p>
                                     </div>
                                 </div>
-                                <div style="display: flex; gap: 20px;">
-                                    <div style="width: 60px; font-weight: 700; color: var(--primary);">2022</div>
-                                    <div
-                                        style="border-left: 2px solid var(--border); padding-left: 20px; padding-bottom: 10px;">
-                                        <h4 style="margin: 0 0 5px 0;">Digital Transition</h4>
-                                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-secondary);">Launched
-                                            advanced client portals and centralized tracking algorithms.</p>
+                                <div class="timeline-entry">
+                                    <div class="timeline-year">2022</div>
+                                    <div class="timeline-content">
+                                        <h4>Digital Transition</h4>
+                                        <p>Launched advanced client portals and centralized tracking algorithms.</p>
                                     </div>
                                 </div>
-                                <div style="display: flex; gap: 20px;">
-                                    <div style="width: 60px; font-weight: 700; color: var(--primary);">2024</div>
-                                    <div
-                                        style="border-left: 2px solid var(--border); padding-left: 20px; padding-bottom: 10px;">
-                                        <h4 style="margin: 0 0 5px 0;">Vertical Expansion</h4>
-                                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-secondary);">Added
-                                            critical capabilities for pharmaceutical and automotive transport.</p>
+                                <div class="timeline-entry">
+                                    <div class="timeline-year">2024</div>
+                                    <div class="timeline-content">
+                                        <h4>Vertical Expansion</h4>
+                                        <p>Added critical capabilities for pharmaceutical and automotive transport.</p>
                                     </div>
                                 </div>
-                                <div style="display: flex; gap: 20px;">
-                                    <div style="width: 60px; font-weight: 700; color: var(--primary);">2026</div>
-                                    <div style="border-left: 2px solid var(--border); padding-left: 20px;">
-                                        <h4 style="margin: 0 0 5px 0;">Global Networking</h4>
-                                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-secondary);">Securing
-                                            15+ international strategic port alliances.</p>
+                                <div class="timeline-entry">
+                                    <div class="timeline-year">2026</div>
+                                    <div class="timeline-content">
+                                        <h4>Global Networking</h4>
+                                        <p>Securing 15+ international strategic port alliances.</p>
                                     </div>
                                 </div>
                             </div>
@@ -293,41 +178,30 @@
             <!-- Operational Coverage Map & Trust -->
             <section id="locations">
                 <div class="container">
-                    <div style="text-align: center; max-width: 800px; margin: 0 auto 60px;">
+                    <div class="container-readable text-center" style="margin-bottom: 60px;">
                         <h2 class="section-title" style="margin-bottom: 20px;">Strategic Operational Nodes</h2>
-                        <p style="color: var(--text-secondary);">Positioned perfectly to intercept global shipping lanes
+                        <p class="color-text-secondary">Positioned perfectly to intercept global shipping lanes
                             and provide seamless inland distribution networks.</p>
                     </div>
 
                     <div class="locations-grid">
-                        <div
-                            style="background: var(--bg-surface); padding: 30px; border-radius: 12px; border: 1px solid var(--border); transition: transform 0.3s;">
+                        <div class="location-card">
                             <i class="fas fa-building fa-2x color-primary mb-1"></i>
-                            <h3 style="margin-bottom: 10px;">Chennai <span
-                                    style="font-size: 0.8rem; background: var(--accent-soft); color: var(--primary); padding: 2px 8px; border-radius: 10px; vertical-align: middle; margin-left: 5px;">HQ</span>
-                            </h3>
-                            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 15px;">Central
-                                command and primary seaport gateway for deep-ocean freight control.</p>
-                            <p style="font-size: 0.85rem; font-weight: 600;"><i class="fas fa-map-pin"></i> Tamil Nadu,
-                                India</p>
+                            <h3>Chennai <span class="hq-badge">HQ</span></h3>
+                            <p>Central command and primary seaport gateway for deep-ocean freight control.</p>
+                            <p class="location-pin"><i class="fas fa-map-pin"></i> Tamil Nadu, India</p>
                         </div>
-                        <div
-                            style="background: var(--bg-surface); padding: 30px; border-radius: 12px; border: 1px solid var(--border); transition: transform 0.3s;">
+                        <div class="location-card">
                             <i class="fas fa-plane-departure fa-2x color-primary mb-1"></i>
-                            <h3 style="margin-bottom: 10px;">Bangalore</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 15px;">Strategic
-                                hub for air freight operations and high-tech electronic component exports.</p>
-                            <p style="font-size: 0.85rem; font-weight: 600;"><i class="fas fa-map-pin"></i> Karnataka,
-                                India</p>
+                            <h3>Bangalore</h3>
+                            <p>Strategic hub for air freight operations and high-tech electronic component exports.</p>
+                            <p class="location-pin"><i class="fas fa-map-pin"></i> Karnataka, India</p>
                         </div>
-                        <div
-                            style="background: var(--bg-surface); padding: 30px; border-radius: 12px; border: 1px solid var(--border); transition: transform 0.3s;">
+                        <div class="location-card">
                             <i class="fas fa-industry fa-2x color-primary mb-1"></i>
-                            <h3 style="margin-bottom: 10px;">Tiruppur / Coimbatore</h3>
-                            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 15px;">Textile
-                                and manufacturing concentration for dedicated industrial consolidation.</p>
-                            <p style="font-size: 0.85rem; font-weight: 600;"><i class="fas fa-map-pin"></i> Tamil Nadu,
-                                India</p>
+                            <h3>Tiruppur / Coimbatore</h3>
+                            <p>Textile and manufacturing concentration for dedicated industrial consolidation.</p>
+                            <p class="location-pin"><i class="fas fa-map-pin"></i> Tamil Nadu, India</p>
                         </div>
                     </div>
                 </div>
@@ -335,54 +209,9 @@
 
         </main>
 
-        <footer class="footer">
-            <div class="container">
-                <div class="grid">
-                    <div>
-                        <a href="index.html" class="logo">
-                            <img src="images/sayona-logo.png" alt="Sayona Shipping Services" class="logo-img">
-                        </a>
-                        <p>Global logistics partner providing export and import services including ocean freight, air
-                            freight, customs clearance, and warehousing for all types of cargo.</p>
-                    </div>
-                    <div>
-                        <h3>Industries</h3>
-                        <ul>
-                            <li><a href="industries/textile.html">Textile & Apparel</a></li>
-                            <li><a href="industries/automotive.html">Automotive</a></li>
-                            <li><a href="industries/hightech.html">High-Tech</a></li>
-                            <li><a href="industries/pharma.html">Pharmaceuticals</a></li>
-                            <li><a href="industries/agri-products.html">Agri Products</a></li>
-                            <li><a href="industries/general-cargo.html">General Cargo</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Company</h3>
-                        <ul>
-                            <li><a href="company.html">About Us</a></li>
-                            <li><a href="index.html#process">Our Process</a></li>
-                            <li><a href="careers.html">Careers</a></li>
-                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Contact</h3>
-                        <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
-                        <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
-                        <p><a href="tel:+919790057690" class="highlight">9790057690</a></p>
-                        <div class="social-links mt-1">
-                            <a href="https://facebook.com/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
-                            <a href="https://twitter.com/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                            <a href="https://linkedin.com/company/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="https://instagram.com/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="copyright text-center mt-3 pt-3 border-top">
-                    <p>&copy; <span id="year">2026</span> Sayona Shipping Service. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+
+            <div id="footer-placeholder"></div>
+    <script src="components/footer.js"></script>
     </div>
     <!-- Scroll Progress Bar -->
 

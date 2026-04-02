@@ -303,6 +303,26 @@
     if (el) el.textContent = new Date().getFullYear();
   }
 
+  // ─── Active Nav Link Highlighting ───
+  function initActiveNav() {
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+
+    document.querySelectorAll('.nav-links a, #navMenu a').forEach(function (link) {
+      var href = link.getAttribute('href');
+      if (!href) return;
+      var linkFile = href.split('#')[0].split('/').pop();
+      if (linkFile === filename || (filename === 'index.html' && linkFile === '')) {
+        link.classList.add('active');
+        var parent = link.closest('.dropdown-parent');
+        if (parent) {
+          var trigger = parent.querySelector(':scope > a');
+          if (trigger) trigger.classList.add('active');
+        }
+      }
+    });
+  }
+
   // ─── Initialize Everything ───
   document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
@@ -313,6 +333,7 @@
     initHeroAnimation();
     initQuoteForm();
     initYear();
+    initActiveNav();
   });
 
 })();

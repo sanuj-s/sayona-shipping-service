@@ -90,97 +90,10 @@
   <div id="progress-bar"></div>
 
   <div id="app">
+    <div id="navbar-placeholder"></div>
+    <script>window.SAYONA_BASE = '';</script>
+    <script src="components/navbar.js"></script>
 
-    <!-- Top Utility Bar -->
-    <div class="top-bar">
-        <div class="top-bar-container">
-            <div class="top-bar-left">
-                <span><i class="fas fa-phone-alt"></i> 9790057690</span>
-                <span><i class="fas fa-envelope"></i> sayonaexim@gmail.com</span>
-                <span><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 6:00 PM</span>
-            </div>
-            <div class="top-bar-right">
-                <a href="https://linkedin.com/company/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://twitter.com/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                <a href="https://facebook.com/sayonashipping" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
-                <div class="vertical-divider"></div>
-                <a href="client/login.html" class="client-login"><i class="fas fa-user-circle"></i> Client Portal</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ─── Navbar (no top utility bar) ─── -->
-    <nav class="navbar corporate-nav">
-
-      <div class="nav-left">
-        <div class="logo">
-          <a href="index.html">
-            <img src="images/sayona-logo.png" alt="Sayona Shipping Services">
-          </a>
-        </div>
-
-        <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
-
-          <li class="dropdown-parent">
-            <a href="index.html#services">Services <i class="fas fa-chevron-down nav-caret"></i></a>
-            <div class="dropdown-menu mega-menu">
-              <div class="mega-column">
-                <h4>Core Freight</h4>
-                <a href="services.html#fcl"><i class="fas fa-ship"></i> Ocean Freight (FCL/LCL)</a>
-                <a href="services.html#air-freight"><i class="fas fa-plane"></i> Air Freight</a>
-                <a href="services.html#lcl"><i class="fas fa-truck"></i> Ground Transportation</a>
-              </div>
-              <div class="mega-column">
-                <h4>Specialized Solutions</h4>
-                <a href="services.html#warehousing"><i class="fas fa-warehouse"></i> Warehousing</a>
-                <a href="services.html#customs"><i class="fas fa-file-signature"></i> Customs Clearance</a>
-                <a href="services.html#lcl"><i class="fas fa-box-open"></i> Supply Chain Logistics</a>
-              </div>
-            </div>
-          </li>
-
-          <li class="dropdown-parent">
-            <a href="index.html#industries">Industries <i class="fas fa-chevron-down nav-caret"></i></a>
-            <ul class="dropdown-menu simple-menu">
-              <li><a href="industries/textile.html"><i class="fas fa-tshirt"></i> Textile & Apparel</a></li>
-              <li><a href="industries/hightech.html"><i class="fas fa-laptop"></i> High-Tech & Electronics</a></li>
-              <li><a href="industries/pharma.html"><i class="fas fa-heartbeat"></i> Pharmaceuticals</a></li>
-              <li><a href="industries/automotive.html"><i class="fas fa-car"></i> Automotive</a></li>
-              <li><a href="industries/agri-products.html"><i class="fas fa-leaf"></i> Agri Products</a></li>
-              <li><a href="industries/general-cargo.html"><i class="fas fa-boxes"></i> General Cargo</a></li>
-            </ul>
-          </li>
-
-          <li><a href="company.html">Company</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-
-      <div class="nav-right">
-        <div class="nav-actions">
-          <a href="client/login.html" class="btn-ghost"><i class="fas fa-user-circle"></i> Client Portal</a>
-          <a href="tracking.html" class="btn-outline"><i class="fas fa-map-marker-alt"></i> Track Cargo</a>
-          <a href="contact.html#quote" class="btn-enterprise">Get Quote</a>
-          <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
-        </div>
-        <button id="menuBtn" class="mobile-menu-btn" aria-label="Open menu">☰</button>
-      </div>
-
-      <!-- Mobile Menu Overlay -->
-      <nav id="navMenu">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="index.html#industries">Industries</a>
-        <a href="tracking.html">Tracking</a>
-        <a href="company.html">Company</a>
-        <a href="contact.html">Contact</a>
-        <a href="client/login.html">Client Portal</a>
-        <hr />
-        <a href="tracking.html" class="btn-ghost mobile-btn">Track Cargo</a>
-        <a href="contact.html#quote" class="btn-enterprise mobile-btn">Get Quote</a>
-      </nav>
-    </nav>
 
     <main>
       <!-- ─── Hero ─── -->
@@ -658,64 +571,8 @@
     </main>
 
     <!-- ─── Footer ─── -->
-    <footer class="footer">
-      <div class="container">
-        <div class="grid">
-          <div>
-            <a href="index.html" class="logo">
-              <img src="images/sayona-logo.png" alt="Sayona Shipping Services" class="logo-img">
-            </a>
-            <p>Global logistics partner providing export and import services including ocean freight, air freight,
-              customs clearance, and warehousing for all types of cargo.</p>
-          </div>
-          <div>
-            <h3>Services</h3>
-            <ul>
-              <li><a href="services.html#lcl">LCL Shipping</a></li>
-              <li><a href="services.html#fcl">FCL Shipping</a></li>
-              <li><a href="services.html#air-freight">Air Freight</a></li>
-              <li><a href="services.html#customs">Customs Clearance</a></li>
-              <li><a href="services.html#warehousing">Warehousing</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Industries</h3>
-            <ul>
-              <li><a href="industries/textile.html">Textile & Apparel</a></li>
-              <li><a href="industries/automotive.html">Automotive</a></li>
-              <li><a href="industries/hightech.html">High-Tech</a></li>
-              <li><a href="industries/pharma.html">Pharmaceuticals</a></li>
-              <li><a href="industries/agri-products.html">Agri Products</a></li>
-              <li><a href="industries/general-cargo.html">General Cargo</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Company</h3>
-            <ul>
-              <li><a href="company.html">About Us</a></li>
-              <li><a href="#process">Our Process</a></li>
-              <li><a href="careers.html">Careers</a></li>
-              <li><a href="privacy-policy.html">Privacy Policy</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Contact</h3>
-            <p>15, 60 Feet Rd, Kumarananthapuram,<br>Tirupur, Tamil Nadu, India - 641602</p>
-            <p><a href="mailto:sayonaexim@gmail.com">sayonaexim@gmail.com</a></p>
-            <p><a href="tel:+919790057690" class="highlight">9790057690</a></p>
-            <div class="social-links mt-1">
-              <a href="https://facebook.com/sayonashipping" target="_blank" aria-label="Facebook" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
-              <a href="https://twitter.com/sayonashipping" target="_blank" aria-label="Twitter" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-              <a href="https://linkedin.com/company/sayonashipping" target="_blank" aria-label="LinkedIn" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-              <a href="https://instagram.com/sayonashipping" target="_blank" aria-label="Instagram" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-            </div>
-          </div>
-        </div>
-        <div class="copyright text-center mt-3 pt-3 border-top">
-          <p>&copy; <span id="year">2026</span> Sayona Shipping Service. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+        <div id="footer-placeholder"></div>
+    <script src="components/footer.js"></script>
   </div>
 
   <!-- ─── Mobile Sticky CTA ─── -->
