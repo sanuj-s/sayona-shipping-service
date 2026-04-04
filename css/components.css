@@ -6,10 +6,13 @@
 /* ─── Section Titles ─── */
 .section-title {
   text-align: center;
-  font-size: clamp(24px, 3vw, 40px);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 48px);
   margin-bottom: clamp(30px, 5vw, 60px);
   position: relative;
   color: var(--text-main);
+  letter-spacing: -0.01em;
 }
 
 .section-title.text-left {
@@ -19,15 +22,15 @@
 .section-title::after {
   content: '';
   display: block;
-  width: 48px;
-  height: 3px;
-  background-color: var(--accent);
-  margin: var(--sp-1) auto 0;
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
+  margin: 12px auto 0;
   border-radius: 2px;
 }
 
 .section-title.text-left::after {
-  margin: var(--sp-1) 0 0;
+  margin: 12px 0 0;
 }
 
 .section-alt {
@@ -378,11 +381,11 @@ html.dark-mode .corporate-nav {
 }
 
 .hero h1 {
-  font-size: clamp(28px, 5vw, 64px);
+  font-size: clamp(32px, 5.5vw, 72px);
   font-weight: 400;
   color: white;
-  margin-bottom: var(--sp-2);
-  line-height: 1.1;
+  margin-bottom: var(--sp-3);
+  line-height: 1.05;
 }
 
 .hero p {
@@ -398,11 +401,18 @@ html.dark-mode .corporate-nav {
 }
 
 .hero-metric-card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
   padding: var(--sp-3);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  border: 1px solid rgba(232, 168, 56, 0.15);
+  transition: all 0.3s ease;
+}
+
+.hero-metric-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(232, 168, 56, 0.35);
+  transform: translateY(-2px);
 }
 
 .hero-metric-card h3 {
@@ -474,47 +484,78 @@ html.dark-mode .corporate-nav {
 /* ─── Stats Section ─── */
 .stats-section {
   padding: var(--sp-10) 0;
-  background: var(--background-alt);
+  background: var(--secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle diagonal line pattern on stats */
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    rgba(255, 255, 255, 0.02) 40px,
+    rgba(255, 255, 255, 0.02) 41px
+  );
+  pointer-events: none;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--sp-4);
+  position: relative;
+  z-index: 1;
 }
 
 .stat-card {
-  background: var(--bg-surface);
+  background: rgba(255, 255, 255, 0.05);
   padding: var(--sp-5);
-  border-radius: 12px;
+  border-radius: 16px;
   text-align: center;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .stat-card:hover {
-  transform: scale(1.02);
-  box-shadow: var(--shadow-hover);
+  transform: scale(1.04);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(232, 168, 56, 0.3);
 }
 
 .stat-card i {
   font-size: 28px;
-  color: var(--primary);
-  margin-bottom: var(--sp-1);
+  color: var(--accent);
+  margin-bottom: var(--sp-2);
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(232, 168, 56, 0.12);
 }
 
 .stat-card h2 {
-  font-size: clamp(28px, 4vw, 42px);
-  color: var(--primary);
+  font-size: clamp(32px, 4vw, 48px);
+  color: #ffffff;
   margin-bottom: var(--sp-1);
   font-family: var(--font-display);
   font-weight: 400;
 }
 
 .stat-card p {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-size: clamp(13px, 1.2vw, 16px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  font-size: 0.85rem;
 }
 
 /* ─── Service Cards (Icon + Text, no images) ─── */
@@ -730,16 +771,121 @@ html.dark-mode .corporate-nav {
 /* ─── Industries Section ─── */
 .industries-section {
   padding: var(--sp-12) 0;
-  background: var(--background-alt);
+  background: var(--background);
 }
 
-.industries-section .card {
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+}
+
+.industry-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.industry-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(7, 26, 51, 0.92) 0%,
+    rgba(7, 26, 51, 0.5) 45%,
+    rgba(7, 26, 51, 0.15) 100%
+  );
+  transition: all 0.4s ease;
+}
+
+.industry-card:hover::before {
+  background: linear-gradient(
+    to top,
+    rgba(7, 26, 51, 0.95) 0%,
+    rgba(7, 26, 51, 0.6) 50%,
+    rgba(7, 26, 51, 0.25) 100%
+  );
+}
+
+.industry-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.industry-card-content {
+  position: relative;
+  z-index: 2;
+  padding: var(--sp-4);
+  width: 100%;
+}
+
+.industry-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(232, 168, 56, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-2);
+  font-size: 20px;
+  color: var(--accent);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(232, 168, 56, 0.2);
   transition: all 0.3s ease;
 }
 
-.industries-section .card:hover {
-  transform: scale(1.02);
-  box-shadow: var(--shadow-hover);
+.industry-card:hover .industry-card-icon {
+  background: rgba(232, 168, 56, 0.35);
+  transform: scale(1.05);
+}
+
+.industry-card h3 {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.industry-card p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.industry-card .industry-arrow {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  z-index: 2;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.industry-card:hover .industry-arrow {
+  background: var(--accent);
+  color: #071A33;
+  transform: translate(3px, -3px);
 }
 
 /* ─── About Section ─── */
@@ -873,10 +1019,41 @@ html.dark-mode .corporate-nav {
   font-style: italic;
 }
 
-/* ─── CTA Section — Modern Card ─── */
+/* ─── CTA Section — Full-Bleed Dark Navy ─── */
 .cta-section {
-  padding: var(--sp-10) 0;
-  background: var(--background-alt);
+  padding: var(--sp-12) 0;
+  background: var(--secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Diagonal line background pattern */
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 60px,
+    rgba(232, 168, 56, 0.03) 60px,
+    rgba(232, 168, 56, 0.03) 61px
+  );
+  pointer-events: none;
+}
+
+/* Subtle radial glow */
+.cta-section::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 168, 56, 0.08) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .cta-inner {
@@ -884,48 +1061,64 @@ html.dark-mode .corporate-nav {
   margin: 0 auto;
   text-align: center;
   padding: var(--sp-8);
-  border-radius: 16px;
-  border: 2px solid var(--border);
-  background: var(--bg-surface);
+  border-radius: 0;
+  border: none;
+  background: transparent;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 1;
 }
 
-/* Dot grid pattern */
+/* Remove the dot grid pattern on dark bg */
 .cta-inner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
-  background-size: 24px 24px;
-  opacity: 0.5;
-  pointer-events: none;
+  display: none;
 }
 
 .cta-inner h2 {
   font-family: var(--font-display);
-  font-size: clamp(24px, 3vw, 2.5rem);
+  font-size: clamp(28px, 4vw, 3rem);
   font-weight: 400;
   margin-bottom: var(--sp-2);
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  color: #ffffff;
   position: relative;
   z-index: 1;
 }
 
 .cta-inner p {
-  font-size: clamp(14px, 1.5vw, 1.1rem);
-  margin-bottom: var(--sp-4);
-  color: var(--text-secondary);
+  font-size: clamp(14px, 1.5vw, 1.2rem);
+  margin-bottom: var(--sp-5);
+  color: rgba(255, 255, 255, 0.7);
   position: relative;
   z-index: 1;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cta-inner .btn-primary {
   position: relative;
   z-index: 1;
+  background: var(--accent);
+  color: #071A33;
+  border-color: var(--accent);
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 18px 48px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.cta-inner .btn-primary:hover {
+  background: #f0b94d;
+  color: #071A33;
+  border-color: #f0b94d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232, 168, 56, 0.3);
 }
 
 /* ─── Quote Form ─── */
@@ -1562,24 +1755,24 @@ html.dark-mode .service-text h2 {
 
 
 
-/* --- CTA Section --- */
+/* --- CTA Section (already dark navy, no change needed) --- */
 html.dark-mode .cta-section {
-  background: var(--background);
+  background: var(--secondary);
 }
 
 html.dark-mode .cta-section h2 {
-  color: var(--accent);
+  color: #ffffff;
 }
 
 html.dark-mode .cta-section p {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 
 
-/* --- Stats Section --- */
+/* --- Stats Section (already dark navy, no change needed) --- */
 html.dark-mode .stats-section {
-  background: var(--background);
+  background: var(--secondary);
 }
 
 
@@ -1636,6 +1829,10 @@ html.dark-mode .industries-section {
   background: var(--background);
 }
 
+html.dark-mode .industry-card {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 
 
 /* --- About Badge in dark mode --- */
@@ -1666,14 +1863,14 @@ html.dark-mode .testimonial-card {
 
 
 
-/* --- CTA Inner Card in dark --- */
+/* --- CTA Inner Card in dark (no longer a card) --- */
 html.dark-mode .cta-inner {
-  background: #1e293b;
-  border-color: #334155;
+  background: transparent;
+  border: none;
 }
 
 html.dark-mode .cta-inner::before {
-  opacity: 0.15;
+  display: none;
 }
 
 

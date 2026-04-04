@@ -101,13 +101,14 @@
         style="background: linear-gradient(rgba(7, 26, 51, 0.85), rgba(7, 26, 51, 0.7)), url('images/hero-bg.jpg') center/cover; min-height: 85vh; display: flex; align-items: center;">
         <div class="container hero-grid">
           <div class="hero-content text-left">
+            <p style="display: inline-block; padding: 6px 20px; background: rgba(232,168,56,0.15); color: var(--accent); border-radius: 20px; font-weight: 600; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;">India's Trusted Freight Partner</p>
             <h1>Sayona Shipping Service — International Freight Forwarding from India</h1>
             <p class="hero-subtitle">
               Sayona Shipping Services engineers high-performance cargo solutions. We move your goods with unmatched
               speed, comprehensive route tracking, and assured reliability.
             </p>
             <div class="hero-buttons">
-              <a href="contact.html#quote" class="btn-primary magnetic">Get a Quote</a>
+              <a href="contact.html#quote" class="btn-primary magnetic" style="background: var(--accent); border-color: var(--accent); color: #071A33; font-weight: 700;">Get a Quote</a>
               <a href="tracking.html" class="btn-outline magnetic"
                 style="color: white; border-color: rgba(255,255,255,0.5);">Track Shipment</a>
             </div>
@@ -271,47 +272,53 @@
       <section id="industries" class="industries-section">
         <div class="container">
           <h2 class="section-title reveal">Industries We Serve</h2>
-          <div class="grid">
-            <a href="industries/textile.html" class="service-card-link">
-              <div class="card text-center reveal">
-                <i class="fas fa-tshirt fa-3x color-primary mb-1"></i>
-                <h3 class="mb-1">Textile & Apparel</h3>
-                <p>Specialized logistics for garments and fabrics.</p>
+          <div class="industries-grid">
+            <a href="industries/textile.html" class="industry-card reveal" style="background-image: url('images/industries/textile.jpg');">
+              <span class="industry-arrow"><i class="fas fa-arrow-right"></i></span>
+              <div class="industry-card-content">
+                <div class="industry-card-icon"><i class="fas fa-tshirt"></i></div>
+                <h3>Textile & Apparel</h3>
+                <p>Specialized logistics for garments, fabrics, and fashion exports from India's textile hubs.</p>
               </div>
             </a>
-            <a href="industries/automotive.html" class="service-card-link">
-              <div class="card text-center reveal">
-                <i class="fas fa-car fa-3x color-primary mb-1"></i>
-                <h3 class="mb-1">Automotive</h3>
-                <p>Transport solutions for automotive components.</p>
+            <a href="industries/automotive.html" class="industry-card reveal" style="background-image: url('images/industries/automotive.jpg');">
+              <span class="industry-arrow"><i class="fas fa-arrow-right"></i></span>
+              <div class="industry-card-content">
+                <div class="industry-card-icon"><i class="fas fa-car"></i></div>
+                <h3>Automotive</h3>
+                <p>Precision transport for auto parts, engines, and components with full supply chain visibility.</p>
               </div>
             </a>
-            <a href="industries/hightech.html" class="service-card-link">
-              <div class="card text-center reveal">
-                <i class="fas fa-laptop fa-3x color-primary mb-1"></i>
-                <h3 class="mb-1">High-Tech</h3>
-                <p>Secure shipping for sensitive electronic goods.</p>
+            <a href="industries/hightech.html" class="industry-card reveal" style="background-image: url('images/industries/hightech.jpg');">
+              <span class="industry-arrow"><i class="fas fa-arrow-right"></i></span>
+              <div class="industry-card-content">
+                <div class="industry-card-icon"><i class="fas fa-microchip"></i></div>
+                <h3>High-Tech</h3>
+                <p>Anti-static, shock-proof packaging and secure shipping for sensitive electronics.</p>
               </div>
             </a>
-            <a href="industries/pharma.html" class="service-card-link">
-              <div class="card text-center reveal">
-                <i class="fas fa-heartbeat fa-3x color-primary mb-1"></i>
-                <h3 class="mb-1">Pharmaceuticals</h3>
-                <p>Temperature-controlled shipping for meds.</p>
+            <a href="industries/pharma.html" class="industry-card reveal" style="background-image: url('images/industries/pharma.jpg');">
+              <span class="industry-arrow"><i class="fas fa-arrow-right"></i></span>
+              <div class="industry-card-content">
+                <div class="industry-card-icon"><i class="fas fa-prescription-bottle-medical"></i></div>
+                <h3>Pharmaceuticals</h3>
+                <p>GDP-compliant, temperature-controlled cold chain logistics for medicines and vaccines.</p>
               </div>
             </a>
-            <a href="industries/agri-products.html" class="service-card-link">
-              <div class="card text-center reveal">
-                <i class="fas fa-leaf fa-3x color-primary mb-1"></i>
-                <h3 class="mb-1">Agri Products</h3>
-                <p>Fast and safe transport for agricultural goods.</p>
+            <a href="industries/agri-products.html" class="industry-card reveal" style="background-image: url('images/industries/agri.jpg');">
+              <span class="industry-arrow"><i class="fas fa-arrow-right"></i></span>
+              <div class="industry-card-content">
+                <div class="industry-card-icon"><i class="fas fa-seedling"></i></div>
+                <h3>Agri Products</h3>
+                <p>Fast, safe transport for spices, grains, produce, and perishable agricultural exports.</p>
               </div>
             </a>
-            <a href="industries/general-cargo.html" class="service-card-link">
-              <div class="card text-center reveal">
-                <i class="fas fa-boxes fa-3x color-primary mb-1"></i>
-                <h3 class="mb-1">General Cargo</h3>
-                <p>Reliable shipping for all cargo categories.</p>
+            <a href="industries/general-cargo.html" class="industry-card reveal" style="background-image: url('images/industries/general-cargo.jpg');">
+              <span class="industry-arrow"><i class="fas fa-arrow-right"></i></span>
+              <div class="industry-card-content">
+                <div class="industry-card-icon"><i class="fas fa-boxes-stacked"></i></div>
+                <h3>General Cargo</h3>
+                <p>Reliable end-to-end shipping for all cargo types, volumes, and destinations worldwide.</p>
               </div>
             </a>
           </div>
@@ -349,22 +356,22 @@
         <div class="container text-center">
           <div class="trust-signals">
             <div>
-              <i class="fas fa-check-circle fa-2x color-primary mb-1"></i>
+              <i class="fas fa-check-circle fa-2x mb-1" style="color: var(--accent);"></i>
               <h4>Quality Assured</h4>
               <p class="trust-label">Standardized Operations</p>
             </div>
             <div>
-              <i class="fas fa-shield-alt fa-2x color-primary mb-1"></i>
+              <i class="fas fa-shield-halved fa-2x mb-1" style="color: var(--accent);"></i>
               <h4>Fully Insured</h4>
               <p class="trust-label">End-to-end Coverage</p>
             </div>
             <div>
-              <i class="fas fa-handshake fa-2x color-primary mb-1"></i>
+              <i class="fas fa-handshake fa-2x mb-1" style="color: var(--accent);"></i>
               <h4>500+ Clients</h4>
               <p class="trust-label">Trusted Partnerships</p>
             </div>
             <div>
-              <i class="fas fa-headset fa-2x color-primary mb-1"></i>
+              <i class="fas fa-headset fa-2x mb-1" style="color: var(--accent);"></i>
               <h4>24/7 Support</h4>
               <p class="trust-label">Dedicated Account Managers</p>
             </div>
@@ -536,12 +543,12 @@
         </div>
       </section>
 
-      <!-- ─── CTA (Modern bordered card, no dark block) ─── -->
+      <!-- ─── CTA (Full-Bleed Dark Navy) ─── -->
       <section id="cta" class="cta-section">
         <div class="container">
           <div class="cta-inner">
             <h2>Ready to Ship Your Cargo?</h2>
-            <p>Get a competitive quote today and experience premium logistics.</p>
+            <p>Get a competitive quote in under 24 hours and experience premium logistics trusted by 500+ businesses across India.</p>
             <a href="contact.html#quote" class="btn btn-primary btn-large">Request a Quote Now</a>
           </div>
         </div>
