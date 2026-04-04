@@ -229,6 +229,10 @@ section {
   color: var(--primary);
 }
 
+html.dark-mode .color-primary {
+  color: #5b9aff;
+}
+
 /* ---------- Images ---------- */
 img {
   max-width: 100%;

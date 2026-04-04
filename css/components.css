@@ -653,6 +653,10 @@ html.dark-mode .corporate-nav {
   color: var(--primary);
 }
 
+html.dark-mode .service-card-link:hover .service-card h3 {
+  color: var(--accent);
+}
+
 /* Service Block System (services.html detail pages) */
 .service-block[id] {
   scroll-margin-top: 100px;
@@ -760,6 +764,20 @@ html.dark-mode .corporate-nav {
   color: var(--primary);
   margin-bottom: var(--sp-1);
   font-size: 1.15rem;
+}
+
+html.dark-mode .step h3 {
+  color: var(--accent);
+}
+
+html.dark-mode .step-icon {
+  background: rgba(232, 168, 56, 0.12);
+  color: var(--accent);
+}
+
+html.dark-mode .step {
+  background: var(--bg-elevated);
+  border-color: var(--border);
 }
 
 .step p {
@@ -1380,7 +1398,7 @@ html.dark-mode .corporate-nav {
 .tracking-timeline h3 {
   margin-bottom: var(--sp-4);
   font-size: 1.4rem;
-  color: var(--secondary);
+  color: var(--text-main);
 }
 
 .timeline-event {
