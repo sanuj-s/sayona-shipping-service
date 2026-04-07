@@ -186,6 +186,7 @@
         stagger: 0.15,
         ease: 'power2.out',
         delay: 0.2,
+        clearProps: 'all',
       });
     }
 
@@ -197,7 +198,16 @@
         stagger: 0.1,
         ease: 'power2.out',
         delay: 0.6,
+        clearProps: 'all',
       });
+
+      // Safety fallback: force metrics visible if GSAP fails
+      setTimeout(() => {
+        Array.from(heroMetrics.children).forEach(card => {
+          card.style.opacity = '1';
+          card.style.transform = 'none';
+        });
+      }, 2000);
     }
   }
 
