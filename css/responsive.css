@@ -21,7 +21,7 @@
   background: var(--bg-surface);
   padding: 1.5rem 20px;
   position: fixed;
-  top: 80px;
+  top: 116px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -62,7 +62,7 @@
 
 body {
   margin: 0;
-  padding-top: 80px;
+  padding-top: 116px;
   padding-bottom: 70px; /* Space for mobile sticky CTA */
   font-family: var(--font-body);
 }
@@ -70,7 +70,7 @@ body {
 /* Navbar: mobile defaults */
 .corporate-nav {
   position: fixed;
-  top: 0;
+  top: 36px;
   left: 0;
   width: 100%;
   height: 80px;
@@ -429,16 +429,35 @@ html.dark-mode .corporate-nav {
   }
 }
 
+/* Hide top bar on mobile */
+@media (max-width: 767px) {
+  .top-bar {
+    display: none;
+  }
 
-/* ─── 1024px: desktop ─── */
-@media (min-width: 1024px) {
+  .corporate-nav {
+    top: 0;
+  }
 
   body {
     padding-top: 80px;
   }
 
+  #navMenu {
+    top: 80px;
+  }
+}
+
+
+/* ─── 1024px: desktop ─── */
+@media (min-width: 1024px) {
+
+  body {
+    padding-top: 116px;
+  }
+
   .corporate-nav {
-    top: 0;
+    top: 36px;
     padding: 0 40px;
   }
 
@@ -496,6 +515,12 @@ html.dark-mode .corporate-nav {
   .grid {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--sp-4);
+  }
+
+  /* Steps: horizontal layout on desktop */
+  .steps {
+    flex-direction: row;
+    gap: var(--sp-5);
   }
 
   .industries-grid {

@@ -160,7 +160,7 @@
     const bar = document.getElementById('progress-bar');
     if (!bar) return;
 
-    bar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:var(--primary);z-index:99999;transition:width 0.1s;width:0;';
+    bar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:99999;transition:width 0.1s;width:0;';
 
     window.addEventListener('scroll', () => {
       const h = document.documentElement;
@@ -308,17 +308,19 @@
     const path = window.location.pathname;
     const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
 
-    document.querySelectorAll('.nav-links a, #navMenu a').forEach(function (link) {
+    document.querySelectorAll('.nav-links > li > a, #navMenu a').forEach(function (link) {
       var href = link.getAttribute('href');
       if (!href) return;
-      var linkFile = href.split('#')[0].split('/').pop();
-      if (linkFile === filename || (filename === 'index.html' && linkFile === '')) {
+      
+      // Split href to get file and hash separately
+      var parts = href.split('#');
+      var linkFile = parts[0].split('/').pop();
+      var hasHash = parts.length > 1 && parts[1] !== '';
+      
+      // Only mark as active if it's an exact page match WITHOUT a hash fragment
+      // This prevents Services (#services) and Industries (#industries) from being active on index.html
+      if (!hasHash && (linkFile === filename || (filename === 'index.html' && (linkFile === '' || linkFile === 'index.html')))) {
         link.classList.add('active');
-        var parent = link.closest('.dropdown-parent');
-        if (parent) {
-          var trigger = parent.querySelector(':scope > a');
-          if (trigger) trigger.classList.add('active');
-        }
       }
     });
   }
