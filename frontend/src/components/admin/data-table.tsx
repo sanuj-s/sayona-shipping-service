@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,6 +27,9 @@ interface DataTableProps<T> {
   searchPlaceholder?: string;
   actions?: React.ReactNode;
   loading?: boolean;
+  emptyIcon?: React.ReactNode;
+  emptyTitle?: string;
+  emptyDescription?: string;
 }
 
 export function DataTable<T>({
@@ -42,6 +45,9 @@ export function DataTable<T>({
   searchPlaceholder = "Search...",
   actions,
   loading,
+  emptyIcon,
+  emptyTitle,
+  emptyDescription,
 }: DataTableProps<T>) {
   const totalPages = Math.ceil(total / pageSize);
 
@@ -96,8 +102,20 @@ export function DataTable<T>({
               ))
             ) : data.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-12 text-center text-[var(--foreground-secondary)]">
-                  No data found.
+                <td colSpan={columns.length} className="px-4 py-16">
+                  <div className="flex flex-col items-center justify-center text-center max-w-sm mx-auto">
+                    {emptyIcon || (
+                      <div className="w-12 h-12 rounded-xl bg-[var(--background-alt)] flex items-center justify-center mb-4">
+                        <Search className="h-6 w-6 text-[var(--foreground-secondary)]" />
+                      </div>
+                    )}
+                    <h3 className="text-[var(--foreground)] font-bold text-base mb-1">
+                      {emptyTitle || "No records found"}
+                    </h3>
+                    <p className="text-[var(--foreground-secondary)] text-sm">
+                      {emptyDescription || (searchable && searchValue ? "Try adjusting your search to find what you're looking for." : "There is currently no data available.")}
+                    </p>
+                  </div>
                 </td>
               </tr>
             ) : (

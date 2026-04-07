@@ -5,7 +5,7 @@ import { StatCard } from "@/components/admin/stat-card";
 import { DataTable } from "@/components/admin/data-table";
 import { StatusBadge } from "@/components/ui/badge";
 import { getDashboardStats } from "@/lib/api/endpoints";
-import { Package, Users, MessageSquare, FileText, TrendingUp, CheckCircle } from "lucide-react";
+import { Package, FileText, TrendingUp, CheckCircle } from "lucide-react";
 import type { DashboardStats, Shipment } from "@/lib/types";
 import Link from "next/link";
 

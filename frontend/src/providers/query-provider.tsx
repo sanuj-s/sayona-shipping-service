@@ -9,9 +9,14 @@ export function QueryProvider({ children }: { children: ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 60 * 1000,
-            refetchOnWindowFocus: false,
-            retry: 1,
+            staleTime: 5 * 60 * 1000, // 5 mins
+            gcTime: 10 * 60 * 1000, // 10 mins cache retention
+            refetchOnWindowFocus: true, // Synchronize on focus
+            retry: (failureCount, error) => {
+              // Do not retry authorization/authentication errors
+              if (error instanceof Error && error.message.includes("401")) return false;
+              return failureCount < 2;
+            },
           },
         },
       })

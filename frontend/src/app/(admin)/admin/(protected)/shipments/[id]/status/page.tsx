@@ -34,7 +34,7 @@ export default function UpdateStatusPage({ params }: { params: Promise<{ id: str
   const onSubmit = async (data: FormData) => {
     try {
       setStatus("idle");
-      await updateShipmentStatus(id, data as any);
+      await updateShipmentStatus(id, data);
       setStatus("success");
       setTimeout(() => router.push("/admin/shipments"), 1500);
     } catch (err) {

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Card } from "@/components/ui/card";
+import type { ShippingType } from "@/lib/types";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,7 +46,7 @@ export default function CreateShipmentPage() {
       setStatus("idle");
       await createShipment({
         ...data,
-        shippingType: data.shippingType as any,
+        shippingType: data.shippingType as ShippingType,
         weight: data.weight ? parseFloat(data.weight) : undefined,
       });
       setStatus("success");

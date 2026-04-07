@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   ArrowUpRight, ArrowDownLeft, Weight, Package,
-  MapPin, CheckCircle, Circle, Ship, Anchor,
+  MapPin, CheckCircle, Ship, Anchor,
   ClipboardList, Truck, FileText
 } from "lucide-react";
 

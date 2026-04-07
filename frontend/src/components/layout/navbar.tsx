@@ -48,7 +48,6 @@ export function Navbar() {
     : "bg-transparent";
 
   const textColor = !scrolled && isHome ? "text-white" : "text-[var(--foreground)]";
-  const secondaryText = !scrolled && isHome ? "text-white/70" : "text-[var(--foreground-secondary)]";
 
   return (
     <>
