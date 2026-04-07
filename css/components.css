@@ -395,6 +395,17 @@ html.dark-mode .corporate-nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle animated grain overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(232,168,56,0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .hero-grid {
@@ -402,18 +413,71 @@ html.dark-mode .corporate-nav {
   flex-direction: column;
   gap: 2rem;
   align-items: stretch;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-content {
   width: 100%;
 }
 
+/* Badge pill with animated dot */
+.hero-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  background: rgba(232,168,56,0.12);
+  border: 1px solid rgba(232,168,56,0.25);
+  color: var(--accent);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+  animation: badgePulse 2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(34,197,94,0.5);
+}
+
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Hero headline */
 .hero h1 {
-  font-size: clamp(32px, 5.5vw, 72px);
+  font-size: clamp(36px, 5vw, 64px);
   font-weight: 400;
   color: white;
   margin-bottom: var(--sp-3);
-  line-height: 1.05;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero-highlight {
+  background: linear-gradient(135deg, var(--accent), #f0c342);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero subtitle */
+.hero-subtitle {
+  font-size: clamp(15px, 1.4vw, 19px) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin-bottom: 28px !important;
+  max-width: 520px;
+  line-height: 1.7 !important;
 }
 
 .hero p {
@@ -422,46 +486,124 @@ html.dark-mode .corporate-nav {
   margin-bottom: var(--sp-4);
 }
 
+/* Hero CTA Buttons */
 .hero-buttons {
   display: flex;
   gap: var(--sp-2);
   flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.hero-cta-primary {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #071A33 !important;
+  font-weight: 700 !important;
+  padding: 14px 32px !important;
+  font-size: 15px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 20px rgba(232,168,56,0.35);
+  transition: all 0.3s ease !important;
+}
+
+.hero-cta-primary:hover {
+  box-shadow: 0 6px 28px rgba(232,168,56,0.5);
+  transform: translateY(-2px);
+}
+
+.hero-cta-outline {
+  color: white !important;
+  border-color: rgba(255,255,255,0.35) !important;
+  padding: 14px 28px !important;
+  font-size: 15px !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease !important;
+}
+
+.hero-cta-outline:hover {
+  background: rgba(255,255,255,0.1) !important;
+  border-color: rgba(255,255,255,0.6) !important;
+  transform: translateY(-2px);
+}
+
+/* Trust row below buttons */
+.hero-trust-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.hero-trust-item i {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+/* ─── Hero Metric Cards (Right Side) ─── */
+.hero-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
 
 .hero-metric-card {
   background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
-  padding: var(--sp-3);
-  border-radius: 14px;
-  border: 1px solid rgba(232, 168, 56, 0.15);
-  transition: all 0.3s ease;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .hero-metric-card:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(232, 168, 56, 0.35);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+}
+
+.hero-metric-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 12px;
+  background: rgba(232,168,56,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 18px;
 }
 
 .hero-metric-card h3 {
   color: var(--accent);
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  margin-bottom: 4px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 2px;
   font-family: var(--font-display);
   font-weight: 400;
+  line-height: 1;
 }
 
 .hero-metric-card p {
-  color: white;
+  color: rgba(255,255,255,0.75);
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
 }
 
-.hero-metrics {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
 
 /* ─── Carrier Logo Marquee ─── */
 .logo-marquee-section {
