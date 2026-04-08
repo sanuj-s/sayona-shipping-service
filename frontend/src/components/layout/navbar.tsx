@@ -94,7 +94,10 @@ export function Navbar() {
               alt="Sayona Shipping Services"
               width={160}
               height={44}
-              className={cn("h-10 w-auto transition-all", !scrolled && isHome && "brightness-0 invert")}
+              className={cn(
+                "h-10 w-auto transition-all dark:brightness-0 dark:invert", 
+                !scrolled && isHome && "brightness-0 invert"
+              )}
               priority
             />
           </Link>
