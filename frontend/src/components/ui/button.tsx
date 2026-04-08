@@ -3,23 +3,23 @@ import { forwardRef, type ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-250 cursor-pointer whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-[var(--duration-normal)] cursor-pointer whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-white border-2 border-primary rounded-lg hover:bg-transparent hover:text-primary",
+          "bg-primary text-white border-2 border-primary rounded-lg hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5 hover:bg-primary-hover",
         outline:
-          "border-2 border-primary text-primary bg-transparent rounded-lg hover:bg-primary hover:text-white",
+          "border-2 border-primary text-primary bg-transparent rounded-lg hover:bg-primary hover:text-white hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
         ghost:
-          "text-[var(--foreground)] border border-[var(--border-color)] rounded-md hover:border-primary hover:text-primary hover:bg-primary/5",
+          "text-[var(--foreground)] border border-transparent rounded-md hover:border-[var(--border-color)] hover:text-primary hover:bg-primary/5 hover:shadow-sm",
         enterprise:
-          "bg-primary text-white border-2 border-primary rounded-md hover:bg-transparent hover:text-primary",
+          "bg-primary text-white border-2 border-primary rounded-md hover:bg-primary-hover hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
         accent:
           "bg-accent text-secondary border-2 border-accent rounded-[10px] font-bold shadow-[0_4px_20px_rgba(232,168,56,0.35)] hover:shadow-[0_6px_28px_rgba(232,168,56,0.5)] hover:-translate-y-0.5",
         "hero-outline":
-          "text-white border-2 border-white/35 rounded-[10px] backdrop-blur-sm hover:bg-white/10 hover:border-white/60 hover:-translate-y-0.5",
-        link: "text-primary underline-offset-4 hover:underline p-0 h-auto",
+          "text-white border-2 border-white/35 rounded-[10px] backdrop-blur-sm hover:bg-white/10 hover:border-white/60 hover:-translate-y-0.5 hover:shadow-[var(--shadow-glass)]",
+        link: "text-primary underline-offset-4 hover:underline p-0 h-auto active:scale-100",
       },
       size: {
         sm: "h-9 px-3.5 text-[13px]",

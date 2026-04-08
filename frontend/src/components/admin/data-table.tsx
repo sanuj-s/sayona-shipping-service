@@ -122,7 +122,7 @@ export function DataTable<T>({
               data.map((row, i) => (
                 <tr
                   key={i}
-                  className="border-b border-[var(--border-color)] hover:bg-[var(--background-alt)] transition-colors"
+                  className="group relative border-b border-[var(--border-color)] even:bg-[var(--background-alt)] hover:bg-[var(--background-elevated)] transition-all duration-[var(--duration-normal)] hover:shadow-sm hover:z-10"
                 >
                   {columns.map((col) => (
                     <td key={col.key} className={cn("px-4 py-3 text-[var(--foreground)]", col.className)}>

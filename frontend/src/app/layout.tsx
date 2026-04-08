@@ -3,6 +3,7 @@ import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { QueryProvider } from "@/providers/query-provider";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
+import { ToastProvider } from "@/providers/toast-provider";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 import "./globals.css";
 
@@ -106,6 +107,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col antialiased">
         <ThemeProvider>
           <QueryProvider>
+            <ToastProvider />
             <ScrollProgress />
             {children}
             <WhatsAppButton />
