@@ -15,20 +15,24 @@ interface StatCardProps {
 
 export function StatCard({ title, value, icon, trend, trendUp, className }: StatCardProps) {
   return (
-    <Card variant="elevated" className={cn("flex items-start justify-between", className)}>
+    <Card variant="elevated" className={cn("group flex items-start justify-between hover:-translate-y-0.5 transition-all duration-[var(--duration-normal)]", className)}>
       <div>
         <p className="text-sm text-[var(--foreground-secondary)] font-medium mb-1">{title}</p>
-        <h3 className="text-2xl font-bold text-[var(--foreground)]">{value}</h3>
+        <h3 className="text-2xl font-extrabold text-[var(--foreground)] tracking-tight">{value}</h3>
         {trend && (
-          <p className={cn(
-            "text-xs font-medium mt-1",
+          <div className={cn(
+            "flex items-center gap-1 text-xs font-semibold mt-1.5",
             trendUp ? "text-success" : "text-error"
           )}>
+            <span className={cn(
+              "w-1.5 h-1.5 rounded-full",
+              trendUp ? "bg-success" : "bg-error"
+            )} />
             {trendUp ? "↑" : "↓"} {trend}
-          </p>
+          </div>
         )}
       </div>
-      <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 text-primary flex items-center justify-center shrink-0 group-hover:shadow-[var(--shadow-glow-primary)] transition-shadow duration-[var(--duration-normal)]">
         {icon}
       </div>
     </Card>

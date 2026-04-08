@@ -44,8 +44,8 @@ export function Navbar() {
   }, [pathname, closeMobileMenu]);
 
   const navBg = scrolled || !isHome
-    ? "bg-[var(--nav-bg)]/95 backdrop-blur-lg shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]"
-    : "bg-transparent";
+    ? "bg-[var(--nav-bg)]/90 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]"
+    : "bg-transparent border-b border-transparent";
 
   const textColor = !scrolled && isHome ? "text-white" : "text-[var(--foreground)]";
 
@@ -86,7 +86,7 @@ export function Navbar() {
         "sticky top-0 z-[var(--z-navbar)] transition-all duration-300",
         navBg
       )}>
-        <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-[72px]">
+        <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Image
@@ -106,10 +106,10 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   className={cn(
-                    "px-4 py-2 rounded-lg text-[15px] font-medium transition-colors",
+                    "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
                     pathname === link.href
-                      ? "text-primary bg-primary/5"
-                      : cn(textColor, "hover:text-primary hover:bg-primary/5")
+                      ? "text-primary"
+                      : cn(textColor, "hover:text-primary")
                   )}
                 >
                   {link.label}
