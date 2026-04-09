@@ -142,19 +142,23 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── Typography Authority ─── */
+/* ─── Typography Authority (Kinetic Variable) ─── */
 h1 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-variation-settings: 'wght' calc(400 + (var(--scroll-progress, 0) * 2));
+  font-weight: 400; /* Fallback */
   line-height: 1.05;
   letter-spacing: -0.025em;
+  transition: font-variation-settings 0.2s ease-out;
 }
 
 h2 {
   font-family: var(--font-sans);
-  font-weight: 800;
+  font-variation-settings: 'wght' calc(700 + (var(--scroll-progress, 0) * 1.5));
+  font-weight: 800; /* Fallback */
   line-height: 1.15;
   letter-spacing: -0.02em;
+  transition: font-variation-settings 0.2s ease-out;
 }
 
 h3, h4, h5, h6 {
@@ -293,16 +297,68 @@ ul, ol {
   background: linear-gradient(135deg, var(--background) 0%, rgba(232, 168, 56, 0.04) 50%, var(--background) 100%);
 }
 
-/* ─── Glass Effect ─── */
+/* ─── Glass Effect 3.0 (Sensory Reactivity) ─── */
 .glass {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-glass);
 }
 
 .dark .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.glass-3d {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(32px) saturate(120%);
+  -webkit-backdrop-filter: blur(32px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.dark .glass-3d {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Mouse-responsive glow mask for depth */
+.glass-3d::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.06),
+    transparent 40%
+  );
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.dark .glass-3d::before {
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.03),
+    transparent 40%
+  );
+}
+
+/* ─── Dynamic Temp Color Theory Variables ─── */
+:root {
+  --ambient-temp-r: 11;
+  --ambient-temp-g: 61;
+  --ambient-temp-b: 145;
+}
+.dark {
+  --ambient-temp-r: 30;
+  --ambient-temp-g: 91;
+  --ambient-temp-b: 176;
 }
 
 /* ═══════════════════════════════════════════════

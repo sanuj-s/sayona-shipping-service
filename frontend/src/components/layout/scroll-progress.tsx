@@ -9,7 +9,9 @@ export function ScrollProgress() {
     const onScroll = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+      const newProgress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setProgress(newProgress);
+      document.documentElement.style.setProperty("--scroll-progress", newProgress.toString());
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });

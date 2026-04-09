@@ -13,6 +13,7 @@ import {
   Target, Globe, Radio, Users,
   Ship, Package
 } from "lucide-react";
+import { LuxuryFluidCanvas } from "@/components/ui/luxury-fluid-canvas";
 
 const metricIcons: Record<string, React.ElementType> = {
   Target, Globe, Radio, Users,
@@ -127,8 +128,12 @@ export function HeroSection() {
         {/* Radial Glows */}
         <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_20%_50%,rgba(232,168,56,0.08),transparent_50%)]" />
         <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_80%_20%,rgba(11,61,145,0.15),transparent_50%)]" />
+        {/* Abstract WebGL Proxy */}
+        <div className="absolute inset-0 z-[4]">
+           <LuxuryFluidCanvas />
+        </div>
         {/* Dot Grid */}
-        <div className="absolute inset-0 z-[4] dot-grid opacity-40" />
+        <div className="absolute inset-0 z-[5] dot-grid opacity-40 mix-blend-overlay" />
       </div>
 
       <Container className="relative z-10 py-16 lg:py-0 w-full">

@@ -7,19 +7,16 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import {
-  Menu, X, Sun, Moon, ChevronDown,
-  Ship, Plane, Truck, Warehouse, FileSignature, PackageOpen,
-  Shirt, Cpu, HeartPulse, Car, Sprout, Boxes,
-  Phone, Mail, Clock, MapPin, User
+  Menu, X, Sun, Moon, Sparkles, Navigation,
+  MapPin, User, Search
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { SITE, NAV_LINKS, SERVICE_DROPDOWN, INDUSTRY_DROPDOWN } from "@/lib/utils/constants";
 import { useUIStore } from "@/lib/store/ui-store";
 import { Button } from "@/components/ui/button";
 
-const iconMap: Record<string, React.ElementType> = {
-  Ship, Plane, Truck, Warehouse, FileSignature, PackageOpen,
-  Shirt, Cpu, HeartPulse, Car, Sprout, Boxes,
+const dispatchAgentCommand = () => {
+  window.dispatchEvent(new CustomEvent("open-agentic-command"));
 };
 
 export function Navbar() {
@@ -120,93 +117,17 @@ export function Navbar() {
               </li>
             ))}
 
-            {/* Services Dropdown */}
-            <li
-              className="relative"
-              onMouseEnter={() => setActiveDropdown("services")}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button className={cn(
-                "flex items-center gap-1 px-4 py-2 rounded-lg text-[15px] font-medium transition-colors cursor-pointer",
-                pathname.startsWith("/services")
-                  ? "text-primary bg-primary/5"
-                  : cn(textColor, "hover:text-primary hover:bg-primary/5")
-              )}>
-                Services <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", activeDropdown === "services" && "rotate-180")} />
+            {/* Agentic Command Trigger */}
+            <li className="ml-2">
+              <button
+                onClick={dispatchAgentCommand}
+                data-magnetic
+                className="group flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-sm transition-all hover:bg-primary/20 backdrop-blur-md border border-primary/20 shadow-sm"
+              >
+                <Sparkles className="h-4 w-4" />
+                <span>Nav Agent</span>
+                <kbd className="ml-1 px-1.5 py-0.5 text-[10px] font-sans bg-primary/10 rounded border border-primary/20">⌘K</kbd>
               </button>
-              <AnimatePresence>
-                {activeDropdown === "services" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 mt-1 w-[480px] grid grid-cols-2 gap-6 p-6 rounded-xl bg-[var(--surface)] border border-[var(--border-color)] shadow-[var(--shadow-elevated)]"
-                  >
-                    {SERVICE_DROPDOWN.map((col) => (
-                      <div key={col.title}>
-                        <h4 className="text-xs font-bold text-[var(--foreground-secondary)] uppercase tracking-wider mb-3">{col.title}</h4>
-                        <div className="space-y-1">
-                          {col.items.map((item) => {
-                            const Icon = iconMap[item.icon] || PackageOpen;
-                            return (
-                              <Link
-                                key={item.href}
-                                href={item.href}
-                                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--foreground)] hover:bg-primary/5 hover:text-primary transition-colors"
-                              >
-                                <Icon className="h-4 w-4 text-primary shrink-0" />
-                                {item.label}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </li>
-
-            {/* Industries Dropdown */}
-            <li
-              className="relative"
-              onMouseEnter={() => setActiveDropdown("industries")}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button className={cn(
-                "flex items-center gap-1 px-4 py-2 rounded-lg text-[15px] font-medium transition-colors cursor-pointer",
-                pathname.startsWith("/industries")
-                  ? "text-primary bg-primary/5"
-                  : cn(textColor, "hover:text-primary hover:bg-primary/5")
-              )}>
-                Industries <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", activeDropdown === "industries" && "rotate-180")} />
-              </button>
-              <AnimatePresence>
-                {activeDropdown === "industries" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 mt-1 w-[260px] p-3 rounded-xl bg-[var(--surface)] border border-[var(--border-color)] shadow-[var(--shadow-elevated)]"
-                  >
-                    {INDUSTRY_DROPDOWN.map((item) => {
-                      const Icon = iconMap[item.icon] || Boxes;
-                      return (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[var(--foreground)] hover:bg-primary/5 hover:text-primary transition-colors"
-                        >
-                          <Icon className="h-4 w-4 text-primary shrink-0" />
-                          {item.label}
-                        </Link>
-                      );
-                    })}
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </li>
           </ul>
 

@@ -7,6 +7,8 @@ interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   height?: string | number;
 }
 
+import { motion } from "framer-motion";
+
 function Skeleton({
   className,
   variant = "text",
@@ -23,7 +25,10 @@ function Skeleton({
   };
 
   return (
-    <div
+    <motion.div
+      layout
+      transition={{ opacity: { duration: 2, repeat: Infinity, ease: "easeInOut" }, layout: { type: "spring", stiffness: 100, damping: 20 } }}
+      animate={{ opacity: [0.4, 0.7, 0.4] }}
       className={cn(
         "relative overflow-hidden bg-[var(--background-alt)] pointer-events-none",
         "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 dark:before:via-white/5 before:to-transparent",

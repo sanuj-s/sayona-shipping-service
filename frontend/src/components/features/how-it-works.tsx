@@ -1,10 +1,11 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/section-title";
-import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
-import { cn } from "@/lib/utils/cn";
 import { Package, FileText, Truck } from "lucide-react";
+import { cn } from "@/lib/utils/cn";
 
 const steps = [
   {
@@ -28,27 +29,32 @@ const steps = [
 ];
 
 export function HowItWorks() {
-  const [ref, isVisible] = useScrollAnimation();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 80%", "end 20%"]
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100, mass: 0.5 });
+  const lineScale = useTransform(smoothProgress, [0, 0.8], [0, 1]);
 
   return (
-    <section id="process" className="py-[var(--spacing-section)] section-bg-tinted relative overflow-hidden">
+    <section id="process" className="py-[var(--spacing-section)] section-bg-tinted relative overflow-hidden flex flex-col items-center">
       <Container>
         <SectionTitle eyebrow="Our Process" title="How It Works" subtitle="Three simple steps from quote to delivery. No complexity, no surprises." />
 
-        <div ref={ref} className="relative">
-          {/* ─── Connector Line (desktop) ─── */}
-          <div className="hidden md:block absolute top-[52px] left-[16.66%] right-[16.66%] h-px bg-[var(--border-color)]">
-            <div
-              className={cn(
-                "h-full bg-gradient-to-r from-primary via-primary to-accent origin-left transition-transform duration-1000 ease-out",
-                isVisible ? "scale-x-100" : "scale-x-0"
-              )}
+        <div ref={containerRef} className="relative mt-16 perspective-[1200px]">
+          {/* Connector Line (desktop) */}
+          <div className="hidden md:block absolute top-[52px] left-[16.66%] right-[16.66%] h-[2px] bg-[var(--border-color)]">
+            <motion.div
+              style={{ scaleX: lineScale, transformOrigin: "left" }}
+              className="h-full bg-gradient-to-r from-primary via-primary to-accent"
             />
           </div>
 
           <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
             {steps.map((step, i) => (
-              <StepCard key={step.number} step={step} index={i} isVisible={isVisible} />
+              <StepCard key={step.number} step={step} index={i} progress={smoothProgress} />
             ))}
           </div>
         </div>
@@ -60,36 +66,39 @@ export function HowItWorks() {
 function StepCard({
   step,
   index,
-  isVisible,
+  progress,
 }: {
   step: (typeof steps)[number];
   index: number;
-  isVisible: boolean;
+  progress: any;
 }) {
   const { Icon } = step;
+  
+  // Tactical offsets based on index
+  const start = index * 0.25;
+  const end = start + 0.3;
+
+  const y = useTransform(progress, [start, end], [100, 0]);
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  const rotateX = useTransform(progress, [start, end], [45, 0]);
+  const scale = useTransform(progress, [start, end], [0.8, 1]);
+  const dotScale = useTransform(progress, [end, end + 0.1], [0, 1]);
 
   return (
-    <div
-      className={cn(
-        "relative text-center transition-all duration-700",
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      )}
-      style={{ transitionDelay: `${index * 200}ms` }}
+    <motion.div
+      style={{ y, opacity, rotateX, scale }}
+      className="relative text-center flex flex-col items-center transform-style-3d"
     >
-      {/* Number + Icon */}
-      <div className="relative mx-auto mb-6">
-        {/* Step number (oversized accent) */}
-        <span className="block text-5xl font-extrabold text-primary/10 leading-none mb-2 select-none">
+      <div className="relative mx-auto mb-6 group cursor-default" data-magnetic>
+        <span className="block text-5xl font-extrabold text-primary/10 leading-none mb-2 select-none group-hover:text-primary/20 transition-colors">
           {step.number}
         </span>
-        {/* Icon Circle */}
-        <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/[0.08] border border-primary/10 flex items-center justify-center text-primary relative">
+        <div className="w-16 h-16 mx-auto rounded-2xl glass-3d flex items-center justify-center text-primary relative shadow-lg group-hover:shadow-primary/20 transition-shadow">
           <Icon className="h-7 w-7" />
-          {/* Subtle glow dot */}
-          <div className={cn(
-            "absolute -top-1 -right-1 w-3 h-3 rounded-full bg-accent border-2 border-[var(--background)] transition-all duration-500",
-            isVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
-          )} style={{ transitionDelay: `${index * 200 + 500}ms` }} />
+          <motion.div 
+            style={{ scale: dotScale }}
+            className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-accent border-2 border-[var(--background)]" 
+          />
         </div>
       </div>
 
@@ -99,6 +108,6 @@ function StepCard({
       <p className="text-sm text-[var(--foreground-secondary)] leading-relaxed max-w-[260px] mx-auto">
         {step.description}
       </p>
-    </div>
+    </motion.div>
   );
 }
