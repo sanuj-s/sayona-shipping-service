@@ -4,6 +4,8 @@
 
 import type { ApiResponse } from "@/lib/types";
 
+import { useAuthStore } from "@/lib/store/auth-store";
+
 const API_BASE = "/api/v1";
 
 class ApiClientError extends Error {
@@ -20,8 +22,16 @@ class ApiClientError extends Error {
 
 function getAuthHeaders(): HeadersInit {
   if (typeof window === "undefined") return {};
-  const token = localStorage.getItem("auth_token");
-  return token ? { Authorization: `Bearer ${token}` } : {};
+  try {
+    const stored = localStorage.getItem("sayona-auth");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (parsed.state?.token) {
+        return { Authorization: `Bearer ${parsed.state.token}` };
+      }
+    }
+  } catch {}
+  return {};
 }
 
 async function request<T>(
@@ -43,10 +53,16 @@ async function request<T>(
 
   if (!response.ok) {
     const errorBody = await response.json().catch(() => ({}));
-    const message =
-      errorBody?.error?.message ||
-      errorBody?.message ||
-      `Request failed with status ${response.status}`;
+    const message = errorBody?.error?.message || errorBody?.message || `Request failed with status ${response.status}`;
+    
+    // Check for 401 Unauthorized
+    if (response.status === 401 && typeof window !== "undefined") {
+      // NOTE: Simplistic 401 handling for this phase. 
+      // Ideally should queue requests and await rotation.
+      useAuthStore.getState().logout();
+      window.location.href = "/client/login";
+    }
+
     throw new ApiClientError(message, response.status, errorBody?.error?.code);
   }
 

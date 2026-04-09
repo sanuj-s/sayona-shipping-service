@@ -20,50 +20,43 @@ export interface ApiError {
 
 // ─── Shipment ───
 export type ShipmentStatus =
-  | "Pending"
-  | "Picked Up"
-  | "In Transit"
-  | "At Port"
-  | "Arrived at Destination"
-  | "Customs Clearance"
-  | "Out for Delivery"
-  | "Delivered"
-  | "Failed"
-  | "Returned";
+  | "CREATED"
+  | "PICKED_UP"
+  | "IN_TRANSIT"
+  | "ARRIVED_AT_WAREHOUSE"
+  | "OUT_FOR_DELIVERY"
+  | "DELIVERED"
+  | "FAILED_DELIVERY"
+  | "RETURNED";
 
 export type ShippingType = "ocean_fcl" | "ocean_lcl" | "air" | "ground";
 
 export interface Shipment {
-  id: string;
+  uuid: string;
   trackingNumber: string;
   senderName: string;
-  senderEmail: string;
-  senderPhone?: string;
   receiverName: string;
-  receiverEmail: string;
-  receiverPhone?: string;
   origin: string;
   destination: string;
+  status: ShipmentStatus;
+  shippingType: ShippingType;
+  price?: number;
   weight?: number;
   dimensions?: string;
-  cargoType?: string;
-  shippingType: ShippingType;
-  status: ShipmentStatus;
-  estimatedDelivery?: string;
-  notes?: string;
+  industryType?: string;
   createdAt: string;
   updatedAt: string;
+  version?: number;
 }
 
 // ─── Tracking ───
 export interface TrackingEvent {
-  id: string;
-  shipmentId: string;
+  uuid: string;
   status: string;
   location: string;
   description?: string;
-  timestamp: string;
   createdAt: string;
+  timestamp?: string; // backwards compat for frontend logic
 }
 
 export interface TrackingResult {
@@ -114,7 +107,8 @@ export interface User {
 }
 
 export interface AuthTokens {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   user: User;
 }
 

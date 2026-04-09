@@ -13,14 +13,18 @@ export default function ClientShipmentsPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
+      setError(null);
       const res = await getShipments({ page, limit: 10, search });
       setShipments(res.shipments);
       setTotal(res.total);
-    } catch { /* handle */ }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load your shipments");
+    }
     setLoading(false);
   }, [page, search]);
 
@@ -54,6 +58,7 @@ export default function ClientShipmentsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[var(--foreground)]">My Shipments</h1>
+      {error && <div className="p-4 text-sm text-error bg-error-light rounded-lg">{error}</div>}
       <DataTable
         columns={columns}
         data={shipments}

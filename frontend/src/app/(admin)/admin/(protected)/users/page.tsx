@@ -10,10 +10,12 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     getUsers()
       .then(setUsers)
-      .catch(() => {})
+      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load users"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -37,6 +39,7 @@ export default function UsersPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[var(--foreground)]">Users</h1>
+      {error && <div className="p-4 text-error bg-error-light rounded-lg">{error}</div>}
       <DataTable
         columns={columns}
         data={users}

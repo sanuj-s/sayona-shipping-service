@@ -15,14 +15,18 @@ export default function ShipmentsPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
+      setError(null);
       const res = await getShipments({ page, limit: 10, search });
       setShipments(res.shipments);
       setTotal(res.total);
-    } catch { /* handle */ }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load shipments");
+    }
     setLoading(false);
   }, [page, search]);
 
@@ -54,7 +58,7 @@ export default function ShipmentsPage() {
       key: "actions",
       header: "",
       render: (row: Shipment) => (
-        <Link href={`/admin/shipments/${row.id}/status`}>
+        <Link href={`/admin/shipments/${row.uuid}/status`}>
           <Button variant="ghost" size="sm">Update</Button>
         </Link>
       ),
@@ -69,6 +73,8 @@ export default function ShipmentsPage() {
           <Button variant="primary"><PlusCircle className="h-4 w-4" /> New Shipment</Button>
         </Link>
       </div>
+
+      {error && <div className="p-4 text-sm text-error bg-error-light rounded-lg">{error}</div>}
 
       <DataTable
         columns={columns}

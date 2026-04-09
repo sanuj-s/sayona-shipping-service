@@ -71,6 +71,52 @@ Time: ${new Date(quote.created_at || Date.now()).toISOString().replace('T', ' ')
             // Do NOT throw — quote is already saved, just log the failure
         }
     }
+
+    async sendPasswordResetEmail(email, resetToken) {
+        if (!this.transporter) {
+            logger.debug('Skipping sendPasswordResetEmail: Email transport disabled');
+            return;
+        }
+
+        const resetLink = `${config.cors.origins[0]}/client/reset-password?token=${resetToken}`;
+        
+        const mailOptions = {
+            from: `"Sayona Shipping Accounts" <${config.email.user}>`,
+            to: email,
+            subject: 'Password Reset Request',
+            text: `You have requested to reset your password. Click the link below to reset it:\n\n${resetLink}\n\nIf you did not request this, please ignore this email.`
+        };
+
+        try {
+            await this.transporter.sendMail(mailOptions);
+            logger.info(`Password reset email sent successfully to ${email}`);
+        } catch (error) {
+            logger.error(`Failed to send reset email to ${email}`, { error: error.message });
+        }
+    }
+
+    async sendVerificationEmail(email, verificationToken) {
+        if (!this.transporter) {
+            logger.debug('Skipping sendVerificationEmail: Email transport disabled');
+            return;
+        }
+
+        const verifyLink = `${config.cors.origins[0]}/client/verify-email?token=${verificationToken}`;
+        
+        const mailOptions = {
+            from: `"Sayona Shipping Accounts" <${config.email.user}>`,
+            to: email,
+            subject: 'Verify Your Email Address',
+            text: `Welcome to Sayona Shipping! Please click the link below to verify your email address:\n\n${verifyLink}\n\nThis link will expire in 24 hours.`
+        };
+
+        try {
+            await this.transporter.sendMail(mailOptions);
+            logger.info(`Verification email sent successfully to ${email}`);
+        } catch (error) {
+            logger.error(`Failed to send verification email to ${email}`, { error: error.message });
+        }
+    }
 }
 
 module.exports = new EmailService();

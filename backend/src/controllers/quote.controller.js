@@ -5,13 +5,23 @@ const QuoteService = require('../services/quote.service');
 const { success, created, paginated } = require('../utils/responseHelper');
 const { parsePagination } = require('../utils/pagination');
 const { AUDIT_ACTIONS } = require('../models/schemas');
+const sanitizeHtml = require('sanitize-html');
 
 const submitQuote = async (req, res, next) => {
     try {
         if (req.body._honey) {
             return res.status(400).json({ status: 'error', message: 'Bot detected' });
         }
-        const quote = await QuoteService.submit(req.body);
+        
+        const sanitizedBody = { ...req.body };
+        if (sanitizedBody.message) {
+            sanitizedBody.message = sanitizeHtml(sanitizedBody.message, {
+                allowedTags: [],
+                allowedAttributes: {}
+            });
+        }
+        
+        const quote = await QuoteService.submit(sanitizedBody);
 
         // Audit log (user might not be authenticated)
         if (req.audit) {
@@ -64,4 +74,36 @@ const updateQuoteStatus = async (req, res, next) => {
     }
 };
 
-module.exports = { submitQuote, getQuotes, updateQuoteStatus };
+const getEstimate = (req, res, next) => {
+    try {
+        const { origin, destination, weight, cargoType } = req.query;
+        const estimate = QuoteService.calculateEstimate(origin, destination, weight, cargoType);
+        return success(res, { estimatedPrice: estimate });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const replyToQuote = async (req, res, next) => {
+    try {
+        const { message, estimatedPrice } = req.body;
+        const result = await QuoteService.replyToQuote(
+            req.params.uuid,
+            message,
+            estimatedPrice,
+            req.user
+        );
+
+        await req.audit(AUDIT_ACTIONS.QUOTE_STATUS_UPDATED, 'quote', null, null, {
+            uuid: req.params.uuid,
+            status: 'quoted',
+            reply_sent: true
+        });
+
+        return success(res, result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { submitQuote, getQuotes, updateQuoteStatus, getEstimate, replyToQuote };

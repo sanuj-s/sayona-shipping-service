@@ -54,9 +54,59 @@ const QuoteService = {
     },
 
     /**
+     * Calculate an algorithmic estimate based on origin, destination and weight
+     */
+    calculateEstimate: (origin, destination, weight, cargoType) => {
+        // Base rate $100
+        let base = 100;
+        
+        // Weight multiplier
+        const parsedWeight = parseFloat(weight);
+        if (!isNaN(parsedWeight) && parsedWeight > 0) {
+            base += parsedWeight * 2.5; // $2.5 per unit of weight
+        }
+
+        // Cargo type multiplier
+        if (cargoType && cargoType.toLowerCase().includes('fragile')) {
+            base *= 1.5;
+        }
+
+        return base.toFixed(2);
+    },
+
+    /**
+     * Reply to a user's quote with an assigned estimate and email them
+     */
+    replyToQuote: async (uuid, message, estimatedPrice, adminUser) => {
+        const quote = await QuoteRepository.findByUuid(uuid);
+        if (!quote) throw new NotFoundError('Quote');
+
+        // Update status to 'quoted'
+        const updated = await QuoteRepository.updateStatus(quote.id, 'quoted', adminUser.id);
+        
+        // Dispatch email to customer with their custom estimated price and message
+        await EmailService.transporter?.sendMail({
+            from: `"Sayona Shipping" <${require('../config/environment').email.user}>`,
+            to: quote.email,
+            subject: `Update on your Quote Request (${quote.uuid})`,
+            text: `Hello ${quote.name},\n\nWe have reviewed your quote request for shipping from ${quote.origin} to ${quote.destination}.\n\nEstimated Price: $${estimatedPrice}\n\nOur Message:\n${message}\n\nPlease reply to this email to proceed.`
+        }).catch(err => console.error('Quote Reply Email error:', err.message));
+
+        return {
+            uuid: updated.uuid,
+            status: updated.status,
+            updatedAt: updated.updated_at,
+        };
+    },
+
+    /**
      * Update quote status
      */
     updateStatus: async (uuid, status, reviewerId) => {
+        const { QUOTE_STATUS_VALUES } = require('../models/schemas');
+        const QuoteRepository = require('../repositories/quote.repository');
+        const { ValidationError, NotFoundError } = require('../utils/AppError');
+
         if (!QUOTE_STATUS_VALUES.includes(status)) {
             throw new ValidationError(`Invalid status. Must be one of: ${QUOTE_STATUS_VALUES.join(', ')}`);
         }

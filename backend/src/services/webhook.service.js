@@ -1,4 +1,5 @@
 const queueService = require('./queue.service');
+const WebhookRepository = require('../repositories/webhook.repository');
 const logger = require('../config/logger');
 const { createCircuitBreaker } = require('../config/circuitBreaker');
 
@@ -6,17 +7,12 @@ class WebhookService {
     /**
      * Dispatch a webhook to external client systems
      */
-    /**
-     * Dispatch a webhook to external client systems
-     */
     async dispatchShipmentWebhook(shipment, eventType = 'shipment.updated') {
         const action = async () => {
-            // In a real system you'd lookup subscribed webhooks for this user_id
-            const mockSubscribedEndpoints = [
-                // "https://client-corp.com/api/webhooks/logistics"
-            ];
+            if (!shipment.user_id) return; // No client attached 
+            const endpoints = await WebhookRepository.findActiveByUser(shipment.user_id, eventType);
 
-            for (const url of mockSubscribedEndpoints) {
+            for (const url of endpoints) {
                 await queueService.addJob('webhooks', eventType, {
                     url,
                     payload: {

@@ -14,8 +14,12 @@ const { USER_ROLES } = require('../../models/schemas');
 // Public — submit quote (rate-limited)
 router.post('/', formLimiter, validate(quoteValidator.submitQuote), quoteController.submitQuote);
 
+// Public — get quote estimate (rate-limited)
+router.get('/estimate', quoteController.getEstimate);
+
 // Staff+ — list and manage quotes
 router.get('/', authenticate, authorizeMinRole(USER_ROLES.STAFF), validate(quoteValidator.getQuotes), quoteController.getQuotes);
 router.put('/:uuid/status', authenticate, authorizeMinRole(USER_ROLES.STAFF), validate(quoteValidator.updateQuoteStatus), quoteController.updateQuoteStatus);
+router.post('/:uuid/reply', authenticate, authorizeMinRole(USER_ROLES.STAFF), quoteController.replyToQuote);
 
 module.exports = router;

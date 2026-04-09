@@ -5,13 +5,23 @@ const ContactService = require('../services/contact.service');
 const { success, created, paginated } = require('../utils/responseHelper');
 const { parsePagination } = require('../utils/pagination');
 const { AUDIT_ACTIONS } = require('../models/schemas');
+const sanitizeHtml = require('sanitize-html');
 
 const submitContact = async (req, res, next) => {
     try {
         if (req.body._honey) {
             return res.status(400).json({ status: 'error', message: 'Bot detected' });
         }
-        const contact = await ContactService.submit(req.body);
+        
+        const sanitizedBody = { ...req.body };
+        if (sanitizedBody.message) {
+            sanitizedBody.message = sanitizeHtml(sanitizedBody.message, {
+                allowedTags: [],
+                allowedAttributes: {}
+            });
+        }
+        
+        const contact = await ContactService.submit(sanitizedBody);
 
         if (req.audit) {
             await req.audit(AUDIT_ACTIONS.CONTACT_SUBMITTED, 'contact', null, null, {

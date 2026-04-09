@@ -49,23 +49,27 @@ function StatusBadge({
   const statusLower = status.toLowerCase();
 
   const variantMap: Record<string, BadgeProps["variant"]> = {
-    pending: "default",
-    "picked up": "info",
-    "in transit": "info",
-    "at port": "primary",
-    "customs clearance": "warning",
-    "out for delivery": "warning",
+    created: "default",
+    picked_up: "info",
+    in_transit: "info",
+    arrived_at_warehouse: "primary",
+    out_for_delivery: "warning",
     delivered: "success",
-    failed: "error",
+    failed_delivery: "error",
     returned: "primary",
   };
 
   const variant = variantMap[statusLower] || "default";
 
+  const displayStatus = status
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
   return (
     <Badge variant={variant} className={cn("gap-1.5", className)} {...props}>
       <span className="w-1.5 h-1.5 rounded-full bg-current" />
-      {status}
+      {displayStatus}
     </Badge>
   );
 }

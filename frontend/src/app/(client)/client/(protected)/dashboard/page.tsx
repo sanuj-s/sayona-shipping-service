@@ -15,10 +15,12 @@ export default function ClientDashboard() {
   const [shipments, setShipments] = useState<Shipment[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     getShipments({ limit: 5 })
       .then((res) => setShipments(res.shipments))
-      .catch(() => {})
+      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load recent shipments"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -65,7 +67,9 @@ export default function ClientDashboard() {
           </Link>
         </div>
 
-        {loading ? (
+        {error ? (
+          <div className="p-4 text-sm text-error bg-error-light rounded-lg">{error}</div>
+        ) : loading ? (
           <div className="space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className="h-16 rounded-lg animate-shimmer" />

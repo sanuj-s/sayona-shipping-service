@@ -78,10 +78,6 @@ const ShipmentService = {
             { trackingNumber, origin, destination }
         );
 
-        // Async Background Triggers
-        notificationService.sendStatusUpdate(shipment, trackingEvent);
-        webhookService.dispatchShipmentWebhook(shipment, 'shipment.created');
-
         return { ...mapShipment(shipment), currentLocation: currentLocation || origin };
     },
 
@@ -161,10 +157,6 @@ const ShipmentService = {
                     description: description || `Status updated to ${newStatus}`,
                     createdBy: userId,
                 });
-
-                // Async Background Triggers
-                notificationService.sendStatusUpdate(updated, trackingEvent);
-                webhookService.dispatchShipmentWebhook(updated, 'shipment.updated');
             }
 
             // Record state transition for audit trail

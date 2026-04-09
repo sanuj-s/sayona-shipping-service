@@ -11,14 +11,18 @@ export default function ContactsPage() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
+      setError(null);
       const res = await getContacts({ page, limit: 10 });
       setContacts(res.contacts);
       setTotal(res.total);
-    } catch { /* handle */ }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load contacts");
+    }
     setLoading(false);
   }, [page]);
 
@@ -46,6 +50,7 @@ export default function ContactsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[var(--foreground)]">Contacts</h1>
+      {error && <div className="p-4 text-sm text-error bg-error-light rounded-lg">{error}</div>}
       <DataTable
         columns={columns}
         data={contacts}

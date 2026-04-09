@@ -10,6 +10,7 @@ const crypto = require('crypto');
 const config = require('../config/environment');
 const UserRepository = require('../repositories/user.repository');
 const TokenService = require('./token.service');
+const EmailService = require('./email.service');
 const { AuthenticationError, ConflictError, ValidationError, NotFoundError, AccountLockedError } = require('../utils/AppError');
 
 /**
@@ -40,6 +41,8 @@ const AuthService = {
         const verificationTokenHash = hashToken(verificationToken);
         const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
         await UserRepository.setVerificationToken(user.id, verificationTokenHash, verificationExpires);
+
+        EmailService.sendVerificationEmail(email, verificationToken);
 
         // Generate auth tokens
         const accessToken = TokenService.generateAccessToken(user);
@@ -154,7 +157,8 @@ const AuthService = {
 
         await UserRepository.setPasswordResetToken(user.id, tokenHash, expiresAt);
 
-        // STUB: In production, send email with reset link containing resetToken
+        EmailService.sendPasswordResetEmail(email, resetToken);
+
         return {
             message: 'If an account exists, a reset link has been sent',
             ...(config.isDevelopment() && { resetToken }),

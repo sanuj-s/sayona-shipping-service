@@ -13,10 +13,12 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     getDashboardStats()
       .then(setStats)
-      .catch(() => {})
+      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load dashboard statistics"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -25,7 +27,7 @@ export default function AdminDashboard() {
       key: "trackingNumber",
       header: "Tracking #",
       render: (row: Shipment) => (
-        <Link href={`/admin/shipments/${row.id}/status`} className="font-semibold text-primary hover:underline">
+        <Link href={`/admin/shipments/${row.uuid}/status`} className="font-semibold text-primary hover:underline">
           {row.trackingNumber}
         </Link>
       ),
@@ -48,6 +50,7 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[var(--foreground)]">Dashboard</h1>
+      {error && <div className="p-4 text-sm text-error bg-error-light rounded-lg">{error}</div>}
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

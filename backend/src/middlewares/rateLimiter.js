@@ -2,10 +2,21 @@
 // Rate Limiter Middleware — Multiple tiers
 // ─────────────────────────────────────────────
 const rateLimit = require('express-rate-limit');
+const RedisStore = require('rate-limit-redis');
 const config = require('../config/environment');
+const { getClient } = require('../config/redis');
+
+// Redis specific store generator
+const getStore = (prefix) => {
+    return new RedisStore({
+        sendCommand: (...args) => getClient().sendCommand(args),
+        prefix: `rate-limit:${prefix}:`
+    });
+};
 
 // General API rate limiter
 const apiLimiter = rateLimit({
+    store: getStore('api'),
     windowMs: config.rateLimit.windowMs,
     max: config.rateLimit.maxRequests,
     message: {
@@ -21,6 +32,7 @@ const apiLimiter = rateLimit({
 
 // Strict limiter for auth endpoints (login, register, forgot-password)
 const authLimiter = rateLimit({
+    store: getStore('auth'),
     windowMs: config.rateLimit.windowMs,
     max: config.rateLimit.authMax,
     message: {
@@ -36,6 +48,7 @@ const authLimiter = rateLimit({
 
 // Form submission limiter (contact, quote)
 const formLimiter = rateLimit({
+    store: getStore('form'),
     windowMs: config.rateLimit.windowMs,
     max: config.rateLimit.formMax,
     message: {
@@ -51,6 +64,7 @@ const formLimiter = rateLimit({
 
 // Medium limiter for public tracking endpoints to prevent scraping
 const trackingLimiter = rateLimit({
+    store: getStore('tracking'),
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // Limit each IP to 100 tracking requests per windowMs
     message: {

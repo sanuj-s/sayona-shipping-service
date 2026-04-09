@@ -1,4 +1,5 @@
 const queueService = require('./queue.service');
+const UserRepository = require('../repositories/user.repository');
 const logger = require('../config/logger');
 
 class NotificationService {
@@ -7,10 +8,19 @@ class NotificationService {
      */
     async sendStatusUpdate(shipment, trackingEvent) {
         try {
+            let customerEmail = shipment.customer_email;
+            if (!customerEmail && shipment.user_id) {
+                const user = await UserRepository.findById(shipment.user_id);
+                if (user) customerEmail = user.email;
+            }
+
+            // Fallback for anonymous shipments if any
+            customerEmail = customerEmail || 'test@example.com';
+
             await queueService.addJob('notifications', 'status_update', {
                 shipmentId: shipment.id,
                 trackingNumber: shipment.tracking_number,
-                customerEmail: shipment.customer_email || 'test@example.com',
+                customerEmail: customerEmail,
                 status: trackingEvent.status,
                 location: trackingEvent.location,
                 timestamp: trackingEvent.created_at

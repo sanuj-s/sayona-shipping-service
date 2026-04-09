@@ -46,7 +46,7 @@ export default function ClientRegisterPage() {
         company: data.company,
         phone: data.phone,
       });
-      authLogin(res.user, res.token);
+      authLogin(res.user, res.accessToken, res.refreshToken);
       router.push("/client/dashboard");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");

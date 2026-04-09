@@ -33,7 +33,7 @@ export default function ClientLoginPage() {
     try {
       setError("");
       const res = await login(data);
-      authLogin(res.user, res.token);
+      authLogin(res.user, res.accessToken, res.refreshToken);
       router.push("/client/dashboard");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Invalid credentials");

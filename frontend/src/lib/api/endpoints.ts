@@ -59,6 +59,10 @@ export function register(data: {
   return apiClient.post<AuthTokens>("/auth/register", data);
 }
 
+export function updateProfile(data: Partial<User>) {
+  return apiClient.put<User>("/auth/profile", data);
+}
+
 // ─── Admin Endpoints ───
 
 export function getDashboardStats() {
@@ -98,7 +102,7 @@ export function updateShipmentStatus(
     description?: string;
   }
 ) {
-  return apiClient.post<Shipment>(`/shipments/${id}/status`, data);
+  return apiClient.patch<Shipment>(`/shipments/${id}/status`, data);
 }
 
 export function getContacts(params?: { page?: number; limit?: number }) {
@@ -119,6 +123,10 @@ export function getQuotes(params?: { page?: number; limit?: number }) {
   return apiClient.get<{ quotes: Quote[]; total: number }>(
     `/quotes${qs ? `?${qs}` : ""}`
   );
+}
+
+export function replyToQuote(uuid: string, data: { message: string; estimatedPrice: string | number }) {
+  return apiClient.post<{ message: string }>(`/quotes/${uuid}/reply`, data);
 }
 
 export function getUsers() {

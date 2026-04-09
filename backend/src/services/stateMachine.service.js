@@ -60,6 +60,25 @@ class StateMachineService {
                  VALUES ($1, $2, $3, $4, $5)`,
                 [shipmentId, fromStatus, toStatus, userId, JSON.stringify(metadata)]
             );
+
+            // Fetch shipment details for notifications
+            const { rows } = await query('SELECT * FROM shipments WHERE id = $1', [shipmentId]);
+            if (rows.length > 0 && toStatus !== fromStatus) {
+                const mapShipment = require('./shipment.service').mapShipment;
+                // Avoid circular dependency side-effects if needed, but since it's lazy we are fine
+                const notificationService = require('./notification.service');
+                const webhookService = require('./webhook.service');
+
+                const trackingEvent = {
+                    status: toStatus,
+                    location: metadata.currentLocation || 'System Update',
+                    created_at: new Date().toISOString()
+                };
+
+                // Dispatch natively to all services on transition bounds
+                notificationService.sendStatusUpdate(rows[0], trackingEvent);
+                webhookService.dispatchShipmentWebhook(rows[0], 'shipment.updated');
+            }
         } catch (error) {
             // Log but don't fail the main operation if audit logging fails
             const logger = require('../config/logger');
