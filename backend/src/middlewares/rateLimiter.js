@@ -6,10 +6,12 @@ const RedisStore = require('rate-limit-redis');
 const config = require('../config/environment');
 const { getRedisClient } = require('../config/redis');
 
-// Redis specific store generator
+// Redis store generator — falls back to in-memory if Redis unavailable
 const getStore = (prefix) => {
+    const client = getRedisClient();
+    if (!client) return undefined; // express-rate-limit uses in-memory by default
     return new RedisStore({
-        sendCommand: (...args) => getRedisClient().sendCommand(args),
+        sendCommand: (...args) => client.sendCommand(args),
         prefix: `rate-limit:${prefix}:`
     });
 };
