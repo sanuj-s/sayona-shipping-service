@@ -118,18 +118,20 @@ const ShipmentRepository = {
         const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
         // Safely fallback to legacy OFFSET if cursor absent for backwards compat
-        const legacySort = sortBy ? \`ORDER BY \${sortBy} \${sortOrder}\` : "ORDER BY id ASC";
-        const legacyLimit = offset !== undefined ? \`LIMIT $${paramIndex++} OFFSET $${paramIndex}\` : \`LIMIT $${paramIndex++}\`;
+        const orderClause = sortBy ? `ORDER BY ${sortBy} ${sortOrder}` : 'ORDER BY id ASC';
+        let limitClause;
         
         if (offset !== undefined) {
-             params.push(limit, offset);
+            limitClause = `LIMIT $${paramIndex++} OFFSET $${paramIndex}`;
+            params.push(limit, offset);
         } else {
-             params.push(limit);
+            limitClause = `LIMIT $${paramIndex++}`;
+            params.push(limit);
         }
 
         const result = await query(
             `SELECT * FROM shipments ${whereClause}
-             ${legacySort} ${legacyLimit}`,
+             ${orderClause} ${limitClause}`,
             params
         );
         return result.rows;

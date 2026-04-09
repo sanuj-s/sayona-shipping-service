@@ -20,7 +20,7 @@ const idempotency = async (req, res, next) => {
         const cachedResponse = await redis.get(cacheKey);
 
         if (cachedResponse) {
-            // Short-circuit execution and return exact previous payload securely
+            // Short-circuit execution and return exact previous payload
             const payload = JSON.parse(cachedResponse);
             
             // Re-apply original headers
@@ -33,13 +33,13 @@ const idempotency = async (req, res, next) => {
             return res.status(payload.statusCode).json(payload.body);
         }
 
-        // Intercept Express res.json/res.send to capture output payload securely natively
+        // Intercept Express res.json to capture output payload
         const originalJson = res.json;
         res.json = function (body) {
             // Restore original reference
             res.json = originalJson;
             
-            // Only cache successful (2xx) requests natively
+            // Only cache successful (2xx) requests
             if (res.statusCode >= 200 && res.statusCode < 300) {
                 const responseMap = {
                     statusCode: res.statusCode,
@@ -47,9 +47,9 @@ const idempotency = async (req, res, next) => {
                     headers: Object.assign({}, res.getHeaders())
                 };
 
-                // Store idempotency cache for exactly 24 hours safely
-                redis.setEx(cacheKey, 86400, JSON.stringify(responseMap)).catch(err => {
-                   console.error('[Idempotency] Failed to cache response natively:', err);
+                // Store idempotency cache for exactly 24 hours
+                redis.setEx(cacheKey, 86400, JSON.stringify(responseMap)).catch(_err => {
+                    console.error('[Idempotency] Failed to cache response:', _err.message);
                 });
             }
 
@@ -59,8 +59,8 @@ const idempotency = async (req, res, next) => {
         res.setHeader('X-Idempotency-Cache', 'MISS');
         next();
 
-    } catch (error) {
-        next(new AppError('Failed idempotency lock check natively', 500, 'ERR_IDEMPOTENCY'));
+    } catch (_error) {
+        next(new AppError('Failed idempotency lock check', 500, 'ERR_IDEMPOTENCY'));
     }
 };
 

@@ -6,12 +6,12 @@ const { AppError } = require('../utils/AppError');
 
 // Hardcoded for now. In a true enterprise setup, this maps to LaunchDarkly or Redis.
 const FEATURE_FLAGS = {
-    'advanced-cmdk': false, // UI experimental agent lookup
+    'advanced-cmdk': false,
     'beta-dashboard': true
 };
 
 const requireFeatureFlag = (flagName) => {
-    return (req, res, next) => {
+    return (_req, _res, next) => {
         const isEnabled = FEATURE_FLAGS[flagName];
         
         if (!isEnabled) {

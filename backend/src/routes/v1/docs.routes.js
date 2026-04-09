@@ -23,6 +23,6 @@ router.use('/', swaggerUi.serve);
 // Allow UI rendering
 router.get('/', swaggerUi.setup(swaggerDocument));
 // Expose pure JSON output for openapi-typescript client-gen
-router.get('/schema.json', (req, res) => res.json(swaggerDocument));
+router.get('/schema.json', (_req, res) => res.json(swaggerDocument));
 
 module.exports = router;

@@ -89,7 +89,7 @@ describe('StateMachineService', () => {
             try {
                 stateMachineService.enforceTransition('CREATED', 'DELIVERED');
             } catch (e) {
-                expect(e.statusCode).toBe(400);
+                expect(e.statusCode).toBe(422);
             }
         });
 
