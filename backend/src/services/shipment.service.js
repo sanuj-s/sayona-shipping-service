@@ -126,9 +126,9 @@ const ShipmentService = {
     },
 
     /**
-     * Update shipment status with lifecycle enforcement and distributed locking
+     * Update shipment status with lifecycle enforcement and optimistic locking
      */
-    updateStatus: async (uuid, { status, currentLocation, description }, userId) => {
+    updateStatus: async (uuid, { status, currentLocation, description, expectedVersion }, userId) => {
         let lockToken = null;
         try {
             lockToken = await lockService.acquireLock(`shipment:${uuid}`, 10000);
@@ -143,9 +143,13 @@ const ShipmentService = {
 
             const newStatus = status || shipment.status;
 
-            // Update shipment
-            const updated = await ShipmentRepository.updateStatus(shipment.id, newStatus);
-            if (!updated) throw new ConflictError('Shipment was modified by another request');
+            // Update shipment with Optimistic Locking boundary
+            const updated = await ShipmentRepository.updateStatus(shipment.id, newStatus, expectedVersion);
+            if (!updated) {
+                const conflictError = new ConflictError('Shipment was modified by another request. Please manually refresh to see the latest changes.');
+                conflictError.errorCode = 'STALE_OBJECT_EXCEPTION';
+                throw conflictError;
+            }
 
             // Add tracking event and fire notifications
             if (status || currentLocation) {

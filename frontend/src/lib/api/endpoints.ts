@@ -100,6 +100,7 @@ export function updateShipmentStatus(
     status: string;
     location: string;
     description?: string;
+    version?: number;
   }
 ) {
   return apiClient.patch<Shipment>(`/shipments/${id}/status`, data);

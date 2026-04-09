@@ -8,7 +8,7 @@ const { authenticate } = require('../../middlewares/authenticate');
 const { authorize, authorizeMinRole } = require('../../middlewares/authorize');
 const validate = require('../../middlewares/validate');
 const shipmentValidator = require('../../validators/shipment.validator');
-const idempotencyMiddleware = require('../../middlewares/idempotency.middleware');
+const idempotencyMiddleware = require('../../middlewares/idempotency');
 const { USER_ROLES } = require('../../models/schemas');
 
 // All routes require authentication

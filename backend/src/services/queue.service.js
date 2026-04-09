@@ -45,8 +45,19 @@ class QueueService {
             logger.info(`Job ${job.id} completed successfully in ${queueName}`);
         });
 
-        worker.on('failed', (job, err) => {
+        worker.on('failed', async (job, err) => {
             logger.error(`Job ${job?.id} failed in ${queueName}:`, err);
+            if (job && job.attemptsMade >= job.opts.attempts) {
+                // Route to explicit dead-letter queue natively
+                const dlq = this.getQueue('dead_letter_queue');
+                await dlq.add(`dlq:${queueName}`, {
+                    originalJob: job.name,
+                    data: job.data,
+                    error: err.message,
+                    failedAt: new Date().toISOString()
+                });
+                logger.warn(`[DLQ] Job ${job.id} routed to dead-letter queue.`);
+            }
         });
 
         return worker;

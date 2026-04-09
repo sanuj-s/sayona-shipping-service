@@ -57,6 +57,24 @@ class AccountLockedError extends AppError {
     }
 }
 
+class StaleObjectError extends AppError {
+    constructor(message = 'Resource was modified by another request. Please refresh.') {
+        super(message, 409, 'STALE_OBJECT_EXCEPTION');
+    }
+}
+
+class ServiceTimeoutError extends AppError {
+    constructor(service = 'External integration') {
+        super(`${service} timed out unexpectedly`, 504, 'ERR_SERVICE_TIMEOUT');
+    }
+}
+
+class InvalidStateTransitionError extends AppError {
+    constructor(message = 'Invalid shipment lifecycle state transition') {
+        super(message, 422, 'SHIPMENT_INVALID_STATE');
+    }
+}
+
 module.exports = {
     AppError,
     ValidationError,
@@ -66,4 +84,7 @@ module.exports = {
     ConflictError,
     RateLimitError,
     AccountLockedError,
+    StaleObjectError,
+    ServiceTimeoutError,
+    InvalidStateTransitionError,
 };

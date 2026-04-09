@@ -36,9 +36,9 @@ class StateMachineService {
         }
 
         if (!this.isValidTransition(currentStatus, targetStatus)) {
-            throw new AppError(
-                `Invalid shipment state transition from ${currentStatus} to ${targetStatus}. Allowed states: ${SHIPMENT_STATUS_TRANSITIONS[currentStatus]?.join(', ') || 'None'}`,
-                400
+            const { InvalidStateTransitionError } = require('../utils/AppError');
+            throw new InvalidStateTransitionError(
+                `Invalid shipment state transition from ${currentStatus} to ${targetStatus}. Allowed states: ${SHIPMENT_STATUS_TRANSITIONS[currentStatus]?.join(', ') || 'None'}`
             );
         }
 
@@ -59,6 +59,13 @@ class StateMachineService {
                 `INSERT INTO state_transitions (shipment_id, from_status, to_status, triggered_by, metadata)
                  VALUES ($1, $2, $3, $4, $5)`,
                 [shipmentId, fromStatus, toStatus, userId, JSON.stringify(metadata)]
+            );
+
+            // [OUTBOX] Record StatusUpdated Domain Event natively
+            await query(
+                `INSERT INTO outbox_events (aggregate_type, aggregate_id, event_type, payload)
+                 VALUES ($1, $2, $3, $4)`,
+                ['shipment', shipmentId.toString(), 'shipment.updated', JSON.stringify({ shipmentId, fromStatus, toStatus, metadata })]
             );
 
             // Fetch shipment details for notifications

@@ -7,12 +7,13 @@ const quoteController = require('../../controllers/quote.controller');
 const { authenticate } = require('../../middlewares/authenticate');
 const { authorizeMinRole } = require('../../middlewares/authorize');
 const { formLimiter } = require('../../middlewares/rateLimiter');
+const idempotencyMiddleware = require('../../middlewares/idempotency');
 const validate = require('../../middlewares/validate');
 const quoteValidator = require('../../validators/quote.validator');
 const { USER_ROLES } = require('../../models/schemas');
 
-// Public — submit quote (rate-limited)
-router.post('/', formLimiter, validate(quoteValidator.submitQuote), quoteController.submitQuote);
+// Public — submit quote request
+router.post('/', formLimiter, validate(quoteValidator.submitQuote), idempotencyMiddleware, quoteController.submitQuote);
 
 // Public — get quote estimate (rate-limited)
 router.get('/estimate', quoteController.getEstimate);

@@ -44,6 +44,13 @@ const ShipmentRepository = {
                 );
             }
 
+            // [OUTBOX] Record ShipmentCreated Domain Event natively within transaction
+            await client.query(
+                `INSERT INTO outbox_events (aggregate_type, aggregate_id, event_type, payload)
+                 VALUES ($1, $2, $3, $4)`,
+                ['shipment', shipment.id.toString(), 'shipment.created', JSON.stringify(shipment)]
+            );
+
             await client.query('COMMIT');
             return shipment;
         } catch (error) {
@@ -79,10 +86,16 @@ const ShipmentRepository = {
     /**
      * Find all (paginated, filtered, sorted)
      */
-    findAll: async ({ limit, offset, sortBy, sortOrder, filters = {} }) => {
+    findAll: async ({ limit, offset, cursor, sortBy, sortOrder, filters = {} }) => {
         let paramIndex = 1;
         const conditions = ['deleted_at IS NULL'];
         const params = [];
+
+        if (cursor) {
+            // O(1) Cursor-driven pagination
+            conditions.push(`id > $${paramIndex++}`);
+            params.push(cursor);
+        }
 
         if (filters.status) {
             conditions.push(`status = $${paramIndex++}`);
@@ -97,17 +110,27 @@ const ShipmentRepository = {
             params.push(filters.userId);
         }
         if (filters.search) {
-            conditions.push(`(tracking_number ILIKE $${paramIndex} OR sender_name ILIKE $${paramIndex} OR receiver_name ILIKE $${paramIndex})`);
-            params.push(`%${filters.search}%`);
-            paramIndex++;
+            // Fast tsvector search natively over tracking, sender, receiver
+            conditions.push(`to_tsvector('english', coalesce(tracking_number, '') || ' ' || coalesce(sender_name, '') || ' ' || coalesce(receiver_name, '')) @@ plainto_tsquery('english', $${paramIndex++})`);
+            params.push(filters.search);
         }
 
         const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
+        // Safely fallback to legacy OFFSET if cursor absent for backwards compat
+        const legacySort = sortBy ? \`ORDER BY \${sortBy} \${sortOrder}\` : "ORDER BY id ASC";
+        const legacyLimit = offset !== undefined ? \`LIMIT $${paramIndex++} OFFSET $${paramIndex}\` : \`LIMIT $${paramIndex++}\`;
+        
+        if (offset !== undefined) {
+             params.push(limit, offset);
+        } else {
+             params.push(limit);
+        }
+
         const result = await query(
             `SELECT * FROM shipments ${whereClause}
-             ORDER BY ${sortBy} ${sortOrder} LIMIT $${paramIndex++} OFFSET $${paramIndex}`,
-            [...params, limit, offset]
+             ${legacySort} ${legacyLimit}`,
+            params
         );
         return result.rows;
     },
