@@ -9,8 +9,6 @@ const { SHIPMENT_STATUS } = require('../models/schemas');
 const pricingService = require('./pricing.service');
 const routeService = require('./route.service');
 const stateMachineService = require('./stateMachine.service');
-const notificationService = require('./notification.service');
-const webhookService = require('./webhook.service');
 const cacheService = require('./cache.service');
 const lockService = require('./lock.service');
 
@@ -63,7 +61,7 @@ const ShipmentService = {
         });
 
         // Create initial tracking event
-        const trackingEvent = await TrackingRepository.create({
+        await TrackingRepository.create({
             shipmentId: shipment.id,
             trackingNumber,
             location: currentLocation || origin,
@@ -153,7 +151,7 @@ const ShipmentService = {
 
             // Add tracking event and fire notifications
             if (status || currentLocation) {
-                const trackingEvent = await TrackingRepository.create({
+                await TrackingRepository.create({
                     shipmentId: shipment.id,
                     trackingNumber: shipment.tracking_number,
                     location: currentLocation || 'Unknown',

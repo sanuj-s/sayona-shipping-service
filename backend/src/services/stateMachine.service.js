@@ -71,8 +71,6 @@ class StateMachineService {
             // Fetch shipment details for notifications
             const { rows } = await query('SELECT * FROM shipments WHERE id = $1', [shipmentId]);
             if (rows.length > 0 && toStatus !== fromStatus) {
-                const mapShipment = require('./shipment.service').mapShipment;
-                // Avoid circular dependency side-effects if needed, but since it's lazy we are fine
                 const notificationService = require('./notification.service');
                 const webhookService = require('./webhook.service');
 
