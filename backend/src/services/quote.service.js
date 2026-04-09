@@ -3,8 +3,7 @@
 // ─────────────────────────────────────────────
 const QuoteRepository = require('../repositories/quote.repository');
 const EmailService = require('./email.service');
-const { NotFoundError, ValidationError } = require('../utils/AppError');
-const { QUOTE_STATUS_VALUES } = require('../models/schemas');
+const { NotFoundError } = require('../utils/AppError');
 
 const QuoteService = {
     /**

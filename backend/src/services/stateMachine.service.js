@@ -5,7 +5,6 @@
 // persists transition history for auditability.
 // ─────────────────────────────────────────────
 const { SHIPMENT_STATUS, SHIPMENT_STATUS_TRANSITIONS } = require('../models/schemas');
-const { AppError } = require('../utils/AppError');
 const { query } = require('../config/database');
 
 class StateMachineService {
