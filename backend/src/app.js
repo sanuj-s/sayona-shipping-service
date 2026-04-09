@@ -93,11 +93,13 @@ app.use('/client', express.static(path.join(__dirname, '..', '..', 'client')));
 // Serve public assets
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));
 
-// Serve main website
-app.use(express.static(path.join(__dirname, '..', '..'), {
-    extensions: ['html'],
-    index: 'index.html',
-}));
+// Root route - Basic health check to handle base URLs now that frontend is hosted separately
+app.get('/', (req, res) => {
+  res.status(200).json({ 
+    success: true, 
+    message: "Sayona Shipping API is running" 
+  });
+});
 
 // ─────────────── Health Check ───────────────
 app.get('/api/v1/health', async (req, res) => {
