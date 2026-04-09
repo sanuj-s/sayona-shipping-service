@@ -2,7 +2,7 @@
 // Idempotency Middleware — Prevent duplicate execution
 // Secures POST requests like Shipments or Payments
 // ─────────────────────────────────────────────
-const { getClient } = require('../config/redis');
+const { getRedisClient } = require('../config/redis');
 const { AppError } = require('../utils/AppError');
 
 const idempotency = async (req, res, next) => {
@@ -13,7 +13,7 @@ const idempotency = async (req, res, next) => {
     // Fast path: pass-through if not provided
     if (!idempotencyKey) return next();
 
-    const redis = getClient();
+    const redis = getRedisClient();
     const cacheKey = `idempotency:${req.user?.id || 'anon'}:${idempotencyKey}`;
 
     try {
