@@ -21,6 +21,6 @@ jobs:
             git stash
             git pull origin main
             cd backend && npm install && cd ..
-            node scripts/build-static.cjs
-            sudo cp -r dist/* /var/www/html/
+            cd frontend && npm install && rm -rf .next out && npx next build && cd ..
+            sudo cp -r frontend/out/* /var/www/html/
             pm2 restart server
