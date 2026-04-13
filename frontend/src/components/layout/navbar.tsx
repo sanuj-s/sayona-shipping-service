@@ -39,18 +39,20 @@ export function Navbar() {
     closeMobileMenu();
   }, [pathname, closeMobileMenu]);
 
-  const navBg = scrolled || !isHome
-    ? "bg-[var(--nav-bg)]/90 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]"
-    : "bg-transparent border-b border-white/10";
+  const onHero = !scrolled && isHome;
 
-  const textColor = !scrolled && isHome ? "text-white" : "text-[var(--foreground)]";
+  const navBg = onHero
+    ? "bg-secondary/80 backdrop-blur-md border-b border-white/10"
+    : "bg-[var(--nav-bg)]/95 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
+
+  const textColor = onHero ? "text-white" : "text-[var(--foreground)]";
 
   return (
     <>
       {/* ─── Top Utility Bar ─── */}
       <div className={cn(
         "hidden lg:block text-xs py-2 border-b transition-colors duration-300",
-        !scrolled && isHome
+        onHero
           ? "bg-secondary/80 backdrop-blur border-white/10 text-white/80"
           : "bg-[var(--background-alt)] border-[var(--border-color)] text-[var(--foreground-secondary)]"
       )}>
@@ -91,8 +93,8 @@ export function Navbar() {
               width={160}
               height={44}
               className={cn(
-                "h-10 w-auto object-contain transition-all",
-                !scrolled && isHome
+                "h-10 w-auto min-w-[120px] object-contain transition-all",
+                onHero
                   ? "brightness-0 invert"
                   : "dark:brightness-0 dark:invert"
               )}
