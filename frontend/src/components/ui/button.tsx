@@ -8,24 +8,24 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-primary text-white border-2 border-primary rounded-lg hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5 hover:bg-primary-hover",
+          "bg-primary text-white border-2 border-primary rounded-[10px] hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5 hover:bg-primary-hover",
         outline:
-          "border-2 border-primary text-primary bg-transparent rounded-lg hover:bg-primary hover:text-white hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
+          "border-2 border-primary text-primary bg-transparent rounded-[10px] hover:bg-primary hover:text-white hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
         ghost:
-          "text-[var(--foreground)] border border-transparent rounded-md hover:border-[var(--border-color)] hover:text-primary hover:bg-primary/5 hover:shadow-sm",
+          "text-[var(--foreground)] border-2 border-transparent rounded-[10px] hover:border-[var(--border-color)] hover:text-primary hover:bg-primary/5 hover:shadow-sm",
         enterprise:
-          "bg-primary text-white border-2 border-primary rounded-md hover:bg-primary-hover hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
+          "bg-primary text-white border-2 border-primary rounded-[10px] hover:bg-primary-hover hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
         accent:
-          "bg-accent text-secondary border-2 border-accent rounded-[10px] font-bold shadow-[0_4px_20px_rgba(232,168,56,0.35)] hover:shadow-[0_6px_28px_rgba(232,168,56,0.5)] hover:-translate-y-0.5",
+          "bg-accent text-secondary border-2 border-accent rounded-[10px] font-bold shadow-[0_4px_20px_rgba(245,158,11,0.35)] hover:shadow-[0_6px_28px_rgba(245,158,11,0.5)] hover:-translate-y-0.5",
         "hero-outline":
           "text-white border-2 border-white/35 rounded-[10px] backdrop-blur-sm hover:bg-white/10 hover:border-white/60 hover:-translate-y-0.5 hover:shadow-[var(--shadow-glass)]",
         link: "text-primary underline-offset-4 hover:underline p-0 h-auto active:scale-100",
       },
       size: {
-        sm: "h-9 px-3.5 text-[13px]",
-        md: "h-11 px-7 text-[15px]",
-        lg: "h-[52px] px-10 text-[17px]",
-        icon: "h-10 w-10",
+        sm: "h-10 px-4 text-[13px]",
+        md: "h-12 px-6 text-[15px]",
+        lg: "h-14 px-8 text-[17px]",
+        icon: "h-12 w-12",
       },
     },
     defaultVariants: {

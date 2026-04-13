@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { SITE, SERVICES, INDUSTRIES } from "@/lib/utils/constants";
 
 export function Footer() {
@@ -10,12 +9,10 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/">
-              <Image
+              <img
                 src="/images/sayona-logo.png"
                 alt="Sayona Shipping Services"
-                width={140}
-                height={38}
-                className="h-9 w-auto brightness-0 invert mb-4"
+                className="h-9 w-auto object-contain brightness-0 invert mb-4"
               />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed">

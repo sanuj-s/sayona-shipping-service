@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
@@ -43,12 +43,11 @@ export function ServiceBlock({ service, reversed }: { service: ServiceData; reve
 
       {/* Image */}
       <div className="rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-elevated)]">
-        <Image
+        <img
           src={service.image}
           alt={service.title}
-          width={600}
-          height={400}
           className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+          loading="lazy"
         />
       </div>
     </div>

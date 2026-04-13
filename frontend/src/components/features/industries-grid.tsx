@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/section-title";
 import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
@@ -52,12 +51,11 @@ function IndustryCard({
         style={{ transitionDelay: `${index * 80}ms` }}
       >
         {/* Background Image */}
-        <Image
+        <img
           src={industry.image}
           alt={industry.title}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          loading="lazy"
         />
 
         {/* Overlay gradient with brand tint */}

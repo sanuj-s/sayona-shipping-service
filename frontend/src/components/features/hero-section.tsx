@@ -59,12 +59,12 @@ function MetricCard({ value, suffix, label, icon }: { value: number; suffix?: st
 /* ─── Dashboard Preview Card ─── */
 function DashboardPreview() {
   return (
-    <div className="bg-white/[0.06] backdrop-blur-xl rounded-2xl border border-white/[0.1] p-5 shadow-2xl">
+    <div className="bg-white/[0.04] backdrop-blur-md rounded-xl border border-white/[0.08] p-5 shadow-[var(--shadow-soft)]">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-primary/30 flex items-center justify-center">
-            <Ship className="w-3.5 h-3.5 text-white" />
+          <div className="w-7 h-7 rounded-lg bg-accent/20 flex items-center justify-center">
+            <Ship className="w-3.5 h-3.5 text-accent" />
           </div>
           <span className="text-white/80 text-xs font-semibold">Live Tracking</span>
         </div>
@@ -80,7 +80,7 @@ function DashboardPreview() {
         ].map((s) => (
           <div key={s.id} className="flex items-center justify-between bg-white/[0.04] rounded-lg px-3 py-2.5 border border-white/[0.05]">
             <div className="flex items-center gap-2.5">
-              <Package className="w-3.5 h-3.5 text-white/40" />
+              <Package className="w-3.5 h-3.5 text-white/50" />
               <div>
                 <p className="text-white text-xs font-semibold">{s.id}</p>
                 <p className="text-white/40 text-[10px]">{s.route}</p>
@@ -126,8 +126,8 @@ export function HeroSection() {
           style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
         />
         {/* Radial Glows */}
-        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_20%_50%,rgba(232,168,56,0.08),transparent_50%)]" />
-        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_80%_20%,rgba(11,61,145,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_20%_50%,rgba(245,158,11,0.08),transparent_50%)]" />
+        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_80%_20%,rgba(11,61,145,0.15),transparent_60%)]" />
         {/* Abstract WebGL Proxy */}
         <div className="absolute inset-0 z-[4]">
            <LuxuryFluidCanvas />
@@ -150,18 +150,18 @@ export function HeroSection() {
             </motion.div>
 
             {/* Headline */}
-            <motion.h1 variants={fadeUp} className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-6 leading-[1.05] tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
-              Your Cargo.<br />
-              <span className="text-gradient">Our Commitment.</span>
+            <motion.h1 variants={fadeUp} className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-8 leading-[1.05] tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+              <span className="font-medium">Your Cargo.</span><br />
+              <span className="text-gradient font-semibold">Our Commitment.</span>
             </motion.h1>
 
             {/* Subtitle */}
-            <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/70 max-w-lg mb-10 leading-relaxed">
+            <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/70 max-w-lg mb-8 leading-relaxed">
               From India to 50+ countries — ocean freight, air cargo &amp; customs clearance delivered with 98% on-time precision.
             </motion.p>
 
             {/* CTAs */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-10">
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-8">
               <Link href="/contact#quote">
                 <Button variant="accent" size="lg" className="shadow-[var(--shadow-glow-accent)]">
                   <Send className="h-4 w-4" /> Get a Free Quote

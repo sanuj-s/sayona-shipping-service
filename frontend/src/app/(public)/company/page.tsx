@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { PageHeader } from "@/components/layout/page-header";
 import { Container } from "@/components/ui/container";
 import { SectionTitle } from "@/components/ui/section-title";
@@ -51,12 +50,11 @@ export default function CompanyPage() {
               </div>
             </div>
             <div className="relative">
-              <Image
+              <img
                 src="/images/logistics.jpg"
                 alt="Sayona Shipping Warehouse"
-                width={600}
-                height={400}
                 className="rounded-xl shadow-[var(--shadow-elevated)] w-full h-auto object-cover"
+                loading="lazy"
               />
               <div className="absolute -bottom-5 -right-3 bg-[var(--surface)] rounded-xl p-4 shadow-[var(--shadow-elevated)] border border-[var(--border-color)]">
                 <h3 className="text-2xl font-bold text-primary">500+</h3>

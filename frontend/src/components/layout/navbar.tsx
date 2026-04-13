@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
@@ -42,7 +41,7 @@ export function Navbar() {
 
   const navBg = scrolled || !isHome
     ? "bg-[var(--nav-bg)]/90 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]"
-    : "bg-transparent border-b border-transparent";
+    : "bg-transparent border-b border-white/10";
 
   const textColor = !scrolled && isHome ? "text-white" : "text-[var(--foreground)]";
 
@@ -86,15 +85,12 @@ export function Navbar() {
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Image
+            <img
               src="/images/sayona-logo.png"
               alt="Sayona Shipping Services"
-              width={160}
-              height={44}
               className={cn(
-                "h-10 w-auto transition-all dark:brightness-0 dark:invert"
+                "h-10 w-auto object-contain transition-all dark:brightness-0 dark:invert"
               )}
-              priority
             />
           </Link>
 

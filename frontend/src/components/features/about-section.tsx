@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
@@ -64,12 +63,11 @@ export function AboutSection() {
             {/* Decorative offset border */}
             <div className="absolute -inset-3 rounded-2xl border-2 border-dashed border-primary/10 -rotate-1 hidden lg:block" />
             <div className="relative rounded-xl overflow-hidden shadow-[var(--shadow-elevated)]">
-              <Image
+              <img
                 src="/images/about/warehouse.jpg"
                 alt="Sayona Shipping Warehouse"
-                width={600}
-                height={400}
                 className="w-full h-auto object-cover hover:scale-[1.03] transition-transform duration-700"
+                loading="lazy"
               />
             </div>
 
