@@ -48,7 +48,7 @@ function StatItem({ stat, index }: { stat: StatData; index: number }) {
 
 export function StatsSection({ className }: { className?: string }) {
   return (
-    <section className={cn("relative py-20 overflow-hidden", className)}>
+    <section className={cn("relative py-24 overflow-hidden", className)}>
       {/* Background gradient sweep */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/[0.03] to-transparent" />
       <Container>

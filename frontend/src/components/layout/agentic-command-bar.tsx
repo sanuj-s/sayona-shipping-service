@@ -47,7 +47,7 @@ export function AgenticCommandBar() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[12000] flex items-start justify-center pt-[15vh]">
+    <div className="fixed inset-0 z-[var(--z-modal)] flex items-start justify-center pt-[15vh]">
       {/* Heavy 3D glass backdrop */}
       <div 
         className="absolute inset-0 bg-secondary/40 backdrop-blur-md" 

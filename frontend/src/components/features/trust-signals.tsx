@@ -14,7 +14,7 @@ export function TrustSignals() {
   const [ref, isVisible] = useScrollAnimation();
 
   return (
-    <section className="py-14 bg-secondary/[0.03] border-y border-[var(--border-color)]">
+    <section className="py-16 bg-secondary/[0.03] border-y border-[var(--border-color)]">
       <Container>
         <div
           ref={ref}

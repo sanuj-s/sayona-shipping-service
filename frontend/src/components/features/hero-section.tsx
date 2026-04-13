@@ -150,7 +150,7 @@ export function HeroSection() {
             </motion.div>
 
             {/* Headline */}
-            <motion.h1 variants={fadeUp} className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-8 leading-[1.05] tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+            <motion.h1 variants={fadeUp} className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-8 leading-[1.05] tracking-tight">
               <span className="font-medium">Your Cargo.</span><br />
               <span className="text-gradient font-semibold">Our Commitment.</span>
             </motion.h1>

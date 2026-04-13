@@ -93,7 +93,7 @@ function StepCard({
         <span className="block text-5xl font-extrabold text-primary/10 leading-none mb-2 select-none group-hover:text-primary/20 transition-colors">
           {step.number}
         </span>
-        <div className="w-16 h-16 mx-auto rounded-2xl glass-3d flex items-center justify-center text-primary relative shadow-lg group-hover:shadow-primary/20 transition-shadow">
+        <div className="w-16 h-16 mx-auto rounded-2xl glass-3d flex items-center justify-center text-primary relative shadow-[var(--shadow-soft)] group-hover:shadow-primary/20 transition-shadow">
           <Icon className="h-7 w-7" />
           <motion.div 
             style={{ scale: dotScale }}
