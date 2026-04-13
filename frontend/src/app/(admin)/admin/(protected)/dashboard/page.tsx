@@ -27,7 +27,7 @@ export default function AdminDashboard() {
       key: "trackingNumber",
       header: "Tracking #",
       render: (row: Shipment) => (
-        <Link href={`/admin/shipments/${row.uuid}/status`} className="font-semibold text-primary hover:underline">
+        <Link href={`/admin/shipments/update-status?id=${row.uuid}`} className="font-semibold text-primary hover:underline">
           {row.trackingNumber}
         </Link>
       ),

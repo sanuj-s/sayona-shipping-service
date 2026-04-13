@@ -58,7 +58,7 @@ export default function ShipmentsPage() {
       key: "actions",
       header: "",
       render: (row: Shipment) => (
-        <Link href={`/admin/shipments/${row.uuid}/status`}>
+        <Link href={`/admin/shipments/update-status?id=${row.uuid}`}>
           <Button variant="ghost" size="sm">Update</Button>
         </Link>
       ),

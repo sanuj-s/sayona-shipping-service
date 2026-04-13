@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import {
   Menu, X, Sun, Moon, Sparkles, Navigation,
-  MapPin, User, Search
+  MapPin, User, Search, Phone, Mail, Clock
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { SITE, NAV_LINKS, SERVICE_DROPDOWN, INDUSTRY_DROPDOWN } from "@/lib/utils/constants";

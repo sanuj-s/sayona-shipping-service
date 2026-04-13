@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, use } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -21,9 +21,10 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function UpdateStatusPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function UpdateStatusPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id") || "";
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -42,6 +43,18 @@ export default function UpdateStatusPage({ params }: { params: Promise<{ id: str
       setErrorMsg(err instanceof Error ? err.message : "Failed to update status");
     }
   };
+
+  if (!id) {
+    return (
+      <div className="max-w-lg mx-auto space-y-6">
+        <Card variant="elevated" className="text-center py-10">
+          <AlertCircle className="h-12 w-12 text-error mx-auto mb-3" />
+          <h3 className="text-lg font-bold text-[var(--foreground)]">No Shipment ID</h3>
+          <p className="text-sm text-[var(--foreground-secondary)]">Missing shipment ID parameter.</p>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-lg mx-auto space-y-6">

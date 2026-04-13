@@ -82,13 +82,17 @@ export interface Contact {
 // ─── Quote ───
 export interface Quote {
   id: string;
+  uuid: string;
+  name: string;
   cargo: string;
+  cargoType?: string;
   origin: string;
   destination: string;
   email: string;
-  weight?: number;
+  weight?: string;
   volume?: string;
-  status: "pending" | "quoted" | "accepted" | "rejected";
+  message?: string;
+  status: "pending" | "reviewed" | "quoted" | "accepted" | "rejected";
   createdAt: string;
 }
 
