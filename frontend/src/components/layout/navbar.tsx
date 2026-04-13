@@ -92,8 +92,7 @@ export function Navbar() {
               width={160}
               height={44}
               className={cn(
-                "h-10 w-auto transition-all dark:brightness-0 dark:invert", 
-                !scrolled && isHome && "brightness-0 invert"
+                "h-10 w-auto transition-all dark:brightness-0 dark:invert"
               )}
               priority
             />
