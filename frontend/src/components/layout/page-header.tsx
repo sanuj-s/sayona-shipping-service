@@ -58,7 +58,6 @@ export function PageHeader({
             "text-4xl md:text-5xl lg:text-6xl font-bold mb-4",
             gradient ? "text-white" : "text-[var(--foreground)]"
           )}
-          style={{ fontFamily: "var(--font-display)" }}
         >
           {title}
         </h1>

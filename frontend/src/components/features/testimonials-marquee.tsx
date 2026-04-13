@@ -35,7 +35,7 @@ function TestimonialCard({ testimonial }: { testimonial: (typeof TESTIMONIALS)[n
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-full ${testimonial.avatarColor} flex items-center justify-center text-white font-bold text-xs ring-2 ring-white/20`}>
+            <div className={`w-9 h-9 rounded-full ${testimonial.avatarColor} flex items-center justify-center text-white font-bold text-xs ring-2 ring-[var(--border-color)]`}>
               {testimonial.name.charAt(0)}
             </div>
             <div>

@@ -295,7 +295,7 @@ ul, ol {
 
 /* ─── Glass Effect 3.0 (Sensory Reactivity) ─── */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-glass);
@@ -307,10 +307,10 @@ ul, ol {
 
 .glass-3d {
   position: relative;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(32px) saturate(120%);
   -webkit-backdrop-filter: blur(32px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
@@ -329,7 +329,7 @@ ul, ol {
   height: 100%;
   background: radial-gradient(
     800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(255, 255, 255, 0.06),
+    rgba(0, 0, 0, 0.03),
     transparent 40%
   );
   z-index: 0;
