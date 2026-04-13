@@ -66,6 +66,8 @@ export function AboutSection() {
               <img
                 src="/images/about/warehouse.jpg"
                 alt="Sayona Shipping Warehouse"
+                width={600}
+                height={400}
                 className="w-full h-auto object-cover hover:scale-[1.03] transition-transform duration-700"
                 loading="lazy"
               />

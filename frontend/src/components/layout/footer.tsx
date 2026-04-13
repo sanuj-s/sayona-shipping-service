@@ -12,6 +12,8 @@ export function Footer() {
               <img
                 src="/images/sayona-logo.png"
                 alt="Sayona Shipping Services"
+                width={140}
+                height={38}
                 className="h-9 w-auto object-contain brightness-0 invert mb-4"
               />
             </Link>

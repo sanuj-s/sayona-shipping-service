@@ -46,6 +46,8 @@ export function ServiceBlock({ service, reversed }: { service: ServiceData; reve
         <img
           src={service.image}
           alt={service.title}
+          width={600}
+          height={400}
           className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
           loading="lazy"
         />

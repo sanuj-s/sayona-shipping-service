@@ -53,6 +53,8 @@ export default function CompanyPage() {
               <img
                 src="/images/logistics.jpg"
                 alt="Sayona Shipping Warehouse"
+                width={600}
+                height={400}
                 className="rounded-xl shadow-[var(--shadow-elevated)] w-full h-auto object-cover"
                 loading="lazy"
               />

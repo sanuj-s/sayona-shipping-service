@@ -88,6 +88,8 @@ export function Navbar() {
             <img
               src="/images/sayona-logo.png"
               alt="Sayona Shipping Services"
+              width={160}
+              height={44}
               className={cn(
                 "h-10 w-auto object-contain transition-all dark:brightness-0 dark:invert"
               )}
