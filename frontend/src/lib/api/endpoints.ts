@@ -38,7 +38,11 @@ export function submitQuote(data: {
   cargo: string;
   origin: string;
   destination: string;
+  shippingMode: string;
   email: string;
+  phone: string;
+  weight?: string;
+  packages?: string;
 }) {
   return apiClient.post<Quote>("/quotes", data);
 }

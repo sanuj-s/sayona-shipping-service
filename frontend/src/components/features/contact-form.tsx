@@ -10,6 +10,7 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { submitContact } from "@/lib/api/endpoints";
+import { COUNTRIES } from "@/lib/utils/countries";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
 const contactSchema = z.object({
@@ -77,17 +78,28 @@ export function ContactForm() {
 
         <div className="grid sm:grid-cols-2 gap-4">
           <Input label="Email" type="email" placeholder="email@company.com" error={errors.email?.message} {...register("email")} />
-          <Input label="Phone" type="tel" placeholder="+1 (555) 000-0000" {...register("phone")} />
+          <Input label="Phone" type="tel" placeholder="+91 98765 43210" {...register("phone")} />
         </div>
 
         <h3 className="text-base font-bold text-primary pt-2">Shipment Details</h3>
 
         <div className="grid sm:grid-cols-2 gap-4">
-          <Input label="Origin Country" placeholder="e.g. India" {...register("origin")} />
-          <Input label="Destination Country" placeholder="e.g. USA" {...register("destination")} />
+          <Select label="Origin Country" {...register("origin")}>
+            <option value="">Select origin</option>
+            {COUNTRIES.map((c) => (
+              <option key={c.value} value={c.value}>{c.label}</option>
+            ))}
+          </Select>
+          <Select label="Destination Country" {...register("destination")}>
+            <option value="">Select destination</option>
+            {COUNTRIES.map((c) => (
+              <option key={c.value} value={c.value}>{c.label}</option>
+            ))}
+          </Select>
         </div>
 
         <Select label="Cargo Type / Industry" {...register("industry")}>
+          <option value="">Select industry</option>
           <option value="Textile & Apparel">Textile & Apparel</option>
           <option value="High-Tech">High-Tech & Electronics</option>
           <option value="Pharmaceuticals">Pharmaceuticals</option>

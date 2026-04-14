@@ -6,15 +6,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Container } from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { submitQuote } from "@/lib/api/endpoints";
+import { COUNTRIES, SHIPPING_MODES } from "@/lib/utils/countries";
 import { CheckCircle, AlertCircle, Clock, Shield, Globe } from "lucide-react";
 
 const quoteSchema = z.object({
   cargo: z.string().min(1, "Product type is required"),
   origin: z.string().min(1, "Origin is required"),
   destination: z.string().min(1, "Destination is required"),
+  shippingMode: z.string().min(1, "Shipping mode is required"),
   email: z.string().email("Valid email is required"),
+  phone: z.string().min(1, "Phone number is required"),
+  weight: z.string().optional(),
+  packages: z.string().optional(),
 });
 
 type QuoteFormData = z.infer<typeof quoteSchema>;
@@ -53,7 +59,7 @@ export function QuoteForm() {
   return (
     <section id="quote" className="py-[var(--spacing-section)] bg-[var(--background)]">
       <Container>
-        <div className="grid lg:grid-cols-[1fr_480px] gap-12 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-[1fr_520px] gap-12 lg:gap-16 items-start">
 
           {/* ═══ Left: Persuasive Copy ═══ */}
           <div className="lg:sticky lg:top-32 lg:self-start">
@@ -105,27 +111,60 @@ export function QuoteForm() {
                   error={errors.cargo?.message}
                   {...register("cargo")}
                 />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Select label="Origin Country" error={errors.origin?.message} {...register("origin")}>
+                    <option value="">Select origin</option>
+                    {COUNTRIES.map((c) => (
+                      <option key={c.value} value={c.value}>{c.label}</option>
+                    ))}
+                  </Select>
+                  <Select label="Destination" error={errors.destination?.message} {...register("destination")}>
+                    <option value="">Select destination</option>
+                    {COUNTRIES.map((c) => (
+                      <option key={c.value} value={c.value}>{c.label}</option>
+                    ))}
+                  </Select>
+                </div>
+
+                <Select label="Shipping Mode" error={errors.shippingMode?.message} {...register("shippingMode")}>
+                  <option value="">Select mode</option>
+                  {SHIPPING_MODES.map((m) => (
+                    <option key={m.value} value={m.value}>{m.label}</option>
+                  ))}
+                </Select>
+
                 <div className="grid grid-cols-2 gap-4">
                   <Input
-                    label="Origin Country"
-                    placeholder="e.g. India"
-                    error={errors.origin?.message}
-                    {...register("origin")}
+                    label="Approx. Weight (kg)"
+                    type="number"
+                    placeholder="e.g. 500"
+                    {...register("weight")}
                   />
                   <Input
-                    label="Destination"
-                    placeholder="e.g. USA"
-                    error={errors.destination?.message}
-                    {...register("destination")}
+                    label="Number of Packages"
+                    type="number"
+                    placeholder="e.g. 10"
+                    {...register("packages")}
                   />
                 </div>
-                <Input
-                  label="Email Address"
-                  type="email"
-                  placeholder="your@email.com"
-                  error={errors.email?.message}
-                  {...register("email")}
-                />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    label="Email Address"
+                    type="email"
+                    placeholder="your@email.com"
+                    error={errors.email?.message}
+                    {...register("email")}
+                  />
+                  <Input
+                    label="Phone Number"
+                    type="tel"
+                    placeholder="+91 98765 43210"
+                    error={errors.phone?.message}
+                    {...register("phone")}
+                  />
+                </div>
 
                 {status === "error" && (
                   <div className="flex items-center gap-2 p-3 rounded-lg bg-error-light text-error text-sm">

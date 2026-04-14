@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import {
-  Menu, X, Sun, Moon, Sparkles, Navigation,
-  MapPin, User, Search, Phone, Mail, Clock
+  Menu, X, Sun, Moon, Sparkles,
+  MapPin, User, Phone, Mail, Clock,
+  ChevronDown, Ship, Plane, Truck, Warehouse, FileSignature, PackageOpen,
+  Shirt, Cpu, HeartPulse, Car, Sprout, Boxes,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { SITE, NAV_LINKS, SERVICE_DROPDOWN, INDUSTRY_DROPDOWN } from "@/lib/utils/constants";
@@ -18,6 +20,13 @@ const dispatchAgentCommand = () => {
   window.dispatchEvent(new CustomEvent("open-agentic-command"));
 };
 
+const serviceIconMap: Record<string, React.ElementType> = {
+  Ship, Plane, Truck, Warehouse, FileSignature, PackageOpen,
+};
+const industryIconMap: Record<string, React.ElementType> = {
+  Shirt, Cpu, HeartPulse, Car, Sprout, Boxes,
+};
+
 export function Navbar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
@@ -25,6 +34,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isHome = pathname === "/";
 
@@ -37,6 +48,7 @@ export function Navbar() {
 
   useEffect(() => {
     closeMobileMenu();
+    setActiveDropdown(null);
   }, [pathname, closeMobileMenu]);
 
   const onHero = !scrolled && isHome;
@@ -46,6 +58,14 @@ export function Navbar() {
     : "bg-[var(--nav-bg)]/95 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
 
   const textColor = onHero ? "text-white" : "text-[var(--foreground)]";
+
+  const openDropdown = (key: string) => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
+    setActiveDropdown(key);
+  };
+  const closeDropdown = () => {
+    dropdownTimeout.current = setTimeout(() => setActiveDropdown(null), 150);
+  };
 
   return (
     <>
@@ -98,21 +118,147 @@ export function Navbar() {
 
           {/* Desktop Nav Links */}
           <ul className="hidden lg:flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
-                    pathname === link.href
-                      ? "text-primary"
-                      : cn(textColor, "hover:text-primary")
-                  )}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {/* Home */}
+            <li>
+              <Link
+                href="/"
+                className={cn(
+                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
+                  pathname === "/" ? "text-primary" : cn(textColor, "hover:text-primary")
+                )}
+              >
+                Home
+              </Link>
+            </li>
+
+            {/* Services Dropdown */}
+            <li
+              className="relative"
+              onMouseEnter={() => openDropdown("services")}
+              onMouseLeave={closeDropdown}
+            >
+              <button
+                className={cn(
+                  "flex items-center gap-1 px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)] cursor-pointer",
+                  pathname.startsWith("/services") ? "text-primary" : cn(textColor, "hover:text-primary")
+                )}
+                aria-expanded={activeDropdown === "services"}
+              >
+                Services
+                <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", activeDropdown === "services" && "rotate-180")} />
+              </button>
+              <AnimatePresence>
+                {activeDropdown === "services" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full left-0 mt-1 w-[480px] bg-[var(--surface)] border border-[var(--border-color)] rounded-xl shadow-[var(--shadow-elevated)] p-4 grid grid-cols-2 gap-4"
+                    onMouseEnter={() => openDropdown("services")}
+                    onMouseLeave={closeDropdown}
+                  >
+                    {SERVICE_DROPDOWN.map((group) => (
+                      <div key={group.title}>
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--foreground-secondary)] mb-2 px-2">{group.title}</p>
+                        <div className="space-y-0.5">
+                          {group.items.map((item) => {
+                            const Icon = serviceIconMap[item.icon] || Ship;
+                            return (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-sm font-medium text-[var(--foreground)] hover:bg-primary/5 hover:text-primary transition-colors"
+                              >
+                                <div className="w-8 h-8 rounded-lg bg-primary/[0.06] flex items-center justify-center shrink-0">
+                                  <Icon className="h-4 w-4 text-primary" />
+                                </div>
+                                {item.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
+            {/* Company */}
+            <li>
+              <Link
+                href="/company"
+                className={cn(
+                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
+                  pathname === "/company" ? "text-primary" : cn(textColor, "hover:text-primary")
+                )}
+              >
+                Company
+              </Link>
+            </li>
+
+            {/* Industries Dropdown */}
+            <li
+              className="relative"
+              onMouseEnter={() => openDropdown("industries")}
+              onMouseLeave={closeDropdown}
+            >
+              <button
+                className={cn(
+                  "flex items-center gap-1 px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)] cursor-pointer",
+                  pathname.startsWith("/industries") ? "text-primary" : cn(textColor, "hover:text-primary")
+                )}
+                aria-expanded={activeDropdown === "industries"}
+              >
+                Industries
+                <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", activeDropdown === "industries" && "rotate-180")} />
+              </button>
+              <AnimatePresence>
+                {activeDropdown === "industries" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full left-0 mt-1 w-[280px] bg-[var(--surface)] border border-[var(--border-color)] rounded-xl shadow-[var(--shadow-elevated)] p-3"
+                    onMouseEnter={() => openDropdown("industries")}
+                    onMouseLeave={closeDropdown}
+                  >
+                    <div className="space-y-0.5">
+                      {INDUSTRY_DROPDOWN.map((item) => {
+                        const Icon = industryIconMap[item.icon] || Boxes;
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-sm font-medium text-[var(--foreground)] hover:bg-primary/5 hover:text-primary transition-colors"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-primary/[0.06] flex items-center justify-center shrink-0">
+                              <Icon className="h-4 w-4 text-primary" />
+                            </div>
+                            {item.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+
+            {/* Contact */}
+            <li>
+              <Link
+                href="/contact"
+                className={cn(
+                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
+                  pathname === "/contact" ? "text-primary" : cn(textColor, "hover:text-primary")
+                )}
+              >
+                Contact
+              </Link>
+            </li>
 
             {/* Agentic Command Trigger */}
             <li className="ml-2">
@@ -174,28 +320,80 @@ export function Navbar() {
             className="fixed inset-0 top-[72px] z-[999] bg-[var(--surface)] lg:hidden overflow-y-auto"
           >
             <div className="flex flex-col p-6 gap-1">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "px-4 py-3 rounded-lg text-base font-medium transition-colors",
-                    pathname === link.href
-                      ? "text-primary bg-primary/5"
-                      : "text-[var(--foreground)] hover:bg-primary/5"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link href="/services" className="px-4 py-3 rounded-lg text-base font-medium text-[var(--foreground)] hover:bg-primary/5">
+              <Link href="/" className={cn("px-4 py-3 rounded-lg text-base font-medium transition-colors", pathname === "/" ? "text-primary bg-primary/5" : "text-[var(--foreground)] hover:bg-primary/5")}>
+                Home
+              </Link>
+
+              {/* Mobile Services Accordion */}
+              <button
+                onClick={() => setMobileExpanded(mobileExpanded === "services" ? null : "services")}
+                className="flex items-center justify-between px-4 py-3 rounded-lg text-base font-medium text-[var(--foreground)] hover:bg-primary/5 cursor-pointer"
+              >
                 Services
+                <ChevronDown className={cn("h-4 w-4 transition-transform", mobileExpanded === "services" && "rotate-180")} />
+              </button>
+              <AnimatePresence>
+                {mobileExpanded === "services" && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pl-4 pb-2 space-y-0.5">
+                      {SERVICE_DROPDOWN.flatMap((g) => g.items).map((item) => {
+                        const Icon = serviceIconMap[item.icon] || Ship;
+                        return (
+                          <Link key={item.href} href={item.href} className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[var(--foreground-secondary)] hover:text-primary hover:bg-primary/5">
+                            <Icon className="h-4 w-4 text-primary" />
+                            {item.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <Link href="/company" className={cn("px-4 py-3 rounded-lg text-base font-medium transition-colors", pathname === "/company" ? "text-primary bg-primary/5" : "text-[var(--foreground)] hover:bg-primary/5")}>
+                Company
               </Link>
-              <Link href="/tracking" className="px-4 py-3 rounded-lg text-base font-medium text-[var(--foreground)] hover:bg-primary/5">
-                Tracking
-              </Link>
-              <Link href="/careers" className="px-4 py-3 rounded-lg text-base font-medium text-[var(--foreground)] hover:bg-primary/5">
-                Careers
+
+              {/* Mobile Industries Accordion */}
+              <button
+                onClick={() => setMobileExpanded(mobileExpanded === "industries" ? null : "industries")}
+                className="flex items-center justify-between px-4 py-3 rounded-lg text-base font-medium text-[var(--foreground)] hover:bg-primary/5 cursor-pointer"
+              >
+                Industries
+                <ChevronDown className={cn("h-4 w-4 transition-transform", mobileExpanded === "industries" && "rotate-180")} />
+              </button>
+              <AnimatePresence>
+                {mobileExpanded === "industries" && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pl-4 pb-2 space-y-0.5">
+                      {INDUSTRY_DROPDOWN.map((item) => {
+                        const Icon = industryIconMap[item.icon] || Boxes;
+                        return (
+                          <Link key={item.href} href={item.href} className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[var(--foreground-secondary)] hover:text-primary hover:bg-primary/5">
+                            <Icon className="h-4 w-4 text-primary" />
+                            {item.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <Link href="/contact" className={cn("px-4 py-3 rounded-lg text-base font-medium transition-colors", pathname === "/contact" ? "text-primary bg-primary/5" : "text-[var(--foreground)] hover:bg-primary/5")}>
+                Contact
               </Link>
 
               <div className="h-px bg-[var(--border-color)] my-4" />
