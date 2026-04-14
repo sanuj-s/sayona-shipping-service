@@ -92,12 +92,7 @@ export function Navbar() {
               alt="Sayona Shipping Services"
               width={160}
               height={44}
-              className={cn(
-                "h-10 w-auto min-w-[120px] object-contain transition-all",
-                onHero
-                  ? "brightness-0 invert"
-                  : "dark:brightness-0 dark:invert"
-              )}
+              className="h-10 w-auto min-w-[120px] object-contain"
             />
           </Link>
 
