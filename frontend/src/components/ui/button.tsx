@@ -16,7 +16,7 @@ const buttonVariants = cva(
         enterprise:
           "bg-primary text-white border-2 border-primary rounded-[10px] hover:bg-primary-hover hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
         accent:
-          "bg-accent text-secondary border-2 border-accent rounded-[10px] font-bold shadow-[var(--shadow-glow-accent)] hover:shadow-[var(--shadow-glow-accent)] hover:-translate-y-0.5",
+          "bg-accent text-secondary border-2 border-accent rounded-[10px] font-bold shadow-[var(--shadow-glow-accent)] hover:shadow-[var(--shadow-glow-accent-hover)] hover:-translate-y-0.5",
         "hero-outline":
           "text-white border-2 border-white/35 rounded-[10px] backdrop-blur-sm hover:bg-white/10 hover:border-white/60 hover:-translate-y-0.5 hover:shadow-[var(--shadow-glass)]",
         link: "text-primary underline-offset-4 hover:underline p-0 h-auto active:scale-100",

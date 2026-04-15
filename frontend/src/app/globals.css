@@ -80,6 +80,7 @@
   --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.04);
   --shadow-glow-primary: 0 0 40px rgba(11, 61, 145, 0.15);
   --shadow-glow-accent: 0 0 40px rgba(245, 158, 11, 0.2);
+  --shadow-glow-accent-hover: 0 0 56px rgba(245, 158, 11, 0.35);
 
   /* ─── Animation ─── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
