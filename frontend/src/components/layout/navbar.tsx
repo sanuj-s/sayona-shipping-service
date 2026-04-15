@@ -53,7 +53,8 @@ export function Navbar() {
 
   const onHero = !scrolled && isHome;
 
-  const heroBarBg = "bg-secondary/80 backdrop-blur-md border-white/10";
+  // On the hero we want a stable, matching tone (no blur “lightening”).
+  const heroBarBg = "bg-secondary/95 border-white/10";
 
   const navBg = onHero
     ? `${heroBarBg} border-b`
