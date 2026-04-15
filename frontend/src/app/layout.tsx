@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { SensoryProvider } from "@/providers/sensory-provider";
 import { QueryProvider } from "@/providers/query-provider";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
-import { MagneticCursor } from "@/components/ui/magnetic-cursor";
 import { AgenticCommandBar } from "@/components/layout/agentic-command-bar";
 import { SpatialAudioProvider } from "@/providers/spatial-audio-provider";
 import { ToastProvider } from "@/providers/toast-provider";
@@ -115,7 +114,6 @@ export default function RootLayout({
               <QueryProvider>
                 <ToastProvider />
                 <ScrollProgress />
-                <MagneticCursor />
                 <AgenticCommandBar />
                 {children}
                 <WhatsAppButton />

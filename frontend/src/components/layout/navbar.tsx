@@ -53,8 +53,10 @@ export function Navbar() {
 
   const onHero = !scrolled && isHome;
 
+  const heroBarBg = "bg-secondary/80 backdrop-blur-md border-white/10";
+
   const navBg = onHero
-    ? "bg-secondary/80 backdrop-blur-md border-b border-white/10"
+    ? `${heroBarBg} border-b`
     : "bg-[var(--nav-bg)]/95 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
 
   const textColor = onHero ? "text-white" : "text-[var(--foreground)]";
@@ -73,7 +75,7 @@ export function Navbar() {
       <div className={cn(
         "hidden lg:block text-xs py-2 border-b transition-colors duration-300",
         onHero
-          ? "bg-secondary/80 backdrop-blur border-white/10 text-white/80"
+          ? `${heroBarBg} text-white/80`
           : "bg-[var(--background-alt)] border-[var(--border-color)] text-[var(--foreground-secondary)]"
       )}>
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between">
