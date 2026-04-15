@@ -37,8 +37,6 @@ export function Navbar() {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isHome = pathname === "/";
-
   useEffect(() => {
     setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -51,16 +49,11 @@ export function Navbar() {
     setActiveDropdown(null);
   }, [pathname, closeMobileMenu]);
 
-  const onHero = !scrolled && isHome;
+  // Keep navbar color consistent (white surface) even on hero.
+  const navBg =
+    "bg-[var(--nav-bg)]/95 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
 
-  // On the hero we want a stable, matching tone (no blur “lightening”).
-  const heroBarBg = "bg-secondary/95 border-white/10";
-
-  const navBg = onHero
-    ? `${heroBarBg} border-b`
-    : "bg-[var(--nav-bg)]/95 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
-
-  const textColor = onHero ? "text-white" : "text-[var(--foreground)]";
+  const textColor = "text-[var(--foreground)]";
 
   const openDropdown = (key: string) => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
@@ -75,9 +68,7 @@ export function Navbar() {
       {/* ─── Top Utility Bar ─── */}
       <div className={cn(
         "hidden lg:block text-xs py-2 border-b transition-colors duration-300",
-        onHero
-          ? `${heroBarBg} text-white/80`
-          : "bg-[var(--background-alt)] border-[var(--border-color)] text-[var(--foreground-secondary)]"
+        "bg-[var(--background-alt)] border-[var(--border-color)] text-[var(--foreground-secondary)]"
       )}>
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between">
           <div className="flex items-center gap-5">
