@@ -5,6 +5,18 @@ import { SectionTitle } from "@/components/ui/section-title";
 import { TESTIMONIALS } from "@/lib/utils/constants";
 import { Star, StarHalf, Quote } from "lucide-react";
 
+function avatarBg(avatarColor: string) {
+  switch (avatarColor) {
+    case "success":
+      return "var(--color-success)";
+    case "primary":
+      return "var(--color-primary)";
+    case "info":
+    default:
+      return "var(--color-info)";
+  }
+}
+
 function StarRating({ rating }: { rating: number }) {
   const fullStars = Math.floor(rating);
   const hasHalf = rating % 1 !== 0;
@@ -35,7 +47,10 @@ function TestimonialCard({ testimonial }: { testimonial: (typeof TESTIMONIALS)[n
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-full ${testimonial.avatarColor} flex items-center justify-center text-white font-bold text-xs ring-2 ring-[var(--border-color)]`}>
+            <div
+              className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-xs ring-2 ring-[var(--border-color)]"
+              style={{ backgroundColor: avatarBg(testimonial.avatarColor) }}
+            >
               {testimonial.name.charAt(0)}
             </div>
             <div>

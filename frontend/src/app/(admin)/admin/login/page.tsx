@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary via-[#0a2540] to-primary/80 p-5">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary via-secondary/90 to-primary/80 p-5">
       <Card variant="default" padding="lg" className="w-full max-w-md">
         <div className="text-center mb-8">
           <Ship className="h-10 w-10 text-primary mx-auto mb-3" />

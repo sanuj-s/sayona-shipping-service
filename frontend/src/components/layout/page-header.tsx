@@ -33,7 +33,7 @@ export function PageHeader({
       )}
     >
       {gradient && (
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--glow-accent),transparent_55%)]" />
       )}
       <Container
         className={cn(

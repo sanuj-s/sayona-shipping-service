@@ -13,7 +13,7 @@ export function CTASection() {
   return (
     <section className="py-[var(--spacing-section)] bg-gradient-to-br from-secondary via-secondary to-primary/80 relative overflow-hidden">
       {/* Radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(245,158,11,0.06),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--glow-accent),transparent_60%)]" />
       {/* Dot Grid */}
       <div className="absolute inset-0 dot-grid opacity-30" />
 

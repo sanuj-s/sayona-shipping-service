@@ -7,7 +7,7 @@ const cardVariants = cva("rounded-[var(--radius-lg)] transition-all duration-[va
     variant: {
       default: "bg-[var(--surface)] border border-[var(--border-color)]",
       elevated:
-        "bg-[var(--surface)] border border-[var(--border-color)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elevated)] hover:-translate-y-1",
+        "bg-[var(--surface)] border border-[var(--border-color)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-1",
       bordered: "bg-transparent border-2 border-[var(--border-color)] hover:border-primary/30 hover:shadow-sm hover:-translate-y-1",
       glass: "glass-3d hover:shadow-[var(--shadow-glass)] hover:-translate-y-1",
       ghost: "bg-transparent",

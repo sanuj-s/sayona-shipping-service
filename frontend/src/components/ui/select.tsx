@@ -28,8 +28,8 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ref={ref}
             id={selectId}
             className={cn(
-              "w-full h-11 appearance-none rounded-[var(--radius-md)] border border-[var(--border-color)] bg-[var(--surface)] px-4 pr-10 text-[15px] text-[var(--foreground)] shadow-sm transition-all duration-[var(--duration-normal)] hover:border-[var(--foreground-secondary)] focus:outline-none focus:ring-4 focus:ring-primary/15 focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
-              error && "border-error focus:ring-error/15 focus:border-error hover:border-error",
+              "w-full h-11 appearance-none rounded-[var(--radius-md)] border border-[var(--border-color)] bg-[var(--surface)] px-4 pr-10 text-[15px] text-[var(--foreground)] shadow-sm transition-all duration-[var(--duration-normal)] hover:border-[var(--foreground-secondary)] focus:outline-none focus:ring-4 focus:ring-[var(--glow-primary)] focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--background-alt)] disabled:text-[var(--foreground-secondary)] cursor-pointer",
+              error && "border-error focus:ring-[var(--color-error-soft)] focus:border-error hover:border-error",
               className
             )}
             {...props}

@@ -20,8 +20,8 @@ export default function CareersPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 lg:py-32 text-center bg-gradient-to-br from-secondary via-[#0a2540] to-primary overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,114,255,0.15),transparent_50%)]" />
+      <section className="relative py-24 lg:py-32 text-center bg-gradient-to-br from-secondary via-secondary/90 to-primary/85 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--glow-primary),transparent_55%)]" />
         <Container className="relative z-10">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-display)" }}>
             Build Your Career in Global Logistics
@@ -92,7 +92,7 @@ export default function CareersPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-primary to-info text-center">
+      <section className="py-20 bg-gradient-to-r from-primary to-[var(--color-info)] text-center">
         <Container>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Don&apos;t See Your Role?

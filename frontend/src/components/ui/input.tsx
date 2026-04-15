@@ -3,18 +3,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils/cn";
 
 const inputVariants = cva(
-  "w-full rounded-[var(--radius-md)] border bg-[var(--surface)] text-[var(--foreground)] placeholder:text-[var(--foreground-secondary)] shadow-sm transition-all duration-[var(--duration-normal)] hover:border-[var(--foreground-secondary)] focus:outline-none focus:ring-4 focus:ring-primary/15 focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed group-hover:border-[var(--foreground-secondary)]",
+  "w-full rounded-[var(--radius-md)] border bg-[var(--surface)] text-[var(--foreground)] placeholder:text-[var(--foreground-secondary)] shadow-sm transition-all duration-[var(--duration-normal)] hover:border-[var(--foreground-secondary)] focus:outline-none focus:ring-4 focus:ring-[var(--glow-primary)] focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--background-alt)] disabled:text-[var(--foreground-secondary)]",
   {
     variants: {
       size: {
         sm: "h-9 px-3 text-sm",
         md: "h-11 px-4 text-[15px]",
-        lg: "h-13 px-5 text-base",
+        lg: "h-12 px-5 text-base",
       },
       state: {
         default: "border-[var(--border-color)]",
-        error: "border-error focus:ring-error/20 focus:border-error",
-        success: "border-success focus:ring-success/20 focus:border-success",
+        error: "border-error focus:ring-[var(--color-error-soft)] focus:border-error hover:border-error",
+        success: "border-success focus:ring-[var(--color-success-soft)] focus:border-success hover:border-success",
       },
     },
     defaultVariants: {

@@ -14,6 +14,7 @@
   --color-accent: #f59e0b;
   --color-accent-hover: #d97706;
   --color-accent-soft: #FDF6E8;
+  --color-whatsapp: #25D366;
 
   /* ─── Neutral Scale ─── */
   --color-neutral-50: #F8FAFC;
@@ -37,6 +38,12 @@
   --color-error-light: #fee2e2;
   --color-info: #3b82f6;
   --color-info-light: #dbeafe;
+
+  /* ─── Semantic Soft (Dark-friendly) ─── */
+  --color-success-soft: rgba(22, 163, 74, 0.18);
+  --color-warning-soft: rgba(245, 158, 11, 0.18);
+  --color-error-soft: rgba(239, 68, 68, 0.18);
+  --color-info-soft: rgba(59, 130, 246, 0.18);
 
   /* ─── Status Colors (Shipping-specific) ─── */
   --color-status-created: #94a3b8;
@@ -140,6 +147,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* ─── Font Utilities (used in components) ─── */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-sans {
+  font-family: var(--font-sans);
 }
 
 /* ─── Typography Authority (Kinetic Variable) ─── */

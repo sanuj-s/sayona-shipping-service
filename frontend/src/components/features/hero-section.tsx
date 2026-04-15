@@ -74,9 +74,9 @@ function DashboardPreview() {
       {/* Shipment Row */}
       <div className="space-y-2.5">
         {[
-          { id: "SYN-7842", route: "Mumbai → Hamburg", status: "In Transit", color: "bg-blue-400" },
-          { id: "SYN-7839", route: "Chennai → Dubai", status: "Delivered", color: "bg-emerald-400" },
-          { id: "SYN-7836", route: "Tirupur → LA", status: "At Port", color: "bg-violet-400" },
+          { id: "SYN-7842", route: "Mumbai → Hamburg", status: "In Transit", color: "bg-[var(--color-status-transit)]" },
+          { id: "SYN-7839", route: "Chennai → Dubai", status: "Delivered", color: "bg-[var(--color-status-delivered)]" },
+          { id: "SYN-7836", route: "Tirupur → LA", status: "At Port", color: "bg-[var(--color-status-warehouse)]" },
         ].map((s) => (
           <div key={s.id} className="flex items-center justify-between bg-white/[0.04] rounded-lg px-3 py-2.5 border border-white/[0.05]">
             <div className="flex items-center gap-2.5">
@@ -119,15 +119,13 @@ export function HeroSection() {
     <section id="hero" className="relative min-h-[92vh] flex items-center overflow-hidden bg-secondary">
       {/* Background Layers */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 z-[2]" style={{
-          background: "linear-gradient(160deg, rgba(7,26,51,0.97) 0%, rgba(7,26,51,0.88) 40%, rgba(7,26,51,0.75) 100%)"
-        }} />
+        <div className="absolute inset-0 z-[2] bg-gradient-to-br from-secondary/95 via-secondary/85 to-secondary/70" />
         <div className="absolute inset-0 z-[1] opacity-30 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
         />
         {/* Radial Glows */}
-        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_20%_50%,rgba(245,158,11,0.08),transparent_50%)]" />
-        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_80%_20%,rgba(11,61,145,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_20%_50%,var(--glow-accent),transparent_50%)]" />
+        <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_80%_20%,var(--glow-primary),transparent_60%)]" />
         {/* Abstract WebGL Proxy */}
         <div className="absolute inset-0 z-[4]">
            <LuxuryFluidCanvas />

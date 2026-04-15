@@ -235,7 +235,7 @@ export const TESTIMONIALS: TestimonialData[] = [
     quote:
       "Sayona Shipping handles all our international logistics. Incredibly reliable and fast!",
     rating: 5,
-    avatarColor: "bg-blue-500",
+    avatarColor: "info",
   },
   {
     name: "Prakashan",
@@ -244,7 +244,7 @@ export const TESTIMONIALS: TestimonialData[] = [
     quote:
       "The best customs clearance team. We never have to worry about paperwork delays.",
     rating: 5,
-    avatarColor: "bg-emerald-500",
+    avatarColor: "success",
   },
   {
     name: "Megha",
@@ -253,7 +253,7 @@ export const TESTIMONIALS: TestimonialData[] = [
     quote:
       "Excellent FCL rates and real-time tracking made our supply chain much smoother.",
     rating: 4.5,
-    avatarColor: "bg-purple-500",
+    avatarColor: "primary",
   },
 ];
 
@@ -408,16 +408,16 @@ export const CAREER_PERKS: PerkData[] = [
 
 // ─── Shipping Status Helpers ───
 export const STATUS_COLORS: Record<string, string> = {
-  pending: "bg-neutral-400 text-white",
-  "picked up": "bg-purple-400 text-white",
-  "in transit": "bg-blue-500 text-white",
-  "at port": "bg-violet-500 text-white",
-  "arrived at destination": "bg-violet-500 text-white",
-  "customs clearance": "bg-amber-500 text-white",
-  "out for delivery": "bg-amber-500 text-white",
-  delivered: "bg-emerald-500 text-white",
-  failed: "bg-red-500 text-white",
-  returned: "bg-indigo-500 text-white",
+  pending: "bg-[var(--color-status-created)] text-white",
+  "picked up": "bg-[var(--color-status-picked)] text-white",
+  "in transit": "bg-[var(--color-status-transit)] text-white",
+  "at port": "bg-[var(--color-status-warehouse)] text-white",
+  "arrived at destination": "bg-[var(--color-status-warehouse)] text-white",
+  "customs clearance": "bg-[var(--color-status-out-delivery)] text-white",
+  "out for delivery": "bg-[var(--color-status-out-delivery)] text-white",
+  delivered: "bg-[var(--color-status-delivered)] text-white",
+  failed: "bg-[var(--color-status-failed)] text-white",
+  returned: "bg-[var(--color-status-returned)] text-white",
 };
 
 export const TRACKING_STAGES = [
