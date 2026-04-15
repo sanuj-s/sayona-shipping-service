@@ -68,8 +68,8 @@ function ServiceCard({
       <article
         ref={ref}
         className={cn(
-          "group relative p-6 rounded-[var(--radius-lg)] border border-[var(--border-color)] bg-[var(--surface)] transition-all duration-500 h-full overflow-hidden",
-          "hover:border-primary/20 hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-1",
+          "group relative p-6 rounded-[var(--radius-lg)] premium-border bg-[var(--surface)] hover-lift h-full overflow-hidden",
+          "hover:border-primary/20 hover:shadow-[var(--shadow-card-hover)]",
           featured && "sm:col-span-2 lg:col-span-1",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}
@@ -80,7 +80,10 @@ function ServiceCard({
           {num}
         </span>
 
-        <IconBox variant={variant} className="mb-4 group-hover:scale-105 transition-transform duration-[var(--duration-normal)]">
+        <IconBox
+          variant={variant}
+          className="mb-4 group-hover:scale-105 transition-transform duration-[var(--duration-normal)] ease-[var(--ease-premium)]"
+        >
           <Icon className="h-6 w-6" />
         </IconBox>
 

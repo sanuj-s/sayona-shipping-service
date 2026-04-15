@@ -2,11 +2,14 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useReducedMotionPref } from "@/lib/motion/useReducedMotionPref";
 
 export function LuxuryFluidCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const reducedMotion = useReducedMotionPref();
 
   useEffect(() => {
+    if (reducedMotion) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     
@@ -16,6 +19,8 @@ export function LuxuryFluidCanvas() {
 
     let particles: Array<{ x: number, y: number, radius: number, vx: number, vy: number, lightness: number }> = [];
     let animationFrameId: number;
+    let lastFrameTs = 0;
+    let isVisible = true;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -38,7 +43,22 @@ export function LuxuryFluidCanvas() {
       }
     };
 
-    const draw = () => {
+    const onVisibility = () => {
+      isVisible = document.visibilityState === "visible";
+    };
+
+    const draw = (ts: number) => {
+      // Cap to ~30fps to reduce CPU/GPU usage
+      if (!isVisible && ts - lastFrameTs < 250) {
+        animationFrameId = requestAnimationFrame(draw);
+        return;
+      }
+      if (ts - lastFrameTs < 33) {
+        animationFrameId = requestAnimationFrame(draw);
+        return;
+      }
+      lastFrameTs = ts;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       const mouseXStr = document.documentElement.style.getPropertyValue('--mouse-x');
@@ -82,14 +102,19 @@ export function LuxuryFluidCanvas() {
     };
 
     window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", onVisibility);
     resize();
-    draw();
+    onVisibility();
+    animationFrameId = requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibility);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [reducedMotion]);
+
+  if (reducedMotion) return null;
 
   return (
     <motion.div 

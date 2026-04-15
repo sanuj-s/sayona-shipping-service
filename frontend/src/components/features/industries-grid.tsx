@@ -68,7 +68,7 @@ function IndustryCard({
 
         {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 p-5 transform group-hover:-translate-y-1 transition-transform duration-300">
-          <div className="w-10 h-10 rounded-lg bg-white/15 backdrop-blur-sm flex items-center justify-center text-white mb-3 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-shadow">
+          <div className="w-10 h-10 rounded-lg bg-white/15 backdrop-blur-sm flex items-center justify-center text-white mb-3 group-hover:shadow-[var(--shadow-glass)] transition-shadow duration-[var(--duration-normal)] ease-[var(--ease-premium)]">
             <Icon className="h-5 w-5" />
           </div>
           <h3 className="text-lg font-bold text-white mb-1">{industry.title}</h3>

@@ -130,7 +130,9 @@ export default function QuotesPage() {
               <p><strong>Customer:</strong> {activeQuote.name} ({activeQuote.email})</p>
               <p><strong>Route:</strong> {activeQuote.origin} → {activeQuote.destination}</p>
               <p><strong>Cargo:</strong> {activeQuote.cargo} ({activeQuote.weight || "N/A"})</p>
-              {activeQuote.message && <p className="italic text-neutral-500 mt-2">"{activeQuote.message}"</p>}
+              {activeQuote.message && (
+                <p className="italic text-neutral-500 mt-2">&quot;{activeQuote.message}&quot;</p>
+              )}
             </div>
 
             {replySuccess ? (

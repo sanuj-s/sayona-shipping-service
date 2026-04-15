@@ -85,9 +85,27 @@
   /* ─── Animation ─── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-premium: cubic-bezier(0.2, 0.9, 0.2, 1);
+
+  --duration-xxfast: 90ms;
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-slow: 400ms;
+  --duration-xslow: 650ms;
+
+  /* ─── Motion Distances ─── */
+  --motion-y-sm: 8px;
+  --motion-y-md: 14px;
+  --motion-y-lg: 22px;
+
+  /* ─── Micro-interactions ─── */
+  --lift-sm: -2px;
+  --lift-md: -4px;
+  --press-scale: 0.98;
+  --shine-opacity: 0.12;
+  --ring-size: 4px;
+  --ring-opacity: 0.15;
 
   /* ─── Z-Index Scale ─── */
   --z-base: 0;
@@ -411,6 +429,12 @@ ul, ol {
   100% { transform: translateX(100%); }
 }
 
+@keyframes sheen-sweep {
+  0% { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+  35% { opacity: var(--shine-opacity); }
+  100% { transform: translateX(140%) skewX(-18deg); opacity: 0; }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-6px); }
@@ -478,6 +502,63 @@ ul, ol {
 
 .animate-glow-pulse {
   animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Premium Interaction Utilities ─── */
+.premium-border {
+  border: 1px solid var(--border-color);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.dark .premium-border {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.sheen::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 0;
+  width: 60%;
+  height: 220%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: translateX(-140%) skewX(-18deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sheen:hover::after {
+  animation: sheen-sweep 900ms var(--ease-premium);
+}
+
+.hover-lift {
+  transition:
+    transform var(--duration-normal) var(--ease-premium),
+    box-shadow var(--duration-normal) var(--ease-premium),
+    background-color var(--duration-normal) var(--ease-premium),
+    border-color var(--duration-normal) var(--ease-premium);
+}
+
+.hover-lift:hover {
+  transform: translateY(var(--lift-sm));
+}
+
+.pressable:active {
+  transform: scale(var(--press-scale));
 }
 
 /* ─── Section Title Accent Bar ─── */

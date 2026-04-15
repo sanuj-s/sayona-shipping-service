@@ -12,7 +12,7 @@ import {
   Shirt, Cpu, HeartPulse, Car, Sprout, Boxes,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
-import { SITE, NAV_LINKS, SERVICE_DROPDOWN, INDUSTRY_DROPDOWN } from "@/lib/utils/constants";
+import { SITE, SERVICE_DROPDOWN, INDUSTRY_DROPDOWN } from "@/lib/utils/constants";
 import { useUIStore } from "@/lib/store/ui-store";
 import { Button } from "@/components/ui/button";
 
@@ -31,7 +31,6 @@ export function Navbar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const { isMobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useUIStore();
-  const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
@@ -39,9 +38,6 @@ export function Navbar() {
 
   useEffect(() => {
     setMounted(true);
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -67,7 +63,7 @@ export function Navbar() {
     <>
       {/* ─── Top Utility Bar ─── */}
       <div className={cn(
-        "hidden lg:block text-xs py-2 border-b transition-colors duration-300",
+        "hidden lg:block text-xs py-2 border-b transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
         "bg-[var(--background-alt)] border-[var(--border-color)] text-[var(--foreground-secondary)]"
       )}>
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between">
@@ -95,7 +91,7 @@ export function Navbar() {
 
       {/* ─── Main Navbar ─── */}
       <nav className={cn(
-        "sticky top-0 z-[var(--z-navbar)] transition-all duration-300",
+        "sticky top-0 z-[var(--z-navbar)] transition-[background-color,box-shadow,border-color] duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
         navBg
       )}>
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-16">
@@ -117,8 +113,10 @@ export function Navbar() {
               <Link
                 href="/"
                 className={cn(
-                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
-                  pathname === "/" ? "text-primary" : cn(textColor, "hover:text-primary")
+                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
+                  pathname === "/"
+                    ? "text-primary after:content-[''] after:absolute after:left-4 after:right-4 after:-bottom-0.5 after:h-[2px] after:rounded-full after:bg-gradient-to-r after:from-primary after:to-accent after:animate-[line-grow_var(--duration-slow)_var(--ease-out)_forwards]"
+                    : cn(textColor, "hover:text-primary")
                 )}
               >
                 Home
@@ -133,7 +131,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)] cursor-pointer",
+                  "flex items-center gap-1 px-4 py-2 rounded-lg text-[14px] font-medium transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)] cursor-pointer",
                   pathname.startsWith("/services") ? "text-primary" : cn(textColor, "hover:text-primary")
                 )}
                 aria-expanded={activeDropdown === "services"}
@@ -147,8 +145,8 @@ export function Navbar() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-full left-0 mt-1 w-[480px] bg-[var(--surface)] border border-[var(--border-color)] rounded-xl shadow-[var(--shadow-elevated)] p-4 grid grid-cols-2 gap-4"
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full left-0 mt-1 w-[480px] bg-[var(--surface)] premium-border rounded-xl shadow-[var(--shadow-elevated)] p-4 grid grid-cols-2 gap-4"
                     onMouseEnter={() => openDropdown("services")}
                     onMouseLeave={closeDropdown}
                   >
@@ -184,8 +182,10 @@ export function Navbar() {
               <Link
                 href="/company"
                 className={cn(
-                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
-                  pathname === "/company" ? "text-primary" : cn(textColor, "hover:text-primary")
+                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
+                  pathname === "/company"
+                    ? "text-primary after:content-[''] after:absolute after:left-4 after:right-4 after:-bottom-0.5 after:h-[2px] after:rounded-full after:bg-gradient-to-r after:from-primary after:to-accent after:animate-[line-grow_var(--duration-slow)_var(--ease-out)_forwards]"
+                    : cn(textColor, "hover:text-primary")
                 )}
               >
                 Company
@@ -200,7 +200,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)] cursor-pointer",
+                  "flex items-center gap-1 px-4 py-2 rounded-lg text-[14px] font-medium transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)] cursor-pointer",
                   pathname.startsWith("/industries") ? "text-primary" : cn(textColor, "hover:text-primary")
                 )}
                 aria-expanded={activeDropdown === "industries"}
@@ -214,8 +214,8 @@ export function Navbar() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-full left-0 mt-1 w-[280px] bg-[var(--surface)] border border-[var(--border-color)] rounded-xl shadow-[var(--shadow-elevated)] p-3"
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full left-0 mt-1 w-[280px] bg-[var(--surface)] premium-border rounded-xl shadow-[var(--shadow-elevated)] p-3"
                     onMouseEnter={() => openDropdown("industries")}
                     onMouseLeave={closeDropdown}
                   >
@@ -246,8 +246,10 @@ export function Navbar() {
               <Link
                 href="/contact"
                 className={cn(
-                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-[var(--duration-normal)]",
-                  pathname === "/contact" ? "text-primary" : cn(textColor, "hover:text-primary")
+                  "relative px-4 py-2 rounded-lg text-[14px] font-medium transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
+                  pathname === "/contact"
+                    ? "text-primary after:content-[''] after:absolute after:left-4 after:right-4 after:-bottom-0.5 after:h-[2px] after:rounded-full after:bg-gradient-to-r after:from-primary after:to-accent after:animate-[line-grow_var(--duration-slow)_var(--ease-out)_forwards]"
+                    : cn(textColor, "hover:text-primary")
                 )}
               >
                 Contact
@@ -259,7 +261,7 @@ export function Navbar() {
               <button
                 onClick={dispatchAgentCommand}
                 data-magnetic
-                className="group flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-sm transition-all hover:bg-primary/20 backdrop-blur-md border border-primary/20 shadow-sm"
+                className="group flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary font-medium text-sm hover-lift transition-[transform,background-color,box-shadow,border-color] duration-[var(--duration-normal)] ease-[var(--ease-premium)] hover:bg-primary/20 backdrop-blur-md border border-primary/20 shadow-sm"
               >
                 <Sparkles className="h-4 w-4" />
                 <span>Nav Agent</span>

@@ -36,7 +36,7 @@ function StatItem({ stat, index }: { stat: StatData; index: number }) {
       <div className="mt-3 h-0.5 w-8 rounded-full overflow-hidden bg-[var(--border-color)]">
         <div
           className={cn(
-            "h-full bg-gradient-to-r from-primary to-accent transition-all duration-1000 ease-out",
+            "h-full bg-gradient-to-r from-primary to-accent transition-[width] duration-[var(--duration-xslow)] ease-[var(--ease-premium)]",
             isVisible ? "w-full" : "w-0"
           )}
           style={{ transitionDelay: `${index * 120 + 400}ms` }}

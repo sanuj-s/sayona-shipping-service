@@ -2,14 +2,16 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils/cn";
 
-const cardVariants = cva("rounded-[var(--radius-lg)] transition-all duration-[var(--duration-normal)]", {
+const cardVariants = cva(
+  "rounded-[var(--radius-lg)] transition-[transform,box-shadow,background-color,border-color] duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
+  {
   variants: {
     variant: {
-      default: "bg-[var(--surface)] border border-[var(--border-color)]",
+      default: "premium-border bg-[var(--surface)]",
       elevated:
-        "bg-[var(--surface)] border border-[var(--border-color)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-1",
-      bordered: "bg-transparent border-2 border-[var(--border-color)] hover:border-primary/30 hover:shadow-sm hover:-translate-y-1",
-      glass: "glass-3d hover:shadow-[var(--shadow-glass)] hover:-translate-y-1",
+        "premium-border hover-lift bg-[var(--surface)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)]",
+      bordered: "hover-lift bg-transparent border-2 border-[var(--border-color)] hover:border-primary/30 hover:shadow-sm",
+      glass: "hover-lift glass-3d hover:shadow-[var(--shadow-glass)]",
       ghost: "bg-transparent",
     },
     padding: {
@@ -23,7 +25,8 @@ const cardVariants = cva("rounded-[var(--radius-lg)] transition-all duration-[va
     variant: "default",
     padding: "md",
   },
-});
+  }
+);
 
 export interface CardProps
   extends HTMLAttributes<HTMLDivElement>,

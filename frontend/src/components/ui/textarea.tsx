@@ -25,7 +25,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={textareaId}
           className={cn(
-            "w-full min-h-[120px] rounded-[var(--radius-md)] border border-[var(--border-color)] bg-[var(--surface)] px-4 py-3 text-[15px] text-[var(--foreground)] placeholder:text-[var(--foreground-secondary)] shadow-sm transition-all duration-[var(--duration-normal)] hover:border-[var(--foreground-secondary)] focus:outline-none focus:ring-4 focus:ring-primary/15 focus:border-primary resize-y disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--background-alt)] disabled:text-[var(--foreground-secondary)]",
+            "w-full min-h-[120px] premium-border rounded-[var(--radius-md)] bg-[var(--surface)] px-4 py-3 text-[15px] text-[var(--foreground)] placeholder:text-[var(--foreground-secondary)] shadow-sm transition-[box-shadow,transform,background-color,border-color,color] duration-[var(--duration-normal)] ease-[var(--ease-premium)] hover:border-[var(--foreground-secondary)] focus:outline-none focus:ring-4 focus:ring-primary/15 focus:border-primary focus:shadow-[var(--shadow-card)] resize-y disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[var(--background-alt)] disabled:text-[var(--foreground-secondary)]",
             error && "border-error focus:ring-[var(--color-error-soft)] focus:border-error hover:border-error",
             className
           )}

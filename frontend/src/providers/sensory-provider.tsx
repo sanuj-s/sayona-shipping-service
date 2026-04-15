@@ -3,6 +3,15 @@
 import { useEffect, type ReactNode } from "react";
 import { useTheme } from "next-themes";
 
+type AmbientLightSensorErrorEvent = { error: { name: string } };
+type AmbientLightSensorLike = {
+  illuminance: number;
+  start: () => void;
+  stop: () => void;
+  onreading: null | (() => void);
+  onerror: null | ((event: AmbientLightSensorErrorEvent) => void);
+};
+
 export function SensoryProvider({ children }: { children: ReactNode }) {
   const { theme, setTheme } = useTheme();
 
@@ -16,16 +25,19 @@ export function SensoryProvider({ children }: { children: ReactNode }) {
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     // 2. Ambient Light Sensor (Adaptive Color Theory)
-    let sensor: any = null;
+    let sensor: AmbientLightSensorLike | null = null;
     
     const initLightSensor = async () => {
       try {
-        // @ts-ignore
-        if ("AmbientLightSensor" in window) {
-          // @ts-ignore
-          sensor = new AmbientLightSensor();
+        const AmbientLightSensorCtor = (
+          window as unknown as { AmbientLightSensor?: new () => AmbientLightSensorLike }
+        ).AmbientLightSensor;
+
+        if (AmbientLightSensorCtor) {
+          sensor = new AmbientLightSensorCtor();
           
           sensor.onreading = () => {
+            if (!sensor) return;
             const illuminance = sensor.illuminance;
             // Map illuminance to temperature shifts
             // Normal office: 300-500 lux
@@ -42,7 +54,7 @@ export function SensoryProvider({ children }: { children: ReactNode }) {
             document.documentElement.style.setProperty("--ambient-lux-shift", `${shift}`);
           };
           
-          sensor.onerror = (event: any) => {
+          sensor.onerror = (event: AmbientLightSensorErrorEvent) => {
             console.debug("AmbientLightSensor error:", event.error.name);
           };
           

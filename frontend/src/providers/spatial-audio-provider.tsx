@@ -2,13 +2,19 @@
 
 import { useEffect, useCallback } from "react";
 
+type WindowWithWebkitAudio = Window & { webkitAudioContext?: typeof AudioContext };
+
 export function SpatialAudioProvider({ children }: { children: React.ReactNode }) {
   // We use WebAudio API to synthesize procedural luxury sounds
   // to avoid downloading mp3s.
 
   const playLuxuryThud = useCallback(() => {
     try {
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const w = window as WindowWithWebkitAudio;
+      const Ctor = w.AudioContext ?? w.webkitAudioContext;
+      if (!Ctor) return;
+
+      const audioCtx = new Ctor();
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
 
@@ -28,14 +34,18 @@ export function SpatialAudioProvider({ children }: { children: React.ReactNode }
 
       oscillator.start(audioCtx.currentTime);
       oscillator.stop(audioCtx.currentTime + 0.3);
-    } catch (e) {
+    } catch {
       console.debug("AudioContext not supported or blocked");
     }
   }, []);
 
   const playShimmer = useCallback(() => {
     try {
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const w = window as WindowWithWebkitAudio;
+      const Ctor = w.AudioContext ?? w.webkitAudioContext;
+      if (!Ctor) return;
+
+      const audioCtx = new Ctor();
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
 
@@ -52,7 +62,7 @@ export function SpatialAudioProvider({ children }: { children: React.ReactNode }
 
       oscillator.start(audioCtx.currentTime);
       oscillator.stop(audioCtx.currentTime + 0.5);
-    } catch (e) {
+    } catch {
       // AudioContext blocked
     }
   }, []);

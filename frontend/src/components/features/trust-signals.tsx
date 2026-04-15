@@ -19,7 +19,7 @@ export function TrustSignals() {
         <div
           ref={ref}
           className={cn(
-            "flex flex-wrap justify-center gap-8 md:gap-0 md:divide-x md:divide-[var(--border-color)] transition-all duration-700",
+            "flex flex-wrap justify-center gap-8 md:gap-0 md:divide-x md:divide-[var(--border-color)] transition-[opacity,transform] duration-700 ease-[var(--ease-premium)]",
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           )}
         >
@@ -29,7 +29,7 @@ export function TrustSignals() {
               <div
                 key={i}
                 className={cn(
-                  "flex items-center gap-3 px-8 transition-all duration-500",
+                  "flex items-center gap-3 px-8 transition-[opacity,transform] duration-500 ease-[var(--ease-premium)]",
                   isVisible ? "opacity-100" : "opacity-0"
                 )}
                 style={{ transitionDelay: `${i * 100}ms` }}

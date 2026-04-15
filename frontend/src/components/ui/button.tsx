@@ -3,22 +3,22 @@ import { forwardRef, type ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-[var(--duration-normal)] cursor-pointer whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+  "inline-flex items-center justify-center gap-2 font-semibold cursor-pointer whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] disabled:pointer-events-none disabled:opacity-50 transition-[transform,box-shadow,background-color,border-color,color] duration-[var(--duration-normal)] ease-[var(--ease-premium)] active:scale-[var(--press-scale)]",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-white border-2 border-primary rounded-[10px] hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5 hover:bg-primary-hover",
+          "sheen hover-lift pressable bg-primary text-white border-2 border-primary rounded-[10px] hover:shadow-[var(--shadow-hover)] hover:bg-primary-hover",
         outline:
-          "border-2 border-primary text-primary bg-transparent rounded-[10px] hover:bg-primary hover:text-white hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
+          "hover-lift pressable border-2 border-primary text-primary bg-transparent rounded-[10px] hover:bg-primary hover:text-white hover:shadow-[var(--shadow-hover)]",
         ghost:
           "text-[var(--foreground)] border-2 border-transparent rounded-[10px] hover:border-[var(--border-color)] hover:text-primary hover:bg-primary/5 hover:shadow-sm",
         enterprise:
-          "bg-primary text-white border-2 border-primary rounded-[10px] hover:bg-primary-hover hover:shadow-[var(--shadow-hover)] hover:-translate-y-0.5",
+          "sheen hover-lift pressable bg-primary text-white border-2 border-primary rounded-[10px] hover:bg-primary-hover hover:shadow-[var(--shadow-hover)]",
         accent:
-          "bg-accent text-secondary border-2 border-accent rounded-[10px] font-bold shadow-[var(--shadow-glow-accent)] hover:shadow-[var(--shadow-glow-accent-hover)] hover:-translate-y-0.5",
+          "sheen hover-lift pressable bg-accent text-secondary border-2 border-accent rounded-[10px] font-bold shadow-[var(--shadow-glow-accent)] hover:shadow-[var(--shadow-glow-accent-hover)]",
         "hero-outline":
-          "text-white border-2 border-white/35 rounded-[10px] backdrop-blur-sm hover:bg-white/10 hover:border-white/60 hover:-translate-y-0.5 hover:shadow-[var(--shadow-glass)]",
+          "hover-lift pressable text-white border-2 border-white/35 rounded-[10px] backdrop-blur-sm hover:bg-white/10 hover:border-white/60 hover:shadow-[var(--shadow-glass)]",
         link: "text-primary underline-offset-4 hover:underline p-0 h-auto active:scale-100",
       },
       size: {
