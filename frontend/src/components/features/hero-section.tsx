@@ -119,8 +119,8 @@ export function HeroSection() {
     <section id="hero" className="relative min-h-[92vh] flex items-center overflow-hidden bg-secondary">
       {/* Background Layers */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 z-[2] bg-gradient-to-br from-secondary/95 via-secondary/85 to-secondary/70" />
-        <div className="absolute inset-0 z-[1] opacity-30 bg-cover bg-center bg-no-repeat"
+        <div className="absolute inset-0 z-[1] bg-gradient-to-br from-secondary/95 via-secondary/85 to-secondary/70" />
+        <div className="absolute inset-0 z-[2] opacity-30 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
         />
         {/* Radial Glows */}
