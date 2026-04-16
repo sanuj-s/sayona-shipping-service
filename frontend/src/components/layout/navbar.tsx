@@ -47,7 +47,7 @@ export function Navbar() {
 
   // Keep navbar color consistent (white surface) even on hero.
   const navBg =
-    "bg-[var(--nav-bg)]/95 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
+    "bg-white/95 dark:bg-[#0A0F1E]/85 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
 
   const textColor = "text-[var(--foreground)]";
 

@@ -126,7 +126,6 @@
   --foreground-secondary: #64748B;
   --border-color: #E2E8F0;
   --border-glass: rgba(0, 0, 0, 0.06);
-  --nav-bg: #ffffff;
   --surface: #ffffff;
   --surface-elevated: #F8FAFC;
   --glow-primary: rgba(11, 61, 145, 0.06);
@@ -142,7 +141,6 @@
   --foreground-secondary: #94A3B8;
   --border-color: #1e293b;
   --border-glass: rgba(255, 255, 255, 0.06);
-  --nav-bg: rgba(10, 15, 30, 0.85);
   --surface: #111827;
   --surface-elevated: #1e293b;
   --glow-primary: rgba(30, 91, 176, 0.1);
