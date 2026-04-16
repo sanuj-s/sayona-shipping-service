@@ -47,7 +47,7 @@ export function Navbar() {
 
   // Keep navbar color consistent (white surface) even on hero.
   const navBg =
-    "bg-white/95 dark:bg-[#0A0F1E]/85 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
+    "bg-white dark:bg-[#0A0F1E] shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
 
   const textColor = "text-[var(--foreground)]";
 
@@ -64,7 +64,7 @@ export function Navbar() {
       {/* ─── Top Utility Bar ─── */}
       <div className={cn(
         "hidden lg:block text-xs py-2 border-b transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
-        "bg-[var(--background-alt)] border-[var(--border-color)] text-[var(--foreground-secondary)]"
+        "bg-white dark:bg-[#0A0F1E] border-[var(--border-color)] text-[var(--foreground-secondary)]"
       )}>
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between">
           <div className="flex items-center gap-5">
