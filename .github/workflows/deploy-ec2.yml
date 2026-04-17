@@ -41,8 +41,8 @@ jobs:
             rm -rf /home/ubuntu/sayona-shipping-service/frontend/out
             
             # Aggressively free up disk space for SCP transfer
-            docker system prune -af || true
-            rm -rf /tmp/* || true
+            sudo docker system prune -af || true
+            sudo rm -rf /tmp/* || true
             npm cache clean --force || true
             sudo apt-get autoremove -y || true
             sudo apt-get clean || true
