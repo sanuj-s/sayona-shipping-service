@@ -30,14 +30,23 @@ jobs:
         run: |
           if [ ! -d "frontend/out" ]; then exit 1; fi
 
-      - name: Clean old frontend
+      - name: Clean old frontend and free disk space
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
+            # Remove old frontend statically built files
             rm -rf /home/ubuntu/sayona-shipping-service/frontend/out
+            
+            # Aggressively free up disk space for SCP transfer
+            docker system prune -af || true
+            rm -rf /tmp/* || true
+            npm cache clean --force || true
+            sudo apt-get autoremove -y || true
+            sudo apt-get clean || true
+            sudo journalctl --vacuum-time=1d || true
 
       - name: Copy frontend
         uses: appleboy/scp-action@master
