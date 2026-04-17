@@ -44,9 +44,9 @@ function IndustryCard({
       <div
         ref={ref}
         className={cn(
-          "group relative rounded-[var(--radius-lg)] overflow-hidden transition-all duration-700",
+          "group relative rounded-[var(--radius-xl)] overflow-hidden transition-all duration-700 shadow-[var(--shadow-card)] hover:shadow-[0_20px_40px_rgba(11,61,145,0.2)] border border-[var(--border-color)]",
           tall ? "h-80" : "h-64",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
         )}
         style={{ transitionDelay: `${index * 80}ms` }}
       >
@@ -55,25 +55,25 @@ function IndustryCard({
         <img
           src={industry.image}
           alt={industry.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ease-[var(--ease-cinematic)]"
           loading="lazy"
         />
 
-        {/* Overlay gradient with brand tint */}
-        <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/40 to-transparent transition-opacity duration-500 group-hover:from-secondary/80" />
+        {/* Overlay gradient with deep primary tint */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#071A33]/95 via-[#0B3D91]/40 to-transparent transition-opacity duration-700 group-hover:from-[#0B3D91]/90" />
 
-        {/* Arrow */}
-        <span className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+        {/* Arrow - Switched to Gold */}
+        <span className="absolute top-4 right-4 w-10 h-10 rounded-full bg-accent/90 shadow-[0_0_15px_var(--color-accent)] flex items-center justify-center text-white opacity-0 group-hover:opacity-100 -translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-[var(--ease-spring)]">
           <ArrowRight className="h-4 w-4" />
         </span>
 
         {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-5 transform group-hover:-translate-y-1 transition-transform duration-300">
-          <div className="w-10 h-10 rounded-lg bg-white/15 backdrop-blur-sm flex items-center justify-center text-white mb-3 group-hover:shadow-[var(--shadow-glass)] transition-shadow duration-[var(--duration-normal)] ease-[var(--ease-premium)]">
-            <Icon className="h-5 w-5" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-[var(--ease-premium)]">
+          <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white mb-4 group-hover:bg-accent group-hover:text-white transition-all duration-500 ring-1 ring-white/20">
+            <Icon className="h-6 w-6" />
           </div>
-          <h3 className="text-lg font-bold text-white mb-1">{industry.title}</h3>
-          <p className="text-sm text-white/60 leading-relaxed line-clamp-2">
+          <h3 className="text-xl font-bold font-display text-white mb-2">{industry.title}</h3>
+          <p className="text-[13px] text-white/70 leading-relaxed font-medium">
             {industry.description}
           </p>
         </div>

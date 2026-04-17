@@ -43,41 +43,47 @@ export function AboutSection() {
                 fault-tolerant networks to ensure your cargo reaches its destination safely, on time, and within budget.
               </p>
 
-              {/* Inline Chips */}
-              <div className="flex flex-wrap gap-3 mb-8">
+              <div className="flex flex-wrap gap-3 mb-10">
                 {highlights.map(({ icon: Icon, label }) => (
-                  <span key={label} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-primary/[0.06] text-primary border border-primary/10">
-                    <Icon className="h-3.5 w-3.5" /> {label}
+                  <span key={label} className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-sm font-bold bg-primary text-white shadow-[var(--shadow-glow-primary)] border border-primary-light hover:scale-105 transition-transform cursor-default">
+                    <Icon className="h-4 w-4 text-accent" /> {label}
                   </span>
                 ))}
               </div>
 
               <Link href="/company">
-                <Button variant="outline">Discover Our Infrastructure</Button>
+                <Button variant="outline" className="border-primary/20 hover:border-primary hover:bg-primary/5 text-primary font-bold">
+                  Discover Our Infrastructure
+                </Button>
               </Link>
             </div>
           </div>
 
           {/* ═══ Image Column ═══ */}
-          <div className="relative">
-            {/* Decorative offset border */}
-            <div className="absolute -inset-3 rounded-2xl border-2 border-dashed border-primary/10 -rotate-1 hidden lg:block" />
-            <div className="relative rounded-xl overflow-hidden shadow-[var(--shadow-elevated)]">
+          <div className="relative group">
+            {/* Decorative offset glowing border */}
+            <div className="absolute -inset-4 rounded-2xl border-2 border-primary/20 -rotate-2 hidden lg:block group-hover:-rotate-3 transition-transform duration-700 ease-[var(--ease-cinematic)]" />
+            <div className="absolute -inset-4 rounded-2xl border-2 border-accent/30 rotate-2 hidden lg:block group-hover:rotate-3 transition-transform duration-700 ease-[var(--ease-cinematic)]" />
+            
+            <div className="relative rounded-[var(--radius-xl)] overflow-hidden shadow-[var(--shadow-elevated)] ring-1 ring-white/10 group-hover:shadow-[0_40px_80px_rgba(11,61,145,0.2)] transition-shadow duration-700">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/about/warehouse.jpg"
                 alt="Sayona Shipping Warehouse"
                 width={600}
                 height={400}
-                className="w-full h-auto object-cover hover:scale-[1.03] transition-transform duration-700"
+                className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-[1200ms] ease-[var(--ease-cinematic)]"
                 loading="lazy"
               />
+              
+              {/* Deep Tint Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-transparent mix-blend-multiply opacity-50 group-hover:opacity-10 transition-opacity duration-700" />
             </div>
 
-            {/* Floating Badge */}
-            <div className="absolute -bottom-5 -left-3 lg:-left-6 bg-[var(--surface)] rounded-xl p-4 shadow-[var(--shadow-elevated)] border border-[var(--border-color)] animate-float z-10">
-              <Ship className="h-7 w-7 text-primary mb-1" />
-              <p className="text-xs font-bold text-[var(--foreground)]">Full Integration</p>
+            {/* Floating Badge - Made Premium */}
+            <div className="absolute -bottom-6 -left-4 lg:-left-8 bg-secondary rounded-[var(--radius-lg)] p-5 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-white/10 animate-float z-10">
+              <Ship className="h-8 w-8 text-accent mb-2 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+              <p className="text-sm font-black font-display text-white tracking-wide uppercase">Full Integration</p>
             </div>
           </div>
         </div>
