@@ -102,7 +102,11 @@ function DashboardPreview() {
 function KineticHeadline({ text, className }: { text: string; className?: string }) {
   const words = text.split(" ");
   return (
-    <span className={className} style={{ perspective: "800px" }}>
+    <motion.span
+      className={className}
+      style={{ perspective: "800px" }}
+      variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08 } } }}
+    >
       {words.map((word, i) => (
         <motion.span
           key={i}
@@ -113,7 +117,7 @@ function KineticHeadline({ text, className }: { text: string; className?: string
           {word}
         </motion.span>
       ))}
-    </span>
+    </motion.span>
   );
 }
 
