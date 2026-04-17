@@ -7,47 +7,63 @@ on:
 
 jobs:
   build-and-deploy:
-    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
 
-      - name: Install Frontend Dependencies
+      - name: Install frontend
         working-directory: ./frontend
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit
 
-      - name: Build Frontend
+      - name: Build frontend
         working-directory: ./frontend
         run: npm run build
 
-      - name: Copy Frontend Build to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          port: ${{ secrets.EC2_PORT }}
-          source: "frontend/out"
-          target: "/home/ubuntu/sayona-shipping-service"
+      - name: Validate build
+        run: |
+          if [ ! -d "frontend/out" ]; then exit 1; fi
 
-      - name: Sync and Restart Backend
+      - name: Clean old frontend
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          port: ${{ secrets.EC2_PORT }}
           script: |
+            rm -rf /home/ubuntu/sayona-shipping-service/frontend/out
+
+      - name: Copy frontend
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "frontend/out"
+          target: "/home/ubuntu/sayona-shipping-service/frontend"
+
+      - name: Deploy backend
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            set -e
             cd /home/ubuntu/sayona-shipping-service
+            git reset --hard
             git pull origin main
+
             cd backend
-            pm2 restart app || pm2 start server.js --name app
+            npm ci
+
+            pm2 reload app || pm2 start server.js --name app
+            pm2 save
+
+            chown -R ubuntu:ubuntu /home/ubuntu/sayona-shipping-service
