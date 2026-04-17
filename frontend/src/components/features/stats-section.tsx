@@ -19,52 +19,38 @@ function StatItem({ stat, index }: { stat: StatData; index: number }) {
     <div
       ref={ref}
       className={cn(
-        "relative flex flex-col items-center text-center transition-all duration-700",
-        isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+        "group relative flex flex-col items-center text-center transition-all duration-1000 ease-[var(--ease-cinematic)]",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       )}
-      style={{ transitionDelay: `${index * 120}ms` }}
+      style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center mb-3 ring-1 ring-accent/30 shadow-[var(--shadow-glow-accent)]">
-        <Icon className="h-5 w-5 text-accent" />
+      <div className="w-14 h-14 rounded-2xl bg-primary/[0.04] flex items-center justify-center mb-6 ring-1 ring-primary/10 group-hover:bg-primary/[0.08] transition-colors duration-500">
+        <Icon className="h-6 w-6 text-primary" />
       </div>
-      <h3 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-none drop-shadow-md">
+      <h3 className="text-5xl md:text-6xl font-display font-black text-[var(--foreground)] tracking-tight leading-none mb-2">
         {count}
         <span className="text-accent">{stat.suffix}</span>
       </h3>
-      <p className="text-sm text-white/70 font-medium mt-2 uppercase tracking-widest">{stat.label}</p>
-      {/* Accent underline */}
-      <div className="mt-4 h-[3px] w-12 rounded-full overflow-hidden bg-white/10">
-        <div
-          className={cn(
-            "h-full bg-gradient-to-r from-accent/50 to-accent transition-[width] duration-[var(--duration-xslow)] ease-[var(--ease-premium)]",
-            isVisible ? "w-full" : "w-0"
-          )}
-          style={{ transitionDelay: `${index * 120 + 400}ms` }}
-        />
-      </div>
+      <p className="text-xs text-[var(--foreground-secondary)] font-bold uppercase tracking-[0.2em]">{stat.label}</p>
     </div>
   );
 }
 
 export function StatsSection({ className }: { className?: string }) {
   return (
-    <section className={cn("relative z-20 -mt-20 pb-16 lg:-mt-24 lg:pb-20", className)}>
+    <section className={cn("relative py-24 lg:py-32 bg-[var(--background-alt)] border-b border-[var(--border-color)] overflow-hidden", className)}>
+      {/* Elegant top light beam bridging from Hero */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent shadow-[0_4px_20px_rgba(11,61,145,0.2)]" />
+      
       <Container>
-        <div className="bg-secondary/80 backdrop-blur-2xl border border-white/10 rounded-[var(--radius-xl)] shadow-[0_20px_40px_rgba(0,0,0,0.2)] p-10 md:p-14 relative overflow-hidden">
-          {/* Ambient Glows bridging from Hero */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[radial-gradient(ellipse_at_center,var(--glow-accent),transparent_60%)] opacity-40 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-[radial-gradient(ellipse_at_center,var(--glow-primary),transparent_60%)] opacity-30 pointer-events-none" />
-          <div className="absolute inset-0 dot-grid opacity-20 pointer-events-none" />
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 relative z-10">
-            {HOME_STATS.map((stat, i) => (
-              <StatItem key={i} stat={stat} index={i} />
-            ))}
-            {/* Vertical dividers (desktop only) */}
-            <div className="hidden md:block absolute top-1/2 left-1/4 -translate-y-1/2 w-px h-20 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
-            <div className="hidden md:block absolute top-1/2 left-1/2 -translate-y-1/2 w-px h-20 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
-            <div className="hidden md:block absolute top-1/2 left-3/4 -translate-y-1/2 w-px h-20 bg-gradient-to-b from-transparent via-white/15 to-transparent" />
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 relative z-10">
+          {HOME_STATS.map((stat, i) => (
+            <StatItem key={i} stat={stat} index={i} />
+          ))}
+          {/* Subtle architectural dividers */}
+          <div className="hidden md:block absolute top-1/2 left-1/4 -translate-y-1/2 w-px h-24 bg-gradient-to-b from-transparent via-[var(--border-color)] to-transparent" />
+          <div className="hidden md:block absolute top-1/2 left-1/2 -translate-y-1/2 w-px h-24 bg-gradient-to-b from-transparent via-[var(--border-color)] to-transparent" />
+          <div className="hidden md:block absolute top-1/2 left-3/4 -translate-y-1/2 w-px h-24 bg-gradient-to-b from-transparent via-[var(--border-color)] to-transparent" />
         </div>
       </Container>
     </section>
