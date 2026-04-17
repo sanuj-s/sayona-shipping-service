@@ -32,12 +32,20 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
   const { isMobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useUIStore();
   const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setMounted(true);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    // Initialize state
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -45,9 +53,10 @@ export function Navbar() {
     setActiveDropdown(null);
   }, [pathname, closeMobileMenu]);
 
-  // Keep navbar color consistent (surface background)
-  const navBg =
-    "bg-[var(--surface)] shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
+  // Keep navbar color consistent (surface background) but morph on scroll
+  const navBg = scrolled
+    ? "bg-[var(--surface)]/80 backdrop-blur-xl shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]"
+    : "bg-[var(--surface)]/0 border-b-transparent";
 
   const textColor = "text-[var(--foreground)]";
 
