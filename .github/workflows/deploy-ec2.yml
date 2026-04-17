@@ -50,6 +50,7 @@ jobs:
             sudo truncate -s 0 /var/log/syslog || true
             sudo truncate -s 0 /var/log/nginx/error.log || true
             sudo truncate -s 0 /var/log/nginx/access.log || true
+            sudo systemctl reload nginx || true   # Force Nginx to release stale file descriptors
 
       - name: Copy frontend
         uses: appleboy/scp-action@master
@@ -80,4 +81,9 @@ jobs:
             pm2 reload app || pm2 start server.js --name app
             pm2 save
 
-            chown -R ubuntu:ubuntu /home/ubuntu/sayona-shipping-service
+            # Give ubuntu ownership but allow the www-data (Nginx) group read/execute access
+            sudo chown -R ubuntu:www-data /home/ubuntu/sayona-shipping-service
+            sudo chmod -R 750 /home/ubuntu/sayona-shipping-service
+            
+            # Ensure the home directory itself allows Nginx to traverse into the folder
+            sudo chmod o+x /home/ubuntu
