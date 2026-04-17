@@ -9,6 +9,7 @@ import { TestimonialsMarquee } from "@/components/features/testimonials-marquee"
 import { FAQSection } from "@/components/features/faq-section";
 import { CTASection } from "@/components/features/cta-section";
 import { QuoteForm } from "@/components/features/quote-form";
+import { ClientMarquee } from "@/components/features/client-marquee";
 import { Container } from "@/components/ui/container";
 import Link from "next/link";
 
@@ -21,19 +22,8 @@ export default function HomePage() {
       {/* 2. Credibility Bar */}
       <StatsSection />
 
-      {/* 3. Carrier Network Context */}
-      <section className="py-10 border-b border-[var(--border-color)]">
-        <Container className="text-center">
-          <p className="text-sm text-[var(--foreground-secondary)] max-w-3xl mx-auto leading-relaxed tracking-wide">
-            Moving cargo through leading global networks —{" "}
-            <span className="text-[var(--foreground)] font-semibold">Maersk</span>,{" "}
-            <span className="text-[var(--foreground)] font-semibold">MSC</span>,{" "}
-            <span className="text-[var(--foreground)] font-semibold">CMA CGM</span>,{" "}
-            <span className="text-[var(--foreground)] font-semibold">Hapag-Lloyd</span>,{" "}
-            <span className="text-[var(--foreground)] font-semibold">Emirates SkyCargo</span> and major Indian carriers.
-          </p>
-        </Container>
-      </section>
+      {/* 3. Trust Marquee — Animated Partner Logos */}
+      <ClientMarquee />
 
       {/* 4. Services */}
       <ServicesGrid />

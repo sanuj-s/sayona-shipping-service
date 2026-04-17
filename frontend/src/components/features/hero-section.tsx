@@ -1,38 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { Magnetic } from "@/components/ui/magnetic-button";
+import { LiveFeed } from "@/components/features/live-feed";
 import { useCounter } from "@/lib/hooks/use-counter";
 import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
 import { HERO_METRICS } from "@/lib/utils/constants";
+import { stagger, fadeUp, kineticWord, signatureReveal, DURATION, EASE } from "@/lib/motion/variants";
 import {
-  Send, MapPin, Shield, Clock, Headset,
+  Send, Search, Shield, Clock, Headset,
   Target, Globe, Radio, Users,
-  Ship, Package
+  Ship, Package, ArrowRight,
 } from "lucide-react";
 import { LuxuryFluidCanvas } from "@/components/ui/luxury-fluid-canvas";
 
 const metricIcons: Record<string, React.ElementType> = {
   Target, Globe, Radio, Users,
-};
-
-/* ─── Animation Variants ─── */
-const stagger: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-};
-
-const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.92, y: 20 },
-  show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] } },
 };
 
 /* ─── Metric Card ─── */
@@ -60,7 +48,6 @@ function MetricCard({ value, suffix, label, icon }: { value: number; suffix?: st
 function DashboardPreview() {
   return (
     <div className="bg-white/[0.04] backdrop-blur-md rounded-xl border border-white/[0.08] p-5 shadow-[var(--shadow-soft)]">
-      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-accent/20 flex items-center justify-center">
@@ -71,7 +58,6 @@ function DashboardPreview() {
         <span className="text-[10px] text-accent font-bold uppercase tracking-wider">Active</span>
       </div>
 
-      {/* Shipment Row */}
       <div className="space-y-2.5">
         {[
           { id: "SYN-7842", route: "Mumbai → Hamburg", status: "In Transit", color: "bg-[var(--color-status-transit)]" },
@@ -94,7 +80,6 @@ function DashboardPreview() {
         ))}
       </div>
 
-      {/* Bottom Stats */}
       <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-white/[0.06]">
         <div className="text-center">
           <p className="text-white font-bold text-sm">98%</p>
@@ -113,67 +98,143 @@ function DashboardPreview() {
   );
 }
 
+/* ─── Kinetic Text (word-by-word reveal) ─── */
+function KineticHeadline({ text, className }: { text: string; className?: string }) {
+  const words = text.split(" ");
+  return (
+    <span className={className} style={{ perspective: "800px" }}>
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          variants={kineticWord}
+          className="inline-block mr-[0.3em]"
+          style={{ display: "inline-block" }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
+/* ─── Inline Hero Tracking Input ─── */
+function HeroTrackingInput() {
+  const [trackingId, setTrackingId] = useState("");
+  const router = useRouter();
+
+  const handleTrack = () => {
+    const id = trackingId.trim().toUpperCase();
+    if (!id) return;
+    localStorage.setItem("lastTrackingId", id);
+    router.push(`/tracking?id=${id}`);
+  };
+
+  return (
+    <motion.div
+      variants={fadeUp()}
+      className="flex items-center gap-0 bg-white/[0.08] backdrop-blur-lg rounded-2xl border border-white/[0.12] p-1.5 max-w-lg w-full shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+    >
+      <div className="flex items-center gap-2 flex-1 px-3">
+        <Search className="h-4 w-4 text-white/40 shrink-0" />
+        <input
+          type="text"
+          value={trackingId}
+          onChange={(e) => setTrackingId(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleTrack()}
+          placeholder="Enter Tracking ID..."
+          className="bg-transparent text-white placeholder:text-white/30 text-sm font-medium w-full outline-none py-2"
+          aria-label="Track shipment by ID"
+        />
+      </div>
+      <Magnetic strength={8}>
+        <button
+          onClick={handleTrack}
+          className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-secondary font-bold text-sm px-5 py-2.5 rounded-xl transition-colors cursor-pointer shrink-0"
+        >
+          Track <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+      </Magnetic>
+    </motion.div>
+  );
+}
+
 /* ─── Hero Section ─── */
 export function HeroSection() {
   return (
     <section id="hero" className="relative min-h-[92vh] flex items-center overflow-hidden bg-secondary">
-      {/* Background Layers */}
+      {/* Background Layers — Depth System */}
       <div className="absolute inset-0">
+        {/* Layer 1: Base gradient */}
         <div className="absolute inset-0 z-[1] bg-gradient-to-br from-secondary/95 via-secondary/85 to-secondary/70" />
+        {/* Layer 2: Image (mid layer) */}
         <div className="absolute inset-0 z-[2] opacity-30 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
         />
-        {/* Radial Glows */}
+        {/* Layer 3: Radial Glows */}
         <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_20%_50%,var(--glow-accent),transparent_50%)]" />
         <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_80%_20%,var(--glow-primary),transparent_60%)]" />
-        {/* Abstract WebGL Proxy */}
+        {/* Layer 4: WebGL Canvas */}
         <div className="absolute inset-0 z-[4]">
            <LuxuryFluidCanvas />
         </div>
-        {/* Dot Grid */}
+        {/* Layer 5: Noise texture */}
         <div className="absolute inset-0 z-[5] dot-grid opacity-40 mix-blend-overlay" />
+        {/* Layer 6: Subtle vignette */}
+        <div className="absolute inset-0 z-[6] bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.4)_100%)]" />
       </div>
 
       <Container className="relative z-10 py-16 lg:py-0 w-full">
         <div className="grid lg:grid-cols-[1fr_380px] gap-12 lg:gap-20 items-center">
 
           {/* ═══ Left: Content ═══ */}
-          <motion.div initial="hidden" animate="show" variants={stagger}>
-            {/* Eyebrow Badge */}
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-full px-4 py-2 mb-8">
+          <motion.div initial="hidden" animate="show" variants={stagger(0.12, 0.1)}>
+            {/* Live Feed Badge */}
+            <motion.div variants={fadeUp()} className="mb-6">
+              <LiveFeed />
+            </motion.div>
+
+            {/* Eyebrow */}
+            <motion.div variants={fadeUp()} className="inline-flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-full px-4 py-2 mb-8">
               <span className="w-2 h-2 rounded-full bg-accent animate-badge-pulse" />
               <span className="text-white/90 text-[13px] font-semibold tracking-wide">
                 Trusted by 500+ Indian Exporters
               </span>
             </motion.div>
 
-            {/* Headline */}
-            <motion.h1 variants={fadeUp} className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-8 leading-[1.05] tracking-tight">
-              <span className="font-medium">Your Cargo.</span><br />
-              <span className="text-gradient font-semibold">Our Commitment.</span>
+            {/* Kinetic Headline */}
+            <motion.h1
+              variants={stagger(0.06, 0.2)}
+              initial="hidden"
+              animate="show"
+              className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-8 leading-[1.05] tracking-tight"
+            >
+              <KineticHeadline text="Your Cargo." className="font-medium block" />
+              <KineticHeadline text="Our Commitment." className="text-gradient font-semibold block" />
             </motion.h1>
 
             {/* Subtitle */}
-            <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/70 max-w-lg mb-8 leading-relaxed">
+            <motion.p variants={fadeUp()} className="text-lg md:text-xl text-white/70 max-w-lg mb-8 leading-relaxed">
               From India to 50+ countries — ocean freight, air cargo &amp; customs clearance delivered with 98% on-time precision.
             </motion.p>
 
+            {/* Inline Tracking Input */}
+            <div className="mb-8">
+              <HeroTrackingInput />
+            </div>
+
             {/* CTAs */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-8">
-              <Link href="/contact#quote">
-                <Button variant="accent" size="lg" className="shadow-[var(--shadow-glow-accent)]">
-                  <Send className="h-4 w-4" /> Get a Free Quote
-                </Button>
-              </Link>
-              <Link href="/tracking">
-                <Button variant="hero-outline" size="lg">
-                  <MapPin className="h-4 w-4" /> Track Shipment
-                </Button>
-              </Link>
+            <motion.div variants={fadeUp()} className="flex flex-wrap gap-4 mb-8">
+              <Magnetic strength={10}>
+                <Link href="/contact#quote">
+                  <Button variant="accent" size="lg" className="shadow-[var(--shadow-glow-accent)]">
+                    <Send className="h-4 w-4" /> Get a Free Quote
+                  </Button>
+                </Link>
+              </Magnetic>
             </motion.div>
 
             {/* Trust Strip */}
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-6 text-white/60 text-sm">
+            <motion.div variants={fadeUp()} className="flex flex-wrap items-center gap-6 text-white/60 text-sm">
               <span className="flex items-center gap-2">
                 <Shield className="h-4 w-4 text-accent/80" /> Fully Insured
               </span>
@@ -189,7 +250,12 @@ export function HeroSection() {
           </motion.div>
 
           {/* ═══ Right: Dashboard Preview + Metrics ═══ */}
-          <motion.div variants={scaleIn} initial="hidden" animate="show" className="hidden lg:flex flex-col gap-4">
+          <motion.div
+            variants={signatureReveal}
+            initial="hidden"
+            animate="show"
+            className="hidden lg:flex flex-col gap-4"
+          >
             <DashboardPreview />
             <div className="grid grid-cols-2 gap-3">
               {HERO_METRICS.map((metric, i) => (
