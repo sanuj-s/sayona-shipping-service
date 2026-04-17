@@ -51,6 +51,7 @@ function IndustryCard({
         style={{ transitionDelay: `${index * 80}ms` }}
       >
         {/* Background Image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={industry.image}
           alt={industry.title}

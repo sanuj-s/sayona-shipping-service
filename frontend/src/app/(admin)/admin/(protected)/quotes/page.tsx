@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { DataTable } from "@/components/admin/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/modal";
+import { Modal, ModalHeader, ModalBody } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { getQuotes, replyToQuote } from "@/lib/api/endpoints";
@@ -120,10 +120,11 @@ export default function QuotesPage() {
       />
 
       <Modal
-        isOpen={!!activeQuote}
+        open={!!activeQuote}
         onClose={() => setActiveQuote(null)}
-        title="Reply with Quote Estimate"
       >
+        <ModalHeader onClose={() => setActiveQuote(null)}>Reply with Quote Estimate</ModalHeader>
+        <ModalBody>
         {activeQuote && (
           <div className="space-y-4">
             <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg text-sm space-y-2 mb-4">
@@ -176,6 +177,7 @@ export default function QuotesPage() {
             )}
           </div>
         )}
+        </ModalBody>
       </Modal>
     </div>
   );

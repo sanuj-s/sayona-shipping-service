@@ -50,6 +50,7 @@ export default function CompanyPage() {
               </div>
             </div>
             <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/logistics.jpg"
                 alt="Sayona Shipping Warehouse"

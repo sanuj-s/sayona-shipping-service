@@ -32,7 +32,7 @@ export function useHaptic() {
           navigator.vibrate([5, 10, 5, 10, 5]);
           break;
       }
-    } catch (err) {
+    } catch {
       console.debug("Haptics not supported or permitted on this device.");
     }
   }, []);

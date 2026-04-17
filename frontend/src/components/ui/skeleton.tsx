@@ -1,13 +1,12 @@
 import { cn } from "@/lib/utils/cn";
-import type { HTMLAttributes } from "react";
+import { motion, type HTMLMotionProps } from "framer-motion";
 
-interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
+interface SkeletonProps extends HTMLMotionProps<"div"> {
   variant?: "text" | "circular" | "rectangular" | "card";
   width?: string | number;
   height?: string | number;
 }
 
-import { motion } from "framer-motion";
 
 function Skeleton({
   className,

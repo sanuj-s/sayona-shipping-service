@@ -83,7 +83,7 @@ export default function ClientDashboard() {
         ) : (
           <div className="space-y-3">
             {shipments.map((s) => (
-              <Link key={s.id} href={`/client/track?id=${s.trackingNumber}`}>
+              <Link key={s.uuid} href={`/client/track?id=${s.trackingNumber}`}>
                 <Card variant="elevated" className="flex items-center justify-between hover:border-primary/30 transition-colors cursor-pointer">
                   <div>
                     <h3 className="font-semibold text-primary text-sm">{s.trackingNumber}</h3>

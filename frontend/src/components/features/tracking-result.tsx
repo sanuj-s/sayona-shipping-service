@@ -121,7 +121,7 @@ export function TrackingResultView({ data }: { data: TrackingResult }) {
               const timeStr = d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
 
               return (
-                <div key={ev.id || i} className="flex gap-4">
+                <div key={ev.uuid || i} className="flex gap-4">
                   {/* Marker */}
                   <div className="flex flex-col items-center">
                     <div className={cn(

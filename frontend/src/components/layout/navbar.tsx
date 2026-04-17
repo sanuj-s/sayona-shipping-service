@@ -45,9 +45,9 @@ export function Navbar() {
     setActiveDropdown(null);
   }, [pathname, closeMobileMenu]);
 
-  // Keep navbar color consistent (white surface) even on hero.
+  // Keep navbar color consistent (surface background)
   const navBg =
-    "bg-white dark:bg-[#0A0F1E] shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
+    "bg-[var(--surface)] shadow-[var(--shadow-nav)] border-b border-[var(--border-color)]";
 
   const textColor = "text-[var(--foreground)]";
 
@@ -64,7 +64,7 @@ export function Navbar() {
       {/* ─── Top Utility Bar ─── */}
       <div className={cn(
         "hidden lg:block text-xs py-2 border-b transition-colors duration-[var(--duration-normal)] ease-[var(--ease-premium)]",
-        "bg-white dark:bg-[#0A0F1E] border-[var(--border-color)] text-[var(--foreground-secondary)]"
+        "bg-[var(--surface)] border-[var(--border-color)] text-[var(--foreground-secondary)]"
       )}>
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between">
           <div className="flex items-center gap-5">
@@ -97,6 +97,7 @@ export function Navbar() {
         <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/sayona-logo.png"
               alt="Sayona Shipping Services"
@@ -338,7 +339,7 @@ export function Navbar() {
                     className="overflow-hidden"
                   >
                     <div className="pl-4 pb-2 space-y-0.5">
-                      {SERVICE_DROPDOWN.flatMap((g) => g.items).map((item) => {
+                      {SERVICE_DROPDOWN.map((g) => g.items.map((item) => {
                         const Icon = serviceIconMap[item.icon] || Ship;
                         return (
                           <Link key={item.href} href={item.href} className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[var(--foreground-secondary)] hover:text-primary hover:bg-primary/5">
@@ -346,7 +347,7 @@ export function Navbar() {
                             {item.label}
                           </Link>
                         );
-                      })}
+                      }))}
                     </div>
                   </motion.div>
                 )}

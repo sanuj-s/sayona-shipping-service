@@ -97,7 +97,7 @@ app.use(express.static(path.join(__dirname, '..', '..', 'public')));
 app.get('/', (req, res) => {
   res.status(200).json({ 
     success: true, 
-    message: "Sayona Shipping API is running" 
+    message: 'Sayona Shipping API is running' 
   });
 });
 

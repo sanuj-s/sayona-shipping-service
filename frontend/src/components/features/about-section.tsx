@@ -63,6 +63,7 @@ export function AboutSection() {
             {/* Decorative offset border */}
             <div className="absolute -inset-3 rounded-2xl border-2 border-dashed border-primary/10 -rotate-1 hidden lg:block" />
             <div className="relative rounded-xl overflow-hidden shadow-[var(--shadow-elevated)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/about/warehouse.jpg"
                 alt="Sayona Shipping Warehouse"

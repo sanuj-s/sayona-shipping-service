@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from "react";
 
-type WindowWithWebkitAudio = Window & { webkitAudioContext?: typeof AudioContext };
+type WindowWithWebkitAudio = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext; AudioContext?: typeof AudioContext };
 
 export function SpatialAudioProvider({ children }: { children: React.ReactNode }) {
   // We use WebAudio API to synthesize procedural luxury sounds

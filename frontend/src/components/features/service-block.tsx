@@ -43,6 +43,7 @@ export function ServiceBlock({ service, reversed }: { service: ServiceData; reve
 
       {/* Image */}
       <div className="rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-elevated)]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={service.image}
           alt={service.title}

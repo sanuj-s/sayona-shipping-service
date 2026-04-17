@@ -11,6 +11,7 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/sayona-logo.png"
                 alt="Sayona Shipping Services"

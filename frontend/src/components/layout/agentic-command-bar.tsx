@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { Command } from "cmdk";
 import { useRouter } from "next/navigation";
-import { Search, Ship, Box, MapPin, Phone, Building2 } from "lucide-react";
+import { Search, Ship, Box, MapPin, Building2 } from "lucide-react";
 import { useHaptic } from "@/lib/hooks/use-haptic";
-import { useUIStore } from "@/lib/store/ui-store";
 
 export function AgenticCommandBar() {
   const [open, setOpen] = useState(false);
