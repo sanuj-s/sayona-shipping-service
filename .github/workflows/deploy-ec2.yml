@@ -60,6 +60,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           source: "frontend/out"
           target: "/home/ubuntu/sayona-shipping-service/frontend"
+          strip_components: 1
 
       - name: Deploy backend
         uses: appleboy/ssh-action@v1.0.3
