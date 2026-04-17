@@ -68,35 +68,35 @@ function ServiceCard({
       <article
         ref={ref}
         className={cn(
-          "group relative p-6 rounded-[var(--radius-lg)] premium-border bg-[var(--surface)] hover-lift h-full overflow-hidden",
-          "hover:border-primary/20 hover:shadow-[var(--shadow-card-hover)]",
-          featured && "sm:col-span-2 lg:col-span-1",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          "group relative p-8 rounded-[var(--radius-xl)] bg-[var(--surface)] hover-lift h-full overflow-hidden border border-[var(--border-color)]",
+          "hover:border-primary/30 hover:shadow-[var(--shadow-elevated)] before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-gradient-to-r before:from-primary before:to-accent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
+          featured && "sm:col-span-2 lg:col-span-1 bg-gradient-to-br from-primary/[0.03] to-transparent",
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
         )}
         style={{ transitionDelay: `${index * 80}ms` }}
       >
-        {/* Large faded number */}
-        <span className="absolute top-4 right-5 text-6xl font-extrabold text-[var(--foreground)] opacity-[0.03] leading-none select-none pointer-events-none">
+        {/* Large faded number in gold */}
+        <span className="absolute -top-4 -right-2 text-8xl font-black font-display text-accent opacity-[0.04] leading-none select-none pointer-events-none group-hover:opacity-[0.08] transition-opacity duration-700">
           {num}
         </span>
 
-        <IconBox
-          variant={variant}
-          className="mb-4 group-hover:scale-105 transition-transform duration-[var(--duration-normal)] ease-[var(--ease-premium)]"
-        >
+        <div className="w-14 h-14 rounded-2xl bg-primary shadow-[var(--shadow-glow-primary)] flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform duration-[var(--duration-normal)] ease-[var(--ease-premium)]">
           <Icon className="h-6 w-6" />
-        </IconBox>
+        </div>
 
-        <h3 className="text-lg font-bold text-[var(--foreground)] mb-2 group-hover:text-primary transition-colors duration-[var(--duration-normal)]">
+        <h3 className="text-xl font-bold text-[var(--foreground)] mb-3 group-hover:text-primary transition-colors duration-[var(--duration-normal)]">
           {service.title}
         </h3>
-        <p className="text-sm text-[var(--foreground-secondary)] leading-relaxed mb-5">
+        <p className="text-sm text-[var(--foreground-secondary)] leading-relaxed mb-8">
           {service.description}
         </p>
-        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-          Learn more
-          <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform duration-[var(--duration-normal)]" />
-        </span>
+        
+        <div className="mt-auto">
+          <span className="inline-flex items-center gap-2 text-sm font-bold text-primary group-hover:text-accent transition-colors duration-[var(--duration-normal)] uppercase tracking-wide">
+            Learn more
+            <ArrowRight className="h-4 w-4 group-hover:translate-x-2 transition-transform duration-[var(--duration-normal)] ease-[var(--ease-premium)]" />
+          </span>
+        </div>
       </article>
     </Link>
   );
