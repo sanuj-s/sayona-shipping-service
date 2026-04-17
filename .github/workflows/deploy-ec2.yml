@@ -47,6 +47,9 @@ jobs:
             sudo apt-get autoremove -y || true
             sudo apt-get clean || true
             sudo journalctl --vacuum-time=1d || true
+            sudo truncate -s 0 /var/log/syslog || true
+            sudo truncate -s 0 /var/log/nginx/error.log || true
+            sudo truncate -s 0 /var/log/nginx/access.log || true
 
       - name: Copy frontend
         uses: appleboy/scp-action@master
