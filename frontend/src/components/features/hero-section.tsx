@@ -192,13 +192,8 @@ export function HeroSection() {
 
           {/* ═══ Left: Content ═══ */}
           <motion.div initial="hidden" animate="show" variants={stagger(0.12, 0.1)}>
-            {/* Live Feed Badge */}
-            <motion.div variants={fadeUp()} className="mb-6">
-              <LiveFeed />
-            </motion.div>
-
             {/* Eyebrow */}
-            <motion.div variants={fadeUp()} className="inline-flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-full px-4 py-2 mb-8">
+            <motion.div variants={fadeUp()} className="inline-flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-full px-4 py-2 mb-6 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-accent animate-badge-pulse" />
               <span className="text-white/90 text-[13px] font-semibold tracking-wide">
                 Trusted by 500+ Indian Exporters
@@ -210,21 +205,26 @@ export function HeroSection() {
               variants={stagger(0.06, 0.2)}
               initial="hidden"
               animate="show"
-              className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-8 leading-[1.05] tracking-tight"
+              className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-6 leading-[1.05] tracking-tight"
             >
-              <KineticHeadline text="Global Logistics." className="font-medium block" />
-              <KineticHeadline text="Engineered for Precision." className="text-gradient font-semibold block" />
+              <KineticHeadline text="Seamless Freight." className="font-light block" />
+              <KineticHeadline text="Limitless Reach." className="text-accent font-medium block" />
             </motion.h1>
 
             {/* Subtitle */}
-            <motion.p variants={fadeUp()} className="text-lg md:text-xl text-white/70 max-w-lg mb-8 leading-relaxed">
+            <motion.p variants={fadeUp()} className="text-lg md:text-xl text-white/80 max-w-lg mb-10 leading-relaxed font-light">
               From India to 50+ countries — ocean freight, air cargo &amp; customs clearance delivered with 98% on-time precision.
             </motion.p>
 
             {/* Inline Tracking Input */}
-            <div className="mb-8">
+            <div className="mb-6">
               <HeroTrackingInput />
             </div>
+
+            {/* Live Feed Repositioned Here */}
+            <motion.div variants={fadeUp()} className="mb-10 scale-95 origin-left">
+              <LiveFeed />
+            </motion.div>
 
             {/* CTAs */}
             <motion.div variants={fadeUp()} className="flex flex-wrap gap-4 mb-8">

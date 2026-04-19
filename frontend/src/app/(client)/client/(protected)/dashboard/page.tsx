@@ -28,7 +28,7 @@ export default function ClientDashboard() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-[var(--foreground)]">
-          Welcome back, {user?.name?.split(" ")[0] || "Client"}
+          Welcome back, {user?.name?.split(" ")?.[0] || "Client"}
         </h1>
         <p className="text-[var(--foreground-secondary)] mt-1">Here&apos;s an overview of your shipments.</p>
       </div>

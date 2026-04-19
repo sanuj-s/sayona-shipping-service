@@ -27,11 +27,11 @@ export const SITE = {
   phoneDisplay: "9790057690",
   whatsapp: "919790057690",
   address: {
-    street: "15, 60 Feet Rd, Kumarananthapuram",
-    city: "Tirupur",
+    street: "HOUSE No. G, SF NO.637/3A , 637/3B, HILL VIEW APARTMENT, PUNITHA GARDEN, Somayampalayam Village",
+    city: "Coimbatore",
     state: "Tamil Nadu",
     country: "India",
-    zip: "641602",
+    zip: "641041",
   },
   social: {
     linkedin: "https://linkedin.com/company/sayonashipping",

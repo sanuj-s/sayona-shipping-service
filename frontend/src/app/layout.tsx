@@ -85,10 +85,10 @@ export default function RootLayout({
               foundingDate: "2020",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "15, 60 Feet Rd, Kumarananthapuram",
-                addressLocality: "Tirupur",
+                streetAddress: "HOUSE No. G, SF NO.637/3A , 637/3B, HILL VIEW APARTMENT, PUNITHA GARDEN, Somayampalayam Village",
+                addressLocality: "Coimbatore",
                 addressRegion: "Tamil Nadu",
-                postalCode: "641602",
+                postalCode: "641041",
                 addressCountry: "IN",
               },
               contactPoint: {

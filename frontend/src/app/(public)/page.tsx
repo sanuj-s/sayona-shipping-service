@@ -54,7 +54,7 @@ export default function HomePage() {
             <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--foreground-secondary)] leading-relaxed space-y-4 text-[15px]">
               <p>
                 <strong className="text-[var(--foreground)]">Sayona Shipping Service</strong> is a leading international
-                freight forwarding and logistics company headquartered in Tirupur, Tamil Nadu, India. With decades of
+                freight forwarding and logistics company headquartered in Coimbatore, Tamil Nadu, India. With decades of
                 combined industry expertise, we provide end-to-end shipping solutions for businesses across India looking
                 to export and import goods worldwide.
               </p>
