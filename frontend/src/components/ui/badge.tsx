@@ -50,7 +50,8 @@ function StatusBadge({
   className,
   ...props
 }: { status: string } & Omit<BadgeProps, "variant">) {
-  const statusLower = status.toLowerCase();
+  const safeStatus = status || "Unknown";
+  const statusLower = safeStatus.toLowerCase();
 
   const variantMap: Record<string, BadgeProps["variant"]> = {
     created: "default",
@@ -65,7 +66,7 @@ function StatusBadge({
 
   const variant = variantMap[statusLower] || "default";
 
-  const displayStatus = status
+  const displayStatus = safeStatus
     .toLowerCase()
     .replace(/_/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());

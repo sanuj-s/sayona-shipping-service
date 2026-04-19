@@ -19,7 +19,11 @@ export default function ClientDashboard() {
 
   useEffect(() => {
     getShipments({ limit: 5 })
-      .then((res) => setShipments(res.shipments))
+      .then((res) => {
+        // Safely handle various API response shapes
+        const list = res?.shipments ?? (Array.isArray(res) ? res : []);
+        setShipments(list);
+      })
       .catch((err) => setError(err instanceof Error ? err.message : "Failed to load recent shipments"))
       .finally(() => setLoading(false));
   }, []);
