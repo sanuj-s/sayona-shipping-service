@@ -15,7 +15,7 @@ import { stagger, fadeUp, kineticWord, signatureReveal, DURATION, EASE } from "@
 import {
   Send, Search, Shield, Clock, Headset,
   Target, Globe, Radio, Users,
-  Ship, Package, ArrowRight,
+  Ship, Package, ArrowRight, Phone,
 } from "lucide-react";
 import { LuxuryFluidCanvas } from "@/components/ui/luxury-fluid-canvas";
 
@@ -212,8 +212,8 @@ export function HeroSection() {
               animate="show"
               className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-8 leading-[1.05] tracking-tight"
             >
-              <KineticHeadline text="Your Cargo." className="font-medium block" />
-              <KineticHeadline text="Our Commitment." className="text-gradient font-semibold block" />
+              <KineticHeadline text="Global Logistics." className="font-medium block" />
+              <KineticHeadline text="Engineered for Precision." className="text-gradient font-semibold block" />
             </motion.h1>
 
             {/* Subtitle */}
@@ -232,6 +232,13 @@ export function HeroSection() {
                 <Link href="/contact#quote">
                   <Button variant="accent" size="lg" className="shadow-[var(--shadow-glow-accent)]">
                     <Send className="h-4 w-4" /> Get a Free Quote
+                  </Button>
+                </Link>
+              </Magnetic>
+              <Magnetic strength={10}>
+                <Link href="tel:+919876543210">
+                  <Button variant="outline" size="lg" className="bg-white/[0.05] border-white/10 text-white hover:bg-white/10 backdrop-blur-sm">
+                    <Phone className="h-4 w-4" /> Call Expert Now
                   </Button>
                 </Link>
               </Magnetic>
