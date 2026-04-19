@@ -20,8 +20,8 @@ export default function ClientShipmentsPage() {
     try {
       setError(null);
       const res = await getShipments({ page, limit: 10, search });
-      setShipments(res.shipments);
-      setTotal(res.total);
+      setShipments(res?.shipments ?? (Array.isArray(res) ? res : []));
+      setTotal(res?.total ?? 0);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load your shipments");
     }

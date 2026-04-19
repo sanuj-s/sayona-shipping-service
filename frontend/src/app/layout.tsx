@@ -24,11 +24,11 @@ const dmSerif = DM_Serif_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Sayona Shipping Service | International Freight Forwarding & Logistics India",
+    default: "Sayona Shipping Service",
     template: "%s | Sayona Shipping Service",
   },
   description:
-    "India's trusted international freight forwarder. Get instant quotes for ocean freight, air cargo, customs clearance & warehousing. Ship from India to 50+ countries with 98% on-time delivery.",
+    "Reliable international shipping, air freight, customs clearance, and warehousing solutions.",
   keywords: [
     "Sayona Shipping Service",
     "international shipping India",
@@ -41,9 +41,9 @@ export const metadata: Metadata = {
   ],
   metadataBase: new URL("https://sayonashipping.me"),
   openGraph: {
-    title: "Sayona Shipping Service | International Freight & Logistics from India",
+    title: "Sayona Shipping Service – Global Freight & Logistics Solutions",
     description:
-      "India's trusted international freight forwarder. Ocean freight, air cargo, customs clearance & warehousing to 50+ countries.",
+      "Reliable international shipping, air freight, customs clearance, and warehousing solutions.",
     url: "https://sayonashipping.me",
     siteName: "Sayona Shipping Service",
     type: "website",
