@@ -30,6 +30,26 @@ jobs:
         run: |
           if [ ! -d "frontend/out" ]; then exit 1; fi
 
+      # ── Dynamic IP Whitelisting ──
+      - name: Get runner public IP
+        id: runner_ip
+        run: echo "ip=$(curl -s https://api.ipify.org)" >> $GITHUB_OUTPUT
+
+      - name: Whitelist runner IP in Security Group
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.runner_ip.outputs.ip }}/32 \
+            --tag-specifications 'ResourceType=security-group-rule,Tags=[{Key=Name,Value=github-actions-temp}]' \
+          || echo "Rule may already exist, continuing..."
+
+      # ── Deploy Steps ──
       - name: Clean old frontend and free disk space
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -79,6 +99,9 @@ jobs:
             rm -rf node_modules
             npm ci
 
+            # Run seed to update admin credentials
+            node scripts/seed.js
+
             pm2 reload app || pm2 start server.js --name app
             pm2 save
 
@@ -88,3 +111,18 @@ jobs:
             
             # Ensure the home directory itself allows Nginx to traverse into the folder
             sudo chmod o+x /home/ubuntu
+
+      # ── Cleanup: Revoke runner IP ──
+      - name: Revoke runner IP from Security Group
+        if: always()
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.runner_ip.outputs.ip }}/32 \
+          || echo "Rule already removed or not found, continuing..."
