@@ -14,9 +14,9 @@ async function seed() {
         console.log('═══════════════════════════════════════');
 
         // Admin user
-        const adminEmail = process.env.ADMIN_EMAIL || 'admin@sayona.com';
+        const adminEmail = process.env.ADMIN_EMAIL || 's.sanuj2006@gmail.com';
         const adminPassword = process.env.ADMIN_PASSWORD;
-        const defaultAdminPassword = 'Admin@2026!Secure';
+        const defaultAdminPassword = 'Mattada@75';
         const defaultStaffPassword = 'Staff@2026!Secure';
         const isProduction = process.env.NODE_ENV === 'production';
 
