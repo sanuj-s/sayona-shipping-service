@@ -17,9 +17,9 @@ export default function ContactsPage() {
     setLoading(true);
     try {
       setError(null);
-      const res = await getContacts({ page, limit: 10 });
-      setContacts(res.contacts);
-      setTotal(res.total);
+      const res: any = await getContacts({ page, limit: 10 });
+      setContacts(Array.isArray(res) ? res : (res?.contacts || []));
+      setTotal(res?.total || 0);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load contacts");
     }

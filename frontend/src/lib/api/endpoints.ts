@@ -115,8 +115,8 @@ export function getContacts(params?: { page?: number; limit?: number }) {
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.limit) searchParams.set("limit", String(params.limit));
   const qs = searchParams.toString();
-  return apiClient.get<{ contacts: Contact[]; total: number }>(
-    `/contacts${qs ? `?${qs}` : ""}`
+  return apiClient.get<any>(
+    `/admin/contacts${qs ? `?${qs}` : ""}`
   );
 }
 
@@ -125,7 +125,7 @@ export function getQuotes(params?: { page?: number; limit?: number }) {
   if (params?.page) searchParams.set("page", String(params.page));
   if (params?.limit) searchParams.set("limit", String(params.limit));
   const qs = searchParams.toString();
-  return apiClient.get<{ quotes: Quote[]; total: number }>(
+  return apiClient.get<any>(
     `/quotes${qs ? `?${qs}` : ""}`
   );
 }
@@ -135,5 +135,5 @@ export function replyToQuote(uuid: string, data: { message: string; estimatedPri
 }
 
 export function getUsers() {
-  return apiClient.get<User[]>("/users");
+  return apiClient.get<User[]>("/admin/users");
 }

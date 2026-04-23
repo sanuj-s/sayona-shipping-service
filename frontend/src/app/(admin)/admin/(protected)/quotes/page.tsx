@@ -31,9 +31,9 @@ export default function QuotesPage() {
     setLoading(true);
     try {
       setError(null);
-      const res = await getQuotes({ page, limit: 10 });
-      setQuotes(res.quotes);
-      setTotal(res.total);
+      const res: any = await getQuotes({ page, limit: 10 });
+      setQuotes(Array.isArray(res) ? res : (res?.quotes || []));
+      setTotal(res?.total || 0);
     } catch (err) {
        setError(err instanceof Error ? err.message : "Failed to load quotes");
     }

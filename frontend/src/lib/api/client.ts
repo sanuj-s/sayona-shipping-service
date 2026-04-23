@@ -129,8 +129,14 @@ async function request<T>(
     throw new ApiClientError(message, response.status, errorBody?.error?.code);
   }
 
-  const json: ApiResponse<T> = await response.json();
-  return json.data !== undefined ? json.data : (json as unknown as T);
+  const json: any = await response.json();
+  if (json.data !== undefined) {
+    if (Array.isArray(json.data) && json.meta?.total !== undefined) {
+      (json.data as any).total = json.meta.total;
+    }
+    return json.data;
+  }
+  return json as unknown as T;
 }
 
 export const apiClient = {
