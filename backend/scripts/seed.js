@@ -33,7 +33,7 @@ async function seed() {
             const salt = await bcrypt.genSalt(12);
             const passwordHash = await bcrypt.hash(finalAdminPassword, salt);
             await pool.query(
-                `UPDATE users SET password_hash = $1, name = $2 WHERE email = $3`,
+                `UPDATE users SET password_hash = $1, name = $2, is_locked = FALSE, failed_login_attempts = 0, lock_until = NULL WHERE email = $3`,
                 [passwordHash, adminName, adminEmail]
             );
             console.log(`✅ Admin user (${adminEmail}) updated with latest credentials.`);
