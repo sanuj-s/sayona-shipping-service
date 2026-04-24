@@ -238,7 +238,7 @@ const ShipmentRepository = {
     calculateTotalRevenue: async () => {
         const result = await query(
             `SELECT SUM(price) as total_revenue FROM shipments 
-             WHERE deleted_at IS NULL AND status::text != 'CANCELLED' AND status != 'RETURNED'`
+             WHERE deleted_at IS NULL AND status != 'RETURNED' AND status != 'FAILED_DELIVERY'`
         );
         return parseFloat(result.rows[0].total_revenue || 0).toFixed(2);
     },

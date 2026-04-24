@@ -28,8 +28,8 @@ export default function BillingPage() {
 
   const fetchUsage = async () => {
     try {
-      const response = await apiClient.get<UsageData>("/v1/tenants/usage");
-      setUsage(response.data);
+      const response = await apiClient.get<UsageData>("/tenants/usage");
+      setUsage(response as unknown as UsageData);
     } catch (error: any) {
       toast.error("Failed to load usage data");
     } finally {
@@ -40,11 +40,10 @@ export default function BillingPage() {
   const handleUpgrade = async (planId: string) => {
     setIsUpgrading(true);
     try {
-      const response = await apiClient.post("/v1/tenants/upgrade-plan", { planId });
-      if (response.success) {
-        toast.success(response.data.message || `Upgraded to ${planId}`);
-        await fetchUsage();
-      }
+      const response = await apiClient.post<any>("/tenants/upgrade-plan", { planId });
+      toast.success((response as any)?.message || `Upgraded to ${planId}`);
+      await fetchUsage();
+
     } catch (error: any) {
       toast.error(error.message || "Upgrade failed");
     } finally {
