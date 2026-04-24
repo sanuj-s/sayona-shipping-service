@@ -6,7 +6,11 @@ class PricingService {
             standard: { basePrice: 50, weightRate: 5, distanceRate: 0.5, multiplier: 1.0 },
             express: { basePrice: 100, weightRate: 8, distanceRate: 0.8, multiplier: 1.5 },
             'same-day': { basePrice: 200, weightRate: 15, distanceRate: 1.2, multiplier: 2.0 },
-            international: { basePrice: 500, weightRate: 25, distanceRate: 2.5, multiplier: 3.0 }
+            international: { basePrice: 500, weightRate: 25, distanceRate: 2.5, multiplier: 3.0 },
+            ocean_fcl: { basePrice: 1000, weightRate: 2, distanceRate: 0.1, multiplier: 1.0 },
+            ocean_lcl: { basePrice: 300, weightRate: 5, distanceRate: 0.2, multiplier: 1.0 },
+            air: { basePrice: 800, weightRate: 15, distanceRate: 1.5, multiplier: 2.5 },
+            ground: { basePrice: 150, weightRate: 8, distanceRate: 0.6, multiplier: 1.0 }
         };
     }
 

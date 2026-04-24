@@ -46,6 +46,8 @@ export default function CreateShipmentPage() {
       setStatus("idle");
       await createShipment({
         ...data,
+        trackingNumber: `SYN${Math.floor(Math.random() * 100000000).toString().padStart(8, '0')}`,
+        industryType: data.cargoType,
         shippingType: data.shippingType as ShippingType,
         weight: data.weight ? parseFloat(data.weight) : undefined,
       });

@@ -13,7 +13,7 @@ const createShipment = {
         destination: Joi.string().trim().max(200).required(),
         currentLocation: Joi.string().trim().max(200),
         industryType: Joi.string().trim().max(50),
-        shippingType: Joi.string().valid('standard', 'express', 'same-day', 'international').default('standard'),
+        shippingType: Joi.string().valid('standard', 'express', 'same-day', 'international', 'ocean_fcl', 'ocean_lcl', 'air', 'ground').default('ocean_fcl'),
         weight: Joi.number().positive().max(10000),
         dimensions: Joi.string().max(100),
         userEmail: Joi.string().email().lowercase().trim(),
