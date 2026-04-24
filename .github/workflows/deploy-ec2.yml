@@ -99,6 +99,9 @@ jobs:
             rm -rf node_modules
             npm ci
 
+            # Run migrations to ensure the database schema is up-to-date
+            npm run migrate
+
             # Run seed to update admin credentials
             node scripts/seed.js
 
