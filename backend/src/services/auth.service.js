@@ -54,6 +54,7 @@ const AuthService = {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                tenant_id: user.tenant_id,
                 isVerified: user.is_verified,
             },
             accessToken,
@@ -101,7 +102,7 @@ const AuthService = {
 
         // Generate tokens
         const accessToken = TokenService.generateAccessToken({
-            id: user.id, uuid: user.uuid, role: user.role,
+            id: user.id, uuid: user.uuid, role: user.role, tenant_id: user.tenant_id,
         });
         const refreshToken = await TokenService.generateRefreshToken(user.id);
 
@@ -111,6 +112,7 @@ const AuthService = {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                tenant_id: user.tenant_id,
                 isVerified: user.is_verified,
             },
             accessToken,

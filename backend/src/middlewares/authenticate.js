@@ -4,7 +4,7 @@
 // ─────────────────────────────────────────────
 const jwt = require('jsonwebtoken');
 const config = require('../config/environment');
-const { query } = require('../config/database');
+const { query, tenantStorage } = require('../config/database');
 const { AuthenticationError } = require('../utils/AppError');
 
 /**
@@ -70,11 +70,18 @@ const authenticate = async (req, res, next) => {
             phone: user.phone,
             company: user.company,
             role: user.role,
+            tenant_id: decoded.tenant_id,
             address: user.address,
             isVerified: user.is_verified,
             createdAt: user.created_at,
         };
 
+        if (decoded.tenant_id) {
+            return tenantStorage.run(decoded.tenant_id, () => {
+                next();
+            });
+        }
+        
         next();
     } catch (error) {
         if (error instanceof AuthenticationError) {

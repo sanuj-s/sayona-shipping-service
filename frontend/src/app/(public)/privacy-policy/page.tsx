@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy Policy for Sayona Shipping Service. Learn how we handle your data.",
+  description: "Privacy Policy for Sayona Logistics Platform. Learn how we handle your data.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
               <div>
                 <h2 className="text-xl font-bold text-[var(--foreground)] mb-3">3. Data Security and Confidentiality</h2>
                 <p>
-                  Your shipment data is treated with enterprise-grade confidentiality. Sayona Shipping enforces strict
+                  Your shipment data is treated with enterprise-grade confidentiality. Sayona Logistics Platform enforces strict
                   internal access controls and TLS encryption for any transit of your data through our systems.
                 </p>
               </div>

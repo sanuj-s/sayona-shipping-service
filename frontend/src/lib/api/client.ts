@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════
-// Sayona Shipping — Type-Safe API Client
+// Sayona Logistics Platform — Type-Safe API Client
 // ═══════════════════════════════════════════════
 
 import type { ApiResponse } from "@/lib/types";

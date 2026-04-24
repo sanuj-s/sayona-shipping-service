@@ -24,13 +24,13 @@ const dmSerif = DM_Serif_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Sayona Shipping Service",
-    template: "%s | Sayona Shipping Service",
+    default: "Sayona Logistics Platform",
+    template: "%s | Sayona Logistics Platform",
   },
   description:
     "Reliable international shipping, air freight, customs clearance, and warehousing solutions.",
   keywords: [
-    "Sayona Shipping Service",
+    "Sayona Logistics Platform",
     "international shipping India",
     "freight forwarding India",
     "cargo shipping",
@@ -41,11 +41,11 @@ export const metadata: Metadata = {
   ],
   metadataBase: new URL("https://sayonashipping.me"),
   openGraph: {
-    title: "Sayona Shipping Service – Global Freight & Logistics Solutions",
+    title: "Sayona Logistics Platform – Global Freight & Logistics Solutions",
     description:
       "Reliable international shipping, air freight, customs clearance, and warehousing solutions.",
     url: "https://sayonashipping.me",
-    siteName: "Sayona Shipping Service",
+    siteName: "Sayona Logistics Platform",
     type: "website",
     images: [
       {
@@ -77,7 +77,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Sayona Shipping Service",
+              name: "Sayona Logistics Platform",
               url: "https://sayonashipping.me",
               logo: "https://sayonashipping.me/images/sayona-logo.png",
               description:

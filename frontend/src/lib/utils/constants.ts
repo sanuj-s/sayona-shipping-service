@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════
-// Sayona Shipping — Site Constants & Content Data
+// Sayona Logistics Platform — Site Constants & Content Data
 // ═══════════════════════════════════════════════
 
 import type {
@@ -16,7 +16,7 @@ import type {
 
 // ─── Site Metadata ───
 export const SITE = {
-  name: "Sayona Shipping Service",
+  name: "Sayona Logistics Platform",
   tagline: "Your Cargo. Our Commitment.",
   description:
     "India's trusted international freight forwarder. Ocean freight, air cargo, customs clearance & warehousing to 50+ countries.",
@@ -233,7 +233,7 @@ export const TESTIMONIALS: TestimonialData[] = [
     role: "Export Manager",
     company: "Textile Co.",
     quote:
-      "Sayona Shipping handles all our international logistics. Incredibly reliable and fast!",
+      "Sayona Logistics Platform handles all our international logistics. Incredibly reliable and fast!",
     rating: 5,
     avatarColor: "info",
   },

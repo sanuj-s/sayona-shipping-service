@@ -13,6 +13,16 @@ async function seed() {
         console.log('  Sayona Shipping — Database Seed');
         console.log('═══════════════════════════════════════');
 
+        // Ensure default tenant exists
+        const defaultTenantId = '00000000-0000-0000-0000-000000000000';
+        await pool.query(
+            `INSERT INTO tenants (id, name, domain) 
+             VALUES ($1, 'Sayona Logistics Platform', 'sayona.local') 
+             ON CONFLICT (id) DO NOTHING`,
+             [defaultTenantId]
+        );
+        console.log(`✅ Default tenant verified (${defaultTenantId})`);
+
         // Admin user
         const adminEmail = process.env.ADMIN_EMAIL || 's.sanuj2006@gmail.com';
         const adminPassword = process.env.ADMIN_PASSWORD;
@@ -41,9 +51,9 @@ async function seed() {
             const passwordHash = await bcrypt.hash(finalAdminPassword, salt);
 
             await pool.query(
-                `INSERT INTO users (name, email, password_hash, role, is_verified) 
-                 VALUES ($1, $2, $3, 'admin', TRUE)`,
-                [adminName, adminEmail, passwordHash]
+                `INSERT INTO users (name, email, password_hash, role, is_verified, tenant_id) 
+                 VALUES ($1, $2, $3, 'admin', TRUE, $4)`,
+                [adminName, adminEmail, passwordHash, defaultTenantId]
             );
             console.log(`✅ Admin user created: ${adminEmail}`);
         }
@@ -76,9 +86,9 @@ async function seed() {
             const passwordHash = await bcrypt.hash(finalStaffPassword, salt);
 
             await pool.query(
-                `INSERT INTO users (name, email, password_hash, role, is_verified) 
-                 VALUES ($1, $2, $3, 'staff', TRUE)`,
-                ['Sayona Staff', staffEmail, passwordHash]
+                `INSERT INTO users (name, email, password_hash, role, is_verified, tenant_id) 
+                 VALUES ($1, $2, $3, 'staff', TRUE, $4)`,
+                ['Sayona Staff', staffEmail, passwordHash, defaultTenantId]
             );
             console.log(`✅ Staff user created: ${staffEmail}`);
         }
@@ -93,15 +103,16 @@ async function seed() {
                 const trackingNumber = `SAY${Math.floor(100000000 + Math.random() * 900000000)}`;
                 await pool.query(
                     `INSERT INTO shipments 
-                    (tracking_number, origin, destination, weight, shipping_type, status) 
-                     VALUES ($1, $2, $3, $4, $5, $6)`,
+                    (tracking_number, origin, destination, weight, shipping_type, status, tenant_id) 
+                     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
                     [
                         trackingNumber,
                         'Location A',
                         'Location B',
                         (Math.random() * 50).toFixed(2),
                         i % 2 === 0 ? 'standard' : 'express',
-                        'CREATED'
+                        'CREATED',
+                        defaultTenantId
                     ]
                 );
             }

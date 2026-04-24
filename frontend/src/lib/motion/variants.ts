@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════
-// Sayona Shipping — Unified Motion System 2026
+// Sayona Logistics Platform — Unified Motion System 2026
 // Duration Scale · Easing Standard · Entry Vectors
 // ═══════════════════════════════════════════════
 

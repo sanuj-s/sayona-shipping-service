@@ -9,7 +9,7 @@ import { SITE } from "@/lib/utils/constants";
 export const metadata: Metadata = {
   title: "Contact Us / Get a Quote",
   description:
-    "Get a free shipping quote from Sayona Shipping Service. Instant rates for international cargo, ocean & air freight from India.",
+    "Get a free shipping quote from Sayona Logistics Platform. Instant rates for international cargo, ocean & air freight from India.",
 };
 
 export default function ContactPage() {
@@ -60,7 +60,7 @@ export default function ContactPage() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Sayona Shipping Location"
+              title="Sayona Logistics Platform Location"
             />
           </div>
         </Container>

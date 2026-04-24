@@ -29,7 +29,7 @@ export function AdminSidebar() {
         <Link href="/admin/dashboard" className="flex items-center gap-2">
           <Ship className="h-7 w-7 text-accent" />
           <div>
-            <h2 className="font-bold text-sm leading-tight">Sayona Shipping</h2>
+            <h2 className="font-bold text-sm leading-tight">Sayona Logistics Platform</h2>
             <p className="text-[10px] text-white/50 uppercase tracking-wider">Admin Panel</p>
           </div>
         </Link>

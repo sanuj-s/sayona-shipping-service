@@ -25,7 +25,46 @@ pool.on('error', (err) => {
     logger.error('Unexpected PostgreSQL pool error', { error: err.message });
 });
 
+const { AsyncLocalStorage } = require('async_hooks');
+const tenantStorage = new AsyncLocalStorage();
+
 const query = async (text, params) => {
+    const tenantId = tenantStorage.getStore();
+    
+    // Execute query in a strictly isolated tenant context via PostgreSQL RLS
+    if (tenantId && !text.includes('pg_') && !text.includes('SET LOCAL') && !text.includes('BEGIN') && !text.includes('COMMIT') && !text.includes('ROLLBACK')) {
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
+            await client.query(`SET LOCAL app.current_tenant = '${tenantId}'`);
+            
+            const start = Date.now();
+            const result = await client.query(text, params);
+            const duration = Date.now() - start;
+            
+            logger.debug('Query executed (Isolated Tenant)', {
+                tenantId,
+                query: text.substring(0, 100),
+                duration: `${duration}ms`,
+                rows: result.rowCount,
+            });
+            
+            await client.query('COMMIT');
+            return result;
+        } catch (error) {
+            await client.query('ROLLBACK');
+            logger.error('Query failed (Isolated Tenant)', {
+                tenantId,
+                query: text.substring(0, 100),
+                error: error.message,
+            });
+            throw error;
+        } finally {
+            client.release();
+        }
+    }
+
+    // Default execution for generic system queries (e.g. initial auth checks or background tasks)
     const start = Date.now();
     try {
         const result = await pool.query(text, params);
@@ -57,4 +96,4 @@ const close = async () => {
     await pool.end();
 };
 
-module.exports = { pool, query, getClient, testConnection, close };
+module.exports = { pool, query, getClient, testConnection, close, tenantStorage };

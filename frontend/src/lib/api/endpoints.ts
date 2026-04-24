@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════
-// Sayona Shipping — API Endpoint Functions
+// Sayona Logistics Platform — API Endpoint Functions
 // ═══════════════════════════════════════════════
 
 import { apiClient } from "./client";

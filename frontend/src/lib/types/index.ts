@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════
-// Sayona Shipping — TypeScript Type Definitions
+// Sayona Logistics Platform — TypeScript Type Definitions
 // ═══════════════════════════════════════════════
 
 // ─── API Response Envelope ───
@@ -104,6 +104,7 @@ export interface User {
   name: string;
   email: string;
   role: UserRole;
+  tenant_id?: string;
   company?: string;
   phone?: string;
   isActive: boolean;
