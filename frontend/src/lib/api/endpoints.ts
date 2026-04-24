@@ -47,6 +47,16 @@ export function submitQuote(data: {
   return apiClient.post<Quote>("/quotes", data);
 }
 
+export function getQuoteEstimate(params: {
+  origin: string;
+  destination: string;
+  weight: string;
+  cargoType: string;
+}) {
+  const qs = new URLSearchParams(params).toString();
+  return apiClient.get<{ estimatedPrice: number }>(`/quotes/estimate?${qs}`);
+}
+
 // ─── Auth Endpoints ───
 
 export function login(data: { email: string; password: string }) {

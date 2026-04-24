@@ -9,7 +9,7 @@ import { Container } from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { submitQuote } from "@/lib/api/endpoints";
+import { submitQuote, getQuoteEstimate } from "@/lib/api/endpoints";
 import { COUNTRIES, SHIPPING_MODES } from "@/lib/utils/countries";
 import { CheckCircle, AlertCircle, Clock, Shield, Globe, ArrowRight, ArrowLeft, RefreshCcw } from "lucide-react";
 import { EASE, DURATION } from "@/lib/motion/variants";
@@ -70,22 +70,34 @@ export function QuoteForm() {
     }
   }, [formValues]);
 
-  // Phase 4: Optimistic Price Predictor (Mock Algorithm)
+  // Phase 4: Live Price Predictor
   useEffect(() => {
-    if (formValues.weight && formValues.origin && formValues.destination) {
-      const baseRaw = parseFloat(formValues.weight) || 0;
-      let multiplier = 1.0;
-      if (formValues.shippingMode === "air") multiplier = 4.5;
-      if (formValues.shippingMode === "ocean_lcl") multiplier = 0.8;
-      
-      const distanceMockFactor = formValues.origin !== formValues.destination ? 1.5 : 0.5;
-      const baseCost = baseRaw * multiplier * distanceMockFactor * 2.5; // Made up realistic math
-      
-      setEstimatedPrice(Math.round(baseCost + 350)); // Base handling fee
-    } else {
-      setEstimatedPrice(null);
-    }
-  }, [formValues.weight, formValues.shippingMode, formValues.origin, formValues.destination]);
+    let active = true;
+    const timeout = setTimeout(async () => {
+      if (formValues.weight && formValues.origin && formValues.destination && formValues.cargo) {
+        try {
+          const res = await getQuoteEstimate({
+            origin: formValues.origin,
+            destination: formValues.destination,
+            weight: formValues.weight,
+            cargoType: formValues.cargo
+          });
+          if (active && res.success) {
+            setEstimatedPrice(Math.round(Number(res.data.estimatedPrice)));
+          }
+        } catch (e) {
+          if (active) setEstimatedPrice(null);
+        }
+      } else {
+        setEstimatedPrice(null);
+      }
+    }, 500);
+
+    return () => {
+      active = false;
+      clearTimeout(timeout);
+    };
+  }, [formValues.weight, formValues.cargo, formValues.origin, formValues.destination]);
 
   const handleNext = async () => {
     let valid = false;
