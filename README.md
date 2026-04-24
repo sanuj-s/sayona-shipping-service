@@ -11,60 +11,6 @@
 
 ---
 
-## ⚠️ Critical Known Issue — Multi-Tenancy Data Isolation
-
-> **This section documents a subtle but high-severity architectural bug that every developer on this codebase must be aware of.**
-
-### The Problem
-
-The system has been upgraded to use PostgreSQL **Row-Level Security (RLS)** for tenant data isolation. The query wrapper in `database.js` uses Node.js `AsyncLocalStorage` to carry the tenant context into each database query, setting `SET LOCAL app.current_tenant = '<uuid>'` before every isolated query so that RLS policies activate correctly.
-
-**However, `tenantScope.js` was never updated to use `AsyncLocalStorage`.**
-
-Here is the current (broken) code in `src/middlewares/tenantScope.js`:
-
-```js
-// ❌ CURRENT — BROKEN
-const tenantScope = (req, _res, next) => {
-    req.tenantId = (req.user && req.user.tenant_id) ? req.user.tenant_id : 1;
-    next(); // tenantStorage is never populated — RLS is NEVER enforced
-};
-```
-
-`tenantStorage.getStore()` always returns `undefined` at query time, so **every database query bypasses the tenant-isolated code path** and falls through to the generic `pool.query()` branch. All RLS policies are silently ignored.
-
-There is also a **type mismatch**: the fallback value is the integer `1`, but the tenants table now uses UUIDs (`'00000000-0000-0000-0000-000000000000'` for the default tenant).
-
-### The Fix
-
-```js
-// ✅ FIXED
-const { tenantStorage } = require('../config/database');
-
-const tenantScope = (req, _res, next) => {
-    const tenantId = (req.user && req.user.tenant_id)
-        ? req.user.tenant_id
-        : '00000000-0000-0000-0000-000000000000'; // UUID, not integer 1
-    req.tenantId = tenantId;
-    tenantStorage.run(tenantId, next); // ← This one line makes RLS work
-};
-
-module.exports = tenantScope;
-```
-
-### Why It's Hard to Spot
-
-- No errors are thrown — queries still execute and return data.
-- Tests still pass because the test database has only one tenant.
-- The `req.tenantId` field is still set, so code that reads from `req` appears to work.
-- The only symptom is that tenants can read and modify each other's data — which is invisible unless you specifically test cross-tenant isolation.
-
-### Impact
-
-Every shipment, user, tracking event, quote, contact, webhook, and audit log is visible to every tenant. This defeats the entire purpose of migrations `006` and `007`. **Do not run this in production in a true multi-tenant scenario until this fix is applied.**
-
----
-
 ## Overview
 
 Sayona Shipping Service v2.0 is a full-stack **Logistics-as-a-Service (LaaS)** platform. Starting from v1's monolith, the system has been upgraded to a proper SaaS architecture with true multi-tenancy, subscription billing, a self-service company onboarding flow, and a live EC2 deployment pipeline.
@@ -260,7 +206,7 @@ sayona-shipping-service/
 │       ├── middlewares/
 │       │   ├── billing.middleware.js        ← NEW: checkShipmentLimit, checkUserLimit
 │       │   ├── idempotency.middleware.js    ← NEW: Redis-backed idempotency (authoritative)
-│       │   ├── tenantScope.js              ← ⚠️ BUG: not wired to AsyncLocalStorage (see above)
+│       │   ├── tenantScope.js              ← Multi-tenant request isolation
 │       │   └── [all other middlewares unchanged]
 │       ├── models/schemas.js               ← Updated: manager, operator roles added
 │       └── config/
@@ -639,7 +585,6 @@ set nginx permissions → revoke runner IP
 - [ ] Redis persistence configured (`appendonly yes`)
 - [ ] `LOG_DIR` writable and on persistent storage
 - [ ] Health check passing: `GET /api/v1/health` → `200`
-- [ ] **`tenantScope.js` updated to call `tenantStorage.run(tenantId, next)` before go-live** *(see Critical Known Issue above)*
 - [ ] GitHub secrets set: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SECURITY_GROUP_ID`, `EC2_HOST`, `EC2_USER`, `EC2_KEY`
 - [ ] PM2 ecosystem config (`ecosystem.config.js`) reviewed for production resource limits
 
@@ -678,7 +623,7 @@ backend/
 │   ├── middlewares/
 │   │   ├── billing.middleware.js            ← NEW: SaaS plan limit enforcement
 │   │   ├── idempotency.middleware.js        ← NEW: Redis-backed (authoritative)
-│   │   ├── tenantScope.js                  ← ⚠️ BUG — see Critical Known Issue
+│   │   ├── tenantScope.js                  ← Multi-tenant request isolation
 │   │   └── [authenticate, authorize, rateLimiter, audit, sanitize, etc. unchanged]
 │   ├── routes/
 │   │   └── v1/
