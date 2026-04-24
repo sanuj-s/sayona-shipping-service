@@ -65,8 +65,17 @@ export default function AdminLoginPage() {
           </Button>
         </form>
 
-        <div className="mt-6 text-center">
-          <Link href="/" className="text-sm text-primary hover:underline">← Back to website</Link>
+        <div className="mt-6 text-center space-y-2">
+          <div>
+            <Link href="/register-company" className="text-sm font-medium text-primary hover:underline">
+              Create a new workspace
+            </Link>
+          </div>
+          <div>
+            <Link href="/" className="text-sm text-[var(--foreground-secondary)] hover:underline">
+              ← Back to website
+            </Link>
+          </div>
         </div>
       </Card>
     </div>

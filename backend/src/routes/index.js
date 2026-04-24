@@ -13,6 +13,7 @@ const contactRoutes = require('./v1/contact.routes');
 const adminRoutes = require('./v1/admin.routes');
 const docsRoutes = require('./v1/docs.routes');
 const metricsRoutes = require('./v1/metrics.routes');
+const tenantRoutes = require('./v1/tenant.routes');
 
 const serviceName = process.env.SERVICE_NAME || 'monolith';
 
@@ -37,6 +38,7 @@ if (serviceName === 'monolith') {
     router.use('/v1/admin', adminRoutes);
     router.use('/v1/docs', docsRoutes);
     router.use('/v1/metrics', metricsRoutes);
+    router.use('/v1/tenants', tenantRoutes);
 }
 
 module.exports = router;

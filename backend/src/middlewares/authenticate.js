@@ -36,10 +36,12 @@ const authenticate = async (req, res, next) => {
 
         // Look up user — exclude password, check not deleted/locked
         const result = await query(
-            `SELECT id, uuid, name, email, phone, company, role, address, 
-                    is_verified, is_locked, lock_until, created_at, updated_at
-             FROM users 
-             WHERE id = $1 AND deleted_at IS NULL`,
+            `SELECT u.id, u.uuid, u.name, u.email, u.phone, u.company, u.role, u.address, 
+                    u.is_verified, u.is_locked, u.lock_until, u.created_at, u.updated_at,
+                    t.status as tenant_status
+             FROM users u
+             LEFT JOIN tenants t ON u.tenant_id = t.id
+             WHERE u.id = $1 AND u.deleted_at IS NULL`,
             [decoded.id]
         );
 
@@ -59,6 +61,14 @@ const authenticate = async (req, res, next) => {
                 [user.id]
             );
             user.is_locked = false;
+        }
+
+        if (user.tenant_status && user.tenant_status !== 'active') {
+            const allowedPaths = ['/usage', '/upgrade-plan', '/logout', '/me'];
+            const isAllowed = allowedPaths.some(p => req.path.includes(p));
+            if (!isAllowed) {
+                throw new AuthenticationError('Tenant workspace is suspended or cancelled');
+            }
         }
 
         // Attach user to request (never expose password_hash)

@@ -20,32 +20,54 @@ const hashToken = (token) => crypto.createHash('sha256').update(token).digest('h
 
 const AuthService = {
     /**
-     * Register a new user
+     * Register a new company (tenant) and its initial admin user
      */
-    register: async ({ name, email, password, phone, company, role }) => {
+    registerCompany: async ({ companyName, domain, email, password }) => {
         if (await UserRepository.emailExists(email)) {
             throw new ConflictError('An account with this email already exists');
         }
 
         const passwordHash = await bcrypt.hash(password, config.security.saltRounds);
+        
+        // Single transaction safety
+        const { pool } = require('../config/database');
+        const client = await pool.connect();
+        
+        let user;
+        let tenantId;
 
-        // Prevent self-registration as admin/staff
-        const safeRole = (role === 'admin' || role === 'staff') ? 'client' : (role || 'client');
+        try {
+            await client.query('BEGIN');
+            
+            // 1. Create Tenant
+            const tenantRes = await client.query(
+                `INSERT INTO tenants (name, email, domain) VALUES ($1, $2, $3) RETURNING id`,
+                [companyName, email, domain || null]
+            );
+            tenantId = tenantRes.rows[0].id;
+            
+            // 2. Create Admin User
+            // Note: UserRepository.create is normally used, but we must use this specific transaction client
+            const userRes = await client.query(
+                `INSERT INTO users (name, email, password_hash, company, role, tenant_id, is_verified)
+                 VALUES ($1, $2, $3, $4, 'admin', $5, TRUE)
+                 RETURNING id, uuid, name, email, role, tenant_id, is_verified`,
+                ['Admin', email, passwordHash, companyName, tenantId]
+            );
+            user = userRes.rows[0];
 
-        const user = await UserRepository.create({
-            name, email, passwordHash, phone, company, role: safeRole,
-        });
-
-        // Generate verification token — hash before storage, enforce 24h expiry
-        const verificationToken = crypto.randomBytes(32).toString('hex');
-        const verificationTokenHash = hashToken(verificationToken);
-        const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-        await UserRepository.setVerificationToken(user.id, verificationTokenHash, verificationExpires);
-
-        EmailService.sendVerificationEmail(email, verificationToken);
+            await client.query('COMMIT');
+        } catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+        }
 
         // Generate auth tokens
-        const accessToken = TokenService.generateAccessToken(user);
+        const accessToken = TokenService.generateAccessToken({
+            id: user.id, uuid: user.uuid, role: user.role, tenant_id: user.tenant_id,
+        });
         const refreshToken = await TokenService.generateRefreshToken(user.id);
 
         return {
@@ -59,7 +81,35 @@ const AuthService = {
             },
             accessToken,
             refreshToken,
-            ...(config.isDevelopment() && { verificationToken }),
+        };
+    },
+
+    /**
+     * Invite a new user to the existing tenant
+     */
+    inviteUser: async ({ name, email, password, role }, inviterTenantId) => {
+        if (await UserRepository.emailExists(email)) {
+            throw new ConflictError('An account with this email already exists');
+        }
+
+        // Strict role hierarchy logic could go here; allowing admin/manager/operator
+        const safeRole = ['admin', 'manager', 'operator'].includes(role) ? role : 'operator';
+        const passwordHash = await bcrypt.hash(password, config.security.saltRounds);
+
+        // Uses standard repository since it's intercepted by the tenantStorage wrapper natively!
+        const user = await UserRepository.create({
+            name, email, passwordHash, role: safeRole
+        });
+        
+        // Ensure tenant_id is explicitly set to inviter's (redundant if AsyncLocalStorage works, but safe)
+        const { query } = require('../config/database');
+        await query(`UPDATE users SET tenant_id = $1 WHERE id = $2`, [inviterTenantId, user.id]);
+
+        return {
+            uuid: user.uuid,
+            name: user.name,
+            email: user.email,
+            role: user.role
         };
     },
 

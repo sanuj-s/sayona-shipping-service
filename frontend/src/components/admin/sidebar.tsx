@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import {
   LayoutDashboard, Package, PlusCircle, MessageSquare,
-  FileText, Users, LogOut, Ship
+  FileText, Users, LogOut, Ship, CreditCard
 } from "lucide-react";
 import { useAuthStore } from "@/lib/store/auth-store";
 
@@ -16,6 +16,7 @@ const navItems = [
   { label: "Contacts", href: "/admin/contacts", icon: MessageSquare },
   { label: "Quotes", href: "/admin/quotes", icon: FileText },
   { label: "Users", href: "/admin/users", icon: Users },
+  { label: "Billing & Plan", href: "/admin/billing", icon: CreditCard },
 ];
 
 export function AdminSidebar() {

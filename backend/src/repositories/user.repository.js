@@ -20,9 +20,14 @@ const UserRepository = {
      */
     findById: async (id) => {
         const result = await query(
-            `SELECT id, uuid, name, email, phone, company, role, address, 
-                    is_verified, is_locked, created_at, updated_at, version
-             FROM users WHERE id = $1 AND deleted_at IS NULL`,
+            `SELECT u.id, u.uuid, u.name, u.email, u.phone, u.company, u.role, u.address, 
+                    u.is_verified, u.is_locked, u.created_at, u.updated_at, u.version,
+                    t.id as tenant_id, t.name as tenant_name, t.domain as tenant_domain,
+                    t.plan_id as tenant_plan, t.status as tenant_status,
+                    t.shipment_count, t.user_count, t.logo_url, t.theme_color
+             FROM users u
+             LEFT JOIN tenants t ON u.tenant_id = t.id
+             WHERE u.id = $1 AND u.deleted_at IS NULL`,
             [id]
         );
         return result.rows[0] || null;

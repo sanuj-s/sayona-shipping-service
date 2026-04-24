@@ -52,6 +52,13 @@ const errorHandler = (err, req, res, _next) => {
         message = 'Referenced record does not exist';
     }
 
+    // PostgreSQL RAISE EXCEPTION for SaaS limits (P0001)
+    if (err.code === 'P0001' && err.message && err.message.includes('Plan limit reached')) {
+        statusCode = 403;
+        errorCode = 'ERR_FORBIDDEN';
+        message = err.message;
+    }
+
     // Never expose stack traces in production
     const response = {
         success: false,

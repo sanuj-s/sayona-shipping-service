@@ -8,12 +8,12 @@ const { success, created } = require('../utils/responseHelper');
 const { AUDIT_ACTIONS } = require('../models/schemas');
 const config = require('../config/environment');
 
-const register = async (req, res, next) => {
+const registerCompany = async (req, res, next) => {
     try {
         if (req.body._honey) {
             return res.status(400).json({ status: 'error', message: 'Bot detected' });
         }
-        const result = await AuthService.register(req.body);
+        const result = await AuthService.registerCompany(req.body);
 
         await req.audit(AUDIT_ACTIONS.USER_REGISTER, 'user', null, null, {
             email: result.user.email,
@@ -26,12 +26,27 @@ const register = async (req, res, next) => {
             refreshToken: result.refreshToken,
         };
 
-        // Include verification token in non-production
-        if (!config.isProduction()) {
-            response.verificationToken = result.verificationToken;
-        }
-
         return created(res, response);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const inviteUser = async (req, res, next) => {
+    try {
+        // Only admins can invite users to their tenant
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ status: 'error', message: 'Only admins can invite new users' });
+        }
+        
+        const result = await AuthService.inviteUser(req.body, req.user.tenant_id);
+
+        await req.audit(AUDIT_ACTIONS.USER_REGISTER, 'user', null, null, {
+            email: result.email,
+            role: result.role,
+        });
+
+        return created(res, { user: result });
     } catch (error) {
         next(error);
     }
@@ -140,7 +155,8 @@ const verifyEmail = async (req, res, next) => {
 };
 
 module.exports = {
-    register,
+    registerCompany,
+    inviteUser,
     login,
     refreshToken,
     logout,
