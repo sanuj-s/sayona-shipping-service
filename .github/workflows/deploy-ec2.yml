@@ -105,7 +105,7 @@ jobs:
             # Run seed to update admin credentials
             node scripts/seed.js
 
-            pm2 reload app || pm2 start server.js --name app
+            pm2 restart app || pm2 start server.js --name app
             pm2 save
 
             # Give ubuntu ownership but allow the www-data (Nginx) group read/execute access
