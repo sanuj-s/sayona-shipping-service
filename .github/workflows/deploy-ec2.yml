@@ -42,10 +42,10 @@ jobs:
           AWS_DEFAULT_REGION: ap-south-1
         run: |
           aws ec2 authorize-security-group-ingress \
-            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --group-id "${{ secrets.AWS_SECURITY_GROUP_ID }}" \
             --protocol tcp \
             --port 22 \
-            --cidr ${{ steps.runner_ip.outputs.ip }}/32 \
+            --cidr "${{ steps.runner_ip.outputs.ip }}/32" \
             --tag-specifications 'ResourceType=security-group-rule,Tags=[{Key=Name,Value=github-actions-temp}]' \
           || echo "Rule may already exist, continuing..."
 
@@ -124,8 +124,8 @@ jobs:
           AWS_DEFAULT_REGION: ap-south-1
         run: |
           aws ec2 revoke-security-group-ingress \
-            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --group-id "${{ secrets.AWS_SECURITY_GROUP_ID }}" \
             --protocol tcp \
             --port 22 \
-            --cidr ${{ steps.runner_ip.outputs.ip }}/32 \
+            --cidr "${{ steps.runner_ip.outputs.ip }}/32" \
           || echo "Rule already removed or not found, continuing..."
