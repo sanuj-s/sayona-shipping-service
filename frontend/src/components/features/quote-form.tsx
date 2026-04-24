@@ -26,6 +26,7 @@ const quoteSchema = z.object({
   origin: z.string().min(1, "Origin is required"),
   destination: z.string().min(1, "Destination is required"),
   // Step 3: Contact
+  name: z.string().min(2, "Name is required"),
   email: z.string().email("Valid email is required"),
   phone: z.string().min(5, "Phone is required"),
 });
@@ -82,8 +83,8 @@ export function QuoteForm() {
             weight: formValues.weight,
             cargoType: formValues.cargo
           });
-          if (active && res.success) {
-            setEstimatedPrice(Math.round(Number(res.data.estimatedPrice)));
+          if (active && res.estimatedPrice !== undefined) {
+            setEstimatedPrice(Math.round(Number(res.estimatedPrice)));
           }
         } catch (e) {
           if (active) setEstimatedPrice(null);
@@ -240,6 +241,7 @@ export function QuoteForm() {
                     {/* STEP 3: Contact */}
                     {step === 3 && (
                       <motion.div key="step3" variants={stepVariants} initial="hidden" animate="active" exit="exit" className="space-y-5">
+                        <Input label="Full Name" placeholder="John Doe" error={errors.name?.message} {...register("name")} />
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <Input label="Secure Contact Email" type="email" placeholder="agent@company.com" error={errors.email?.message} {...register("email")} />
                           <Input label="Direct Line" type="tel" placeholder="+91..." error={errors.phone?.message} {...register("phone")} />

@@ -35,6 +35,7 @@ export function submitContact(data: {
 }
 
 export function submitQuote(data: {
+  name: string;
   cargo: string;
   origin: string;
   destination: string;
@@ -44,7 +45,10 @@ export function submitQuote(data: {
   weight?: string;
   packages?: string;
 }) {
-  return apiClient.post<Quote>("/quotes", data);
+  return apiClient.post<Quote>("/quotes", {
+    ...data,
+    cargoType: data.cargo,
+  });
 }
 
 export function getQuoteEstimate(params: {
