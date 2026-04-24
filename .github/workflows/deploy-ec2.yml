@@ -105,7 +105,14 @@ jobs:
             # Run seed to update admin credentials
             node scripts/seed.js
 
-            pm2 restart app || pm2 start server.js --name app
+            # Verify the updated files are present
+            echo "=== Verifying deployed code ==="
+            grep -c "ocean_fcl" src/validators/shipment.validator.js || echo "WARNING: validator not updated!"
+            grep -c "FAILED_DELIVERY" src/repositories/shipment.repository.js || echo "WARNING: repository not updated!"
+
+            # Force full stop and restart (not reload) to pick up latest code
+            pm2 delete app 2>/dev/null || true
+            pm2 start server.js --name app
             pm2 save
 
             # Give ubuntu ownership but allow the www-data (Nginx) group read/execute access
