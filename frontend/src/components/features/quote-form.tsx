@@ -14,11 +14,24 @@ import { COUNTRIES, SHIPPING_MODES } from "@/lib/utils/countries";
 import { CheckCircle, AlertCircle, Clock, Shield, Globe, ArrowRight, ArrowLeft, RefreshCcw } from "lucide-react";
 import { EASE, DURATION } from "@/lib/motion/variants";
 
+const CARGO_CATEGORIES = [
+  "Industrial Machinery",
+  "Textiles & Garments",
+  "Electronics & Tech",
+  "Automotive Parts",
+  "Chemicals & Hazardous",
+  "Food & Perishables",
+  "Consumer Goods",
+  "Pharmaceuticals",
+  "Other"
+];
+
 const CACHE_KEY = "sayona-quote-draft";
 
 const quoteSchema = z.object({
   // Step 1: Payload
   cargo: z.string().min(2, "Product category required"),
+  cargoOther: z.string().optional(),
   shippingMode: z.string().min(1, "Mode is required"),
   weight: z.string().min(1, "Est. weight required"),
   packages: z.string().optional(),
@@ -75,13 +88,15 @@ export function QuoteForm() {
   useEffect(() => {
     let active = true;
     const timeout = setTimeout(async () => {
-      if (formValues.weight && formValues.origin && formValues.destination && formValues.cargo) {
+      const actualCargo = formValues.cargo === "Other" ? formValues.cargoOther : formValues.cargo;
+      
+      if (formValues.weight && formValues.origin && formValues.destination && actualCargo) {
         try {
           const res = await getQuoteEstimate({
             origin: formValues.origin,
             destination: formValues.destination,
             weight: formValues.weight,
-            cargoType: formValues.cargo
+            cargoType: actualCargo
           });
           if (active && res.estimatedPrice !== undefined) {
             setEstimatedPrice(Math.round(Number(res.estimatedPrice)));
@@ -98,11 +113,17 @@ export function QuoteForm() {
       active = false;
       clearTimeout(timeout);
     };
-  }, [formValues.weight, formValues.cargo, formValues.origin, formValues.destination]);
+  }, [formValues.weight, formValues.cargo, formValues.cargoOther, formValues.origin, formValues.destination]);
 
   const handleNext = async () => {
     let valid = false;
-    if (step === 1) valid = await trigger(["cargo", "shippingMode", "weight", "packages"]);
+    if (step === 1) {
+      valid = await trigger(["cargo", "shippingMode", "weight", "packages"]);
+      if (formValues.cargo === "Other" && !formValues.cargoOther) {
+        valid = false;
+        // Optionally trigger error on cargoOther if added to schema rules, but manual check works
+      }
+    }
     if (step === 2) valid = await trigger(["origin", "destination"]);
 
     if (valid) setStep((s) => s + 1);
@@ -115,7 +136,13 @@ export function QuoteForm() {
       setStatus("idle");
       // Artificial UX Latency (300-800ms) injected Phase 5
       await new Promise(resolve => setTimeout(resolve, 600));
-      await submitQuote(data);
+      
+      const payloadData = {
+        ...data,
+        cargo: data.cargo === "Other" && data.cargoOther ? data.cargoOther : data.cargo,
+      };
+      
+      await submitQuote(payloadData);
       setStatus("success");
       localStorage.removeItem(CACHE_KEY);
       reset();
@@ -212,7 +239,17 @@ export function QuoteForm() {
                     {/* STEP 1: Payload */}
                     {step === 1 && (
                       <motion.div key="step1" variants={stepVariants} initial="hidden" animate="active" exit="exit" className="space-y-5">
-                        <Input label="Payload Category" placeholder="e.g. Industrial Machinery, Textiles" error={errors.cargo?.message} {...register("cargo")} />
+                        <Select label="Payload Category" error={errors.cargo?.message} {...register("cargo")}>
+                          <option value="">Select category</option>
+                          {CARGO_CATEGORIES.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
+                        </Select>
+                        
+                        {formValues.cargo === "Other" && (
+                          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}>
+                            <Input label="Specify Category" placeholder="Please specify..." error={errors.cargoOther?.message} {...register("cargoOther", { required: formValues.cargo === "Other" })} />
+                          </motion.div>
+                        )}
+                        
                         <Select label="Transit Mode" error={errors.shippingMode?.message} {...register("shippingMode")}>
                           <option value="">Select mode</option>
                           {SHIPPING_MODES.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
@@ -253,7 +290,7 @@ export function QuoteForm() {
                         )}
                         <div className="p-4 rounded-xl bg-accent/[0.03] border border-accent/10">
                            <p className="text-[10px] uppercase font-bold text-accent tracking-widest mb-1">Pre-flight check</p>
-                           <p className="text-sm opacity-80">You are requesting a competitive lock-in rate for <strong className="text-[var(--foreground)]">{formValues.weight}kg</strong> of <strong className="text-[var(--foreground)]">{formValues.cargo}</strong> via {formValues.shippingMode}.</p>
+                           <p className="text-sm opacity-80">You are requesting a competitive lock-in rate for <strong className="text-[var(--foreground)]">{formValues.weight}kg</strong> of <strong className="text-[var(--foreground)]">{formValues.cargo === "Other" ? formValues.cargoOther : formValues.cargo}</strong> via {formValues.shippingMode}.</p>
                         </div>
                       </motion.div>
                     )}
