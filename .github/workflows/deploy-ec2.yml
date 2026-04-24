@@ -91,8 +91,15 @@ jobs:
           script: |
             set -e
             cd /home/ubuntu/sayona-shipping-service
-            git fetch origin main
+            git fetch --all --force
+            git checkout main
             git reset --hard origin/main
+            echo "=== Git HEAD ==="
+            git log --oneline -1
+            echo "=== Checking validator ==="
+            head -20 backend/src/validators/shipment.validator.js
+            echo "=== Checking repository ==="
+            grep -n "CANCELLED\|FAILED_DELIVERY" backend/src/repositories/shipment.repository.js || echo "Neither found"
 
             cd backend
             # Remove existing node_modules to free up space before installing
