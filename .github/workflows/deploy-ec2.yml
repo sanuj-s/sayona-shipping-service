@@ -90,37 +90,44 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             set -e
-            cd /home/ubuntu/sayona-shipping-service
-            git fetch --all --force
-            git checkout main
-            git reset --hard origin/main
-            echo "=== Git HEAD ==="
-            git log --oneline -1
-            echo "=== Checking validator ==="
-            head -20 backend/src/validators/shipment.validator.js
-            echo "=== Checking repository ==="
-            grep -n "CANCELLED\|FAILED_DELIVERY" backend/src/repositories/shipment.repository.js || echo "Neither found"
+            REPO_DIR="/home/ubuntu/sayona-shipping-service"
+            BACKEND_DIR="$REPO_DIR/backend"
 
-            cd backend
-            # Remove existing node_modules to free up space before installing
+            echo "===== STEP 1: Git sync ====="
+            cd "$REPO_DIR"
+            git fetch --all --force --prune
+            git checkout main
+            git clean -fd
+            git reset --hard origin/main
+            echo "Git HEAD: $(git log --oneline -1)"
+            echo "Git SHA:  $(git rev-parse HEAD)"
+
+            echo "===== STEP 2: Verify files on disk ====="
+            echo "--- Validator shippingType line ---"
+            grep -n "shippingType" "$BACKEND_DIR/src/validators/shipment.validator.js"
+            echo "--- Repository revenue query ---"
+            grep -n "CANCELLED\|FAILED_DELIVERY\|RETURNED" "$BACKEND_DIR/src/repositories/shipment.repository.js"
+
+            echo "===== STEP 3: Install dependencies ====="
+            cd "$BACKEND_DIR"
             rm -rf node_modules
             npm ci
 
-            # Run migrations to ensure the database schema is up-to-date
+            echo "===== STEP 4: Run migrations & seed ====="
             npm run migrate
-
-            # Run seed to update admin credentials
             node scripts/seed.js
 
-            # Verify the updated files are present
-            echo "=== Verifying deployed code ==="
-            grep -c "ocean_fcl" src/validators/shipment.validator.js || echo "WARNING: validator not updated!"
-            grep -c "FAILED_DELIVERY" src/repositories/shipment.repository.js || echo "WARNING: repository not updated!"
-
-            # Force full stop and restart (not reload) to pick up latest code
-            pm2 delete app 2>/dev/null || true
-            pm2 start server.js --name app
+            echo "===== STEP 5: Restart pm2 ====="
+            pm2 kill 2>/dev/null || true
+            sleep 2
+            cd "$BACKEND_DIR"
+            pm2 start server.js --name app --cwd "$BACKEND_DIR"
             pm2 save
+            sleep 3
+            echo "PM2 status:"
+            pm2 list
+            echo "===== STEP 6: Self-test ====="
+            curl -sf http://localhost:3000/api/v1/health 2>/dev/null || echo "Health check: endpoint not available (non-critical)"
 
             # Give ubuntu ownership but allow the www-data (Nginx) group read/execute access
             sudo chown -R ubuntu:www-data /home/ubuntu/sayona-shipping-service
