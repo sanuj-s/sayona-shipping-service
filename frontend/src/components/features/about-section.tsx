@@ -38,7 +38,7 @@ export function AboutSection() {
                 Architects of Global Trade
               </h2>
               <p className="text-[var(--foreground-secondary)] leading-relaxed mb-6 max-w-lg">
-                Founded in 2020 and backed by decades of combined industry expertise, Sayona Logistics Platforms
+                Founded in 2020 and backed by decades of combined industry expertise, Sayona Shipping Services
                 delivers highly reliable transport, logistics, and global supply chain solutions. We engineer
                 fault-tolerant networks to ensure your cargo reaches its destination safely, on time, and within budget.
               </p>
@@ -69,7 +69,7 @@ export function AboutSection() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/about/warehouse.jpg"
-                alt="Sayona Logistics Platform Warehouse"
+                alt="Sayona Shipping Services Warehouse"
                 width={600}
                 height={400}
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-[1200ms] ease-[var(--ease-cinematic)]"

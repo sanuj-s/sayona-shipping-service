@@ -36,7 +36,7 @@ export default function RegisterCompanyPage() {
 
       if (response.success && response.data.accessToken) {
         login(response.data.user, response.data.accessToken, response.data.refreshToken);
-        toast.success("Workspace created! Welcome to Sayona Logistics Platform.");
+        toast.success("Workspace created! Welcome to Sayona Shipping Services.");
         router.push("/admin/dashboard");
       }
     } catch (error: any) {

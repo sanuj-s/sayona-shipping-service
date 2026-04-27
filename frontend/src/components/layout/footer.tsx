@@ -14,7 +14,7 @@ export function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/sayona-logo.png"
-                alt="Sayona Logistics Platforms"
+                alt="Sayona Shipping Services"
                 width={140}
                 height={38}
                 className="h-9 w-auto object-contain brightness-0 invert mb-4"

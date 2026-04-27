@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════
-// Sayona Logistics Platform — TypeScript Type Definitions
+// Sayona Shipping Services — TypeScript Type Definitions
 // ═══════════════════════════════════════════════
 
 // ─── API Response Envelope ───

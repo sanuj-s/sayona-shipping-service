@@ -13,7 +13,7 @@ const perkIconMap: Record<string, React.ElementType> = {
 export const metadata: Metadata = {
   title: "Careers",
   description:
-    "Join Sayona Logistics Platform – careers in international logistics, freight forwarding & supply chain management.",
+    "Join Sayona Shipping Services – careers in international logistics, freight forwarding & supply chain management.",
 };
 
 export default function CareersPage() {

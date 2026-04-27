@@ -109,7 +109,7 @@ export function Navbar() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/sayona-logo.png"
-              alt="Sayona Logistics Platforms"
+              alt="Sayona Shipping Services"
               width={160}
               height={44}
               className="h-10 w-auto min-w-[120px] object-contain"

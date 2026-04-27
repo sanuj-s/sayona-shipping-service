@@ -8,7 +8,7 @@ import { SERVICES } from "@/lib/utils/constants";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Sayona Logistics Platform offers ocean freight (FCL/LCL), air cargo, customs clearance, warehousing & supply chain logistics from India.",
+    "Sayona Shipping Services offers ocean freight (FCL/LCL), air cargo, customs clearance, warehousing & supply chain logistics from India.",
 };
 
 export default function ServicesPage() {

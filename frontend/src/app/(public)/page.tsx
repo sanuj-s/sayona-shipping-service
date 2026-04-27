@@ -53,7 +53,7 @@ export default function HomePage() {
             </h2>
             <div className="prose prose-neutral dark:prose-invert max-w-none text-[var(--foreground-secondary)] leading-relaxed space-y-4 text-[15px]">
               <p>
-                <strong className="text-[var(--foreground)]">Sayona Logistics Platform</strong> is a leading international
+                <strong className="text-[var(--foreground)]">Sayona Shipping Services</strong> is a leading international
                 freight forwarding and logistics company headquartered in Coimbatore, Tamil Nadu, India. With decades of
                 combined industry expertise, we provide end-to-end shipping solutions for businesses across India looking
                 to export and import goods worldwide.
@@ -65,7 +65,7 @@ export default function HomePage() {
                 <strong className="text-[var(--foreground)]">warehousing and storage</strong>, and complete supply chain management.
               </p>
               <p>
-                Sayona Logistics Platform operates across <strong className="text-[var(--foreground)]">25+ countries</strong> with
+                Sayona Shipping Services operates across <strong className="text-[var(--foreground)]">25+ countries</strong> with
                 established trade routes connecting India to the USA, UK, Germany, UAE, China, Japan, and many more. Our 98%
                 on-time delivery rate and 500+ satisfied clients speak to our commitment to reliability.
               </p>

@@ -17,7 +17,7 @@ async function seed() {
         const defaultTenantId = '00000000-0000-0000-0000-000000000000';
         await pool.query(
             `INSERT INTO tenants (id, name, domain) 
-             VALUES ($1, 'Sayona Logistics Platform', 'sayona.local') 
+             VALUES ($1, 'Sayona Shipping Services', 'sayona.local') 
              ON CONFLICT (id) DO NOTHING`,
              [defaultTenantId]
         );

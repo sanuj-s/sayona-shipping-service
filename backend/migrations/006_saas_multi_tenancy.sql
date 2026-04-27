@@ -19,7 +19,7 @@ CREATE TABLE tenants (
 
 -- 2. Create the Default Tenant for existing data migration
 INSERT INTO tenants (id, name, domain) 
-VALUES ('00000000-0000-0000-0000-000000000000', 'Sayona Logistics Platform', 'sayona.local');
+VALUES ('00000000-0000-0000-0000-000000000000', 'Sayona Shipping Services', 'sayona.local');
 
 -- 3. Prepare tables (drop old integer tenant_id if present from 005)
 DO $$

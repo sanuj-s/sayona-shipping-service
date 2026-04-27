@@ -9,14 +9,14 @@ import { LocationsGrid } from "@/components/features/locations-grid";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "About Sayona Logistics Platform – Trusted logistics expertise from Tirupur, India. Leading freight forwarder serving 25+ countries.",
+    "About Sayona Shipping Services – Trusted logistics expertise from Tirupur, India. Leading freight forwarder serving 25+ countries.",
 };
 
 export default function CompanyPage() {
   return (
     <>
       <PageHeader
-        title="About Sayona Logistics Platforms"
+        title="About Sayona Shipping Services"
         subtitle="Trusted logistics partner delivering reliable cargo solutions across India and globally."
       />
 
@@ -53,7 +53,7 @@ export default function CompanyPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/logistics.jpg"
-                alt="Sayona Logistics Platform Warehouse"
+                alt="Sayona Shipping Services Warehouse"
                 width={600}
                 height={400}
                 className="rounded-xl shadow-[var(--shadow-elevated)] w-full h-auto object-cover"
