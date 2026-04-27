@@ -229,31 +229,58 @@ export const HERO_METRICS: StatData[] = [
 // ─── Testimonials ───
 export const TESTIMONIALS: TestimonialData[] = [
   {
-    name: "Amith AC",
-    role: "Export Manager",
-    company: "Textile Co.",
+    name: "Rekha",
+    role: "Operations Manager",
+    company: "Global Exporters Ltd.",
     quote:
-      "Sayona Shipping Services handles all our international logistics. Incredibly reliable and fast!",
+      "Sayona Shipping Services completely transformed our logistics. Their dashboard gives us the real-time visibility we always needed.",
     rating: 5,
     avatarColor: "info",
   },
   {
-    name: "Prakashan",
+    name: "Dileep",
     role: "Director",
-    company: "Kerala Spices Ltd.",
+    company: "Kerala Spices Export",
     quote:
-      "The best customs clearance team. We never have to worry about paperwork delays.",
+      "The best customs clearance team in the business. We never have to worry about paperwork delays or compliance issues anymore.",
     rating: 5,
     avatarColor: "success",
   },
   {
-    name: "Megha",
+    name: "Andrew",
     role: "Supply Chain Head",
-    company: "AutoParts India",
+    company: "AutoParts International",
     quote:
-      "Excellent FCL rates and real-time tracking made our supply chain much smoother.",
+      "Excellent FCL rates and incredibly responsive support. They handled our complex multi-hop routes flawlessly.",
     rating: 4.5,
     avatarColor: "primary",
+  },
+  {
+    name: "Rasheedh",
+    role: "Procurement Lead",
+    company: "Tech Build Materials",
+    quote:
+      "We shifted all our air freight to Sayona last year. The transit times are consistent and the automated tracking notifications save us hours of follow-ups.",
+    rating: 5,
+    avatarColor: "warning",
+  },
+  {
+    name: "Riza Benher",
+    role: "CEO",
+    company: "Benher Textiles",
+    quote:
+      "A truly reliable partner for our LCL shipments. Their pricing is transparent with no hidden fees, and their warehouse team handles our fragile goods with care.",
+    rating: 5,
+    avatarColor: "error",
+  },
+  {
+    name: "Adhil Nasar",
+    role: "Logistics Coordinator",
+    company: "Apex Healthcare",
+    quote:
+      "When we have urgent medical supplies that need cold-chain transport, Sayona is the only company we trust. Highly professional staff.",
+    rating: 4.5,
+    avatarColor: "info",
   },
 ];
 
