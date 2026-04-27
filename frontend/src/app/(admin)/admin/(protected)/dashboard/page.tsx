@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { StatCard } from "@/components/admin/stat-card";
 import { DataTable } from "@/components/admin/data-table";
 import { StatusBadge } from "@/components/ui/badge";
+import { ShipmentTrendChart, StatusDistributionChart, RevenueTrendChart } from "@/components/admin/dashboard-charts";
 import { getDashboardStats } from "@/lib/api/endpoints";
 import { Package, FileText, TrendingUp, CheckCircle } from "lucide-react";
 import type { DashboardStats, Shipment } from "@/lib/types";
@@ -76,6 +77,17 @@ export default function AdminDashboard() {
           value={loading ? "..." : stats?.pendingQuotes || 0}
           icon={<FileText className="h-5 w-5" />}
         />
+      </div>
+
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <ShipmentTrendChart data={stats?.shipmentsPerDay || []} />
+          <RevenueTrendChart data={stats?.revenuePerDay || []} />
+        </div>
+        <div className="lg:col-span-1">
+          <StatusDistributionChart counts={stats?.statusCounts || {}} />
+        </div>
       </div>
 
       {/* Recent Shipments */}

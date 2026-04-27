@@ -58,9 +58,21 @@ export default function ShipmentsPage() {
       key: "actions",
       header: "",
       render: (row: Shipment) => (
-        <Link href={`/admin/shipments/update-status?id=${row.uuid}`}>
-          <Button variant="ghost" size="sm">Update</Button>
-        </Link>
+        <div className="flex gap-2 justify-end">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              const { getShipmentLabelUrl } = require("@/lib/api/endpoints");
+              window.open(getShipmentLabelUrl(row.uuid), "_blank");
+            }}
+          >
+            Label
+          </Button>
+          <Link href={`/admin/shipments/update-status?id=${row.uuid}`}>
+            <Button variant="ghost" size="sm">Update</Button>
+          </Link>
+        </div>
       ),
     },
   ];

@@ -196,11 +196,13 @@ const ShipmentService = {
         const cached = await cacheService.get(cacheKey);
         if (cached) return cached;
 
-        const [totalShipments, statusCounts, recentShipments, totalRevenue] = await Promise.all([
+        const [totalShipments, statusCounts, recentShipments, totalRevenue, shipmentsPerDay, revenuePerDay] = await Promise.all([
             ShipmentRepository.countAll(),
             ShipmentRepository.countByStatus(),
             ShipmentRepository.findRecent(10),
             ShipmentRepository.calculateTotalRevenue(),
+            ShipmentRepository.getShipmentsPerDay(30),
+            ShipmentRepository.getRevenuePerDay(30),
         ]);
 
         const deliveredCount = statusCounts[SHIPMENT_STATUS.DELIVERED] || 0;
@@ -217,6 +219,8 @@ const ShipmentService = {
             totalRevenue: `$${totalRevenue}`,
             deliverySuccessRate,
             recentShipments: recentShipments.map(mapShipment),
+            shipmentsPerDay,
+            revenuePerDay,
         };
 
         // Cache dashboard for 5 minutes

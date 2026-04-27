@@ -29,4 +29,7 @@ router.put('/:uuid', authorizeMinRole(USER_ROLES.STAFF), validate(shipmentValida
 // Delete (soft) shipment (admin only)
 router.delete('/:uuid', authorize(USER_ROLES.ADMIN), validate(shipmentValidator.uuidParam), shipmentController.deleteShipment);
 
+// Download shipping label as PDF (staff+ only)
+router.get('/:uuid/label', authorizeMinRole(USER_ROLES.STAFF), validate(shipmentValidator.uuidParam), shipmentController.downloadLabel);
+
 module.exports = router;

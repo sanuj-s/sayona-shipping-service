@@ -105,4 +105,27 @@ const deleteShipment = async (req, res, next) => {
     }
 };
 
-module.exports = { createShipment, getShipments, getShipmentByUuid, updateShipment, deleteShipment };
+const downloadLabel = async (req, res, next) => {
+    try {
+        const shipment = await ShipmentService.getByUuid(req.params.uuid);
+        const labelService = require('../services/label.service');
+        const fs = require('fs');
+
+        const filePath = await labelService.generateLabel(shipment);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="label_${shipment.trackingNumber}.pdf"`);
+
+        const stream = fs.createReadStream(filePath);
+        stream.pipe(res);
+        stream.on('end', () => {
+            // Clean up temp file after streaming
+            fs.unlink(filePath, () => {});
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { createShipment, getShipments, getShipmentByUuid, updateShipment, deleteShipment, downloadLabel };
+

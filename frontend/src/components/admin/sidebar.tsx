@@ -15,6 +15,8 @@ const navItems = [
   { label: "Create Shipment", href: "/admin/shipments/create", icon: PlusCircle },
   { label: "Contacts", href: "/admin/contacts", icon: MessageSquare },
   { label: "Quotes", href: "/admin/quotes", icon: FileText },
+  { label: "Warehouses", href: "/admin/warehouses", icon: Package }, // Using Package as a fallback if Warehouse icon not available
+  { label: "Carriers", href: "/admin/carriers", icon: Ship }, // Using Ship as fallback for carrier/truck
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Billing & Plan", href: "/admin/billing", icon: CreditCard },
 ];

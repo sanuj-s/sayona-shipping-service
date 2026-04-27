@@ -39,6 +39,8 @@ if (serviceName === 'monolith') {
     router.use('/v1/docs', docsRoutes);
     router.use('/v1/metrics', metricsRoutes);
     router.use('/v1/tenants', tenantRoutes);
+    router.use('/v1/warehouses', require('./v1/warehouse.routes'));
+    router.use('/v1/carriers', require('./v1/carrier.routes'));
 }
 
 module.exports = router;

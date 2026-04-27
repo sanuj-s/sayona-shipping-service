@@ -151,3 +151,51 @@ export function replyToQuote(uuid: string, data: { message: string; estimatedPri
 export function getUsers() {
   return apiClient.get<User[]>("/admin/users");
 }
+
+export function getShipmentLabelUrl(uuid: string) {
+  // Returns the absolute URL for the PDF download endpoint
+  return `${apiClient.baseUrl}/shipments/${uuid}/label`;
+}
+
+// ─── Operations Endpoints ───
+
+export function getWarehouses(params?: { page?: number; limit?: number }) {
+  const searchParams = new URLSearchParams();
+  if (params?.page) searchParams.set("page", String(params.page));
+  if (params?.limit) searchParams.set("limit", String(params.limit));
+  const qs = searchParams.toString();
+  return apiClient.get<any>(`/warehouses${qs ? `?${qs}` : ""}`);
+}
+
+export function createWarehouse(data: any) {
+  return apiClient.post<any>("/warehouses", data);
+}
+
+export function updateWarehouse(uuid: string, data: any) {
+  return apiClient.put<any>(`/warehouses/${uuid}`, data);
+}
+
+export function deleteWarehouse(uuid: string) {
+  return apiClient.delete<any>(`/warehouses/${uuid}`);
+}
+
+export function getCarriers(params?: { page?: number; limit?: number }) {
+  const searchParams = new URLSearchParams();
+  if (params?.page) searchParams.set("page", String(params.page));
+  if (params?.limit) searchParams.set("limit", String(params.limit));
+  const qs = searchParams.toString();
+  return apiClient.get<any>(`/carriers${qs ? `?${qs}` : ""}`);
+}
+
+export function createCarrier(data: any) {
+  return apiClient.post<any>("/carriers", data);
+}
+
+export function updateCarrier(uuid: string, data: any) {
+  return apiClient.put<any>(`/carriers/${uuid}`, data);
+}
+
+export function deleteCarrier(uuid: string) {
+  return apiClient.delete<any>(`/carriers/${uuid}`);
+}
+

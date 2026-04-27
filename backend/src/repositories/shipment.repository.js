@@ -264,6 +264,37 @@ const ShipmentRepository = {
         );
         return result.rows;
     },
+
+    /**
+     * Shipments created per day (for dashboard charts)
+     */
+    getShipmentsPerDay: async (days = 30) => {
+        const result = await query(
+            `SELECT DATE(created_at) as date, COUNT(*) as count
+             FROM shipments
+             WHERE deleted_at IS NULL AND created_at >= NOW() - INTERVAL '1 day' * $1
+             GROUP BY DATE(created_at)
+             ORDER BY date ASC`,
+            [days]
+        );
+        return result.rows.map(r => ({ date: r.date, count: parseInt(r.count, 10) }));
+    },
+
+    /**
+     * Revenue per day (for dashboard charts)
+     */
+    getRevenuePerDay: async (days = 30) => {
+        const result = await query(
+            `SELECT DATE(created_at) as date, COALESCE(SUM(price), 0) as revenue
+             FROM shipments
+             WHERE deleted_at IS NULL AND status NOT IN ('RETURNED', 'FAILED_DELIVERY')
+               AND created_at >= NOW() - INTERVAL '1 day' * $1
+             GROUP BY DATE(created_at)
+             ORDER BY date ASC`,
+            [days]
+        );
+        return result.rows.map(r => ({ date: r.date, revenue: parseFloat(r.revenue) }));
+    },
 };
 
 module.exports = ShipmentRepository;

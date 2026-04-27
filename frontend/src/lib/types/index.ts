@@ -118,14 +118,42 @@ export interface AuthTokens {
 }
 
 // ─── Dashboard ───
+export interface TimeSeriesPoint {
+  date: string;
+  count?: number;
+  revenue?: number;
+}
+
 export interface DashboardStats {
   totalShipments: number;
+  statusCounts: Record<ShipmentStatus, number>;
   activeShipments: number;
   deliveredShipments: number;
   pendingQuotes: number;
   newContacts: number;
   totalUsers: number;
   recentShipments: Shipment[];
+  shipmentsPerDay: TimeSeriesPoint[];
+  revenuePerDay: TimeSeriesPoint[];
+}
+
+// ─── Operations ───
+export interface Warehouse {
+  uuid: string;
+  name: string;
+  location: string;
+  capacity: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Carrier {
+  uuid: string;
+  name: string;
+  serviceType: string;
+  contact?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ─── Navigation ───
