@@ -12,10 +12,10 @@ const authValidator = require('../../validators/auth.validator');
 // Public routes (rate-limited)
 router.post('/register-company', authLimiter, validate(authValidator.registerCompany), authController.registerCompany);
 router.post('/login', authLimiter, validate(authValidator.login), authController.login);
-router.post('/refresh', validate(authValidator.refreshToken), authController.refreshToken);
+router.post('/refresh', authLimiter, validate(authValidator.refreshToken), authController.refreshToken);
 router.post('/forgot-password', authLimiter, validate(authValidator.forgotPassword), authController.forgotPassword);
-router.post('/reset-password', validate(authValidator.resetPassword), authController.resetPassword);
-router.get('/verify-email/:token', authController.verifyEmail);
+router.post('/reset-password', authLimiter, validate(authValidator.resetPassword), authController.resetPassword);
+router.get('/verify-email/:token', authLimiter, authController.verifyEmail);
 
 // Protected routes
 router.post('/invite-user', authenticate, validate(authValidator.inviteUser), authController.inviteUser);

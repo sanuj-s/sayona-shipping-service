@@ -104,9 +104,15 @@ const ShipmentService = {
     /**
      * Get one shipment by UUID
      */
-    getByUuid: async (uuid) => {
+    getByUuid: async (uuid, user = null) => {
         const shipment = await ShipmentRepository.findByUuid(uuid);
         if (!shipment) throw new NotFoundError('Shipment');
+
+        // Security: Prevent IDOR. Clients can only view their own shipments.
+        if (user && user.role === 'client' && shipment.user_id !== user.id) {
+            const { AuthorizationError } = require('../utils/AppError');
+            throw new AuthorizationError('You do not have permission to view this shipment');
+        }
 
         const currentLocation = await TrackingRepository.getLatestLocation(shipment.tracking_number);
         return { ...mapShipment(shipment), currentLocation };

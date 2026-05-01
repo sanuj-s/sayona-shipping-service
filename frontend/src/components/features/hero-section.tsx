@@ -209,8 +209,8 @@ export function HeroSection() {
               animate="show"
               className="text-[3.25rem] md:text-[4rem] lg:text-[4.75rem] text-white mb-6 leading-[1.05] tracking-tight"
             >
-              <KineticHeadline text="Seamless Freight." className="font-light block" />
-              <KineticHeadline text="Limitless Reach." className="text-accent font-medium block" />
+              <KineticHeadline text="The Architecture" className="font-light block" />
+              <KineticHeadline text="Of Global Trade." className="text-accent font-medium block" />
             </motion.h1>
 
             {/* Subtitle */}

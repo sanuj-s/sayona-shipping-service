@@ -65,7 +65,7 @@ const getShipments = async (req, res, next) => {
 
 const getShipmentByUuid = async (req, res, next) => {
     try {
-        const shipment = await ShipmentService.getByUuid(req.params.uuid);
+        const shipment = await ShipmentService.getByUuid(req.params.uuid, req.user);
         return success(res, shipment);
     } catch (error) {
         next(error);
@@ -107,7 +107,8 @@ const deleteShipment = async (req, res, next) => {
 
 const downloadLabel = async (req, res, next) => {
     try {
-        const shipment = await ShipmentService.getByUuid(req.params.uuid);
+        // Label endpoint is restricted to staff+, so req.user will be staff or admin
+        const shipment = await ShipmentService.getByUuid(req.params.uuid, req.user);
         const labelService = require('../services/label.service');
         const fs = require('fs');
 
