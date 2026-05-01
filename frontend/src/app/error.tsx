@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { fadeUp, DURATION, EASE } from "@/lib/motion/variants";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export default function GlobalError({
   error,

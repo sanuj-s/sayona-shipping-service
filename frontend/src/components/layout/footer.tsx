@@ -20,7 +20,7 @@ export function Footer() {
                 className="h-9 w-auto object-contain brightness-0 invert mb-4"
               />
             </Link>
-            <p className="text-white/60 text-sm leading-relaxed">
+            <p className="text-white/60 text-sm leading-relaxed text-balance">
               Global logistics partner providing export and import services including ocean freight, air freight, customs clearance, and warehousing for all types of cargo.
             </p>
           </div>
@@ -107,7 +107,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="mt-12 pt-6 border-t border-white/10 text-center">
           <p className="text-sm text-white/40">
-            © {new Date().getFullYear()} {SITE.name}. All rights reserved.
+            © 2026 {SITE.name}. All rights reserved.
           </p>
         </div>
       </div>

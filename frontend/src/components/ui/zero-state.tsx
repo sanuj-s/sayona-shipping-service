@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { fadeUp, DURATION, EASE } from "@/lib/motion/variants";
 import { PackageOpen, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Serif_Display } from "next/font/google";
+import { DM_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { SensoryProvider } from "@/providers/sensory-provider";
 import { QueryProvider } from "@/providers/query-provider";
@@ -13,13 +13,13 @@ import "./globals.css";
 const dmSans = DM_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const dmSerif = DM_Serif_Display({
+const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -67,10 +67,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${dmSerif.variable}`}
+      className={`${dmSans.variable} ${plusJakarta.variable}`}
       suppressHydrationWarning
     >
       <head>
+        <meta name="theme-color" content="#0B3D91" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

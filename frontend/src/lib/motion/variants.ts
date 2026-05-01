@@ -3,7 +3,7 @@
 // Duration Scale · Easing Standard · Entry Vectors
 // ═══════════════════════════════════════════════
 
-import type { Variants, Transition } from "framer-motion";
+import type { Variants, Transition } from "motion/react";
 
 // ─── Duration Scale (strict 3-tier) ───
 export const DURATION = {

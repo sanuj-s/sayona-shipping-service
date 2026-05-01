@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { useScrollAnimation } from "@/lib/hooks/use-scroll-animation";
 import { FAQS } from "@/lib/utils/constants";

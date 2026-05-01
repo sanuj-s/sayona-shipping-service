@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Ship, Anchor, Globe, Container } from "lucide-react";
 
 const PARTNERS = [

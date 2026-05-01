@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Magnetic } from "@/components/ui/magnetic-button";
@@ -179,7 +179,9 @@ export function HeroSection() {
         <div className="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_80%_20%,var(--glow-primary),transparent_60%)]" />
         {/* Layer 4: WebGL Canvas */}
         <div className="absolute inset-0 z-[4]">
-           <LuxuryFluidCanvas />
+           <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/5" />}>
+             <LuxuryFluidCanvas />
+           </Suspense>
         </div>
         {/* Layer 5: Noise texture */}
         <div className="absolute inset-0 z-[5] dot-grid opacity-40 mix-blend-overlay" />

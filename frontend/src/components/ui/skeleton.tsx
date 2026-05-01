@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils/cn";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion, type HTMLMotionProps } from "motion/react";
 
 interface SkeletonProps extends HTMLMotionProps<"div"> {
   variant?: "text" | "circular" | "rectangular" | "card";

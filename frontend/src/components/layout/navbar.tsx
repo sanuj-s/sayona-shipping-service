@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "next-themes";
 import {
   Menu, X, Sun, Moon, Sparkles,
@@ -145,6 +145,8 @@ export function Navbar() {
                   pathname.startsWith("/services") ? "text-primary" : cn(textColor, "hover:text-primary")
                 )}
                 aria-expanded={activeDropdown === "services"}
+                aria-haspopup="menu"
+                aria-controls="services-dropdown"
               >
                 Services
                 <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", activeDropdown === "services" && "rotate-180")} />
@@ -156,6 +158,8 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    id="services-dropdown"
+                    role="menu"
                     className="absolute top-full left-0 mt-1 w-[480px] bg-[var(--surface)] premium-border rounded-xl shadow-[var(--shadow-elevated)] p-4 grid grid-cols-2 gap-4"
                     onMouseEnter={() => openDropdown("services")}
                     onMouseLeave={closeDropdown}
@@ -170,6 +174,7 @@ export function Navbar() {
                               <Link
                                 key={item.href}
                                 href={item.href}
+                                role="menuitem"
                                 className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-sm font-medium text-[var(--foreground)] hover:bg-primary/5 hover:text-primary transition-colors"
                               >
                                 <div className="w-8 h-8 rounded-lg bg-primary/[0.06] flex items-center justify-center shrink-0">
@@ -214,6 +219,8 @@ export function Navbar() {
                   pathname.startsWith("/industries") ? "text-primary" : cn(textColor, "hover:text-primary")
                 )}
                 aria-expanded={activeDropdown === "industries"}
+                aria-haspopup="menu"
+                aria-controls="industries-dropdown"
               >
                 Industries
                 <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", activeDropdown === "industries" && "rotate-180")} />
@@ -225,6 +232,8 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    id="industries-dropdown"
+                    role="menu"
                     className="absolute top-full left-0 mt-1 w-[280px] bg-[var(--surface)] premium-border rounded-xl shadow-[var(--shadow-elevated)] p-3"
                     onMouseEnter={() => openDropdown("industries")}
                     onMouseLeave={closeDropdown}
@@ -236,6 +245,7 @@ export function Navbar() {
                           <Link
                             key={item.href}
                             href={item.href}
+                            role="menuitem"
                             className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-sm font-medium text-[var(--foreground)] hover:bg-primary/5 hover:text-primary transition-colors"
                           >
                             <div className="w-8 h-8 rounded-lg bg-primary/[0.06] flex items-center justify-center shrink-0">

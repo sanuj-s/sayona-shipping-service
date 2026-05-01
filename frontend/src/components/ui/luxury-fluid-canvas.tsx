@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useReducedMotionPref } from "@/lib/motion/useReducedMotionPref";
 
 export function LuxuryFluidCanvas() {

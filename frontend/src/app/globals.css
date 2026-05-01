@@ -57,7 +57,7 @@
 
   /* ─── Typography ─── */
   --font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-display: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
 
   /* ─── Spacing Scale (8px grid) ─── */
   --spacing-section: 96px;
@@ -178,22 +178,29 @@ body {
 /* ─── Typography Authority (Kinetic Variable) ─── */
 h1 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 800;
   line-height: 1.05;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 h2 {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-weight: 800;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 
 h3, h4, h5, h6 {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.25;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 a {
@@ -215,8 +222,9 @@ ul, ol {
 
 /* ─── Focus Visible ─── */
 *:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* ─── Scrollbar ─── */
@@ -244,6 +252,24 @@ ul, ol {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    animation-timeline: none !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ─── High Contrast Mode ─── */
+@media (prefers-contrast: more) {
+  :root {
+    --border-color: #94A3B8;
+    --shadow-soft: none;
+    --shadow-card: 0 0 0 2px var(--border-color);
+  }
+  .dark {
+    --border-color: #475569;
   }
 }
 
@@ -584,6 +610,46 @@ ul, ol {
 }
 
 /* ═══════════════════════════════════════════════
+   2026 MODERN CSS — Native Capabilities
+   @property · Scroll-Driven · Container Queries
+   ═══════════════════════════════════════════════ */
+
+/* ─── Animatable Gradient Angle ─── */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 135deg;
+  inherits: false;
+}
+
+@keyframes gradient-rotate {
+  to { --gradient-angle: 495deg; }
+}
+
+.animated-gradient {
+  background: linear-gradient(var(--gradient-angle), var(--color-primary), var(--color-accent));
+  animation: gradient-rotate 8s linear infinite;
+}
+
+/* ─── Native Scroll-Driven Reveal (No JS) ─── */
+@keyframes scroll-fade-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: scroll-fade-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+/* ─── Container Query Utilities ─── */
+.card-container {
+  container-type: inline-size;
+}
+
+/* ═══════════════════════════════════════════════
    GUARDRAILS — Prevent UI Degradation
    ═══════════════════════════════════════════════
    
@@ -599,3 +665,4 @@ ul, ol {
    9. No inline styles except calculated values
    10. All animations must respect prefers-reduced-motion
    ═══════════════════════════════════════════════ */
+
