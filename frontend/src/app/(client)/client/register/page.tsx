@@ -69,8 +69,26 @@ export default function ClientRegisterPage() {
             <Input label="Company" {...reg("company")} />
             <Input label="Phone" type="tel" {...reg("phone")} />
           </div>
-          <Input label="Password" type="password" error={errors.password?.message} {...reg("password")} />
-          <Input label="Confirm Password" type="password" error={errors.confirmPassword?.message} {...reg("confirmPassword")} />
+          <Input 
+            label="Password" 
+            type="password" 
+            error={errors.password?.message} 
+            title="" 
+            autoComplete="new-password" 
+            data-lpignore="true" 
+            data-1p-ignore="true" 
+            {...reg("password")} 
+          />
+          <Input 
+            label="Confirm Password" 
+            type="password" 
+            error={errors.confirmPassword?.message} 
+            title="" 
+            autoComplete="new-password" 
+            data-lpignore="true" 
+            data-1p-ignore="true" 
+            {...reg("confirmPassword")} 
+          />
 
           {error && (
             <div className="flex items-center gap-2 p-3 rounded-lg bg-error-light text-error text-sm">

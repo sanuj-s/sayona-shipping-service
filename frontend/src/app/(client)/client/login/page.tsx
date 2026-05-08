@@ -51,7 +51,17 @@ export default function ClientLoginPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input label="Email" type="email" placeholder="your@email.com" error={errors.email?.message} {...register("email")} />
-          <Input label="Password" type="password" placeholder="••••••••" error={errors.password?.message} {...register("password")} />
+          <Input 
+            label="Password" 
+            type="password" 
+            placeholder="••••••••" 
+            error={errors.password?.message} 
+            title="" 
+            autoComplete="current-password" 
+            data-lpignore="true" 
+            data-1p-ignore="true" 
+            {...register("password")} 
+          />
 
           <div className="text-right">
             <Link href="/client/forgot-password" className="text-sm text-primary hover:underline">Forgot Password?</Link>
