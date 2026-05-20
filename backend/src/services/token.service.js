@@ -7,13 +7,19 @@ const config = require('../config/environment');
 const { query } = require('../config/database');
 const { AuthenticationError } = require('../utils/AppError');
 
+/**
+ * Hash a token using SHA-256 for secure storage.
+ * Same pattern used for password reset tokens in auth.service.js.
+ */
+const hashToken = (token) => crypto.createHash('sha256').update(token).digest('hex');
+
 const TokenService = {
     /**
      * Generate JWT access token (short-lived)
      */
     generateAccessToken: (user) => {
         return jwt.sign(
-            { id: user.id, uuid: user.uuid, role: user.role },
+            { id: user.id, uuid: user.uuid, role: user.role, tenant_id: user.tenant_id },
             config.jwt.secret,
             { expiresIn: config.jwt.accessExpiry }
         );
@@ -21,14 +27,16 @@ const TokenService = {
 
     /**
      * Generate refresh token (long-lived, stored in DB)
+     * The raw token is returned to the client; only a SHA-256 hash is persisted.
      */
     generateRefreshToken: async (userId) => {
         const token = crypto.randomBytes(64).toString('hex');
+        const tokenHash = hashToken(token);
         const expiresAt = new Date(Date.now() + parseDuration(config.jwt.refreshExpiry));
 
         await query(
             'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES ($1, $2, $3)',
-            [userId, token, expiresAt]
+            [userId, tokenHash, expiresAt]
         );
 
         return token;
@@ -39,13 +47,15 @@ const TokenService = {
      * Implements token rotation — old refresh token is invalidated
      */
     refreshAccessToken: async (refreshToken) => {
-        // Find the refresh token
+        const tokenHash = hashToken(refreshToken);
+
+        // Find the refresh token by its hash
         const result = await query(
-            `SELECT rt.*, u.id as user_id, u.uuid, u.role, u.is_locked, u.deleted_at
+            `SELECT rt.*, u.id as user_id, u.uuid, u.role, u.tenant_id, u.is_locked, u.deleted_at
              FROM refresh_tokens rt
              JOIN users u ON rt.user_id = u.id
              WHERE rt.token = $1`,
-            [refreshToken]
+            [tokenHash]
         );
 
         const tokenRecord = result.rows[0];
@@ -69,7 +79,7 @@ const TokenService = {
         await query('DELETE FROM refresh_tokens WHERE id = $1', [tokenRecord.id]);
 
         // Generate new token pair
-        const user = { id: tokenRecord.user_id, uuid: tokenRecord.uuid, role: tokenRecord.role };
+        const user = { id: tokenRecord.user_id, uuid: tokenRecord.uuid, role: tokenRecord.role, tenant_id: tokenRecord.tenant_id };
         const accessToken = TokenService.generateAccessToken(user);
         const newRefreshToken = await TokenService.generateRefreshToken(tokenRecord.user_id);
 
@@ -80,7 +90,7 @@ const TokenService = {
      * Revoke a specific refresh token (logout)
      */
     revokeRefreshToken: async (refreshToken) => {
-        await query('DELETE FROM refresh_tokens WHERE token = $1', [refreshToken]);
+        await query('DELETE FROM refresh_tokens WHERE token = $1', [hashToken(refreshToken)]);
     },
 
     /**
