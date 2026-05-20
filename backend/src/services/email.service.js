@@ -7,9 +7,9 @@ class EmailService {
         // Initialize the transporter only if email credentials are provided
         if (config.email.user && config.email.pass) {
             this.transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
+                host: config.email.host,
+                port: config.email.port,
+                secure: config.email.port === 465,
                 auth: {
                     user: config.email.user,
                     pass: config.email.pass,

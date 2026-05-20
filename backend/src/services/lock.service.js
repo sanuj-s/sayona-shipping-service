@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const { getRedisClient } = require('../config/redis');
 const logger = require('../config/logger');
 const { ConflictError } = require('../utils/AppError');
@@ -17,7 +18,7 @@ class LockService {
         }
 
         const lockKey = `lock:${resourceKey}`;
-        const token = Math.random().toString(36).substring(2, 15);
+        const token = crypto.randomBytes(16).toString('hex');
 
         // SETNX: Set if Not eXists
         const acquired = await redis.set(lockKey, token, 'PX', ttlMs, 'NX');

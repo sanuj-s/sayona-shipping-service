@@ -60,6 +60,8 @@ const envSchema = Joi.object({
     // Email (optional)
     EMAIL_USER: Joi.string().email().optional().allow(''),
     EMAIL_PASS: Joi.string().optional().allow(''),
+    EMAIL_HOST: Joi.string().optional().default('smtp.gmail.com'),
+    EMAIL_PORT: Joi.number().integer().optional().default(465),
 
     // Performance
     REQUEST_TIMEOUT_MS: Joi.number().integer().default(30000),
@@ -161,6 +163,8 @@ const config = {
     email: {
         user: env.EMAIL_USER,
         pass: env.EMAIL_PASS,
+        host: env.EMAIL_HOST || 'smtp.gmail.com',
+        port: parseInt(env.EMAIL_PORT, 10) || 465,
     },
 
     isProduction: () => config.nodeEnv === 'production',

@@ -48,7 +48,8 @@ class LabelService {
 
                 // Add QR Code
                 const qrDataUrl = await QRCode.toDataURL(`https://sayonashipping.com/track/${shipment.trackingNumber}`);
-                doc.image(qrDataUrl, doc.page.width / 2 - 50, doc.y + 10, { width: 100 });
+                const qrBuffer = Buffer.from(qrDataUrl.split(',')[1], 'base64');
+                doc.image(qrBuffer, doc.page.width / 2 - 50, doc.y + 10, { width: 100 });
 
                 doc.end();
 
