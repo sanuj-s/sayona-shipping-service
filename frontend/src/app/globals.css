@@ -494,6 +494,55 @@ ul, ol {
   to { transform: scaleX(1); }
 }
 
+/* ─── 2026 Cinematic Keyframes ─── */
+
+@keyframes hero-animated-gradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.08; }
+  33%       { transform: translateY(-20px) translateX(8px); opacity: 0.15; }
+  66%       { transform: translateY(-10px) translateX(-6px); opacity: 0.06; }
+}
+
+@keyframes hero-scroll-line {
+  0%, 100% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  50%       { transform: scaleY(1); transform-origin: top; opacity: 1; }
+}
+
+@keyframes globe-ring-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.04; }
+  50%       { transform: translate(-50%, -50%) scale(1.06); opacity: 0.08; }
+}
+
+@keyframes cta-ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cta-ring-expand {
+  0%, 100% { transform: scale(1); opacity: 0.04; }
+  50%       { transform: scale(1.05); opacity: 0.08; }
+}
+
+@keyframes stats-particle-float {
+  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.08; }
+  50%       { transform: translateY(-30px) scale(1.2); opacity: 0.12; }
+}
+
+@keyframes route-draw {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes gradient-cta-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* ─── Animation Utilities ─── */
 .animate-marquee {
   animation: marquee-scroll 40s linear infinite;
@@ -647,6 +696,92 @@ ul, ol {
 /* ─── Container Query Utilities ─── */
 .card-container {
   container-type: inline-size;
+}
+
+/* ═══════════════════════════════════════════════
+   2026 CINEMATIC UTILITIES — New Animations
+   ═══════════════════════════════════════════════ */
+
+/* ─── Hero Animated Gradient Fallback ─── */
+.hero-animated-gradient {
+  background: linear-gradient(
+    135deg,
+    #020d1f 0%,
+    #071a33 20%,
+    #0b3d91 40%,
+    #1a5cb8 50%,
+    #0b3d91 60%,
+    #071a33 80%,
+    #020d1f 100%
+  );
+  background-size: 300% 300%;
+  animation: hero-animated-gradient 12s ease infinite;
+}
+
+/* ─── Hero Floating Particles ─── */
+.hero-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--color-accent);
+  opacity: 0;
+  animation: particle-float var(--dur, 6s) ease-in-out infinite;
+  bottom: 0;
+}
+
+/* ─── Hero Scroll Line Indicator ─── */
+.animate-hero-scroll-line {
+  animation: hero-scroll-line 2s ease-in-out infinite;
+}
+
+/* ─── Globe Section Ring Pulses ─── */
+.globe-ring-1 {
+  animation: cta-ring-expand 4s ease-in-out infinite;
+}
+.globe-ring-2 {
+  animation: cta-ring-expand 4s ease-in-out infinite;
+  animation-delay: 1s;
+}
+.globe-ring-3 {
+  animation: cta-ring-expand 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* ─── CTA Section Rings ─── */
+.cta-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: cta-ring-expand 5s ease-in-out infinite;
+}
+.cta-ring-2 {
+  animation-delay: 1.5s;
+}
+.cta-ring-3 {
+  animation-delay: 3s;
+}
+
+/* ─── Stats Ambient Particles ─── */
+.stats-particle {
+  animation: stats-particle-float var(--dur, 6s) ease-in-out infinite;
+}
+
+/* ─── Gradient CTA Text ─── */
+.text-gradient-cta {
+  background: linear-gradient(135deg, var(--color-accent), #fde68a, var(--color-accent));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-cta-flow 4s ease infinite;
+}
+
+/* ─── SectionTitle dark override (for globe section) ─── */
+.globe-section-title h2 {
+  color: white;
+}
+.globe-section-title p {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* ═══════════════════════════════════════════════

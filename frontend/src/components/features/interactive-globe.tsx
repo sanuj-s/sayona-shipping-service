@@ -45,7 +45,7 @@ export function InteractiveGlobe({ className }: { className?: string }) {
         { location: [1.3521, 103.8198], size: 0.07 }, // Singapore
         { location: [25.2048, 55.2708], size: 0.05 }, // Dubai
       ],
-      onRender: (state) => {
+      onRender: (state: Record<string, unknown>) => {
         // Continuous smooth cinematic rotation
         if (!pointerInteracting.current) {
           phi += 0.003;
@@ -54,7 +54,7 @@ export function InteractiveGlobe({ className }: { className?: string }) {
         state.width = width * 2;
         state.height = width * 2;
       },
-    });
+    } as Parameters<typeof createGlobe>[1]);
 
     return () => {
       globe.destroy();

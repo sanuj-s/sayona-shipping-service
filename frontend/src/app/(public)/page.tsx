@@ -10,40 +10,44 @@ import { FAQSection } from "@/components/features/faq-section";
 import { CTASection } from "@/components/features/cta-section";
 import { QuoteForm } from "@/components/features/quote-form";
 import { ClientMarquee } from "@/components/features/client-marquee";
+import { GlobeSection } from "@/components/features/globe-section";
 import { Container } from "@/components/ui/container";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
     <>
-      {/* 1. Immediate Value Proposition */}
+      {/* 1. Cinematic Full-Screen Hero */}
       <HeroSection />
 
-      {/* 2. Credibility Bar */}
+      {/* 2. Trust Metrics — Animated Counters with SVG Rings */}
       <StatsSection />
 
-      {/* 3. Trust Marquee — Animated Partner Logos */}
+      {/* 3. Partner Logos Marquee */}
       <ClientMarquee />
 
-      {/* 4. Services */}
+      {/* 4. Global Network — Interactive Globe + Shipping Routes */}
+      <GlobeSection />
+
+      {/* 5. Services — 3D Tilt Cards */}
       <ServicesGrid />
 
-      {/* 5. Process Clarity */}
+      {/* 6. Process — 5-Step Cinematic Timeline */}
       <HowItWorks />
 
-      {/* 6. Company Identity */}
+      {/* 7. Company Identity */}
       <AboutSection />
 
-      {/* 7. Industries */}
+      {/* 8. Industries */}
       <IndustriesGrid />
 
-      {/* 8. Trust Band */}
+      {/* 9. Trust Band */}
       <TrustSignals />
 
-      {/* 9. Social Proof */}
+      {/* 10. Social Proof */}
       <TestimonialsMarquee />
 
-      {/* 10. SEO Content */}
+      {/* 11. SEO Content */}
       <section className="py-[var(--spacing-section)] bg-[var(--background)]">
         <Container size="sm">
           <div className="max-w-2xl mx-auto">
@@ -85,13 +89,13 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* 11. Objection Handling */}
+      {/* 12. FAQ */}
       <FAQSection />
 
-      {/* 12. Final Conversion */}
+      {/* 13. Cinematic CTA with Particle Background */}
       <CTASection />
 
-      {/* 13. Action */}
+      {/* 14. Quote Form */}
       <QuoteForm />
     </>
   );

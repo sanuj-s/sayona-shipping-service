@@ -50,6 +50,30 @@ export default function ContactPage() {
             </Card>
           </div>
 
+          {/* Support UX & SLA */}
+          <SectionTitle title="Support Operations" className="mt-20" />
+          <div className="grid sm:grid-cols-2 gap-5 mb-16">
+            <Card className="p-6 bg-white/[0.02]">
+              <h4 className="font-bold text-primary flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-accent" /> Guaranteed SLA
+              </h4>
+              <p className="text-sm text-[var(--foreground-secondary)] mb-4">
+                Enterprise clients receive priority routing. All quotes are returned within 2 hours. Customs clearance initiated immediately upon document receipt.
+              </p>
+            </Card>
+            <Card className="p-6 bg-white/[0.02]">
+              <h4 className="font-bold text-error flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-error" /> Escalation Path
+              </h4>
+              <p className="text-sm text-[var(--foreground-secondary)] mb-4">
+                For shipments encountering severe delays or exceptions, our 24/7 incident response team is available.
+              </p>
+              <a href="mailto:escalations@sayonashipping.com" className="text-sm font-semibold text-primary hover:text-accent transition-colors">
+                escalations@sayonashipping.com
+              </a>
+            </Card>
+          </div>
+
           {/* Map */}
           <div className="rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-soft)]">
             <iframe

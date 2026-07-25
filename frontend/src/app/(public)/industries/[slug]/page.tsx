@@ -87,6 +87,37 @@ export default async function IndustryPage({ params }: Props) {
         </Container>
       </section>
 
+      {/* SEO Content Section */}
+      <section className="py-16">
+        <Container size="sm">
+          <div className="max-w-2xl mx-auto prose prose-neutral dark:prose-invert text-[var(--foreground-secondary)] leading-relaxed space-y-4 text-[15px]">
+            <h2 className="text-2xl font-extrabold text-[var(--foreground)] mb-6">
+              {industry.title} Logistics Expertise from India
+            </h2>
+            <p>
+              <strong className="text-[var(--foreground)]">Sayona Shipping Services</strong> offers
+              industry-specific logistics solutions tailored for the {industry.title.toLowerCase()} sector.
+              As a trusted freight forwarder based in India, we understand the unique challenges of
+              shipping {industry.title.toLowerCase()} products — from specialized packaging requirements
+              to regulatory compliance at international customs checkpoints.
+            </p>
+            <p>
+              Our {industry.title.toLowerCase()} shipping services include Full Container Load (FCL) and
+              Less than Container Load (LCL) ocean freight, express air cargo, customs clearance and
+              documentation, warehousing, and end-to-end supply chain management. We serve exporters across
+              India with established trade routes to over 50 countries including the USA, UK, Germany, UAE,
+              China, Japan, and Australia.
+            </p>
+            <p>
+              With a 98% on-time delivery rate and dedicated account managers, Sayona ensures your
+              {" "}{industry.title.toLowerCase()} cargo reaches its destination safely and on schedule.
+              Our {content.certifications.join(", ")} certifications guarantee that your goods are handled
+              to the highest industry standards throughout the logistics chain.
+            </p>
+          </div>
+        </Container>
+      </section>
+
       {/* CTA */}
       <section className="py-[var(--spacing-section)] text-center">
         <Container>
