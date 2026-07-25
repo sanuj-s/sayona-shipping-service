@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
 
+  turbopack: {
+    root: __dirname,
+  },
+
 
 
   // NOTE: rewrites() and redirects() removed — incompatible with output: 'export'
