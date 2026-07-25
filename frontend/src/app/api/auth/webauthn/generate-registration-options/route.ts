@@ -1,5 +1,7 @@
 import { generateRegistrationOptions } from "@simplewebauthn/server";
 
+export const dynamic = "force-static";
+
 const rpName = "Sayona Shipping Admin";
 const rpID = process.env.NEXT_PUBLIC_RP_ID || "localhost";
 const origin = process.env.NEXT_PUBLIC_ORIGIN || `http://${rpID}:3000`;
